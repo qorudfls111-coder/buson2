@@ -46,6 +46,28 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 .news-empty{padding:38px 16px;text-align:center;color:#8fa0b8}
 .news-updated{font-size:12px;color:#718096}
 
+
+.dungeon-toolbar{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:10px;margin-bottom:16px}
+.dungeon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.dungeon-card{border:1px solid #293347;background:#0d131c;border-radius:14px;padding:16px}
+.dungeon-card h3{margin:0 0 7px;font-size:17px}
+.dungeon-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.dungeon-tag{font-size:11px;padding:4px 8px;border-radius:999px;background:#182943;color:#a9c8ff}
+.dungeon-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dungeon-stat{padding:10px;border:1px solid #263043;border-radius:10px;background:#0b1018}
+.dungeon-stat .k{font-size:11px;color:#7f8ea5;margin-bottom:4px}
+.dungeon-stat .v{font-weight:800}
+.dungeon-rank{margin-top:14px;padding:11px;border-radius:10px;background:#101722;border:1px solid #2d3b52;color:#a8b7cc;font-size:12px}
+.dungeon-empty{grid-column:1/-1;padding:36px;text-align:center;color:#8fa0b8}
+
+.dungeon-extra{margin-top:10px;padding-top:10px;border-top:1px solid #243044}
+.dungeon-extra label{margin-top:8px}
+.dungeon-extra input{padding-right:12px}
+.source-badge{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:999px;font-size:10px;background:#173225;color:#9ef4bd}
+.source-badge.user{background:#30281a;color:#ffd98a}
+
+@media(max-width:860px){.dungeon-toolbar,.dungeon-grid{grid-template-columns:1fr}}
+
 @media(max-width:860px){.grid2,.fields{grid-template-columns:1fr}.driver-blocks{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.top{padding:14px 0;align-items:flex-start;flex-direction:column}nav{width:100%;overflow:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.hero h1{font-size:31px}}
 </style>
 </head>
@@ -54,6 +76,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <div class="brand"><div class="logo">B2</div><div><b>BUSON2</b><small>아이온2 효율 연구소</small></div></div>
 <nav>
 <button class="tab active" data-page="noticehub">공지</button>
+<button class="tab" data-page="dungeon">던전</button>
 <button class="tab" data-page="driver">버스 기사</button>
 <button class="tab" data-page="sub">부캐 버스</button>
 <button class="tab" data-page="main">본부</button>
@@ -62,7 +85,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 </div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.9</div></section>
+<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v8.2</div></section>
 
 
 <section id="page-noticehub">
@@ -101,6 +124,34 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
         </div>
         <div class="news-list" id="news-cm"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="page-dungeon" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>🗺️ 던전 · 파밍 DB</h2>
+      <p>던전별 오드, 기본 키나, 시간당 수익과 오드 효율을 한눈에 비교하세요.</p>
+    </div>
+    <div class="body">
+      <div class="dungeon-toolbar">
+        <select id="dg_filter">
+          <option value="all">전체 던전</option>
+          <option value="타데바">타데바</option>
+          <option value="푸섬">푸섬</option>
+          <option value="환영">환영</option>
+        </select>
+        <select id="dg_sort">
+          <option value="kina">한 판 키나순</option>
+          <option value="ode">오드 효율순</option>
+          <option value="hour">시간당 수익순</option>
+        </select>
+        <div class="iwrap"><input id="dg_minutes" value="7"><span class="unit">분/판</span></div>
+      </div>
+      <div class="note">공식 업데이트에서 확인된 정보는 '공식 확인'으로 표시하고, 나머지는 현재 BUSON2 설정값으로 표시합니다. 평균 클리어 시간과 추가 보상 메모는 직접 입력해 저장할 수 있습니다.</div>
+      <div class="dungeon-grid" id="dungeonGrid"></div>
     </div>
   </div>
 </section>
@@ -374,6 +425,73 @@ async function loadOfficialNews(force=false){
 }
 
 
+
+const DUNGEONS=[
+ {id:'tadeba-n-40',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'tadeba-n-80',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'tadeba-h-60',group:'타데바',name:'타락한 데바의 성',difficulty:'어려움',reward:1800000,ode:60,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'tadeba-h-120',group:'타데바',name:'타락한 데바의 성',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'pusum-n-40',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'pusum-n-40b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'pusum-h-80a',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'pusum-h-80b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'hall-n-40',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'hall-n-40b',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'hall-h-80a',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'hall-h-80b',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''}
+];
+
+function getDungeonSaved(id){
+ try{return JSON.parse(localStorage.getItem('buson2-dungeon-'+id)||'{}')}catch(e){return{}}
+}
+function setDungeonSaved(id,key,value){
+ const d=getDungeonSaved(id); d[key]=value; localStorage.setItem('buson2-dungeon-'+id,JSON.stringify(d));
+}
+function renderDungeonDB(){
+ const filter=$('#dg_filter')?.value||'all';
+ const sort=$('#dg_sort')?.value||'kina';
+ const defaultMins=Math.max(1,val('dg_minutes')||7);
+ let items=DUNGEONS.filter(x=>filter==='all'||x.group===filter).map(x=>{
+   const saved=getDungeonSaved(x.id);
+   const mins=Math.max(1,Number(saved.minutes||defaultMins));
+   return {...x,minutes:mins,note:saved.note||'',perOde:x.ode?x.reward/x.ode:0,perHour:x.reward*60/mins};
+ });
+ if(sort==='ode')items.sort((a,b)=>b.perOde-a.perOde);
+ else if(sort==='hour')items.sort((a,b)=>b.perHour-a.perHour);
+ else items.sort((a,b)=>b.reward-a.reward);
+
+ const maxOde=Math.max(...items.map(x=>x.perOde),0);
+ const maxHour=Math.max(...items.map(x=>x.perHour),0);
+ const grid=$('#dungeonGrid');
+ if(!grid)return;
+ if(!items.length){grid.innerHTML='<div class="dungeon-empty">조건에 맞는 던전이 없습니다.</div>';return}
+ grid.innerHTML=items.map(x=>{
+   const best=[];
+   if(x.perOde===maxOde)best.push('오드 효율 최고');
+   if(x.perHour===maxHour)best.push('시간당 최고');
+   const badge=x.source==='official'?'<span class="source-badge">공식 확인</span>':'<span class="source-badge user">BUSON2 설정값</span>';
+   return `<div class="dungeon-card">
+     <h3>${escapeHtml(x.name)} · ${escapeHtml(x.difficulty)} ${badge}</h3>
+     <div class="dungeon-tags"><span class="dungeon-tag">${escapeHtml(x.group)}</span><span class="dungeon-tag">입장 Lv.${x.entryLevel}</span><span class="dungeon-tag">아이템 Lv.${escapeHtml(x.itemLevel)}</span></div>
+     <div class="dungeon-stats">
+       <div class="dungeon-stat"><div class="k">한 판 기본 키나</div><div class="v">${money(x.reward)}</div></div>
+       <div class="dungeon-stat"><div class="k">소비 오드</div><div class="v">${nf(x.ode)} 오드</div></div>
+       <div class="dungeon-stat"><div class="k">오드 1당 키나</div><div class="v">${money(x.perOde)}</div></div>
+       <div class="dungeon-stat"><div class="k">시간당 키나</div><div class="v">${money(x.perHour)}</div></div>
+     </div>
+     <div class="dungeon-extra">
+       <label>내 평균 클리어 시간</label>
+       <div class="iwrap"><input value="${x.minutes}" data-dg-minutes="${x.id}"><span class="unit">분</span></div>
+       <label>추가 보상 메모</label>
+       <input value="${escapeHtml(x.note)}" data-dg-note="${x.id}" placeholder="예: 성화, 재료, 장비 등">
+     </div>
+     <div class="dungeon-rank">${best.length?best.join(' · '):'효율 비교용 데이터'}</div>
+   </div>`;
+ }).join('');
+ document.querySelectorAll('[data-dg-minutes]').forEach(el=>el.addEventListener('change',()=>{setDungeonSaved(el.dataset.dgMinutes,'minutes',el.value);renderDungeonDB()}));
+ document.querySelectorAll('[data-dg-note]').forEach(el=>el.addEventListener('change',()=>setDungeonSaved(el.dataset.dgNote,'note',el.value)));
+}
+
 document.querySelectorAll('.subtab').forEach(btn=>btn.addEventListener('click',()=>{
  document.querySelectorAll('.subtab').forEach(x=>x.classList.remove('active'));
  btn.classList.add('active');
@@ -419,7 +537,7 @@ async function loadOfficialNews(force=false){
  }
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['noticehub','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['noticehub','dungeon','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
 ['d_cost','d_minutes','d_fare','d_passengers','d_runs','d_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
@@ -439,6 +557,6 @@ document.addEventListener('change',e=>{
  else if(id==='s_income'){syncOdeFromDungeon('s');calcSimple('s')}
  else if(id==='s_ode'){calcSimple('s')}
 });
-renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
+$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
 </script>
 </body></html>
