@@ -28,6 +28,12 @@ input:focus,select:focus{border-color:#5787d3;box-shadow:0 0 0 3px rgba(87,135,2
 table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;border-bottom:1px solid #252e3e;text-align:left;font-size:13px}th{color:#8fa0b8}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;background:#182943;color:#a9c8ff}
 .hidden{display:none!important}.coming{padding:48px;text-align:center;color:var(--muted)}.coming b{display:block;color:#fff;font-size:24px;margin-bottom:8px}footer{border-top:1px solid #1e2632;padding:24px 0 40px;color:#728097;font-size:12px}
 
+
+.subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.subtab{border:1px solid var(--line);background:#101722;color:#aab5c7;border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:800}
+.subtab.active{background:#1d2940;border-color:#5574a7;color:#fff}
+.news-panel.hidden{display:none!important}
+
 .news-tools{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
 .news-source{color:#8fa0b8;font-size:12px}
 .news-source a{color:#a9c8ff;text-decoration:none}
@@ -47,9 +53,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <header><div class="wrap top">
 <div class="brand"><div class="logo">B2</div><div><b>BUSON2</b><small>아이온2 효율 연구소</small></div></div>
 <nav>
-<button class="tab active" data-page="notice">공지</button>
-<button class="tab" data-page="update">업데이트</button>
-<button class="tab" data-page="cm">CM아지트</button>
+<button class="tab active" data-page="noticehub">공지</button>
 <button class="tab" data-page="driver">버스 기사</button>
 <button class="tab" data-page="sub">부캐 버스</button>
 <button class="tab" data-page="main">본부</button>
@@ -58,7 +62,48 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 </div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.8</div></section>
+<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.9</div></section>
+
+
+<section id="page-noticehub">
+  <div class="card">
+    <div class="head">
+      <h2>📣 아이온2 공식 소식</h2>
+      <p>공지, 업데이트, CM아지트를 한 곳에서 확인하세요.</p>
+    </div>
+    <div class="body">
+      <div class="subtabs">
+        <button class="subtab active" data-news-key="notice">공지</button>
+        <button class="subtab" data-news-key="update">업데이트</button>
+        <button class="subtab" data-news-key="cm">CM아지트</button>
+      </div>
+
+      <div class="news-panel" id="panel-notice">
+        <div class="news-tools">
+          <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/notice/list" target="_blank" rel="noopener">AION2 공식 공지</a></div>
+          <div class="news-updated" id="updated-notice">불러오는 중...</div>
+        </div>
+        <div class="news-list" id="news-notice"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
+      </div>
+
+      <div class="news-panel hidden" id="panel-update">
+        <div class="news-tools">
+          <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/update/list" target="_blank" rel="noopener">AION2 공식 업데이트</a></div>
+          <div class="news-updated" id="updated-update">불러오는 중...</div>
+        </div>
+        <div class="news-list" id="news-update"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
+      </div>
+
+      <div class="news-panel hidden" id="panel-cm">
+        <div class="news-tools">
+          <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/cm_story/list" target="_blank" rel="noopener">AION2 공식 CM아지트</a></div>
+          <div class="news-updated" id="updated-cm">불러오는 중...</div>
+        </div>
+        <div class="news-list" id="news-cm"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="page-driver" class="hidden">
 <div class="grid2">
@@ -174,53 +219,11 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
 
 
-<section id="page-update" class="hidden">
-  <div class="card">
-    <div class="head">
-      <h2>📢 아이온2 업데이트</h2>
-      <p>아이온2 공식 업데이트 게시판의 최신 글을 자동으로 확인합니다.</p>
-    </div>
-    <div class="body">
-      <div class="news-tools">
-        <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/update/list" target="_blank" rel="noopener">AION2 공식 업데이트</a></div>
-        <div class="news-updated" id="updated-update">불러오는 중...</div>
-      </div>
-      <div class="news-list" id="news-update"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
-    </div>
-  </div>
-</section>
 
-<section id="page-notice">
-  <div class="card">
-    <div class="head">
-      <h2>📌 아이온2 공지</h2>
-      <p>아이온2 공식 공지 게시판의 최신 글을 자동으로 확인합니다.</p>
-    </div>
-    <div class="body">
-      <div class="news-tools">
-        <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/notice/list" target="_blank" rel="noopener">AION2 공식 공지</a></div>
-        <div class="news-updated" id="updated-notice">불러오는 중...</div>
-      </div>
-      <div class="news-list" id="news-notice"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
-    </div>
-  </div>
-</section>
 
-<section id="page-cm" class="hidden">
-  <div class="card">
-    <div class="head">
-      <h2>🏕️ CM아지트</h2>
-      <p>아이온2 공식 CM아지트의 최신 글을 자동으로 확인합니다.</p>
-    </div>
-    <div class="body">
-      <div class="news-tools">
-        <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/cm_story/list" target="_blank" rel="noopener">AION2 공식 CM아지트</a></div>
-        <div class="news-updated" id="updated-cm">불러오는 중...</div>
-      </div>
-      <div class="news-list" id="news-cm"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
-    </div>
-  </div>
-</section>
+
+
+
 
 </main>
 
@@ -370,6 +373,15 @@ async function loadOfficialNews(force=false){
  }
 }
 
+
+document.querySelectorAll('.subtab').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.subtab').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active');
+ const key=btn.dataset.newsKey;
+ ['notice','update','cm'].forEach(k=>$('#panel-'+k).classList.toggle('hidden',k!==key));
+ loadOfficialNews();
+}));
+
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
 let newsLoaded=false;
 function escapeHtml(text){
@@ -407,7 +419,7 @@ async function loadOfficialNews(force=false){
  }
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['driver','sub','main','compare','update','notice','cm'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(['update','notice','cm'].includes(b.dataset.page))loadOfficialNews()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['noticehub','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews()}));
 $('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
 ['d_cost','d_minutes','d_fare','d_passengers','d_runs','d_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
