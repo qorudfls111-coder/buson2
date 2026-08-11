@@ -1,6 +1,13 @@
 {
-  "updated_at": "2026-08-12 03:03 KST",
+  "updated_at": "2026-08-12 05:27 KST",
   "update": [
+    {
+      "title": "[안내] 8/12(수) 업데이트 노트",
+      "date": "2026-08-04",
+      "time": "15:09",
+      "datetime": "2026-08-04 15:09",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a7b7838eea53f5d6dbcf253"
+    },
     {
       "title": "[안내] 8/5(수) 업데이트 노트",
       "date": "2026-08-04",
@@ -32,8 +39,8 @@
     {
       "title": "[안내] 7/8(수) 업데이트 노트",
       "date": "2026-07-07",
-      "time": "",
-      "datetime": "2026-07-07",
+      "time": "19:30",
+      "datetime": "2026-07-07 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a4d53b87350225b1a688d84"
     },
     {
@@ -116,16 +123,9 @@
     {
       "title": "[안내] 4/15(수) 업데이트 노트 (수정 4/15 06:08)",
       "date": "2026-04-14",
-      "time": "19:30",
-      "datetime": "2026-04-14 19:30",
+      "time": "",
+      "datetime": "2026-04-14",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69de95b8e69c8c4b502c029b"
-    },
-    {
-      "title": "[안내] 4/8(수) 업데이트 노트 (수정 4/8 14:26)",
-      "date": "2026-04-07",
-      "time": "19:30",
-      "datetime": "2026-04-07 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69d55b381e8a8c5fcd9b44a7"
     }
   ],
   "notice": [
@@ -165,10 +165,17 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] AION2 LIVE 업데이트 프리뷰 방송 보상 안내",
+      "title": "[안내] 8/12(수) 신규 외형 상품 안내",
       "date": "2026-08-11",
-      "time": "13:15",
-      "datetime": "2026-08-11 13:15",
+      "time": "19:30",
+      "datetime": "2026-08-11 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7b0ec0d97eae18cc40d961"
+    },
+    {
+      "title": "[안내] AION2 LIVE 업데이트 프리뷰 방송 보상 안내",
+      "date": "2026-08-10",
+      "time": "",
+      "datetime": "2026-08-10",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7b208ad97eae18cc40d9e9"
     },
     {
@@ -230,8 +237,8 @@
     {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [266차]",
       "date": "2026-08-08",
-      "time": "06:15",
-      "datetime": "2026-08-08 06:15",
+      "time": "",
+      "datetime": "2026-08-08",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a76db00d97eae18cc40d937"
     },
     {
@@ -251,8 +258,8 @@
     {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [263차]",
       "date": "2026-08-05",
-      "time": "07:22",
-      "datetime": "2026-08-05 07:22",
+      "time": "",
+      "datetime": "2026-08-05",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a72e498a279104f7d9d557a"
     },
     {
@@ -261,13 +268,6 @@
       "time": "12:40",
       "datetime": "2026-08-04 12:40",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a71dda0eea53f5d6dbcf138"
-    },
-    {
-      "title": "[안내] 8/5(수) 앙코르 콜렉션 상품 안내",
-      "date": "2026-08-04",
-      "time": "11:00",
-      "datetime": "2026-08-04 11:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a71c630d97eae18cc40d89a"
     }
   ],
   "cm": [
@@ -330,8 +330,8 @@
     {
       "title": "AION2 7월 3주차 업데이트 뉴스",
       "date": "2026-07-14",
-      "time": "11:30",
-      "datetime": "2026-07-14 11:30",
+      "time": "",
+      "datetime": "2026-07-14",
       "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a5616b0e2307f62bca6bcdf"
     },
     {
@@ -365,8 +365,8 @@
     {
       "title": "AION2 6월 4주차 업데이트 뉴스",
       "date": "2026-06-23",
-      "time": "11:00",
-      "datetime": "2026-06-23 11:00",
+      "time": "",
+      "datetime": "2026-06-23",
       "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a3a6730f7d5e442c498b772"
     },
     {
@@ -379,15 +379,15 @@
     {
       "title": "[안내] 세번째 시즌 5차 서버 매칭",
       "date": "2026-06-16",
-      "time": "14:58",
-      "datetime": "2026-06-16 14:58",
+      "time": "",
+      "datetime": "2026-06-16",
       "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a312cb0acb6f821e1a76bf6"
     },
     {
       "title": "AION2 6월 2주차 업데이트 뉴스",
       "date": "2026-06-09",
-      "time": "13:50",
-      "datetime": "2026-06-09 13:50",
+      "time": "",
+      "datetime": "2026-06-09",
       "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a27f2301846ff309ba461f0"
     },
     {
