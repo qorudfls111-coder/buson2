@@ -66,6 +66,21 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 .source-badge{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:999px;font-size:10px;background:#173225;color:#9ef4bd}
 .source-badge.user{background:#30281a;color:#ffd98a}
 
+
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.spec-result-list{display:grid;gap:10px}
+.spec-result{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:14px;border:1px solid #293347;background:#0d131c;border-radius:12px}
+.spec-result .name{font-weight:800}
+.spec-result .req{font-size:12px;color:#8798b0;margin-top:4px}
+.spec-ok{color:#8ff0b0;font-weight:900}
+.spec-warn{color:#ffd98a;font-weight:900}
+.spec-bad{color:#ff9a9a;font-weight:900}
+.spec-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.spec-summary .box{padding:13px;border:1px solid #293347;border-radius:12px;background:#0d131c}
+.spec-summary .k{font-size:11px;color:#8798b0;margin-bottom:5px}
+.spec-summary .v{font-size:18px;font-weight:900}
+@media(max-width:860px){.spec-grid,.spec-summary{grid-template-columns:1fr}}
+
 @media(max-width:860px){.dungeon-toolbar,.dungeon-grid{grid-template-columns:1fr}}
 
 @media(max-width:860px){.grid2,.fields{grid-template-columns:1fr}.driver-blocks{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.top{padding:14px 0;align-items:flex-start;flex-direction:column}nav{width:100%;overflow:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.hero h1{font-size:31px}}
@@ -77,6 +92,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <nav>
 <button class="tab active" data-page="noticehub">공지</button>
 <button class="tab" data-page="dungeon">던전</button>
+<button class="tab" data-page="spec">스펙 계산기</button>
 <button class="tab" data-page="driver">버스 기사</button>
 <button class="tab" data-page="sub">부캐 버스</button>
 <button class="tab" data-page="main">본부</button>
@@ -85,7 +101,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 </div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v8.2</div></section>
+<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v9.6</div></section>
 
 
 <section id="page-noticehub">
@@ -142,6 +158,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
           <option value="타데바">타데바</option>
           <option value="푸섬">푸섬</option>
           <option value="환영">환영</option>
+          <option value="초월">초월</option>
         </select>
         <select id="dg_sort">
           <option value="kina">한 판 키나순</option>
@@ -152,6 +169,51 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
       </div>
       <div class="note">공식 업데이트에서 확인된 정보는 '공식 확인'으로 표시하고, 나머지는 현재 BUSON2 설정값으로 표시합니다. 평균 클리어 시간과 추가 보상 메모는 직접 입력해 저장할 수 있습니다.</div>
       <div class="dungeon-grid" id="dungeonGrid"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="page-spec" class="hidden">
+  <div class="spec-grid">
+    <div class="card">
+      <div class="head">
+        <h2>🧭 내 캐릭터 스펙</h2>
+        <p>아이템 레벨과 주요 전투 수치를 저장하고, 현재 던전 입장 기준과 비교합니다.</p>
+      </div>
+      <div class="body">
+        <div class="fields">
+          <div><label>캐릭터 이름</label><input id="sp_name" placeholder="예: 본캐"></div>
+          <div><label>아이템 레벨</label><input id="sp_ilvl" value="0"></div>
+          <div><label>공격력</label><input id="sp_attack" value="0"></div>
+          <div><label>명중</label><input id="sp_hit" value="0"></div>
+          <div><label>치명타</label><input id="sp_crit" value="0"></div>
+          <div><label>강타</label><input id="sp_smash" value="0"></div>
+          <div><label>전/후방 피해증폭</label><input id="sp_fb" value="0"></div>
+          <div><label>보유 오드</label><input id="sp_ode" value="0"></div>
+        </div>
+        <div class="actions" style="margin-top:14px">
+          <button class="primary" id="sp_calc">비교하기</button>
+          <button id="sp_save">내 캐릭터 저장</button>
+          <button class="green" id="sp_load">불러오기</button>
+        </div>
+        <div class="saved" id="sp_saved"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <h2>🎯 던전 진입 비교</h2>
+        <p>현재는 아이템 레벨 기준으로 비교합니다. 다른 전투 수치는 캐릭터 저장용으로 함께 관리됩니다.</p>
+      </div>
+      <div class="body">
+        <div class="spec-summary">
+          <div class="box"><div class="k">내 아이템 레벨</div><div class="v" id="sp_cur">0</div></div>
+          <div class="box"><div class="k">입장 가능한 구간</div><div class="v" id="sp_pass">0개</div></div>
+          <div class="box"><div class="k">다음 목표까지</div><div class="v" id="sp_next">-</div></div>
+        </div>
+        <div class="spec-result-list" id="sp_results"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -169,6 +231,22 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
 <option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
 <option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+<option value="750000" data-ode="40">붉은 연심의 거울 1단 - 75만</option>
+<option value="1500000" data-ode="80">붉은 연심의 거울 1단 - 150만</option>
+<option value="855000" data-ode="40">붉은 연심의 거울 2단 - 85.5만</option>
+<option value="1710000" data-ode="80">붉은 연심의 거울 2단 - 171만</option>
+<option value="1005000" data-ode="40">붉은 연심의 거울 3단 - 100.5만</option>
+<option value="2010000" data-ode="80">붉은 연심의 거울 3단 - 201만</option>
+<option value="1200000" data-ode="40">붉은 연심의 거울 4단 - 120만</option>
+<option value="2400000" data-ode="80">붉은 연심의 거울 4단 - 240만</option>
+<option value="855000" data-ode="40">심연의 뿔 암굴 1단 - 85.5만</option>
+<option value="1710000" data-ode="80">심연의 뿔 암굴 1단 - 171만</option>
+<option value="1005000" data-ode="40">심연의 뿔 암굴 2단 - 100.5만</option>
+<option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
+<option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
+<option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
+<option value="2100000" data-ode="40">심연의 뿔 암굴 4단 - 210만</option>
+<option value="4200000" data-ode="80">심연의 뿔 암굴 4단 - 420만</option>
 </select></div>
 <div><label>한 판 소비 키나</label><div class="iwrap"><input id="d_cost" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>한 판 소비 오드</label><select id="d_ode">
@@ -223,6 +301,23 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
 <option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
 <option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+
+<option value="750000" data-ode="40">붉은 연심의 거울 1단 - 75만</option>
+<option value="1500000" data-ode="80">붉은 연심의 거울 1단 - 150만</option>
+<option value="855000" data-ode="40">붉은 연심의 거울 2단 - 85.5만</option>
+<option value="1710000" data-ode="80">붉은 연심의 거울 2단 - 171만</option>
+<option value="1005000" data-ode="40">붉은 연심의 거울 3단 - 100.5만</option>
+<option value="2010000" data-ode="80">붉은 연심의 거울 3단 - 201만</option>
+<option value="1200000" data-ode="40">붉은 연심의 거울 4단 - 120만</option>
+<option value="2400000" data-ode="80">붉은 연심의 거울 4단 - 240만</option>
+<option value="855000" data-ode="40">심연의 뿔 암굴 1단 - 85.5만</option>
+<option value="1710000" data-ode="80">심연의 뿔 암굴 1단 - 171만</option>
+<option value="1005000" data-ode="40">심연의 뿔 암굴 2단 - 100.5만</option>
+<option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
+<option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
+<option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
+<option value="2100000" data-ode="40">심연의 뿔 암굴 4단 - 210만</option>
+<option value="4200000" data-ode="80">심연의 뿔 암굴 4단 - 420만</option>
 </select></div>
 <div><label>한 판 소비 키나</label><div class="iwrap"><input id="m_cost" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>한 판 소비 오드</label><select id="m_ode">
@@ -251,6 +346,23 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
 <option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
 <option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+
+<option value="750000" data-ode="40">붉은 연심의 거울 1단 - 75만</option>
+<option value="1500000" data-ode="80">붉은 연심의 거울 1단 - 150만</option>
+<option value="855000" data-ode="40">붉은 연심의 거울 2단 - 85.5만</option>
+<option value="1710000" data-ode="80">붉은 연심의 거울 2단 - 171만</option>
+<option value="1005000" data-ode="40">붉은 연심의 거울 3단 - 100.5만</option>
+<option value="2010000" data-ode="80">붉은 연심의 거울 3단 - 201만</option>
+<option value="1200000" data-ode="40">붉은 연심의 거울 4단 - 120만</option>
+<option value="2400000" data-ode="80">붉은 연심의 거울 4단 - 240만</option>
+<option value="855000" data-ode="40">심연의 뿔 암굴 1단 - 85.5만</option>
+<option value="1710000" data-ode="80">심연의 뿔 암굴 1단 - 171만</option>
+<option value="1005000" data-ode="40">심연의 뿔 암굴 2단 - 100.5만</option>
+<option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
+<option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
+<option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
+<option value="2100000" data-ode="40">심연의 뿔 암굴 4단 - 210만</option>
+<option value="4200000" data-ode="80">심연의 뿔 암굴 4단 - 420만</option>
 </select></div>
 <div><label>한 판 버스비/소비 키나</label><div class="iwrap"><input id="s_cost" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>한 판 소비 오드</label><select id="s_ode">
@@ -264,7 +376,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" value="0"><span class="unit">판</span></div></div>
 <div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" value="0"><span class="unit">오드</span></div></div>
 </div><div class="actions"><button class="btn primary" onclick="calcSimple('s')">계산하기</button><button class="btn secondary" onclick="saveTab('sub')">부캐 버스 저장</button><button class="btn success" onclick="loadTab('sub')">부캐 버스 불러오기</button></div><div class="saved" id="msg_sub"></div></div></div>
-<div class="card"><div class="head"><h2>부캐 버스 결과</h2></div><div class="body"><div class="metrics" id="s_metrics"></div></div></div>
+<div class="card"><div class="head"><h2>부캐 버스 결과</h2><p>부캐 버스에서 선택한 같은 던전을 본부로 돌았을 때와 자동 비교합니다.</p></div><div class="body"><div class="metrics" id="s_metrics"></div></div></div>
 </div></section>
 
 <section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
@@ -353,7 +465,27 @@ function calcDriver(){
  $('#d_avg').textContent=money(avg);$('#d_avg_short').textContent=short(avg);$('#d_total').textContent=money(total);$('#d_total_short').textContent=short(total);$('#d_perOde').textContent=money(perOde);$('#d_hour').textContent=money(hour);$('#d_hour_short').textContent=short(hour)+'/시간';$('#d_paidRuns').textContent=nf(paidRuns)+' 판';$('#d_fareTotal').textContent=money(fareTotal);$('#d_table').innerHTML=rows.join('');
 }
 function simpleStats(p){const income=val(p+'_income'),cost=val(p+'_cost'),ode=val(p+'_ode'),mins=val(p+'_minutes'),runs=Math.max(0,Math.floor(val(p+'_runs'))),owned=val(p+'_ownedOde'),net=income-cost,perOde=ode?net/ode:0,hour=mins?net*60/mins:0,total=net*runs,possible=ode?Math.floor(owned/ode):0;return{income,cost,ode,mins,runs,owned,net,perOde,hour,total,possible,possibleProfit:possible*net}}
-function calcSimple(p){const x=simpleStats(p);$('#'+p+'_metrics').innerHTML=`<div class="metric"><div class="k">한 판 순수익</div><div class="v green">${money(x.net)}</div><div class="s">${short(x.net)}</div></div><div class="metric"><div class="k">오드 1당 순수익</div><div class="v">${money(x.perOde)}</div><div class="s">오드 효율</div></div><div class="metric"><div class="k">시간당 순수익</div><div class="v gold">${money(x.hour)}</div><div class="s">${short(x.hour)}/시간</div></div><div class="metric"><div class="k">${x.runs}판 총 순수익</div><div class="v">${money(x.total)}</div><div class="s">${short(x.total)}</div></div><div class="metric"><div class="k">보유 오드로 가능한 판수</div><div class="v">${nf(x.possible)} 판</div><div class="s">오드 ${nf(x.owned)}</div></div><div class="metric"><div class="k">보유 오드 예상 순수익</div><div class="v">${money(x.possibleProfit)}</div><div class="s">${short(x.possibleProfit)}</div></div>`}
+function calcSimple(p){
+ const x=simpleStats(p);
+ let extra='';
+ if(p==='s'){
+   const busSpend=x.cost*x.runs;
+
+   // 부캐 버스에서 선택한 던전/보상 프리셋을 그대로 본부 기준으로 사용.
+   const sameDungeonIncome=val('s_income');
+   const sameDungeonOde=val('s_ode');
+   const mainNetPerRun=sameDungeonIncome; // 본부는 같은 던전, 버스비 지출 0으로 비교
+   const mainTotalForSameRuns=mainNetPerRun*x.runs;
+   const diff=mainTotalForSameRuns-x.total;
+
+   extra=`
+   <div class="metric"><div class="k">버스 총 지출</div><div class="v">${money(busSpend)}</div><div class="s">${x.runs}판 × ${money(x.cost)}</div></div>
+   <div class="metric"><div class="k">같은 던전 본부 총 순수익</div><div class="v">${money(mainTotalForSameRuns)}</div><div class="s">${x.runs}판 · 버스비 지출 0 기준</div></div>
+   <div class="metric"><div class="k">본부 대비 손익</div><div class="v ${diff>0?'spec-bad':diff<0?'spec-ok':''}">${diff>0?'- ':diff<0?'+ ':''}${money(Math.abs(diff))}</div><div class="s">${diff>0?'같은 던전을 본부로 돌았을 때보다 손해':diff<0?'같은 던전을 본부로 돌았을 때보다 이득':'본부와 동일'}</div></div>
+   <div class="metric"><div class="k">같은 던전 오드 기준</div><div class="v">${nf(sameDungeonOde)} 오드</div><div class="s">부캐 버스에서 선택한 던전 기준</div></div>`;
+ }
+ $('#'+p+'_metrics').innerHTML=`<div class="metric"><div class="k">한 판 순수익</div><div class="v green">${money(x.net)}</div><div class="s">${short(x.net)}</div></div><div class="metric"><div class="k">오드 1당 순수익</div><div class="v">${money(x.perOde)}</div><div class="s">오드 효율</div></div><div class="metric"><div class="k">시간당 순수익</div><div class="v gold">${money(x.hour)}</div><div class="s">${short(x.hour)}/시간</div></div><div class="metric"><div class="k">${x.runs}판 총 순수익</div><div class="v">${money(x.total)}</div><div class="s">${short(x.total)}</div></div><div class="metric"><div class="k">보유 오드로 가능한 판수</div><div class="v">${nf(x.possible)} 판</div><div class="s">오드 ${nf(x.owned)}</div></div><div class="metric"><div class="k">보유 오드 예상 순수익</div><div class="v">${money(x.possibleProfit)}</div><div class="s">${short(x.possibleProfit)}</div></div>${extra}`
+}
 
 function fieldsFor(tab){
  if(tab==='driver'){
@@ -426,6 +558,61 @@ async function loadOfficialNews(force=false){
 
 
 
+
+const SPEC_DUNGEONS=[
+ {name:'푸른 숨의 섬 · 보통',req:3000},
+ {name:'푸른 숨의 섬 · 어려움',req:3500},
+ {name:'환영의 회랑 · 보통',req:3000},
+ {name:'환영의 회랑 · 어려움',req:3500},
+ {name:'타락한 데바의 성 · 보통',req:3800},
+ {name:'타락한 데바의 성 · 어려움',req:4500},
+ {name:'붉은 연심의 거울 · 1단',req:3200},
+ {name:'붉은 연심의 거울 · 2단',req:3500},
+ {name:'붉은 연심의 거울 · 3단',req:3800},
+ {name:'붉은 연심의 거울 · 4단',req:4000},
+ {name:'심연의 뿔 암굴 · 1단',req:3800},
+ {name:'심연의 뿔 암굴 · 2단',req:4100},
+ {name:'심연의 뿔 암굴 · 3단',req:4500},
+ {name:'심연의 뿔 암굴 · 4단',req:4800}
+];
+
+function calcSpec(){
+ const ilvl=Math.max(0,Math.floor(val('sp_ilvl')));
+ $('#sp_cur').textContent=nf(ilvl);
+ let passed=0;
+ let nextGap=null;
+ const rows=SPEC_DUNGEONS.map(x=>{
+   const gap=ilvl-x.req;
+   let cls='spec-bad',status='';
+   if(gap>=0){passed++;cls='spec-ok';status='입장 가능'}
+   else if(gap>=-200){cls='spec-warn';status=`${nf(-gap)} 부족`}
+   else status=`${nf(-gap)} 부족`;
+   if(gap<0 && (nextGap===null || -gap<nextGap))nextGap=-gap;
+   return `<div class="spec-result">
+     <div><div class="name">${escapeHtml(x.name)}</div><div class="req">요구 아이템 레벨 ${nf(x.req)}</div></div>
+     <div class="${cls}">${status}</div>
+   </div>`;
+ }).join('');
+ $('#sp_results').innerHTML=rows;
+ $('#sp_pass').textContent=nf(passed)+'개';
+ $('#sp_next').textContent=nextGap===null?'모두 충족':nf(nextGap)+'';
+}
+
+function saveSpec(){
+ const data={};
+ ['sp_name','sp_ilvl','sp_attack','sp_hit','sp_crit','sp_smash','sp_fb','sp_ode'].forEach(id=>data[id]=$('#'+id).value);
+ localStorage.setItem('buson2-character-spec',JSON.stringify(data));
+ $('#sp_saved').textContent='캐릭터 스펙을 이 브라우저에 저장했습니다.';
+}
+function loadSpec(){
+ try{
+   const data=JSON.parse(localStorage.getItem('buson2-character-spec')||'{}');
+   Object.entries(data).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+   $('#sp_saved').textContent=Object.keys(data).length?'저장한 캐릭터 스펙을 불러왔습니다.':'저장된 캐릭터가 없습니다.';
+   calcSpec();
+ }catch(e){$('#sp_saved').textContent='저장 데이터를 불러오지 못했습니다.'}
+}
+
 const DUNGEONS=[
  {id:'tadeba-n-40',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
  {id:'tadeba-n-80',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
@@ -433,12 +620,28 @@ const DUNGEONS=[
  {id:'tadeba-h-120',group:'타데바',name:'타락한 데바의 성',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
  {id:'pusum-n-40',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
  {id:'pusum-n-40b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'pusum-h-80a',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'pusum-h-80b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'pusum-h-80a',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
+ {id:'pusum-h-80b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
  {id:'hall-n-40',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
  {id:'hall-n-40b',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'hall-h-80a',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'hall-h-80b',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3000,extra:''}
+ {id:'hall-h-80a',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
+ {id:'hall-h-80b',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
+ {id:'redmirror-1-40',group:'초월',name:'붉은 연심의 거울',difficulty:'1단',reward:750000,ode:40,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
+ {id:'redmirror-1-80',group:'초월',name:'붉은 연심의 거울',difficulty:'1단',reward:1500000,ode:80,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
+ {id:'redmirror-2-40',group:'초월',name:'붉은 연심의 거울',difficulty:'2단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
+ {id:'redmirror-2-80',group:'초월',name:'붉은 연심의 거울',difficulty:'2단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
+ {id:'redmirror-3-40',group:'초월',name:'붉은 연심의 거울',difficulty:'3단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'redmirror-3-80',group:'초월',name:'붉은 연심의 거울',difficulty:'3단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'redmirror-4-40',group:'초월',name:'붉은 연심의 거울',difficulty:'4단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
+ {id:'redmirror-4-80',group:'초월',name:'붉은 연심의 거울',difficulty:'4단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
+ {id:'abyss-horn-1-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'abyss-horn-1-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'abyss-horn-2-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+ {id:'abyss-horn-2-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+ {id:'abyss-horn-3-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'abyss-horn-3-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'abyss-horn-4-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'4단',reward:2100000,ode:40,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
+ {id:'abyss-horn-4-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'4단',reward:4200000,ode:80,source:'buson2',entryLevel:50,itemLevel:4800,extra:''}
 ];
 
 function getDungeonSaved(id){
@@ -537,14 +740,14 @@ async function loadOfficialNews(force=false){
  }
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['noticehub','dungeon','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
 ['d_cost','d_minutes','d_fare','d_passengers','d_runs','d_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
 $('#d_ode').addEventListener('change',calcDriver);
-['m_cost','m_minutes','m_runs','m_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>calcSimple('m')));
-$('#m_income').addEventListener('change',()=>{syncOdeFromDungeon('m');calcSimple('m')});
-$('#m_ode').addEventListener('change',()=>calcSimple('m'));
+['m_cost','m_minutes','m_runs','m_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>{calcSimple('m');calcSimple('s')}));
+$('#m_income').addEventListener('change',()=>{syncOdeFromDungeon('m');calcSimple('m');calcSimple('s')});
+$('#m_ode').addEventListener('change',()=>{calcSimple('m');calcSimple('s')});
 ['s_cost','s_minutes','s_runs','s_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>calcSimple('s')));
 $('#s_income').addEventListener('change',()=>{syncOdeFromDungeon('s');calcSimple('s')});
 $('#s_ode').addEventListener('change',()=>calcSimple('s'));
@@ -557,6 +760,6 @@ document.addEventListener('change',e=>{
  else if(id==='s_income'){syncOdeFromDungeon('s');calcSimple('s')}
  else if(id==='s_ode'){calcSimple('s')}
 });
-$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
+$('#sp_calc')?.addEventListener('click',calcSpec);$('#sp_save')?.addEventListener('click',saveSpec);$('#sp_load')?.addEventListener('click',loadSpec);$('#sp_ilvl')?.addEventListener('input',calcSpec);calcSpec();$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
 </script>
 </body></html>
