@@ -79,6 +79,89 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 .spec-summary .box{padding:13px;border:1px solid #293347;border-radius:12px;background:#0d131c}
 .spec-summary .k{font-size:11px;color:#8798b0;margin-bottom:5px}
 .spec-summary .v{font-size:18px;font-weight:900}
+
+.subhead{margin:18px 0 10px;padding-top:10px;border-top:1px dashed #2a3549;font-weight:900;color:#f6b94f}
+.subhead:first-child{margin-top:0;padding-top:0;border-top:0}
+.muted{color:#7e8ea7;font-size:11px;font-weight:500}
+.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
+.pill-row .pill{padding:7px 10px;border:1px solid #2b3548;background:#101722;border-radius:999px;font-size:12px;color:#b9c6d9}
+.eff-list{display:grid;gap:9px}
+.eff-row{display:grid;grid-template-columns:150px 1fr 86px;gap:12px;align-items:center}
+.eff-label{font-weight:800;text-align:right}
+.eff-track{height:28px;border-radius:8px;background:#0c111a;overflow:hidden;border:1px solid #202a3a}
+.eff-fill{height:100%;min-width:2px;border-radius:7px;background:linear-gradient(90deg,#7e5ca8,#e24968)}
+.eff-value{font-weight:900}
+.sim-result{margin-top:16px;border:1px solid #e84465;border-radius:14px;padding:18px;text-align:center;background:#121621}
+.sim-result .k{font-size:13px;color:#c3cee0}
+.sim-result .big{font-size:32px;font-weight:1000;color:#ff496e;margin-top:6px}
+.sim-result .s{font-size:12px;color:#8798b0;margin-top:6px}
+
+.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.mode-box{padding:15px;border:1px solid #2a3448;border-radius:12px;background:#0d131c}
+.mode-box.accent{border-color:#5c4b86;background:#121526}
+.mode-title{font-size:12px;color:#aab7ca;font-weight:800}
+.mode-big{font-size:23px;font-weight:1000;margin:7px 0;color:#f1bd55}
+.mode-desc{font-size:11px;color:#7f8fa8}
+.rank-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 12px}
+.rank-tab{border:1px solid #2b3548;background:#101722;color:#aab5c7;border-radius:9px;padding:8px 12px;font-weight:800;cursor:pointer}
+.rank-tab.active{background:#263651;color:#fff;border-color:#5b77a7}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.ab-box,.ab-result{padding:15px;border:1px solid #2a3448;border-radius:12px;background:#0d131c}
+.ab-box button{margin-top:10px}
+.ab-status{font-size:12px;color:#8392a8;margin-top:6px;min-height:18px}
+.ab-result{text-align:center}
+.ab-result .k{font-size:12px;color:#8797ad}
+.ab-result .big{font-size:28px;font-weight:1000;color:#ff5977;margin-top:6px}
+.ab-result .s{font-size:11px;color:#7d8da5}
+
+.spec-action-buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.spec-action-buttons button{
+  min-height:46px;
+  padding:0 18px;
+  border-radius:11px;
+  font-size:15px;
+  font-weight:900;
+}
+.spec-action-buttons #sp_calc{
+  background:linear-gradient(135deg,#6f8cff,#7a6bff);
+  border-color:transparent;
+  color:#fff;
+}
+.spec-action-buttons #sp_save{
+  background:#121a27;
+  border:1px solid #33415a;
+  color:#f1f5ff;
+}
+.spec-action-buttons #sp_load{
+  background:#12331f;
+  border:1px solid #285f3d;
+  color:#92f2ad;
+}
+.spec-action-buttons button:hover{transform:translateY(-1px);filter:brightness(1.05)}
+
+
+.ab-save-btn{
+  min-height:42px;
+  padding:0 16px;
+  border-radius:10px;
+  border:1px solid #33415a;
+  background:#121a27;
+  color:#f1f5ff;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.15s ease;
+}
+.ab-save-btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.08);
+  border-color:#52627f;
+}
+
+@media(max-width:860px){.mode-grid,.ab-grid{grid-template-columns:1fr}}
+
+@media(max-width:860px){.eff-row{grid-template-columns:1fr}.eff-label{text-align:left}}
+
 @media(max-width:860px){.spec-grid,.spec-summary{grid-template-columns:1fr}}
 
 @media(max-width:860px){.dungeon-toolbar,.dungeon-grid{grid-template-columns:1fr}}
@@ -101,7 +184,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 </div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v9.6</div></section>
+<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v9.11</div></section>
 
 
 <section id="page-noticehub">
@@ -158,7 +241,8 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
           <option value="타데바">타데바</option>
           <option value="푸섬">푸섬</option>
           <option value="환영">환영</option>
-          <option value="초월">초월</option>
+          <option value="연심">연심</option>
+          <option value="암굴">암굴</option>
         </select>
         <select id="dg_sort">
           <option value="kina">한 판 키나순</option>
@@ -174,28 +258,71 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 </section>
 
 
+
 <section id="page-spec" class="hidden">
   <div class="spec-grid">
     <div class="card">
       <div class="head">
-        <h2>🧭 내 캐릭터 스펙</h2>
-        <p>아이템 레벨과 주요 전투 수치를 저장하고, 현재 던전 입장 기준과 비교합니다.</p>
+        <h2>⚔️ 내 스탯 입력</h2>
+        <p>현재 스탯을 기준으로 각 옵션을 올렸을 때의 예상 실딜 상승률을 비교합니다.</p>
       </div>
       <div class="body">
+        <div class="subhead">공격력</div>
         <div class="fields">
-          <div><label>캐릭터 이름</label><input id="sp_name" placeholder="예: 본캐"></div>
-          <div><label>아이템 레벨</label><input id="sp_ilvl" value="0"></div>
-          <div><label>공격력</label><input id="sp_attack" value="0"></div>
-          <div><label>명중</label><input id="sp_hit" value="0"></div>
-          <div><label>치명타</label><input id="sp_crit" value="0"></div>
-          <div><label>강타</label><input id="sp_smash" value="0"></div>
-          <div><label>전/후방 피해증폭</label><input id="sp_fb" value="0"></div>
+          <div><label>공격력 (스탯창, 장비 착용)</label><input id="sp_attack_on" value="0"></div>
+          <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" value="0"></div>
+          <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" value="0"></div>
+          <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
+          <div><label>장비 돌파 부위 수 <span class="muted">부위당 +5%</span></label><input id="sp_break" value="0"></div>
           <div><label>보유 오드</label><input id="sp_ode" value="0"></div>
         </div>
-        <div class="actions" style="margin-top:14px">
-          <button class="primary" id="sp_calc">비교하기</button>
-          <button id="sp_save">내 캐릭터 저장</button>
-          <button class="green" id="sp_load">불러오기</button>
+
+        <div class="subhead">증폭 스탯</div>
+        <div class="fields">
+          <div><label>피해 증폭 %</label><input id="sp_dmg" value="0"></div>
+          <div><label>무기 피해 증폭 %</label><input id="sp_weapon" value="0"></div>
+          <div><label>치명타 피해 증폭 %</label><input id="sp_critdmg" value="0"></div>
+          <div><label>전방/후방 피해 증폭 %</label><input id="sp_fb" value="0"></div>
+          <div><label>강타 %</label><input id="sp_smash" value="0"></div>
+          <div><label>PVE 피해 증폭 %</label><input id="sp_pve" value="0"></div>
+          <div><label>보스 피해 증폭 %</label><input id="sp_boss" value="0"></div>
+        </div>
+
+        <div class="subhead">전투 환경 가정</div>
+        <div class="fields">
+          <div><label>치명타 적중률 % <span class="muted">최대 80%</span></label><input id="sp_crit_rate" value="80"></div>
+          <div><label>전/후방 공격 성공률 %</label><input id="sp_fb_rate" value="80"></div>
+          <div><label>보스 강타 저항 %</label><input id="sp_smash_resist" value="30"></div>
+          <div><label>파티 강타 버프</label>
+            <select id="sp_party_smash">
+              <option value="0">없음</option>
+              <option value="5">호법성 +5%</option>
+              <option value="12">치유성 +12%</option>
+            </select>
+          </div>
+          <div><label>파티 피해증폭 버프</label>
+            <select id="sp_party_dmg">
+              <option value="0">없음</option>
+              <option value="25">치유/호법 +25%</option>
+              <option value="40">수호 격양 +40%</option>
+              <option value="65">둘 다 +65%</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="subhead">상대 / 스킬 조건</div>
+        <div class="fields">
+          <div><label>대상 치명타 저항 %</label><input id="sp_target_crit_resist" value="0"></div>
+          <div><label>대상 피해 내성 %</label><input id="sp_target_dmg_resist" value="0"></div>
+          <div><label>대상 치명타 피해 내성 %</label><input id="sp_target_critdmg_resist" value="0"></div>
+          <div><label>확정 치명 스킬 비중 %</label><input id="sp_guaranteed_crit_share" value="0"></div>
+        </div>
+
+        <div class="actions spec-action-buttons" style="margin-top:14px">
+          <button class="primary" id="sp_calc">계산하기</button>
+          <button id="sp_save">스펙 저장</button>
+          <button class="green" id="sp_load">스펙 불러오기</button>
         </div>
         <div class="saved" id="sp_saved"></div>
       </div>
@@ -203,21 +330,98 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 
     <div class="card">
       <div class="head">
-        <h2>🎯 던전 진입 비교</h2>
-        <p>현재는 아이템 레벨 기준으로 비교합니다. 다른 전투 수치는 캐릭터 저장용으로 함께 관리됩니다.</p>
+        <h2>📊 실전 효율 분석</h2>
+        <p>현재 스펙을 일반 스킬 / 확정 치명 스킬 / 실제 딜사이클 혼합 기준으로 나눠 비교합니다.</p>
       </div>
       <div class="body">
         <div class="spec-summary">
-          <div class="box"><div class="k">내 아이템 레벨</div><div class="v" id="sp_cur">0</div></div>
-          <div class="box"><div class="k">입장 가능한 구간</div><div class="v" id="sp_pass">0개</div></div>
-          <div class="box"><div class="k">다음 목표까지</div><div class="v" id="sp_next">-</div></div>
+          <div class="box"><div class="k">기본 공격력</div><div class="v gold" id="sp_base_attack">0</div><div class="s" id="sp_base_mult">× 1.00</div></div>
+          <div class="box"><div class="k">장비 공격력</div><div class="v gold" id="sp_gear_attack">0</div><div class="s" id="sp_gear_mult">× 1.00</div></div>
+          <div class="box"><div class="k">실효 공격력</div><div class="v green" id="sp_effective_attack">0</div><div class="s">공격력 계열 비교값</div></div>
         </div>
-        <div class="spec-result-list" id="sp_results"></div>
+
+        <div class="mode-grid">
+          <div class="mode-box">
+            <div class="mode-title">① 일반 스킬</div>
+            <div class="mode-big" id="sp_normal_score">0</div>
+            <div class="mode-desc">치명 저항 반영 · 치명 확률 최대 80%</div>
+          </div>
+          <div class="mode-box">
+            <div class="mode-title">② 확정 치명 스킬</div>
+            <div class="mode-big" id="sp_guaranteed_score">0</div>
+            <div class="mode-desc">치명 발생률 100% 고정</div>
+          </div>
+          <div class="mode-box accent">
+            <div class="mode-title">③ 내 딜사이클 혼합</div>
+            <div class="mode-big" id="sp_mixed_score">0</div>
+            <div class="mode-desc" id="sp_mixed_desc">확정 치명 비중 0%</div>
+          </div>
+        </div>
+
+        <div class="pill-row" id="sp_expectations"></div>
+
+        <div class="rank-tabs">
+          <button class="rank-tab active" data-rank-mode="mixed">내 딜사이클</button>
+          <button class="rank-tab" data-rank-mode="normal">일반 스킬</button>
+          <button class="rank-tab" data-rank-mode="guaranteed">확정 치명</button>
+        </div>
+        <div id="sp_rankings" class="eff-list"></div>
+
+        <div class="note" style="margin-top:14px">
+          표시값은 절대 데미지가 아니라 현재 세팅에서 어떤 옵션을 더 올렸을 때 상대적으로 효율이 높은지 비교하기 위한 지표입니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card compare-card" style="margin-top:18px">
+    <div class="head">
+      <h2>🔁 스탯 A/B 비교</h2>
+      <p>현재 세팅을 A와 B에 저장해 두고 장비 교체 전후 효율을 빠르게 비교합니다.</p>
+    </div>
+    <div class="body">
+      <div class="ab-grid">
+        <div class="ab-box">
+          <b>A 세팅</b>
+          <div id="sp_ab_a" class="ab-status">저장값 없음</div>
+          <button class="ab-save-btn" id="sp_save_a">현재값 A 저장</button>
+        </div>
+        <div class="ab-box">
+          <b>B 세팅</b>
+          <div id="sp_ab_b" class="ab-status">저장값 없음</div>
+          <button class="ab-save-btn" id="sp_save_b">현재값 B 저장</button>
+        </div>
+        <div class="ab-result">
+          <div class="k">B가 A보다</div>
+          <div class="big" id="sp_ab_gain">—</div>
+          <div class="s">내 딜사이클 혼합 기준</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <div class="head">
+      <h2>🧪 옵션 시뮬레이터</h2>
+      <p>새 장비/마석 옵션을 넣었을 때 현재 스펙 대비 예상 실딜 상승률을 계산합니다.</p>
+    </div>
+    <div class="body">
+      <div class="fields">
+        <div><label>공격력 (마석·장비)</label><input id="sim_attack" value="0"></div>
+        <div><label>무기 피해 증폭 %</label><input id="sim_weapon" value="0"></div>
+        <div><label>피해 증폭 %</label><input id="sim_dmg" value="0"></div>
+        <div><label>치명타 피해 증폭 %</label><input id="sim_critdmg" value="0"></div>
+        <div><label>전방/후방 피해 증폭 %</label><input id="sim_fb" value="0"></div>
+        <div><label>강타 %</label><input id="sim_smash" value="0"></div>
+      </div>
+      <div class="sim-result">
+        <div class="k">이 옵션 조합의 예상 실딜 상승</div>
+        <div class="big" id="sim_gain">+0.00%</div>
+        <div class="s" id="sim_effective">실효 공격력 0 → 0</div>
       </div>
     </div>
   </div>
 </section>
-
 <section id="page-driver" class="hidden">
 <div class="grid2">
 <div class="card"><div class="head"><h2>🚌 버스 기사 설정</h2><p>던전을 선택하면 한 판 기본 키나와 소비 오드가 자동으로 함께 설정됩니다.</p></div><div class="body">
@@ -559,58 +763,207 @@ async function loadOfficialNews(force=false){
 
 
 
-const SPEC_DUNGEONS=[
- {name:'푸른 숨의 섬 · 보통',req:3000},
- {name:'푸른 숨의 섬 · 어려움',req:3500},
- {name:'환영의 회랑 · 보통',req:3000},
- {name:'환영의 회랑 · 어려움',req:3500},
- {name:'타락한 데바의 성 · 보통',req:3800},
- {name:'타락한 데바의 성 · 어려움',req:4500},
- {name:'붉은 연심의 거울 · 1단',req:3200},
- {name:'붉은 연심의 거울 · 2단',req:3500},
- {name:'붉은 연심의 거울 · 3단',req:3800},
- {name:'붉은 연심의 거울 · 4단',req:4000},
- {name:'심연의 뿔 암굴 · 1단',req:3800},
- {name:'심연의 뿔 암굴 · 2단',req:4100},
- {name:'심연의 뿔 암굴 · 3단',req:4500},
- {name:'심연의 뿔 암굴 · 4단',req:4800}
-];
 
+
+
+
+
+
+const SPEC_IDS=[
+ 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break','sp_ode',
+ 'sp_dmg','sp_weapon','sp_critdmg','sp_fb','sp_smash','sp_pve','sp_boss',
+ 'sp_crit_rate','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_guaranteed_crit_share'
+];
+const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
+
+function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
+function sv(id){return Number($('#'+id)?.value||0)}
+
+function getSpec(){
+ return {
+  attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
+  destroy:sv('sp_destroy'), power:sv('sp_power'), breakthrough:sv('sp_break'),
+  dmg:sv('sp_dmg'), weapon:sv('sp_weapon'), critDmg:sv('sp_critdmg'),
+  fb:sv('sp_fb'), smash:sv('sp_smash'), pve:sv('sp_pve'), boss:sv('sp_boss'),
+  critRate:clamp(sv('sp_crit_rate'),0,80), fbRate:clamp(sv('sp_fb_rate'),0,100),
+  smashResist:clamp(sv('sp_smash_resist'),0,100),
+  partySmash:sv('sp_party_smash'), partyDmg:sv('sp_party_dmg'),
+  targetCritResist:clamp(sv('sp_target_crit_resist'),0,100),
+  targetDmgResist:clamp(sv('sp_target_dmg_resist'),0,100),
+  targetCritDmgResist:clamp(sv('sp_target_critdmg_resist'),0,100),
+  guaranteedCritShare:clamp(sv('sp_guaranteed_crit_share'),0,100)
+ }
+}
+
+// 공개된 계산 구조를 참고한 독립 구현.
+// 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 돌파 5%p.
+// 돌파분은 장비 귀속으로 보고 장비 해제 공격력에는 제외.
+function deriveAttack(s, flatGearAdd=0){
+ const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthrough*5)/100;
+ const offInc=1+(s.destroy*0.2+s.power*0.1)/100;
+
+ const baseRaw=offInc>0 ? s.attackOff/offInc : s.attackOff;
+ const wornRaw=wornInc>0 ? s.attackOn/wornInc : s.attackOn;
+ const gearRaw=Math.max(0,wornRaw-baseRaw);
+
+ const baseAttack=baseRaw*wornInc;
+ const gearAttack=(gearRaw+flatGearAdd)*wornInc;
+ const effectiveAttack=baseAttack + gearAttack*(1+s.weapon/100);
+
+ return {wornInc,offInc,baseRaw,gearRaw,baseAttack,gearAttack,effectiveAttack};
+}
+
+function totalMultiplier(s, flatGearAdd=0){
+ const a=deriveAttack(s,flatGearAdd);
+
+ const effectiveDmgPct=s.dmg+s.pve+s.boss+s.partyDmg-s.targetDmgResist;
+ const general=Math.max(0.01,1+effectiveDmgPct/100);
+
+ const normalCritChance=clamp(s.critRate-s.targetCritResist,0,80)/100;
+ const critBonus=Math.max(0,0.5+(s.critDmg-s.targetCritDmgResist)/100);
+ const normalCritExpected=1+normalCritChance*critBonus;
+ const guaranteedCritExpected=1+critBonus;
+
+ const fbChance=clamp(s.fbRate,0,100)/100;
+ const fbExpected=1+(s.fb/100)*fbChance;
+
+ const smashChance=clamp(s.smash+s.partySmash-s.smashResist,0,100)/100;
+ const smashExpected=1+smashChance;
+
+ const common=a.effectiveAttack*general*fbExpected*smashExpected;
+ const normalTotal=common*normalCritExpected;
+ const guaranteedTotal=common*guaranteedCritExpected;
+ const share=clamp(s.guaranteedCritShare,0,100)/100;
+ const mixedTotal=normalTotal*(1-share)+guaranteedTotal*share;
+
+ return {
+  attack:a,general,fbExpected,smashExpected,smashChance,
+  normalCritChance,normalCritExpected,guaranteedCritExpected,
+  normalTotal,guaranteedTotal,mixedTotal,total:mixedTotal
+ };
+}
+
+function gainPct(base,next){return base>0?(next/base-1)*100:0}
+
+let currentRankMode='mixed';
+function scoreByMode(result,mode){
+ if(mode==='normal')return result.normalTotal;
+ if(mode==='guaranteed')return result.guaranteedTotal;
+ return result.mixedTotal;
+}
 function calcSpec(){
- const ilvl=Math.max(0,Math.floor(val('sp_ilvl')));
- $('#sp_cur').textContent=nf(ilvl);
- let passed=0;
- let nextGap=null;
- const rows=SPEC_DUNGEONS.map(x=>{
-   const gap=ilvl-x.req;
-   let cls='spec-bad',status='';
-   if(gap>=0){passed++;cls='spec-ok';status='입장 가능'}
-   else if(gap>=-200){cls='spec-warn';status=`${nf(-gap)} 부족`}
-   else status=`${nf(-gap)} 부족`;
-   if(gap<0 && (nextGap===null || -gap<nextGap))nextGap=-gap;
-   return `<div class="spec-result">
-     <div><div class="name">${escapeHtml(x.name)}</div><div class="req">요구 아이템 레벨 ${nf(x.req)}</div></div>
-     <div class="${cls}">${status}</div>
-   </div>`;
- }).join('');
- $('#sp_results').innerHTML=rows;
- $('#sp_pass').textContent=nf(passed)+'개';
- $('#sp_next').textContent=nextGap===null?'모두 충족':nf(nextGap)+'';
+ const s=getSpec();
+ const base=totalMultiplier(s);
+
+ $('#sp_base_attack').textContent=nf(Math.round(base.attack.baseAttack));
+ $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack));
+ $('#sp_effective_attack').textContent=nf(Math.round(base.attack.effectiveAttack));
+ $('#sp_base_mult').textContent='× '+base.attack.wornInc.toFixed(2);
+ $('#sp_gear_mult').textContent='무피증 × '+(1+s.weapon/100).toFixed(2);
+
+ $('#sp_normal_score').textContent=nf(Math.round(base.normalTotal));
+ $('#sp_guaranteed_score').textContent=nf(Math.round(base.guaranteedTotal));
+ $('#sp_mixed_score').textContent=nf(Math.round(base.mixedTotal));
+ $('#sp_mixed_desc').textContent='확정 치명 비중 '+s.guaranteedCritShare.toFixed(0)+'%';
+
+ $('#sp_expectations').innerHTML=[
+   `피증 기대 × ${base.general.toFixed(3)}`,
+   `일반 치명 × ${base.normalCritExpected.toFixed(3)} (${(base.normalCritChance*100).toFixed(1)}%)`,
+   `확정 치명 × ${base.guaranteedCritExpected.toFixed(3)}`,
+   `강타 × ${base.smashExpected.toFixed(3)} (실발동 ${(base.smashChance*100).toFixed(1)}%)`,
+   `전/후방 × ${base.fbExpected.toFixed(3)}`
+ ].map(x=>`<span class="pill">${x}</span>`).join('');
+
+ renderRankings();
+ calcSimulator();
+ renderABCompare();
+}
+
+function renderRankings(){
+ const s=getSpec();
+ const base=totalMultiplier(s);
+ const tests=[
+   {name:'전/후방 피해 증폭', apply:t=>({...t,fb:t.fb+1})},
+   {name:'강타', apply:t=>({...t,smash:t.smash+1})},
+   {name:'무기 피해 증폭', apply:t=>({...t,weapon:t.weapon+1})},
+   {name:'치명타 피해 증폭', apply:t=>({...t,critDmg:t.critDmg+1})},
+   {name:'피해 증폭', apply:t=>({...t,dmg:t.dmg+1})},
+   {name:'PVE 피해 증폭', apply:t=>({...t,pve:t.pve+1})},
+   {name:'보스 피해 증폭', apply:t=>({...t,boss:t.boss+1})},
+   {name:'공격력 +10', flat:10}
+ ];
+ const baseScore=scoreByMode(base,currentRankMode);
+ const rows=tests.map(t=>{
+   const next=t.flat!=null ? totalMultiplier(s,t.flat) : totalMultiplier(t.apply(s));
+   return {name:t.name,gain:gainPct(baseScore,scoreByMode(next,currentRankMode))};
+ }).sort((a,b)=>b.gain-a.gain);
+
+ const max=Math.max(...rows.map(x=>x.gain),0.001);
+ $('#sp_rankings').innerHTML=rows.map(r=>`
+   <div class="eff-row">
+    <div class="eff-label">${escapeHtml(r.name)}</div>
+    <div class="eff-track"><div class="eff-fill" style="width:${Math.max(2,r.gain/max*100)}%"></div></div>
+    <div class="eff-value">+${r.gain.toFixed(2)}%</div>
+   </div>`).join('');
+}
+
+function calcSimulator(){
+ const s=getSpec();
+ const base=totalMultiplier(s);
+ const nextSpec={...s,
+   weapon:s.weapon+sv('sim_weapon'),
+   dmg:s.dmg+sv('sim_dmg'),
+   critDmg:s.critDmg+sv('sim_critdmg'),
+   fb:s.fb+sv('sim_fb'),
+   smash:s.smash+sv('sim_smash')
+ };
+ const next=totalMultiplier(nextSpec,sv('sim_attack'));
+ const g=gainPct(base.mixedTotal,next.mixedTotal);
+ $('#sim_gain').textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
+ $('#sim_effective').textContent=`혼합 기준 ${nf(Math.round(base.mixedTotal))} → ${nf(Math.round(next.mixedTotal))}`;
+}
+
+
+function snapshotSpec(){const d={};SPEC_IDS.forEach(id=>d[id]=$('#'+id)?.value??'');return d}
+function specFromSnapshot(d){
+ const current=snapshotSpec();
+ Object.entries(d||{}).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+ const s=getSpec();
+ Object.entries(current).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+ return s;
+}
+function saveAB(which){
+ const d=snapshotSpec();
+ localStorage.setItem('buson2-spec-'+which,JSON.stringify(d));
+ $('#sp_ab_'+which).textContent='현재값 저장됨';
+ renderABCompare();
+}
+function renderABCompare(){
+ let a={},b={};
+ try{a=JSON.parse(localStorage.getItem('buson2-spec-a')||'{}')}catch(e){}
+ try{b=JSON.parse(localStorage.getItem('buson2-spec-b')||'{}')}catch(e){}
+ $('#sp_ab_a').textContent=Object.keys(a).length?'A 세팅 저장됨':'저장값 없음';
+ $('#sp_ab_b').textContent=Object.keys(b).length?'B 세팅 저장됨':'저장값 없음';
+ if(!Object.keys(a).length||!Object.keys(b).length){$('#sp_ab_gain').textContent='—';return}
+ const ar=totalMultiplier(specFromSnapshot(a));
+ const br=totalMultiplier(specFromSnapshot(b));
+ const g=gainPct(ar.mixedTotal,br.mixedTotal);
+ $('#sp_ab_gain').textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
 }
 
 function saveSpec(){
  const data={};
- ['sp_name','sp_ilvl','sp_attack','sp_hit','sp_crit','sp_smash','sp_fb','sp_ode'].forEach(id=>data[id]=$('#'+id).value);
- localStorage.setItem('buson2-character-spec',JSON.stringify(data));
- $('#sp_saved').textContent='캐릭터 스펙을 이 브라우저에 저장했습니다.';
+ [...SPEC_IDS,...SIM_IDS].forEach(id=>data[id]=$('#'+id)?.value??'');
+ localStorage.setItem('buson2-stat-efficiency',JSON.stringify(data));
+ $('#sp_saved').textContent='현재 스탯을 이 브라우저에 저장했습니다.';
 }
 function loadSpec(){
  try{
-   const data=JSON.parse(localStorage.getItem('buson2-character-spec')||'{}');
-   Object.entries(data).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
-   $('#sp_saved').textContent=Object.keys(data).length?'저장한 캐릭터 스펙을 불러왔습니다.':'저장된 캐릭터가 없습니다.';
-   calcSpec();
- }catch(e){$('#sp_saved').textContent='저장 데이터를 불러오지 못했습니다.'}
+  const d=JSON.parse(localStorage.getItem('buson2-stat-efficiency')||'{}');
+  Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+  $('#sp_saved').textContent=Object.keys(d).length?'저장한 스탯을 불러왔습니다.':'저장된 스탯이 없습니다.';
+  calcSpec();
+ }catch(e){$('#sp_saved').textContent='저장값을 불러오지 못했습니다.'}
 }
 
 const DUNGEONS=[
@@ -626,22 +979,22 @@ const DUNGEONS=[
  {id:'hall-n-40b',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
  {id:'hall-h-80a',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
  {id:'hall-h-80b',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'redmirror-1-40',group:'초월',name:'붉은 연심의 거울',difficulty:'1단',reward:750000,ode:40,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
- {id:'redmirror-1-80',group:'초월',name:'붉은 연심의 거울',difficulty:'1단',reward:1500000,ode:80,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
- {id:'redmirror-2-40',group:'초월',name:'붉은 연심의 거울',difficulty:'2단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
- {id:'redmirror-2-80',group:'초월',name:'붉은 연심의 거울',difficulty:'2단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
- {id:'redmirror-3-40',group:'초월',name:'붉은 연심의 거울',difficulty:'3단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'redmirror-3-80',group:'초월',name:'붉은 연심의 거울',difficulty:'3단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'redmirror-4-40',group:'초월',name:'붉은 연심의 거울',difficulty:'4단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
- {id:'redmirror-4-80',group:'초월',name:'붉은 연심의 거울',difficulty:'4단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
- {id:'abyss-horn-1-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'abyss-horn-1-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'abyss-horn-2-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
- {id:'abyss-horn-2-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
- {id:'abyss-horn-3-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'abyss-horn-3-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'abyss-horn-4-40',group:'초월',name:'심연의 뿔 암굴',difficulty:'4단',reward:2100000,ode:40,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
- {id:'abyss-horn-4-80',group:'초월',name:'심연의 뿔 암굴',difficulty:'4단',reward:4200000,ode:80,source:'buson2',entryLevel:50,itemLevel:4800,extra:''}
+ {id:'redmirror-1-40',group:'연심',name:'붉은 연심의 거울',difficulty:'1단',reward:750000,ode:40,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
+ {id:'redmirror-1-80',group:'연심',name:'붉은 연심의 거울',difficulty:'1단',reward:1500000,ode:80,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
+ {id:'redmirror-2-40',group:'연심',name:'붉은 연심의 거울',difficulty:'2단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
+ {id:'redmirror-2-80',group:'연심',name:'붉은 연심의 거울',difficulty:'2단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
+ {id:'redmirror-3-40',group:'연심',name:'붉은 연심의 거울',difficulty:'3단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'redmirror-3-80',group:'연심',name:'붉은 연심의 거울',difficulty:'3단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'redmirror-4-40',group:'연심',name:'붉은 연심의 거울',difficulty:'4단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
+ {id:'redmirror-4-80',group:'연심',name:'붉은 연심의 거울',difficulty:'4단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
+ {id:'abyss-horn-1-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'abyss-horn-1-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'abyss-horn-2-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+ {id:'abyss-horn-2-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+ {id:'abyss-horn-3-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'abyss-horn-3-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'abyss-horn-4-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'4단',reward:2100000,ode:40,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
+ {id:'abyss-horn-4-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'4단',reward:4200000,ode:80,source:'buson2',entryLevel:50,itemLevel:4800,extra:''}
 ];
 
 function getDungeonSaved(id){
@@ -760,6 +1113,23 @@ document.addEventListener('change',e=>{
  else if(id==='s_income'){syncOdeFromDungeon('s');calcSimple('s')}
  else if(id==='s_ode'){calcSimple('s')}
 });
-$('#sp_calc')?.addEventListener('click',calcSpec);$('#sp_save')?.addEventListener('click',saveSpec);$('#sp_load')?.addEventListener('click',loadSpec);$('#sp_ilvl')?.addEventListener('input',calcSpec);calcSpec();$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
+
+document.querySelectorAll('.rank-tab').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.rank-tab').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active');
+ currentRankMode=btn.dataset.rankMode;
+ renderRankings();
+}));
+$('#sp_save_a')?.addEventListener('click',()=>saveAB('a'));
+$('#sp_save_b')?.addEventListener('click',()=>saveAB('b'));
+
+$('#sp_calc')?.addEventListener('click',calcSpec);
+$('#sp_save')?.addEventListener('click',saveSpec);
+$('#sp_load')?.addEventListener('click',loadSpec);
+SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
+SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('change',calcSpec));
+SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
+calcSpec();
+$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
 </script>
 </body></html>
