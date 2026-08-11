@@ -47,20 +47,20 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <header><div class="wrap top">
 <div class="brand"><div class="logo">B2</div><div><b>BUSON2</b><small>아이온2 효율 연구소</small></div></div>
 <nav>
-<button class="tab active" data-page="driver">버스 기사</button>
+<button class="tab active" data-page="notice">공지</button>
+<button class="tab" data-page="update">업데이트</button>
+<button class="tab" data-page="cm">CM아지트</button>
+<button class="tab" data-page="driver">버스 기사</button>
 <button class="tab" data-page="sub">부캐 버스</button>
 <button class="tab" data-page="main">본부</button>
 <button class="tab" data-page="compare">파밍 비교</button>
-<button class="tab" data-page="update">업데이트</button>
-<button class="tab" data-page="notice">공지</button>
-<button class="tab" data-page="cm">CM아지트</button>
 </nav>
 </div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.7</div></section>
+<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.8</div></section>
 
-<section id="page-driver">
+<section id="page-driver" class="hidden">
 <div class="grid2">
 <div class="card"><div class="head"><h2>🚌 버스 기사 설정</h2><p>던전을 선택하면 한 판 기본 키나와 소비 오드가 자동으로 함께 설정됩니다.</p></div><div class="body">
 <div class="fields">
@@ -190,7 +190,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
   </div>
 </section>
 
-<section id="page-notice" class="hidden">
+<section id="page-notice">
   <div class="card">
     <div class="head">
       <h2>📌 아이온2 공지</h2>
@@ -350,7 +350,7 @@ function renderNewsGroup(key, data){
  box.innerHTML=items.map(item=>`
    <a class="news-item" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
      <div class="news-title">${escapeHtml(item.title)}</div>
-     <div class="news-meta"><span>${escapeHtml(item.date||'날짜 미확인')}</span><span>공식 원문 ↗</span></div>
+     <div class="news-meta"><span>${escapeHtml(item.datetime||item.date||'날짜 확인 중')}</span><span>공식 원문 ↗</span></div>
    </a>`).join('');
 }
 async function loadOfficialNews(force=false){
@@ -387,7 +387,7 @@ function renderNewsGroup(key, data){
  box.innerHTML=items.map(item=>`
    <a class="news-item" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
      <div class="news-title">${escapeHtml(item.title)}</div>
-     <div class="news-meta"><span>${escapeHtml(item.date||'날짜 미확인')}</span><span>공식 원문 ↗</span></div>
+     <div class="news-meta"><span>${escapeHtml(item.datetime||item.date||'날짜 확인 중')}</span><span>공식 원문 ↗</span></div>
    </a>`).join('');
 }
 async function loadOfficialNews(force=false){
