@@ -27,6 +27,19 @@ input:focus,select:focus{border-color:#5787d3;box-shadow:0 0 0 3px rgba(87,135,2
 .note{margin-top:14px;padding:13px 14px;border:1px solid #283449;background:#0b1018;border-radius:12px;color:#96a5bb;font-size:12px;line-height:1.65}
 table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;border-bottom:1px solid #252e3e;text-align:left;font-size:13px}th{color:#8fa0b8}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;background:#182943;color:#a9c8ff}
 .hidden{display:none!important}.coming{padding:48px;text-align:center;color:var(--muted)}.coming b{display:block;color:#fff;font-size:24px;margin-bottom:8px}footer{border-top:1px solid #1e2632;padding:24px 0 40px;color:#728097;font-size:12px}
+
+.news-tools{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.news-source{color:#8fa0b8;font-size:12px}
+.news-source a{color:#a9c8ff;text-decoration:none}
+.news-source a:hover{text-decoration:underline}
+.news-list{display:grid;gap:10px}
+.news-item{display:block;padding:15px 16px;border:1px solid #293347;background:#0d131c;border-radius:13px;text-decoration:none;color:inherit;transition:.15s}
+.news-item:hover{transform:translateY(-1px);border-color:#4a638a;background:#111a28}
+.news-title{font-weight:800;line-height:1.45}
+.news-meta{display:flex;gap:10px;align-items:center;margin-top:7px;color:#8798b0;font-size:12px}
+.news-empty{padding:38px 16px;text-align:center;color:#8fa0b8}
+.news-updated{font-size:12px;color:#718096}
+
 @media(max-width:860px){.grid2,.fields{grid-template-columns:1fr}.driver-blocks{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.top{padding:14px 0;align-items:flex-start;flex-direction:column}nav{width:100%;overflow:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.hero h1{font-size:31px}}
 </style>
 </head>
@@ -38,11 +51,14 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 <button class="tab" data-page="sub">부캐 버스</button>
 <button class="tab" data-page="main">본부</button>
 <button class="tab" data-page="compare">파밍 비교</button>
+<button class="tab" data-page="update">업데이트</button>
+<button class="tab" data-page="notice">공지</button>
+<button class="tab" data-page="cm">CM아지트</button>
 </nav>
 </div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.5</div></section>
+<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.7</div></section>
 
 <section id="page-driver">
 <div class="grid2">
@@ -157,6 +173,55 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 
 <section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
 
+
+<section id="page-update" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>📢 아이온2 업데이트</h2>
+      <p>아이온2 공식 업데이트 게시판의 최신 글을 자동으로 확인합니다.</p>
+    </div>
+    <div class="body">
+      <div class="news-tools">
+        <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/update/list" target="_blank" rel="noopener">AION2 공식 업데이트</a></div>
+        <div class="news-updated" id="updated-update">불러오는 중...</div>
+      </div>
+      <div class="news-list" id="news-update"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="page-notice" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>📌 아이온2 공지</h2>
+      <p>아이온2 공식 공지 게시판의 최신 글을 자동으로 확인합니다.</p>
+    </div>
+    <div class="body">
+      <div class="news-tools">
+        <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/notice/list" target="_blank" rel="noopener">AION2 공식 공지</a></div>
+        <div class="news-updated" id="updated-notice">불러오는 중...</div>
+      </div>
+      <div class="news-list" id="news-notice"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="page-cm" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>🏕️ CM아지트</h2>
+      <p>아이온2 공식 CM아지트의 최신 글을 자동으로 확인합니다.</p>
+    </div>
+    <div class="body">
+      <div class="news-tools">
+        <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/cm_story/list" target="_blank" rel="noopener">AION2 공식 CM아지트</a></div>
+        <div class="news-updated" id="updated-cm">불러오는 중...</div>
+      </div>
+      <div class="news-list" id="news-cm"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <footer><div class="wrap">BUSON2 · 계산 결과는 입력값과 실제 게임 운영 방식에 따라 달라질 수 있습니다.</div></footer>
@@ -268,7 +333,81 @@ function driverAverage(){
 }
 function buildCompare(){const m=simpleStats('m'),s=simpleStats('s'),items=[driverAverage(),{name:'본부',net:m.net,perOde:m.perOde,hour:m.hour},{name:'부캐 버스',net:s.net,perOde:s.perOde,hour:s.hour}].sort((a,b)=>b.hour-a.hour);$('#compareBox').innerHTML=`<table><thead><tr><th>순위</th><th>방식</th><th>평균 한 판 순수익</th><th>오드 1당</th><th>시간당</th></tr></thead><tbody>${items.map((x,i)=>`<tr><td>${['🥇','🥈','🥉'][i]}</td><td>${x.name}</td><td>${money(x.net)}</td><td>${money(x.perOde)}</td><td>${money(x.hour)}</td></tr>`).join('')}</tbody></table>`}
 
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare()}));
+
+let newsLoaded=false;
+function escapeHtml(text){
+ return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function renderNewsGroup(key, data){
+ const box=$('#news-'+key), updated=$('#updated-'+key);
+ if(!box)return;
+ const items=Array.isArray(data?.[key])?data[key]:[];
+ updated.textContent=data?.updated_at ? '최근 확인 '+data.updated_at : '아직 자동 수집 전';
+ if(!items.length){
+   box.innerHTML='<div class="news-empty">아직 수집된 게시물이 없습니다. GitHub Actions를 한 번 실행해주세요.</div>';
+   return;
+ }
+ box.innerHTML=items.map(item=>`
+   <a class="news-item" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
+     <div class="news-title">${escapeHtml(item.title)}</div>
+     <div class="news-meta"><span>${escapeHtml(item.date||'날짜 미확인')}</span><span>공식 원문 ↗</span></div>
+   </a>`).join('');
+}
+async function loadOfficialNews(force=false){
+ if(newsLoaded&&!force)return;
+ try{
+   const res=await fetch('./news.json?ts='+(Date.now()),{cache:'no-store'});
+   if(!res.ok)throw new Error('news.json '+res.status);
+   const data=await res.json();
+   ['update','notice','cm'].forEach(k=>renderNewsGroup(k,data));
+   newsLoaded=true;
+ }catch(err){
+   ['update','notice','cm'].forEach(k=>{
+     const box=$('#news-'+k), updated=$('#updated-'+k);
+     if(box)box.innerHTML='<div class="news-empty">자동 수집 데이터를 불러오지 못했습니다.</div>';
+     if(updated)updated.textContent='연결 확인 필요';
+   });
+ }
+}
+
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+let newsLoaded=false;
+function escapeHtml(text){
+ return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function renderNewsGroup(key, data){
+ const box=$('#news-'+key), updated=$('#updated-'+key);
+ if(!box)return;
+ const items=Array.isArray(data?.[key])?data[key]:[];
+ updated.textContent=data?.updated_at ? '최근 확인 '+data.updated_at : '아직 자동 수집 전';
+ if(!items.length){
+   box.innerHTML='<div class="news-empty">아직 수집된 게시물이 없습니다. GitHub Actions를 한 번 실행해주세요.</div>';
+   return;
+ }
+ box.innerHTML=items.map(item=>`
+   <a class="news-item" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
+     <div class="news-title">${escapeHtml(item.title)}</div>
+     <div class="news-meta"><span>${escapeHtml(item.date||'날짜 미확인')}</span><span>공식 원문 ↗</span></div>
+   </a>`).join('');
+}
+async function loadOfficialNews(force=false){
+ if(newsLoaded&&!force)return;
+ try{
+   const res=await fetch('./news.json?ts='+(Date.now()),{cache:'no-store'});
+   if(!res.ok)throw new Error('news.json '+res.status);
+   const data=await res.json();
+   ['update','notice','cm'].forEach(k=>renderNewsGroup(k,data));
+   newsLoaded=true;
+ }catch(err){
+   ['update','notice','cm'].forEach(k=>{
+     const box=$('#news-'+k), updated=$('#updated-'+k);
+     if(box)box.innerHTML='<div class="news-empty">자동 수집 데이터를 불러오지 못했습니다.</div>';
+     if(updated)updated.textContent='연결 확인 필요';
+   });
+ }
+}
+
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['driver','sub','main','compare','update','notice','cm'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(['update','notice','cm'].includes(b.dataset.page))loadOfficialNews()}));
 $('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
 ['d_cost','d_minutes','d_fare','d_passengers','d_runs','d_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
