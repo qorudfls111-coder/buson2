@@ -1,6 +1,289 @@
 {
-  "updated_at": "",
-  "update": [],
-  "notice": [],
-  "cm": []
+  "updated_at": "2026-08-11 23:31 KST",
+  "update": [
+    {
+      "title": "[안내] 8/5(수) 업데이트 노트",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a723db86b722c561dc69f13"
+    },
+    {
+      "title": "[안내] 7/29(수) 업데이트 노트",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a6903388bae191e2da7e2ed"
+    },
+    {
+      "title": "[안내] 7/22(수) 업데이트 노트",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a5fc8b8065bf16436e45cca"
+    },
+    {
+      "title": "[안내] 7/15(수) 업데이트 노트 (수정 7/20 15:09)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a568e38e2307f62bca6bcf4"
+    },
+    {
+      "title": "[안내] 7/8(수) 업데이트 노트",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a4d53b87350225b1a688d84"
+    },
+    {
+      "title": "[안내] 7/1(수) 업데이트 노트 (수정 7/1 10:15)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a441938c61e9832651f8f0e"
+    },
+    {
+      "title": "[안내] 6/24(수) 업데이트 노트 (수정 6/24 10:07)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a3adeb81def5868bf575e63"
+    },
+    {
+      "title": "[안내] 6/17(수) 업데이트 노트 (수정 6/25 14:26)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a31a438acb6f821e1a76c27"
+    },
+    {
+      "title": "[안내] 6/10(수) 업데이트 노트",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a2869b870a9d9546295de47"
+    },
+    {
+      "title": "[안내] 6/4(목) 업데이트 노트",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a2080b85bbdb44242cdaac0"
+    },
+    {
+      "title": "[안내] 5/27(수) 업데이트 노트 (수정 5/27 10:25)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a15f4b88cd2017bc6f020f5"
+    },
+    {
+      "title": "[안내] 5/20(수) 업데이트 노트 (수정 5/20 10:18)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a0cba385716f56bbe7ebd56"
+    },
+    {
+      "title": "[안내] 5/13(수) 업데이트 노트 (수정 5/14 08:48)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a037fb8d518ed36f2b2b82f"
+    },
+    {
+      "title": "[안내] 5/6(수) 업데이트 노트",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69fa4538cdd7422c7202e591"
+    },
+    {
+      "title": "[안내] 4/29(수) 업데이트 노트 (수정 5/7 10:15)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69f10ab84b054450af1111e9"
+    },
+    {
+      "title": "[안내] 4/22(수) 업데이트 노트 (수정 4/23 13:35)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69e7d0384b054450af1110c4"
+    },
+    {
+      "title": "[안내] 4/15(수) 업데이트 노트 (수정 4/15 06:08)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69de95b8e69c8c4b502c029b"
+    },
+    {
+      "title": "[안내] 4/8(수) 업데이트 노트 (수정 4/8 14:26)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69d55b381e8a8c5fcd9b44a7"
+    }
+  ],
+  "notice": [
+    {
+      "title": "[안내] 7월 5주차 알려진 이슈 및 조치 안내 (수정 7/30 17:42)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a6950903b36601c7403115b&isNotice=1"
+    },
+    {
+      "title": "[안내] 서버 이전 가능 서버 안내 (종료 7/29 00:00)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a6094a094d8116f4fd094f8&isNotice=1"
+    },
+    {
+      "title": "[안내] AION2 챕터 1 콘텐츠 운영 계획 사전 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a43c4d8e2307f62bca6bb24&isNotice=1"
+    },
+    {
+      "title": "[안내] 비인가 프로그램 사용 주의 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69231f18c04551024877d6db&isNotice=1"
+    },
+    {
+      "title": "[안내] 게임 설치 및 실행 불가 현상 관련 통합 안내 (수정 12/19 23:50)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
+    },
+    {
+      "title": "[안내] AION2 LIVE 업데이트 프리뷰 방송 보상 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7b208ad97eae18cc40d9e9"
+    },
+    {
+      "title": "[안내] 8/12(수) AION2 정기점검 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7b00b06b722c561dc69fcf"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [269차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7ae274eea53f5d6dbcf201"
+    },
+    {
+      "title": "[안내] 주문서 결제수단 선택 화면 개편",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7adb30fa34c1011d62728e"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [268차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a79c1f0a279104f7d9d55db"
+    },
+    {
+      "title": "[안내] AION2 정기점검 사전 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a798500eea53f5d6dbcf1ae"
+    },
+    {
+      "title": "[안내] 네몬 서버 갑작스러운 서버 다운 안내 (정상화)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a79518d6b722c561dc69f82"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [267차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a76db00d97eae18cc40d939"
+    },
+    {
+      "title": "[안내] AION2 퍼플 라이브 방송 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a77ed30fa34c1011d62721d"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [266차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a76db00d97eae18cc40d937"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [265차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7589053900e5123413fd01"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [264차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7470eceea53f5d6dbcf178"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [263차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a72e498a279104f7d9d557a"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [262차]",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a71dda0eea53f5d6dbcf138"
+    },
+    {
+      "title": "[안내] 8/5(수) 앙코르 콜렉션 상품 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a71c630d97eae18cc40d89a"
+    }
+  ],
+  "cm": [
+    {
+      "title": "[안내] 챕터1 4차 서버 매칭",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a7b08e4d97eae18cc40d9de"
+    },
+    {
+      "title": "AION2 8월 2주차 업데이트 뉴스",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a7b08e4d97eae18cc40d9dc"
+    },
+    {
+      "title": "AION2 8월 1주차 업데이트 뉴스",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a71c630eea53f5d6dbcf0ee"
+    },
+    {
+      "title": "[안내] 챕터1 3차 서버 매칭",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a688bb08bae191e2da7e2d1"
+    },
+    {
+      "title": "AION2 7월 5주차 업데이트 뉴스 (수정 7/29 10:20)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a688bb0065bf16436e45dff"
+    },
+    {
+      "title": "AION2 7월 4주차 업데이트 뉴스 (수정 7/21 22:51)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a5f5f40065bf16436e45cba"
+    },
+    {
+      "title": "AION2 서버 이전 안내 (수정 7/21 22:13)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a58b9b035ca3417c585f4b0"
+    },
+    {
+      "title": "[안내] 챕터1 2차 서버 매칭 (수정 7/15 11:27)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a5616b0e2307f62bca6bce1"
+    },
+    {
+      "title": "AION2 7월 3주차 업데이트 뉴스",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a5616b0e2307f62bca6bcdf"
+    },
+    {
+      "title": "AION2 서버 이전 일정 연기 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a50b490e2307f62bca6bc6d"
+    },
+    {
+      "title": "AION2 7월 2주차 업데이트 뉴스",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a4cdc3035ca3417c585f2d6"
+    },
+    {
+      "title": "[안내] 챕터1 1차 서버 매칭",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a43a408c61e9832651f8ef6"
+    },
+    {
+      "title": "AION2 시즌3 랭킹 보상 안내",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a3d14bccd660b7fb4e881fa"
+    },
+    {
+      "title": "AION2 6월 4주차 업데이트 뉴스",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a3a6730f7d5e442c498b772"
+    },
+    {
+      "title": "AION2 6월 3주차 업데이트 뉴스",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a313610f5d2136968f71dc1"
+    },
+    {
+      "title": "[안내] 세번째 시즌 5차 서버 매칭",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a312cb0acb6f821e1a76bf6"
+    },
+    {
+      "title": "AION2 6월 2주차 업데이트 뉴스",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a27f2301846ff309ba461f0"
+    },
+    {
+      "title": "AION2 6월 1주차 업데이트 뉴스 (수정 6/2 22:05)",
+      "date": "",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a1eccc870a9d9546295dd32"
+    }
+  ]
 }
