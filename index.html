@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BUSON2 - 아이온2 효율 연구소</title>
+<meta name="description" content="아이온2 버스 기사, 본부, 부캐 버스의 키나·오드·시간 효율을 계산하고 저장하세요.">
+<style>
+:root{--bg:#090b10;--panel:#111621;--line:#263043;--text:#eef4ff;--muted:#93a0b5;--green:#8df0bd;--gold:#ffd980}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#12192a,#090b10 43%);color:var(--text);font-family:Inter,system-ui,-apple-system,"Pretendard","Malgun Gothic",sans-serif}
+button,input,select{font:inherit}.wrap{max-width:1180px;margin:auto;padding:0 18px}
+header{position:sticky;top:0;z-index:10;background:rgba(9,11,16,.9);backdrop-filter:blur(14px);border-bottom:1px solid #1d2430}
+.top{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#6fa4ff,#7f6dff);display:grid;place-items:center;font-weight:900}
+.brand b{font-size:21px}.brand small{display:block;color:var(--muted);margin-top:2px}
+nav{display:flex;gap:8px;flex-wrap:wrap}.tab{border:1px solid var(--line);background:#111621;color:#aab5c7;border-radius:10px;padding:9px 13px;cursor:pointer}.tab.active{color:#fff;background:#1d2940;border-color:#5574a7}
+main{padding:40px 0 70px}.hero{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}.hero h1{font-size:38px;line-height:1.15;margin:7px 0 10px}.hero p{margin:0;color:var(--muted);line-height:1.7}
+.eyebrow{color:var(--green);font-weight:800;letter-spacing:.08em;font-size:13px}.ver{padding:8px 11px;border-radius:999px;background:#112218;border:1px solid #315240;color:#9df4bd;font-size:12px;white-space:nowrap}
+.card{background:linear-gradient(180deg,#171e2b,#0f141d);border:1px solid var(--line);border-radius:18px;overflow:hidden}.head{padding:18px 20px;border-bottom:1px solid var(--line)}.head h2{margin:0;font-size:18px}.head p{margin:6px 0 0;color:var(--muted);font-size:13px}.body{padding:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}label{display:block;color:#cad4e3;font-size:13px;margin-bottom:7px}.iwrap{position:relative}
+input,select{width:100%;background:#0c1119;color:#fff;border:1px solid #2b3548;border-radius:11px;padding:12px 62px 12px 13px;outline:none}select{padding-right:12px}
+input:focus,select:focus{border-color:#5787d3;box-shadow:0 0 0 3px rgba(87,135,211,.12)}.unit{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:12px;color:#718096}
+.driver-config{margin-top:15px;padding:15px;border:1px dashed #3a4a63;border-radius:14px;background:#0b1018}.driver-config h3{margin:0 0 13px;font-size:15px}
+.driver-blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.driver-block{padding:12px;border:1px solid #283449;border-radius:12px;background:#101722}.driver-block b{display:block;margin-bottom:9px}
+.actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer}.primary{color:#fff;background:linear-gradient(135deg,#6fa4ff,#7d72ff)}.secondary{color:#d3def0;background:#151c28;border:1px solid #303a4d}.success{background:#163321;color:#9ef4bd;border:1px solid #315b40}
+.saved{margin-top:10px;min-height:18px;font-size:12px;color:var(--green)}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px}.metric{background:#0d131c;border:1px solid #293347;border-radius:14px;padding:15px}.metric .k{font-size:12px;color:var(--muted);margin-bottom:7px}.metric .v{font-size:22px;font-weight:900}.metric .s{font-size:12px;color:#8495ad;margin-top:5px}.green{color:var(--green)}.gold{color:var(--gold)}
+.note{margin-top:14px;padding:13px 14px;border:1px solid #283449;background:#0b1018;border-radius:12px;color:#96a5bb;font-size:12px;line-height:1.65}
+table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;border-bottom:1px solid #252e3e;text-align:left;font-size:13px}th{color:#8fa0b8}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;background:#182943;color:#a9c8ff}
+.hidden{display:none!important}.coming{padding:48px;text-align:center;color:var(--muted)}.coming b{display:block;color:#fff;font-size:24px;margin-bottom:8px}footer{border-top:1px solid #1e2632;padding:24px 0 40px;color:#728097;font-size:12px}
+@media(max-width:860px){.grid2,.fields{grid-template-columns:1fr}.driver-blocks{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.top{padding:14px 0;align-items:flex-start;flex-direction:column}nav{width:100%;overflow:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.hero h1{font-size:31px}}
+</style>
+</head>
+<body>
+<header><div class="wrap top">
+<div class="brand"><div class="logo">B2</div><div><b>BUSON2</b><small>아이온2 효율 연구소</small></div></div>
+<nav>
+<button class="tab active" data-page="driver">버스 기사</button>
+<button class="tab" data-page="sub">부캐 버스</button>
+<button class="tab" data-page="main">본부</button>
+<button class="tab" data-page="compare">파밍 비교</button>
+</nav>
+</div></header>
+
+<main class="wrap">
+<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>아이온2 파밍 효율을<br>방식별로 따로 관리해보세요.</h1><p>기사 수와 각 기사별 수금 판수를 직접 정하면 A → B → C 순서로 반복 계산합니다.</p></div><div class="ver">● MVP v7.5</div></section>
+
+<section id="page-driver">
+<div class="grid2">
+<div class="card"><div class="head"><h2>🚌 버스 기사 설정</h2><p>던전을 선택하면 한 판 기본 키나와 소비 오드가 자동으로 함께 설정됩니다.</p></div><div class="body">
+<div class="fields">
+<div><label>한 판 기본 획득 키나</label><select id="d_income">
+<option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
+<option value="2010000" data-ode="80">타데바 보통 - 201만</option>
+<option value="1800000" data-ode="60">타데바 어려움 - 180만</option>
+<option value="3600000" data-ode="120">타데바 어려움 - 360만</option>
+<option value="810000" data-ode="40">푸섬, 환영 보통 - 81만</option>
+<option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
+<option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
+<option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+</select></div>
+<div><label>한 판 소비 키나</label><div class="iwrap"><input id="d_cost" class="money" value="0"><span class="unit">키나</span></div></div>
+<div><label>한 판 소비 오드</label><select id="d_ode">
+<option value="0" selected>0 오드</option>
+<option value="40">40 오드</option>
+<option value="60">60 오드</option>
+<option value="80">80 오드</option>
+<option value="120">120 오드</option>
+</select></div>
+<div><label>한 판 소요시간</label><div class="iwrap"><input id="d_minutes" value="0"><span class="unit">분</span></div></div>
+<div><label>손님 1명당 버스비</label><div class="iwrap"><input id="d_fare" class="money" value="0"><span class="unit">키나</span></div></div>
+<div><label>손님 수</label><div class="iwrap"><input id="d_passengers" value="0"><span class="unit">명</span></div></div>
+<div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
+<div><label>내 기사</label><select id="d_myDriver"></select></div>
+<div><label>계산할 총 판수</label><div class="iwrap"><input id="d_runs" value="0"><span class="unit">판</span></div></div>
+<div><label>보유 오드</label><div class="iwrap"><input id="d_ownedOde" value="0"><span class="unit">오드</span></div></div>
+</div>
+
+<div class="driver-config">
+<h3>🔁 기사별 수금 판수 설정</h3>
+<div id="driverBlocks" class="driver-blocks"></div>
+<div class="note" id="rotationNote"></div>
+</div>
+
+<div class="actions"><button class="btn primary" onclick="calcDriver()">계산하기</button><button class="btn secondary" onclick="saveTab('driver')">버스 기사 저장</button><button class="btn success" onclick="loadTab('driver')">버스 기사 불러오기</button></div>
+<div class="saved" id="msg_driver"></div>
+</div></div>
+
+<div class="card"><div class="head"><h2>버스 기사 결과</h2><p>선택한 기사 기준으로 계산합니다.</p></div><div class="body">
+<div class="metrics">
+<div class="metric"><div class="k">평균 한 판 순수익</div><div class="v green" id="d_avg">-</div><div class="s" id="d_avg_short"></div></div>
+<div class="metric"><div class="k">설정 판수 총 순수익</div><div class="v" id="d_total">-</div><div class="s" id="d_total_short"></div></div>
+<div class="metric"><div class="k">오드 1당 순수익</div><div class="v" id="d_perOde">-</div><div class="s">평균 기준</div></div>
+<div class="metric"><div class="k">시간당 순수익</div><div class="v gold" id="d_hour">-</div><div class="s" id="d_hour_short"></div></div>
+<div class="metric"><div class="k">내가 수금하는 판수</div><div class="v" id="d_paidRuns">-</div><div class="s">설정 판수 내</div></div>
+<div class="metric"><div class="k">총 수금 버스비</div><div class="v" id="d_fareTotal">-</div><div class="s">선택 기사 기준</div></div>
+</div>
+<table><thead><tr><th>판</th><th>수금 기사</th><th>내 버스비 수금</th><th>내 순수익</th></tr></thead><tbody id="d_table"></tbody></table>
+</div></div>
+</div>
+</section>
+
+<section id="page-main" class="hidden">
+<div class="grid2">
+<div class="card"><div class="head"><h2>⚔️ 본부 설정</h2></div><div class="body"><div class="fields">
+<div><label>한 판 획득 기본 키나</label><select id="m_income">
+<option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
+<option value="2010000" data-ode="80">타데바 보통 - 201만</option>
+<option value="1800000" data-ode="60">타데바 어려움 - 180만</option>
+<option value="3600000" data-ode="120">타데바 어려움 - 360만</option>
+<option value="810000" data-ode="40">푸섬, 환영 보통 - 81만</option>
+<option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
+<option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
+<option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+</select></div>
+<div><label>한 판 소비 키나</label><div class="iwrap"><input id="m_cost" class="money" value="0"><span class="unit">키나</span></div></div>
+<div><label>한 판 소비 오드</label><select id="m_ode">
+<option value="0" selected>0 오드</option>
+<option value="40">40 오드</option>
+<option value="60">60 오드</option>
+<option value="80">80 오드</option>
+<option value="120">120 오드</option>
+</select></div>
+<div><label>한 판 소요시간</label><div class="iwrap"><input id="m_minutes" value="0"><span class="unit">분</span></div></div>
+<div><label>계산할 판수</label><div class="iwrap"><input id="m_runs" value="0"><span class="unit">판</span></div></div>
+<div><label>보유 오드</label><div class="iwrap"><input id="m_ownedOde" value="0"><span class="unit">오드</span></div></div>
+</div><div class="actions"><button class="btn primary" onclick="calcSimple('m')">계산하기</button><button class="btn secondary" onclick="saveTab('main')">본부 저장</button><button class="btn success" onclick="loadTab('main')">본부 불러오기</button></div><div class="saved" id="msg_main"></div></div></div>
+<div class="card"><div class="head"><h2>본부 결과</h2></div><div class="body"><div class="metrics" id="m_metrics"></div></div></div>
+</div></section>
+
+<section id="page-sub" class="hidden">
+<div class="grid2">
+<div class="card"><div class="head"><h2>🎒 부캐 버스 설정</h2></div><div class="body"><div class="fields">
+<div><label>한 판 획득 기본 키나</label><select id="s_income">
+<option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
+<option value="2010000" data-ode="80">타데바 보통 - 201만</option>
+<option value="1800000" data-ode="60">타데바 어려움 - 180만</option>
+<option value="3600000" data-ode="120">타데바 어려움 - 360만</option>
+<option value="810000" data-ode="40">푸섬, 환영 보통 - 81만</option>
+<option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
+<option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
+<option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+</select></div>
+<div><label>한 판 버스비/소비 키나</label><div class="iwrap"><input id="s_cost" class="money" value="0"><span class="unit">키나</span></div></div>
+<div><label>한 판 소비 오드</label><select id="s_ode">
+<option value="0" selected>0 오드</option>
+<option value="40">40 오드</option>
+<option value="60">60 오드</option>
+<option value="80">80 오드</option>
+<option value="120">120 오드</option>
+</select></div>
+<div><label>한 판 소요시간</label><div class="iwrap"><input id="s_minutes" value="0"><span class="unit">분</span></div></div>
+<div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" value="0"><span class="unit">판</span></div></div>
+<div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" value="0"><span class="unit">오드</span></div></div>
+</div><div class="actions"><button class="btn primary" onclick="calcSimple('s')">계산하기</button><button class="btn secondary" onclick="saveTab('sub')">부캐 버스 저장</button><button class="btn success" onclick="loadTab('sub')">부캐 버스 불러오기</button></div><div class="saved" id="msg_sub"></div></div></div>
+<div class="card"><div class="head"><h2>부캐 버스 결과</h2></div><div class="body"><div class="metrics" id="s_metrics"></div></div></div>
+</div></section>
+
+<section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
+
+</main>
+
+<footer><div class="wrap">BUSON2 · 계산 결과는 입력값과 실제 게임 운영 방식에 따라 달라질 수 있습니다.</div></footer>
+
+<script>
+const $=s=>document.querySelector(s);
+const parseNum=v=>Number(String(v ?? '').replace(/,/g,''))||0;
+const val=id=>{const el=document.getElementById(id);return el?parseNum(el.value):0};
+const nf=n=>Math.round(Number(n)||0).toLocaleString('ko-KR');
+const money=n=>nf(n)+' 키나';
+function short(n){const a=Math.abs(n);if(a>=100000000)return(n/100000000).toFixed(a>=1000000000?1:2).replace(/\.0+$/,'')+'억 키나';if(a>=10000)return(n/10000).toFixed(a>=1000000?0:1).replace(/\.0$/,'')+'만 키나';return money(n)}
+function formatMoneyInput(el){const raw=String(el.value).replace(/[^\d-]/g,'');if(raw===''||raw==='-'){el.value=raw;return}const n=Number(raw);if(Number.isFinite(n))el.value=n.toLocaleString('ko-KR')}
+document.querySelectorAll('.money').forEach(el=>{el.addEventListener('input',()=>formatMoneyInput(el));el.addEventListener('blur',()=>formatMoneyInput(el))});
+
+function syncOdeFromDungeon(prefix){
+ const incomeSel=$('#'+prefix+'_income');
+ const odeSel=$('#'+prefix+'_ode');
+ if(!incomeSel||!odeSel)return;
+ const opt=incomeSel.options[incomeSel.selectedIndex];
+ if(opt && opt.dataset.ode!==undefined) odeSel.value=opt.dataset.ode;
+}
+function renderDrivers(preserve=true){
+ const count=Math.max(1,Math.min(3,Number($('#d_driverCount').value)||1));
+ const old={};
+ if(preserve){document.querySelectorAll('[data-block-driver]').forEach(x=>old[x.dataset.blockDriver]=x.value)}
+ const names=['A','B','C'];
+
+ const previous=$('#d_myDriver').value;
+ $('#d_myDriver').innerHTML=names.slice(0,count).map(n=>`<option value="${n}">기사 ${n}</option>`).join('');
+ if(names.slice(0,count).includes(previous))$('#d_myDriver').value=previous;
+
+ if(count===2){
+   $('#driverBlocks').innerHTML=names.slice(0,2).map(n=>`
+   <div class="driver-block">
+     <b>기사 ${n}</b>
+     <label>연속 수금 판수</label>
+     <div class="iwrap"><input id="d_block${n}" data-block-driver="${n}" value="${old[n]??0}"><span class="unit">판</span></div>
+   </div>`).join('');
+   $('#rotationNote').textContent='기사 A가 설정한 판수만큼 수금한 뒤 기사 B가 설정한 판수만큼 수금하고, 다시 A → B 순서로 반복합니다.';
+   document.querySelectorAll('[data-block-driver]').forEach(x=>x.addEventListener('input',calcDriver));
+ }else{
+   $('#driverBlocks').innerHTML='';
+   if(count===1){
+     $('#rotationNote').textContent='기사 1명이 모든 판의 손님에게 계속 수금합니다. 연속 수금 판수 설정은 필요하지 않습니다.';
+   }else{
+     $('#rotationNote').textContent='기사 3명은 A → B → C 순서로 1판씩 번갈아 수금하는 방식으로 계산합니다.';
+   }
+ }
+ calcDriver();
+}
+function getDriverConfig(){
+ const count=Math.max(1,Math.min(3,Number($('#d_driverCount').value)||1));
+ if(count===1) return [{name:'A',block:1}];
+ if(count===2){
+   return ['A','B'].map(n=>({name:n,block:Math.max(0,Math.floor(val('d_block'+n)))}));
+ }
+ return [{name:'A',block:1},{name:'B',block:1},{name:'C',block:1}];
+}
+function calcDriver(){
+ const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fare=val('d_fare'),passengers=Math.max(0,Math.floor(val('d_passengers')));
+ const mine=$('#d_myDriver').value||'A',runs=Math.max(0,Math.floor(val('d_runs'))),cfg=getDriverConfig();
+ const schedule=[]; cfg.forEach(x=>{for(let i=0;i<x.block;i++)schedule.push(x.name)});
+ let total=0,paidRuns=0,fareTotal=0,rows=[];
+ if(runs>0){
+   for(let i=0;i<runs;i++){
+     const receiver=schedule.length?schedule[i%schedule.length]:'-';
+     const myFare=receiver===mine?fare*passengers:0;
+     if(myFare){paidRuns++;fareTotal+=myFare}
+     const net=income+myFare-cost;
+     total+=net;
+     if(i<24)rows.push(`<tr><td>${i+1}판</td><td>${receiver==='-'?'-':`<span class="badge">기사 ${receiver}</span>`}</td><td>${money(myFare)}</td><td>${money(net)}</td></tr>`)
+   }
+ }
+ const avg=runs?total/runs:0,perOde=ode?avg/ode:0,hour=mins?avg*60/mins:0;
+ $('#d_avg').textContent=money(avg);$('#d_avg_short').textContent=short(avg);$('#d_total').textContent=money(total);$('#d_total_short').textContent=short(total);$('#d_perOde').textContent=money(perOde);$('#d_hour').textContent=money(hour);$('#d_hour_short').textContent=short(hour)+'/시간';$('#d_paidRuns').textContent=nf(paidRuns)+' 판';$('#d_fareTotal').textContent=money(fareTotal);$('#d_table').innerHTML=rows.join('');
+}
+function simpleStats(p){const income=val(p+'_income'),cost=val(p+'_cost'),ode=val(p+'_ode'),mins=val(p+'_minutes'),runs=Math.max(0,Math.floor(val(p+'_runs'))),owned=val(p+'_ownedOde'),net=income-cost,perOde=ode?net/ode:0,hour=mins?net*60/mins:0,total=net*runs,possible=ode?Math.floor(owned/ode):0;return{income,cost,ode,mins,runs,owned,net,perOde,hour,total,possible,possibleProfit:possible*net}}
+function calcSimple(p){const x=simpleStats(p);$('#'+p+'_metrics').innerHTML=`<div class="metric"><div class="k">한 판 순수익</div><div class="v green">${money(x.net)}</div><div class="s">${short(x.net)}</div></div><div class="metric"><div class="k">오드 1당 순수익</div><div class="v">${money(x.perOde)}</div><div class="s">오드 효율</div></div><div class="metric"><div class="k">시간당 순수익</div><div class="v gold">${money(x.hour)}</div><div class="s">${short(x.hour)}/시간</div></div><div class="metric"><div class="k">${x.runs}판 총 순수익</div><div class="v">${money(x.total)}</div><div class="s">${short(x.total)}</div></div><div class="metric"><div class="k">보유 오드로 가능한 판수</div><div class="v">${nf(x.possible)} 판</div><div class="s">오드 ${nf(x.owned)}</div></div><div class="metric"><div class="k">보유 오드 예상 순수익</div><div class="v">${money(x.possibleProfit)}</div><div class="s">${short(x.possibleProfit)}</div></div>`}
+
+function fieldsFor(tab){
+ if(tab==='driver'){
+   const arr=['d_income','d_cost','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs','d_ownedOde'];
+   if(Number($('#d_driverCount').value)===2){
+     arr.push('d_blockA','d_blockB');
+   }
+   return arr;
+ }
+ if(tab==='main')return['m_income','m_cost','m_ode','m_minutes','m_runs','m_ownedOde'];
+ return['s_income','s_cost','s_ode','s_minutes','s_runs','s_ownedOde'];
+}
+function saveTab(tab){const data={};fieldsFor(tab).forEach(id=>data[id]=$('#'+id).value);try{localStorage.setItem('buson2-v5-'+tab,JSON.stringify(data));const msg=$('#msg_'+tab);msg.textContent='✓ '+({driver:'버스 기사',main:'본부',sub:'부캐 버스'}[tab])+' 설정을 따로 저장했습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='저장에 실패했습니다.'}}
+function loadTab(tab){try{const raw=localStorage.getItem('buson2-v5-'+tab),msg=$('#msg_'+tab);if(!raw){msg.textContent='저장된 설정이 없습니다.';return}const d=JSON.parse(raw);
+ if(tab==='driver'){
+   $('#d_driverCount').value=d.d_driverCount||1;
+   renderDrivers(false);
+   Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+   if(Number($('#d_driverCount').value)===2){
+     renderDrivers(true);
+     Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+   }
+   calcDriver();
+ }else{Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});calcSimple(tab==='main'?'m':'s')}
+ document.querySelectorAll('.money').forEach(formatMoneyInput);msg.textContent='✓ 저장된 설정을 불러왔습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='불러오기에 실패했습니다.'}}
+
+function driverAverage(){
+ const cfg=getDriverConfig(),totalBlocks=cfg.reduce((a,x)=>a+x.block,0),mine=$('#d_myDriver').value||'A',myBlock=(cfg.find(x=>x.name===mine)||{block:0}).block;
+ const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fare=val('d_fare'),passengers=val('d_passengers'),net=income+(fare*passengers*(myBlock/totalBlocks))-cost;
+ return{name:'버스 기사 '+mine,net,perOde:ode?net/ode:0,hour:mins?net*60/mins:0}
+}
+function buildCompare(){const m=simpleStats('m'),s=simpleStats('s'),items=[driverAverage(),{name:'본부',net:m.net,perOde:m.perOde,hour:m.hour},{name:'부캐 버스',net:s.net,perOde:s.perOde,hour:s.hour}].sort((a,b)=>b.hour-a.hour);$('#compareBox').innerHTML=`<table><thead><tr><th>순위</th><th>방식</th><th>평균 한 판 순수익</th><th>오드 1당</th><th>시간당</th></tr></thead><tbody>${items.map((x,i)=>`<tr><td>${['🥇','🥈','🥉'][i]}</td><td>${x.name}</td><td>${money(x.net)}</td><td>${money(x.perOde)}</td><td>${money(x.hour)}</td></tr>`).join('')}</tbody></table>`}
+
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare()}));
+$('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
+['d_cost','d_minutes','d_fare','d_passengers','d_runs','d_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',calcDriver));
+$('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
+$('#d_ode').addEventListener('change',calcDriver);
+['m_cost','m_minutes','m_runs','m_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>calcSimple('m')));
+$('#m_income').addEventListener('change',()=>{syncOdeFromDungeon('m');calcSimple('m')});
+$('#m_ode').addEventListener('change',()=>calcSimple('m'));
+['s_cost','s_minutes','s_runs','s_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>calcSimple('s')));
+$('#s_income').addEventListener('change',()=>{syncOdeFromDungeon('s');calcSimple('s')});
+$('#s_ode').addEventListener('change',()=>calcSimple('s'));
+document.addEventListener('change',e=>{
+ const id=e.target && e.target.id ? e.target.id : '';
+ if(id==='d_income'){syncOdeFromDungeon('d');calcDriver()}
+ else if(id==='d_ode'){calcDriver()}
+ else if(id==='m_income'){syncOdeFromDungeon('m');calcSimple('m')}
+ else if(id==='m_ode'){calcSimple('m')}
+ else if(id==='s_income'){syncOdeFromDungeon('s');calcSimple('s')}
+ else if(id==='s_ode'){calcSimple('s')}
+});
+renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
+</script>
+</body></html>
