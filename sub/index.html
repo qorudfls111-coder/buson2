@@ -839,7 +839,7 @@ function renderNewsGroup(key, data){
 async function loadOfficialNews(force=false){
  if(newsLoaded&&!force)return;
  try{
-   const res=await fetch('./news.json?ts='+(Date.now()),{cache:'no-store'});
+   const res=await fetch('/news.json?ts='+(Date.now()),{cache:'no-store'});
    if(!res.ok)throw new Error('news.json '+res.status);
    const data=await res.json();
    ['update','notice','cm'].forEach(k=>renderNewsGroup(k,data));
@@ -1184,7 +1184,7 @@ function renderNewsGroup(key, data){
 async function loadOfficialNews(force=false){
  if(newsLoaded&&!force)return;
  try{
-   const res=await fetch('./news.json?ts='+(Date.now()),{cache:'no-store'});
+   const res=await fetch('/news.json?ts='+(Date.now()),{cache:'no-store'});
    if(!res.ok)throw new Error('news.json '+res.status);
    const data=await res.json();
    ['update','notice','cm'].forEach(k=>renderNewsGroup(k,data));
