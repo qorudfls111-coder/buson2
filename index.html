@@ -192,8 +192,35 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 @media(max-width:860px){.dungeon-toolbar,.dungeon-grid{grid-template-columns:1fr}}
 
 @media(max-width:860px){.grid2,.fields{grid-template-columns:1fr}.driver-blocks{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.top{padding:14px 0;align-items:flex-start;flex-direction:column}nav{width:100%;overflow:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.hero h1{font-size:31px}}
-</style>
+/* PC 레이아웃 복구 */
+main.wrap{
+  display:block !important;
+}
 
+.hero{
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  margin:0 0 20px 0 !important;
+}
+
+#page-noticehub,
+#page-dungeon,
+#page-spec,
+#page-driver,
+#page-sub,
+#page-main,
+#page-compare{
+  width:100% !important;
+  max-width:none !important;
+}
+
+.card{
+  box-sizing:border-box;
+}
+  
+</style>
+  
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://buson2.com/">
 <meta property="og:type" content="website">
