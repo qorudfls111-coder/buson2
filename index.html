@@ -1176,4 +1176,17 @@ SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
 calcSpec();
 $('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
 </script>
+window.addEventListener('load', function () {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get('tab') === 'spec') {
+    const specButton = document.querySelector('.tab[data-page="spec"]');
+
+    if (specButton) {
+      specButton.click();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+});
+</script>
 </body></html>
