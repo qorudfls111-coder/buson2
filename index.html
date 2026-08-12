@@ -1169,37 +1169,6 @@ let newsLoaded=false;
 function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
-function renderNewsGroup(key, data){
- const box=$('#news-'+key), updated=$('#updated-'+key);
- if(!box)return;
- const items=Array.isArray(data?.[key])?data[key]:[];
- updated.textContent=data?.updated_at ? '최근 확인 '+data.updated_at : '아직 자동 수집 전';
- if(!items.length){
-   box.innerHTML='<div class="news-empty">아직 수집된 게시물이 없습니다. GitHub Actions를 한 번 실행해주세요.</div>';
-   return;
- }
- box.innerHTML=items.map(item=>`
-   <a class="news-item" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
-     <div class="news-title">${escapeHtml(item.title)}</div>
-     <div class="news-meta"><span>${escapeHtml(item.datetime||item.date||'날짜 확인 중')}</span><span>공식 원문 ↗</span></div>
-   </a>`).join('');
-}
-async function loadOfficialNews(force=false){
- if(newsLoaded&&!force)return;
- try{
-   const res=await fetch('./news.json?ts='+(Date.now()),{cache:'no-store'});
-   if(!res.ok)throw new Error('news.json '+res.status);
-   const data=await res.json();
-   ['update','notice','cm'].forEach(k=>renderNewsGroup(k,data));
-   newsLoaded=true;
- }catch(err){
-   ['update','notice','cm'].forEach(k=>{
-     const box=$('#news-'+k), updated=$('#updated-'+k);
-     if(box)box.innerHTML='<div class="news-empty">자동 수집 데이터를 불러오지 못했습니다.</div>';
-     if(updated)updated.textContent='연결 확인 필요';
-   });
- }
-}
 
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
