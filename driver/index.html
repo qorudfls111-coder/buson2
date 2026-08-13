@@ -233,7 +233,335 @@ main.wrap{
 .card{
   box-sizing:border-box;
 }
-  
+  /* ===== BUSON2 DRIVER GUIDE ===== */
+
+.driver-guide{
+  margin-top:28px;
+  padding:26px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top right,rgba(59,130,246,.10),transparent 35%),
+    linear-gradient(180deg,#111c2e,#0e1726);
+}
+
+.driver-guide-head{
+  margin-bottom:24px;
+}
+
+.driver-guide-badge{
+  display:inline-block;
+  padding:5px 10px;
+  margin-bottom:12px;
+  border:1px solid #3577d4;
+  border-radius:999px;
+  color:#60a5fa;
+  background:#0b1a2f;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+}
+
+.driver-guide-head h2{
+  margin:0 0 10px;
+  color:#f8fafc;
+  font-size:24px;
+  line-height:1.35;
+}
+
+.driver-guide-head p{
+  margin:0;
+  max-width:900px;
+  color:#9fb0c8;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.driver-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.driver-guide-card{
+  min-height:240px;
+  padding:22px 18px;
+  border:1px solid #293b55;
+  border-radius:14px;
+  background:linear-gradient(180deg,#142033,#0e1725);
+  transition:transform .18s ease,border-color .18s ease;
+}
+
+.driver-guide-card:hover{
+  transform:translateY(-3px);
+  border-color:#3b82f6;
+}
+
+.driver-guide-icon{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:18px;
+  border-radius:13px;
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
+}
+
+.driver-guide-card.purple .driver-guide-icon{
+  background:linear-gradient(135deg,#7c3aed,#6366f1);
+  box-shadow:0 0 22px rgba(124,58,237,.35);
+}
+
+.driver-guide-card.green .driver-guide-icon{
+  background:linear-gradient(135deg,#059669,#22c55e);
+  box-shadow:0 0 22px rgba(34,197,94,.30);
+}
+
+.driver-guide-card.orange .driver-guide-icon{
+  background:linear-gradient(135deg,#d97706,#f59e0b);
+  box-shadow:0 0 22px rgba(245,158,11,.30);
+}
+
+.driver-guide-card.blue .driver-guide-icon{
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  box-shadow:0 0 22px rgba(59,130,246,.30);
+}
+
+.driver-guide-card h3{
+  margin:0 0 12px;
+  color:#f8fafc;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.driver-guide-card p{
+  margin:0;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* 사용 방법 */
+
+.driver-steps{
+  margin-top:18px;
+  padding:22px 24px;
+  border:1px solid #263b57;
+  border-radius:16px;
+  background:linear-gradient(180deg,#151e2d,#111927);
+}
+
+.driver-steps-title{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.driver-steps-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
+  border-radius:10px;
+  color:#fff;
+  background:#296fd7;
+  font-weight:900;
+}
+
+.driver-steps-title h2{
+  margin:0 0 4px;
+  color:#f8fafc;
+  font-size:18px;
+}
+
+.driver-steps-title p{
+  margin:0;
+  color:#91a3bb;
+  font-size:13px;
+}
+
+.driver-step-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:18px;
+}
+
+.driver-step-grid div{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 14px;
+  border:1px solid #26354c;
+  border-radius:10px;
+  background:#101826;
+  color:#cbd6e6;
+  font-size:13px;
+}
+
+.driver-step-grid b{
+  color:#5798ff;
+  font-size:12px;
+}
+
+
+/* FAQ */
+
+.driver-faq{
+  margin-top:18px;
+  padding:24px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top left,rgba(59,130,246,.08),transparent 30%),
+    #111c2e;
+}
+
+.driver-faq-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.driver-faq-icon{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+}
+
+.driver-faq-title small{
+  display:block;
+  margin-bottom:2px;
+  color:#60a5fa;
+  font-size:10px;
+  font-weight:800;
+}
+
+.driver-faq-title h2{
+  margin:0;
+  color:#f8fafc;
+  font-size:20px;
+}
+
+.driver-faq details{
+  margin-top:9px;
+  overflow:hidden;
+  border:1px solid #293d5a;
+  border-radius:12px;
+  background:#0c1624;
+}
+
+.driver-faq summary{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 16px;
+  color:#f1f5f9;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  list-style:none;
+}
+
+.driver-faq summary::-webkit-details-marker{
+  display:none;
+}
+
+.driver-faq summary::after{
+  content:"⌄";
+  margin-left:auto;
+  color:#60a5fa;
+  font-size:17px;
+  transition:transform .2s ease;
+}
+
+.driver-faq details[open] summary::after{
+  transform:rotate(180deg);
+}
+
+.driver-q{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#2563eb;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+
+.driver-answer{
+  padding:0 56px 17px;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* 모바일 */
+
+@media(max-width:850px){
+  .driver-guide-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .driver-guide{
+    padding:18px 14px;
+    border-radius:14px;
+  }
+
+  .driver-guide-head h2{
+    font-size:20px;
+  }
+
+  .driver-guide-grid{
+    grid-template-columns:1fr;
+  }
+
+  .driver-guide-card{
+    min-height:auto;
+  }
+
+  .driver-steps{
+    padding:18px;
+  }
+
+  .driver-step-grid{
+    grid-template-columns:1fr;
+  }
+
+  .driver-faq{
+    padding:18px 14px;
+  }
+
+  .driver-faq-title h2{
+    font-size:17px;
+  }
+
+  .driver-answer{
+    padding:0 16px 16px;
+  }
+}
 </style>
   
 <meta name="robots" content="index,follow">
@@ -694,13 +1022,155 @@ main.wrap{
 </div></section>
 
 <section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
+<!-- ===== BUSON2 버스 기사 가이드 시작 ===== -->
+
+<section class="driver-guide">
+
+  <div class="driver-guide-head">
+    <span class="driver-guide-badge">BUSON2 GUIDE</span>
+    <h2>아이온2 버스 기사 수익 계산 가이드</h2>
+    <p>
+      버스 기사 운영 시 받는 키나와 소비 오드, 버스비, 소요시간을 함께 계산해
+      판당 순수익과 시간당 효율을 비교할 수 있습니다.
+      현재 파티 구성에 맞는 값을 입력하고 어떤 방식이 더 효율적인지 확인해보세요.
+    </p>
+  </div>
+
+  <div class="driver-guide-grid">
+
+    <div class="driver-guide-card purple">
+      <div class="driver-guide-icon">₭</div>
+      <h3>판당 순수익 확인</h3>
+      <p>
+        던전에서 획득하는 키나와 버스 참가자에게 받는 버스비를 합산하고
+        지출 비용을 제외하여 실제 판당 순수익을 확인합니다.
+      </p>
+    </div>
+
+    <div class="driver-guide-card green">
+      <div class="driver-guide-icon">◆</div>
+      <h3>오드 효율 비교</h3>
+      <p>
+        한 판에 소비되는 오드를 기준으로
+        같은 오드를 사용했을 때 어떤 운영 방식이 더 많은 키나를
+        얻을 수 있는지 비교할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="driver-guide-card orange">
+      <div class="driver-guide-icon">⇄</div>
+      <h3>버스비까지 계산</h3>
+      <p>
+        단순 던전 보상뿐 아니라 참가자에게 받는 버스비를 포함해
+        실제 버스 기사 운영에서 얻는 수익을 계산합니다.
+      </p>
+    </div>
+
+    <div class="driver-guide-card blue">
+      <div class="driver-guide-icon">▦</div>
+      <h3>시간당 수익 확인</h3>
+      <p>
+        판당 소요시간과 반복 횟수를 함께 고려해
+        총수익뿐 아니라 시간당 어느 정도의 키나를 벌 수 있는지도
+        확인할 수 있습니다.
+      </p>
+    </div>
+
+  </div>
+
+</section>
 
 
+<section class="driver-steps">
+
+  <div class="driver-steps-title">
+    <span class="driver-steps-icon">✓</span>
+    <div>
+      <h2>버스 기사 계산기 사용 방법</h2>
+      <p>현재 게임 내 버스 파티 구성에 맞는 값을 입력하면 자동으로 계산됩니다.</p>
+    </div>
+  </div>
+
+  <div class="driver-step-grid">
+
+    <div>
+      <b>01</b>
+      <span>버스 파티 정보 입력</span>
+    </div>
+
+    <div>
+      <b>02</b>
+      <span>버스비 · 오드 · 시간 입력</span>
+    </div>
+
+    <div>
+      <b>03</b>
+      <span>순수익과 효율 확인</span>
+    </div>
+
+  </div>
+
+</section>
 
 
+<section class="driver-faq">
 
+  <div class="driver-faq-title">
+    <span class="driver-faq-icon">?</span>
+    <div>
+      <small>FAQ</small>
+      <h2>아이온2 버스 기사 계산기 자주 묻는 질문</h2>
+    </div>
+  </div>
 
+  <details>
+    <summary>
+      <span class="driver-q">Q1</span>
+      버스 기사 수익은 어떻게 계산하나요?
+    </summary>
+    <div class="driver-answer">
+      던전에서 기본적으로 획득하는 키나와 버스 참가자에게 받는 금액을 합산한 뒤
+      운영 과정에서 발생하는 비용을 제외하여 예상 순수익을 계산합니다.
+    </div>
+  </details>
 
+  <details>
+    <summary>
+      <span class="driver-q">Q2</span>
+      오드까지 같이 비교해야 하나요?
+    </summary>
+    <div class="driver-answer">
+      네. 같은 키나를 벌더라도 더 많은 오드를 사용한다면 효율이 낮을 수 있습니다.
+      키나 수익과 함께 오드 소비량을 비교하는 것이 좋습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="driver-q">Q3</span>
+      시간당 수익은 왜 중요한가요?
+    </summary>
+    <div class="driver-answer">
+      판당 수익이 높더라도 클리어 시간이 길다면 실제 시간 효율은 낮을 수 있습니다.
+      여러 운영 방식을 비교할 때 판당 수익과 시간당 수익을 함께 확인해보세요.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="driver-q">Q4</span>
+      계산 결과가 실제 게임 수익과 완전히 같나요?
+    </summary>
+    <div class="driver-answer">
+      계산기는 입력한 값을 기준으로 예상 수익을 계산합니다.
+      실제 플레이에서는 클리어 시간, 파티 구성, 버스비 및 게임 상황에 따라
+      결과가 달라질 수 있습니다.
+    </div>
+  </details>
+
+</section>
+
+<!-- ===== BUSON2 버스 기사 가이드 끝 ===== -->
 
 </main>
 
