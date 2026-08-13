@@ -444,6 +444,9 @@ main.wrap{
           <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" value="0"></div>
           <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" value="0"></div>
           <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
+          <div><label>무기 최소 공격력 <span class="muted">완벽/최공 계산용</span></label><input id="sp_weapon_min" value="0"></div>
+          <div><label>무기 최대 공격력 <span class="muted">완벽/최공 계산용</span></label><input id="sp_weapon_max" value="0"></div>
+          <div><label>옷장 무기 공격력 증가 % <span class="muted">최공 계산용</span></label><input id="sp_wardrobe_weapon" value="0"></div>
           <div class="breakthrough-box">
             <label>장비 돌파 단계별 부위 수 <span class="muted">돌파 단계만큼 공격력 % 적용</span></label>
             <div class="breakthrough-grid">
@@ -465,6 +468,7 @@ main.wrap{
           <div><label>전방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_front" value="0"></div>
           <div><label>후방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_back" value="0"></div>
           <div><label>강타 % <span class="max-roll smash">펫 맥옵 2.4%</span></label><input id="sp_smash" value="0"></div>
+          <div><label>완벽 % <span class="muted">최대 공격력 적용 확률</span></label><input id="sp_perfect" value="0"></div>
           <div><label>PVE 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_pve" value="0"></div>
           <div><label>보스 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_boss" value="0"></div>
         </div>
@@ -503,12 +507,13 @@ main.wrap{
           <div><label>대상 치명타 저항 %</label><input id="sp_target_crit_resist" value="0"></div>
           <div><label>대상 피해 내성 %</label><input id="sp_target_dmg_resist" value="0"></div>
           <div><label>대상 치명타 피해 내성 %</label><input id="sp_target_critdmg_resist" value="0"></div>
+          <div><label>대상 완벽 저항 % <span class="muted">실효 완벽 차감용</span></label><input id="sp_target_perfect_resist" value="0"></div>
           <div><label>확정 치명 스킬 비중 %</label><input id="sp_guaranteed_crit_share" value="0"></div>
         </div>
 
         <div class="calc-trust-note">
           <b>계산 기준</b>
-          <span>피해증폭·PVE·보스피증은 합산 후 대상 피해내성을 반영합니다. 전/후방은 실제 유지율로 가중 평균합니다.</span>
+          <span>피해증폭·PVE·보스피증은 합산 후 대상 피해내성을 반영합니다. 전/후방은 실제 유지율로 가중 평균하며, 완벽은 입력한 무기 최소~최대 공격력 범위를 이용한 실측 기반 근사치입니다.</span>
           <span class="trust-warn">무기 피해 증폭·공격력 효율은 장비 공격력/보스 방어력 정보가 없으면 근사 비교값입니다.</span>
         </div>
 
@@ -575,7 +580,7 @@ main.wrap{
             </div>
             <div id="sp_maxroll_eff" class="maxroll-grid"></div>
             <div class="maxroll-note">
-              기준: 피해증폭·PVE·보스·치피증·전/후방 3.0%, 무피증·강타 2.4%.
+              기준: 피해증폭·PVE·보스·치피증·전/후방 3.0%, 무피증·강타 2.4%, 추가 공격력 +16, 최대 공격력 +20.
               피해증폭/PVE/보스는 각 200% 상한을 적용합니다.
             </div>
           </div>
@@ -2055,6 +2060,11 @@ main.wrap{
   .maxroll-grid{grid-template-columns:repeat(2,1fr)}
 }
 
+
+/* 완벽 / 추공 / 최공 계산용 */
+#page-spec .calc-trust-note .trust-warn{line-height:1.55}
+.maxroll-card .mr-status{min-height:28px}
+
 </style>
 </main>
 
@@ -2417,9 +2427,9 @@ async function loadOfficialNews(force=false){
 
 
 const SPEC_IDS=[
- 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
- 'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_pve','sp_boss',
- 'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_guaranteed_crit_share'
+ 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_wardrobe_weapon','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
+ 'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_perfect','sp_pve','sp_boss',
+ 'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
 
@@ -2429,7 +2439,7 @@ function sv(id){return Number($('#'+id)?.value||0)}
 function getSpec(){
  return {
   attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
-  destroy:sv('sp_destroy'), power:sv('sp_power'),
+  destroy:sv('sp_destroy'), power:sv('sp_power'), weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), wardrobeWeapon:sv('sp_wardrobe_weapon'),
   breakthroughBonus:
     sv('sp_break5')*5 +
     sv('sp_break4')*4 +
@@ -2437,13 +2447,14 @@ function getSpec(){
     sv('sp_break2')*2 +
     sv('sp_break1')*1,
   dmg:sv('sp_dmg'), weapon:sv('sp_weapon'), critDmg:sv('sp_critdmg'),
-  front:sv('sp_front'), back:sv('sp_back'), smash:sv('sp_smash'), pve:sv('sp_pve'), boss:sv('sp_boss'),
+  front:sv('sp_front'), back:sv('sp_back'), smash:sv('sp_smash'), perfect:sv('sp_perfect'), pve:sv('sp_pve'), boss:sv('sp_boss'),
   critRate:clamp(sv('sp_crit_rate'),0,80), direction:($('#sp_direction')?.value||'back'), fbRate:clamp(sv('sp_fb_rate'),0,100),
   smashResist:clamp(sv('sp_smash_resist'),0,100),
   partySmash:sv('sp_party_smash'), partyDmg:sv('sp_party_dmg'),
   targetCritResist:clamp(sv('sp_target_crit_resist'),0,100),
   targetDmgResist:clamp(sv('sp_target_dmg_resist'),0,100),
   targetCritDmgResist:clamp(sv('sp_target_critdmg_resist'),0,100),
+  targetPerfectResist:clamp(sv('sp_target_perfect_resist'),0,100),
   guaranteedCritShare:clamp(sv('sp_guaranteed_crit_share'),0,100)
  }
 }
@@ -2452,7 +2463,27 @@ function getSpec(){
 // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
 // 예: +5돌 1부위 = +5%, +3돌 2부위 = +6%.
 // 돌파분은 장비 귀속으로 보고 장비 해제 공격력에는 제외.
-function deriveAttack(s, flatGearAdd=0){
+function perfectData(s){
+ const min=Math.max(0,s.weaponMin||0);
+ const max=Math.max(min,s.weaponMax||0);
+ const hasRange=max>min && min>0;
+ const chance=clamp((s.perfect||0)-(s.targetPerfectResist||0),0,100)/100;
+
+ if(!hasRange){
+   return {hasRange:false,chance,factor:1,min,max,avg:0};
+ }
+
+ const avg=(min+max)/2;
+ const expected=avg*(1-chance)+max*chance;
+ const factor=avg>0?expected/avg:1;
+
+ return {hasRange:true,chance,factor,min,max,avg};
+}
+
+// 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
+// 추가 공격력은 공격력 증가 효과를 받고, 최대 공격력은 현재 완벽 확률과
+// 무기 피해 증폭/옷장 무기 공격력 증가를 반영한 실측 기반 근사 비교값으로 계산.
+function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=0){
  const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthroughBonus)/100;
  const offInc=1+(s.destroy*0.2+s.power*0.1)/100;
 
@@ -2462,13 +2493,35 @@ function deriveAttack(s, flatGearAdd=0){
 
  const baseAttack=baseRaw*wornInc;
  const gearAttack=(gearRaw+flatGearAdd)*wornInc;
- const effectiveAttack=baseAttack + gearAttack*(1+s.weapon/100);
+ const perfect=perfectData(s);
 
- return {wornInc,offInc,baseRaw,gearRaw,baseAttack,gearAttack,effectiveAttack};
+ // 기존 계산기의 공격력 비교값
+ const coreAttack=baseAttack + gearAttack*(1+s.weapon/100);
+
+ // 추가 공격력: 공증 적용, 무피증은 적용하지 않는 비교 모델
+ const additionalDelta=extraAdditionalAttack*wornInc;
+
+ // 최대 공격력: 비완벽 구간에서는 평균적으로 절반, 완벽 구간에서는 전부 기여.
+ // 무피증과 옷장 무기 공격력 증가를 받는다는 실측을 반영.
+ const maxWeight=0.5+(0.5*perfect.chance);
+ const maxDelta=
+   extraMaxAttack *
+   wornInc *
+   (1+s.weapon/100) *
+   (1+(s.wardrobeWeapon||0)/100) *
+   maxWeight;
+
+ // 완벽은 무기 최소~최대 범위의 평균값 대비 최대값 적용 확률로 근사.
+ const perfectAdjustedCore=coreAttack*perfect.factor;
+ const effectiveAttack=perfectAdjustedCore+additionalDelta+maxDelta;
+
+ return {
+   wornInc,offInc,baseRaw,gearRaw,baseAttack,gearAttack,
+   coreAttack,effectiveAttack,additionalDelta,maxDelta,perfect
+ };
 }
-
-function totalMultiplier(s, flatGearAdd=0){
- const a=deriveAttack(s,flatGearAdd);
+function totalMultiplier(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=0){
+ const a=deriveAttack(s,flatGearAdd,extraAdditionalAttack,extraMaxAttack);
 
  const cappedDmg=clamp(s.dmg,0,200);
  const cappedPve=clamp(s.pve,0,200);
@@ -2496,7 +2549,7 @@ function totalMultiplier(s, flatGearAdd=0){
  const mixedTotal=normalTotal*(1-share)+guaranteedTotal*share;
 
  return {
-  attack:a,general,fbExpected,smashExpected,smashChance,
+  attack:a,general,fbExpected,smashExpected,smashChance,perfectExpected:a.perfect.factor,perfectChance:a.perfect.chance,
   normalCritChance,normalCritExpected,guaranteedCritExpected,
   normalTotal,guaranteedTotal,mixedTotal,total:mixedTotal
  };
@@ -2538,6 +2591,7 @@ function calcSpec(){
    `일반 치명 × ${base.normalCritExpected.toFixed(3)} (${(base.normalCritChance*100).toFixed(1)}%)`,
    `확정 치명 × ${base.guaranteedCritExpected.toFixed(3)}`,
    `강타 × ${base.smashExpected.toFixed(3)} (실발동 ${(base.smashChance*100).toFixed(1)}%)`,
+   `완벽 × ${base.perfectExpected.toFixed(3)} (실발동 ${(base.perfectChance*100).toFixed(1)}%)`,
    `방향피증 × ${base.fbExpected.toFixed(3)} (${s.direction==='back'?'후방':'전방'} ${s.fbRate.toFixed(0)}%)`
  ].map(x=>`<span class="pill">${x}</span>`).join('');
 
@@ -2549,13 +2603,14 @@ function calcSpec(){
 function renderRankings(){
  const s=getSpec();
  const base=totalMultiplier(s);
- const pctStep=Math.max(0.1,Number($('#sp_invest_pct')?.value||10));
- const attackStep=Math.max(1,Number($('#sp_invest_attack')?.value||100));
+ const pctStep=1;
+ const attackStep=10;
 
  const tests=[
    {key:'front',name:'전방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,front:t.front+pctStep})},
    {key:'back',name:'후방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,back:t.back+pctStep})},
    {key:'smash',name:'강타',amount:pctStep,unit:'%',apply:t=>({...t,smash:t.smash+pctStep})},
+   {key:'perfect',name:'완벽',amount:pctStep,unit:'%',apply:t=>({...t,perfect:t.perfect+pctStep})},
    {key:'weapon',name:'무기 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,weapon:t.weapon+pctStep})},
    {key:'critDmg',name:'치명타 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,critDmg:t.critDmg+pctStep})},
    {key:'dmg',name:'피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,dmg:t.dmg+pctStep})},
@@ -2593,6 +2648,9 @@ function renderRankings(){
    </div>`).join('');
 
  const warnings=[];
+ if(!(s.weaponMax>s.weaponMin && s.weaponMin>0)){
+   warnings.push('완벽·최대 공격력 효율을 계산하려면 무기 최소 공격력과 최대 공격력을 입력해주세요.');
+ }
  const effectiveSmash=s.smash+s.partySmash-s.smashResist;
  const smashRemain=Math.max(0,100-effectiveSmash);
 
@@ -2619,21 +2677,28 @@ function renderRankings(){
  warningEl.classList.toggle('show',warnings.length>0);
 
  const maxRollTests=[
-   {name:'피해 증폭',roll:3.0,apply:t=>({...t,dmg:Math.min(200,t.dmg+3.0)}),capped:s.dmg>=200},
-   {name:'PVE 피해 증폭',roll:3.0,apply:t=>({...t,pve:Math.min(200,t.pve+3.0)}),capped:s.pve>=200},
-   {name:'보스 피해 증폭',roll:3.0,apply:t=>({...t,boss:Math.min(200,t.boss+3.0)}),capped:s.boss>=200},
-   {name:'무기 피해 증폭',roll:2.4,apply:t=>({...t,weapon:t.weapon+2.4})},
-   {name:'치명타 피해 증폭',roll:3.0,apply:t=>({...t,critDmg:t.critDmg+3.0})},
-   {name:'전방 피해 증폭',roll:3.0,apply:t=>({...t,front:t.front+3.0})},
-   {name:'후방 피해 증폭',roll:3.0,apply:t=>({...t,back:t.back+3.0})},
-   {name:'강타',roll:2.4,apply:t=>({...t,smash:t.smash+2.4})}
+   {name:'피해 증폭',roll:3.0,unit:'%',apply:t=>({...t,dmg:Math.min(200,t.dmg+3.0)}),capped:s.dmg>=200},
+   {name:'PVE 피해 증폭',roll:3.0,unit:'%',apply:t=>({...t,pve:Math.min(200,t.pve+3.0)}),capped:s.pve>=200},
+   {name:'보스 피해 증폭',roll:3.0,unit:'%',apply:t=>({...t,boss:Math.min(200,t.boss+3.0)}),capped:s.boss>=200},
+   {name:'무기 피해 증폭',roll:2.4,unit:'%',apply:t=>({...t,weapon:t.weapon+2.4})},
+   {name:'치명타 피해 증폭',roll:3.0,unit:'%',apply:t=>({...t,critDmg:t.critDmg+3.0})},
+   {name:'전방 피해 증폭',roll:3.0,unit:'%',apply:t=>({...t,front:t.front+3.0})},
+   {name:'후방 피해 증폭',roll:3.0,unit:'%',apply:t=>({...t,back:t.back+3.0})},
+   {name:'강타',roll:2.4,unit:'%',apply:t=>({...t,smash:t.smash+2.4})},
+   {name:'추가 공격력',roll:16,unit:'',kind:'additionalAttack'},
+   {name:'최대 공격력',roll:20,unit:'',kind:'maxAttack'}
  ];
 
  const mrBase=scoreByMode(base,currentRankMode);
  const mrRows=maxRollTests.map(t=>{
-   const next=totalMultiplier(t.apply(s));
-   const gain=gainPct(mrBase,scoreByMode(next,currentRankMode));
-   return {...t,gain};
+   let next;
+   if(t.kind==='additionalAttack') next=totalMultiplier(s,0,16,0);
+   else if(t.kind==='maxAttack') next=totalMultiplier(s,0,0,20);
+   else next=totalMultiplier(t.apply(s));
+   let gain=gainPct(mrBase,scoreByMode(next,currentRankMode));
+   const unavailable=t.kind==='maxAttack' && !base.attack.perfect.hasRange;
+   if(unavailable) gain=-1;
+   return {...t,gain,unavailable};
  }).sort((a,b)=>b.gain-a.gain);
 
  const mrBox=$('#sp_maxroll_eff');
@@ -2641,9 +2706,9 @@ function renderRankings(){
    mrBox.innerHTML=mrRows.map((r,i)=>`
      <div class="maxroll-card ${i===0?'best':''}">
        <div class="mr-name">${i===0?'🏆 ':''}${escapeHtml(r.name)}</div>
-       <div class="mr-roll">맥옵 +${r.roll.toFixed(1)}%</div>
-       <div class="mr-gain">+${r.gain.toFixed(2)}%</div>
-       <div class="mr-status">${r.capped?'상한 도달':'현재 세팅 기준 예상 딜 상승'}</div>
+       <div class="mr-roll">맥옵 +${Number.isInteger(r.roll)?r.roll:r.roll.toFixed(1)}${r.unit||""}</div>
+       <div class="mr-gain">${r.unavailable?"—":"+"+r.gain.toFixed(2)+"%"}</div>
+       <div class="mr-status">${r.kind==='maxAttack'&&!base.attack.perfect.hasRange?'무기 최소/최대 입력 필요':(r.capped?'상한 도달':'현재 세팅 기준 예상 딜 상승')}</div>
      </div>
    `).join('');
  }
@@ -2957,8 +3022,6 @@ document.querySelectorAll('.rank-tab').forEach(btn=>btn.addEventListener('click'
  currentRankMode=btn.dataset.rankMode;
  renderRankings();
 }));
-$('#sp_invest_pct')?.addEventListener('change',renderRankings);
-$('#sp_invest_attack')?.addEventListener('change',renderRankings);
 $('#sp_save_a')?.addEventListener('click',()=>saveAB('a'));
 $('#sp_save_b')?.addEventListener('click',()=>saveAB('b'));
 
