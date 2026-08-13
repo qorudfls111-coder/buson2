@@ -278,9 +278,14 @@ main.wrap{
           <option value="2" selected>마족</option>
         </select>
 
-        <select id="char-server">
-          <option value="2002">지켈</option>
-        </select>
+<select id="char-race">
+  <option value="1">천족</option>
+  <option value="2" selected>마족</option>
+</select>
+
+<select id="char-server">
+  <option value="">전체 서버</option>
+</select>
 
         <input
           id="char-keyword"
@@ -2306,7 +2311,71 @@ window.addEventListener('load', function () {
     }
 
   }
+const AION2_SERVERS = [
+  { race: 1, id: 1001, name: '시엘' },
+  { race: 1, id: 1002, name: '네자칸' },
+  { race: 1, id: 1003, name: '바이젤' },
+  { race: 1, id: 1004, name: '카이시넬' },
+  { race: 1, id: 1005, name: '유스티엘' },
+  { race: 1, id: 1006, name: '아리엘' },
+  { race: 1, id: 1007, name: '프레기온' },
+  { race: 1, id: 1008, name: '메스람타에다' },
+  { race: 1, id: 1009, name: '히타니에' },
+  { race: 1, id: 1010, name: '나니아' },
+  { race: 1, id: 1011, name: '타하바타' },
+  { race: 1, id: 1012, name: '루터스' },
+  { race: 1, id: 1013, name: '페르노스' },
+  { race: 1, id: 1014, name: '다미누' },
+  { race: 1, id: 1015, name: '카사카' },
+  { race: 1, id: 1016, name: '바카르마' },
+  { race: 1, id: 1017, name: '챈가룽' },
+  { race: 1, id: 1018, name: '코치룽' },
+  { race: 1, id: 1019, name: '이슈타르' },
+  { race: 1, id: 1020, name: '티아마트' },
+  { race: 1, id: 1021, name: '포에타' },
 
+  { race: 2, id: 2001, name: '이스라펠' },
+  { race: 2, id: 2002, name: '지켈' },
+  { race: 2, id: 2003, name: '트리니엘' },
+  { race: 2, id: 2004, name: '루미엘' },
+  { race: 2, id: 2005, name: '마르쿠탄' },
+  { race: 2, id: 2006, name: '아스펠' },
+  { race: 2, id: 2007, name: '에레슈키갈' },
+  { race: 2, id: 2008, name: '브리트라' },
+  { race: 2, id: 2009, name: '네몬' },
+  { race: 2, id: 2010, name: '하달' },
+  { race: 2, id: 2011, name: '루드라' },
+  { race: 2, id: 2012, name: '울고른' },
+  { race: 2, id: 2013, name: '무닌' },
+  { race: 2, id: 2014, name: '오다르' },
+  { race: 2, id: 2015, name: '젠카카' },
+  { race: 2, id: 2016, name: '크로메데' },
+  { race: 2, id: 2017, name: '콰이링' },
+  { race: 2, id: 2018, name: '바바룽' },
+  { race: 2, id: 2019, name: '파프니르' },
+  { race: 2, id: 2020, name: '인드나흐' },
+  { race: 2, id: 2021, name: '이스할겐' }
+];
+
+function updateServerOptions() {
+  const selectedRace = Number(raceEl.value);
+
+  serverEl.innerHTML = '<option value="">전체 서버</option>';
+
+  AION2_SERVERS
+    .filter(server => server.race === selectedRace)
+    .forEach(server => {
+      const option = document.createElement('option');
+      option.value = String(server.id);
+      option.textContent = server.name;
+      serverEl.appendChild(option);
+    });
+}
+
+raceEl.addEventListener('change', updateServerOptions);
+
+/* 처음 페이지 열었을 때 현재 종족 기준 서버 목록 생성 */
+updateServerOptions();
   searchBtn.addEventListener('click', searchCharacter);
 
   keywordEl.addEventListener('keydown', function (event) {
