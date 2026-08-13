@@ -232,7 +232,319 @@ main.wrap{
 .card{
   box-sizing:border-box;
 }
-  
+  /* ===== BUSON2 부캐 버스 가이드 디자인 ===== */
+
+.sub-guide{
+  margin-top:28px;
+  padding:24px;
+  border:1px solid #304563;
+  border-radius:16px;
+  background:linear-gradient(135deg,#142239 0%,#101a2a 100%);
+}
+
+.sub-guide-head{
+  margin-bottom:20px;
+}
+
+.sub-guide-badge{
+  display:inline-block;
+  margin-bottom:9px;
+  padding:5px 9px;
+  border:1px solid #3478d4;
+  border-radius:999px;
+  background:#10284b;
+  color:#58a6ff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+.sub-guide-head h2{
+  margin:0 0 8px;
+  color:#f4f8ff;
+  font-size:21px;
+  line-height:1.35;
+}
+
+.sub-guide-head p{
+  margin:0;
+  color:#9fb6ce;
+  font-size:13px;
+  line-height:1.75;
+}
+
+.sub-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:18px;
+}
+
+.sub-guide-card{
+  min-width:0;
+  padding:15px;
+  border:1px solid #314762;
+  border-radius:12px;
+  background:#101b2c;
+  transition:.18s ease;
+}
+
+.sub-guide-card:hover{
+  transform:translateY(-3px);
+  border-color:#4d6d93;
+  background:#132238;
+}
+
+.sub-guide-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:38px;
+  height:38px;
+  margin-bottom:12px;
+  border-radius:10px;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  box-shadow:0 0 18px rgba(55,130,255,.25);
+}
+
+.sub-guide-card.purple .sub-guide-icon{
+  background:linear-gradient(135deg,#725cff,#5546df);
+}
+
+.sub-guide-card.green .sub-guide-icon{
+  background:linear-gradient(135deg,#20c77a,#11a967);
+}
+
+.sub-guide-card.orange .sub-guide-icon{
+  background:linear-gradient(135deg,#ffa600,#e88600);
+}
+
+.sub-guide-card.blue .sub-guide-icon{
+  background:linear-gradient(135deg,#4098ff,#2876dc);
+}
+
+.sub-guide-card h3{
+  margin:0 0 8px;
+  color:#f3f7ff;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.sub-guide-card p{
+  margin:0;
+  color:#9eb4ca;
+  font-size:12px;
+  line-height:1.7;
+}
+
+
+/* ===== 사용 방법 ===== */
+
+.sub-steps{
+  margin-top:14px;
+  padding:18px 20px;
+  border:1px solid #304563;
+  border-radius:14px;
+  background:#142136;
+}
+
+.sub-steps-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.sub-steps-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 34px;
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  background:#2f88f5;
+  color:#fff;
+  font-weight:900;
+}
+
+.sub-steps-title h2{
+  margin:0 0 3px;
+  color:#f5f8ff;
+  font-size:16px;
+}
+
+.sub-steps-title p{
+  margin:0;
+  color:#8fa9c5;
+  font-size:11px;
+}
+
+.sub-step-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.sub-step-grid div{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border:1px solid #304563;
+  border-radius:8px;
+  background:#101b2c;
+  color:#dbe9f8;
+  font-size:11px;
+  font-weight:700;
+}
+
+.sub-step-grid b{
+  color:#4d9cff;
+  font-size:11px;
+}
+
+
+/* ===== FAQ ===== */
+
+.sub-faq{
+  margin-top:14px;
+  padding:20px;
+  border:1px solid #304563;
+  border-radius:14px;
+  background:#142136;
+}
+
+.sub-faq-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.sub-faq-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 34px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#2f88f5;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+
+.sub-faq-title small{
+  display:block;
+  margin-bottom:2px;
+  color:#6daeff;
+  font-size:9px;
+  font-weight:900;
+}
+
+.sub-faq-title h2{
+  margin:0;
+  color:#f5f8ff;
+  font-size:18px;
+}
+
+.sub-faq details{
+  margin-top:7px;
+  overflow:hidden;
+  border:1px solid #304563;
+  border-radius:9px;
+  background:#101b2c;
+}
+
+.sub-faq summary{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:11px 12px;
+  color:#edf5ff;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  list-style:none;
+}
+
+.sub-faq summary::-webkit-details-marker{
+  display:none;
+}
+
+.sub-faq summary::after{
+  content:"⌄";
+  margin-left:auto;
+  color:#58a6ff;
+  font-size:15px;
+  transition:.2s;
+}
+
+.sub-faq details[open] summary::after{
+  transform:rotate(180deg);
+}
+
+.sub-q{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 27px;
+  width:27px;
+  height:27px;
+  border-radius:50%;
+  background:#287de7;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+}
+
+.sub-answer{
+  padding:0 15px 14px 48px;
+  color:#9fb5cc;
+  font-size:12px;
+  line-height:1.7;
+}
+
+
+/* ===== 모바일 ===== */
+
+@media(max-width:860px){
+
+  .sub-guide{
+    padding:18px 14px;
+  }
+
+  .sub-guide-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .sub-step-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+
+  .sub-guide-grid{
+    grid-template-columns:1fr;
+  }
+
+  .sub-guide-head h2{
+    font-size:18px;
+  }
+
+  .sub-faq{
+    padding:16px 12px;
+  }
+
+  .sub-answer{
+    padding:0 12px 13px;
+  }
+}
 </style>
   
 </head>
@@ -686,13 +998,153 @@ main.wrap{
 
 <section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
 
+<!-- ===== BUSON2 부캐 버스 가이드 시작 ===== -->
+
+<section class="sub-guide">
+
+  <div class="sub-guide-head">
+    <span class="sub-guide-badge">BUSON2 GUIDE</span>
+    <h2>아이온2 부캐 버스·오드 효율 계산 가이드</h2>
+    <p>
+      부캐 버스를 탈 때 사용하는 키나와 오드, 획득 키나, 소요시간을 함께 계산해
+      실제 순수익과 오드 효율을 비교할 수 있습니다.
+      여러 육성 방식 중 어떤 방법이 더 효율적인지 확인해보세요.
+    </p>
+  </div>
+
+  <div class="sub-guide-grid">
+
+    <div class="sub-guide-card purple">
+      <div class="sub-guide-icon">₭</div>
+      <h3>부캐 버스 순수익</h3>
+      <p>
+        던전에서 획득하는 키나에서 버스비를 제외해
+        실제로 남는 판당 순수익을 확인할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="sub-guide-card green">
+      <div class="sub-guide-icon">◆</div>
+      <h3>오드 사용 효율</h3>
+      <p>
+        판당 소비되는 오드를 기준으로
+        같은 오드를 사용했을 때 어떤 방식이 더 많은 키나를
+        얻는지 비교할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="sub-guide-card orange">
+      <div class="sub-guide-icon">⇄</div>
+      <h3>버스비까지 반영</h3>
+      <p>
+        단순 던전 보상만 비교하지 않고 실제로 지불하는 버스비까지 포함하여
+        부캐 육성에 들어가는 비용을 계산합니다.
+      </p>
+    </div>
+
+    <div class="sub-guide-card blue">
+      <div class="sub-guide-icon">▦</div>
+      <h3>시간당 효율 비교</h3>
+      <p>
+        판당 소요시간과 반복 횟수를 고려해
+        총 키나뿐 아니라 시간당 수익과 육성 효율도 비교할 수 있습니다.
+      </p>
+    </div>
+
+  </div>
+
+</section>
 
 
+<section class="sub-steps">
+
+  <div class="sub-steps-title">
+    <span class="sub-steps-icon">✓</span>
+    <div>
+      <h2>부캐 버스 계산기 사용 방법</h2>
+      <p>현재 부캐 버스 조건에 맞는 값을 입력하면 자동으로 결과가 계산됩니다.</p>
+    </div>
+  </div>
+
+  <div class="sub-step-grid">
+
+    <div>
+      <b>01</b>
+      <span>획득 키나·버스비 입력</span>
+    </div>
+
+    <div>
+      <b>02</b>
+      <span>오드·소요시간 입력</span>
+    </div>
+
+    <div>
+      <b>03</b>
+      <span>순수익·효율 확인</span>
+    </div>
+
+  </div>
+
+</section>
 
 
+<section class="sub-faq">
 
+  <div class="sub-faq-title">
+    <span class="sub-faq-icon">?</span>
+    <div>
+      <small>FAQ</small>
+      <h2>아이온2 부캐 버스 계산기 자주 묻는 질문</h2>
+    </div>
+  </div>
 
+  <details>
+    <summary>
+      <span class="sub-q">Q1</span>
+      부캐 버스 순수익은 어떻게 계산하나요?
+    </summary>
+    <div class="sub-answer">
+      던전에서 획득하는 키나에서 실제로 지불하는 버스비를 제외해
+      예상 판당 순수익을 계산합니다.
+    </div>
+  </details>
 
+  <details>
+    <summary>
+      <span class="sub-q">Q2</span>
+      키나만 비교하면 안 되나요?
+    </summary>
+    <div class="sub-answer">
+      같은 키나를 벌더라도 사용하는 오드와 소요시간이 다르면 효율도 달라질 수 있습니다.
+      키나, 오드, 시간을 함께 비교하는 것이 좋습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="sub-q">Q3</span>
+      어떤 부캐 육성 방식이 가장 효율적인가요?
+    </summary>
+    <div class="sub-answer">
+      현재 버스비, 획득 키나, 오드 소비량과 플레이 시간에 따라 달라집니다.
+      각각의 조건을 입력해 실제 순수익과 시간당 효율을 비교해보세요.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="sub-q">Q4</span>
+      계산 결과가 실제 수익과 완전히 같나요?
+    </summary>
+    <div class="sub-answer">
+      계산 결과는 입력한 값을 기준으로 한 예상치입니다.
+      실제 게임에서는 클리어 시간, 버스비, 파티 구성과 운영 방식에 따라 달라질 수 있습니다.
+    </div>
+  </details>
+
+</section>
+
+<!-- ===== BUSON2 부캐 버스 가이드 끝 ===== -->
 </main>
 
 <footer><div class="wrap">BUSON2 · 계산 결과는 입력값과 실제 게임 운영 방식에 따라 달라질 수 있습니다.</div></footer>
