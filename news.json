@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-13 09:03 KST",
+  "updated_at": "2026-08-13 14:52 KST",
   "update": [
     {
       "title": "[안내] 8/12(수) 업데이트 노트 (수정 8/12 20:14)",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 일부 AOS 환경에서 게임 종료 후 재 실행 시 정상적으로 실행되지 않는 현상",
+      "date": "2026-08-13",
+      "time": "02:25",
+      "datetime": "2026-08-13 02:25",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7d28a4eea53f5d6dbcf29b"
+    },
+    {
       "title": "[안내] 8/12(수) 크래시 현상 개선을 위한 무점검 패치 사전 안내 (완료)",
       "date": "2026-08-12",
       "time": "10:22",
@@ -165,7 +172,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7c19f0a279104f7d9d5693"
     },
     {
-      "title": "[안내] 8월 2주차 알려진 이슈 및 조치 안내 (수정 8/12 20:14)",
+      "title": "[안내] 8월 2주차 알려진 이슈 및 조치 안내 (수정 8/13 13:09)",
       "date": "2026-08-12",
       "time": "01:50",
       "datetime": "2026-08-12 01:50",
@@ -261,13 +268,6 @@
       "time": "11:33",
       "datetime": "2026-08-06 11:33",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7470eceea53f5d6dbcf178"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [263차]",
-      "date": "2026-08-05",
-      "time": "07:22",
-      "datetime": "2026-08-05 07:22",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a72e498a279104f7d9d557a"
     }
   ],
   "cm": [
