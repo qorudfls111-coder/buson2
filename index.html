@@ -513,15 +513,49 @@ main.wrap{
 
         <div class="pill-row" id="sp_expectations"></div>
 
-        <div class="rank-tabs">
-          <button class="rank-tab active" data-rank-mode="mixed">내 딜사이클</button>
-          <button class="rank-tab" data-rank-mode="normal">일반 스킬</button>
-          <button class="rank-tab" data-rank-mode="guaranteed">확정 치명</button>
+        <div class="invest-panel">
+          <div class="invest-panel-head">
+            <div>
+              <b>💎 스펙 투자 효율</b>
+              <span>같은 투자량을 올렸을 때 예상 딜 상승률을 비교합니다.</span>
+            </div>
+            <div class="invest-controls">
+              <label>
+                % 스탯 증가량
+                <select id="sp_invest_pct">
+                  <option value="1">+1%</option>
+                  <option value="5">+5%</option>
+                  <option value="10" selected>+10%</option>
+                  <option value="20">+20%</option>
+                </select>
+              </label>
+              <label>
+                공격력 증가량
+                <select id="sp_invest_attack">
+                  <option value="10">+10</option>
+                  <option value="50">+50</option>
+                  <option value="100" selected>+100</option>
+                  <option value="200">+200</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div id="sp_invest_summary" class="invest-summary"></div>
+
+          <div class="rank-tabs">
+            <button class="rank-tab active" data-rank-mode="mixed">내 딜사이클</button>
+            <button class="rank-tab" data-rank-mode="normal">일반 스킬</button>
+            <button class="rank-tab" data-rank-mode="guaranteed">확정 치명</button>
+          </div>
+
+          <div id="sp_rankings" class="eff-list"></div>
+          <div id="sp_invest_warning" class="invest-warning"></div>
         </div>
-        <div id="sp_rankings" class="eff-list"></div>
 
         <div class="note" style="margin-top:14px">
-          표시값은 절대 데미지가 아니라 현재 세팅에서 어떤 옵션을 더 올렸을 때 상대적으로 효율이 높은지 비교하기 위한 지표입니다.
+          표시값은 절대 데미지가 아니라 현재 세팅 기준의 상대적 기대 딜 변화량입니다.
+          투자량을 +1%, +5%, +10%, +20%로 바꿔보면 스탯 증가 구간에 따라 효율 순위가 어떻게 달라지는지도 확인할 수 있습니다.
         </div>
       </div>
     </div>
@@ -1830,6 +1864,37 @@ main.wrap{
   }
 }
 
+
+/* ===== 스펙 투자 효율 강화 ===== */
+.invest-panel{margin-top:18px;padding:16px;border:1px solid #2a3c56;border-radius:14px;background:radial-gradient(circle at top right,rgba(120,94,255,.08),transparent 35%),#0d1521}
+.invest-panel-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:14px}
+.invest-panel-head>div:first-child{display:flex;flex-direction:column;gap:4px}
+.invest-panel-head b{color:#f4f8ff;font-size:16px}
+.invest-panel-head span{color:#879bb4;font-size:11px}
+.invest-controls{display:flex;gap:8px;flex-wrap:wrap}
+.invest-controls label{margin:0;color:#8fa4bd;font-size:10px}
+.invest-controls select{min-width:105px;margin-top:5px;padding:8px 10px;border-radius:9px}
+.invest-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.invest-best-card{padding:13px;border:1px solid #2c3b51;border-radius:11px;background:#101925}
+.invest-best-card.first{border-color:#39795a;background:linear-gradient(180deg,#12251c,#0d1813)}
+.invest-best-card .rank{color:#7f93ab;font-size:10px;font-weight:900}
+.invest-best-card .name{margin-top:5px;color:#f5f9ff;font-size:13px;font-weight:900}
+.invest-best-card .gain{margin-top:7px;color:#8df0bd;font-size:18px;font-weight:950}
+.invest-best-card .unitgain{margin-top:3px;color:#8296af;font-size:10px}
+.eff-row{padding:8px 9px;border:1px solid transparent;border-radius:10px}
+.eff-value-wrap{text-align:right}
+.eff-value-wrap .eff-value{display:block}
+.eff-value-wrap small{display:block;margin-top:2px;color:#7588a1;font-size:9px}
+.invest-warning{display:none;margin-top:12px;padding:10px 12px;border:1px solid #554b2a;border-radius:10px;background:#221d0f;color:#e8cf80;font-size:11px;line-height:1.55}
+.invest-warning.show{display:block}
+@media(max-width:760px){
+  .invest-panel-head{align-items:flex-start;flex-direction:column}
+  .invest-controls{width:100%}
+  .invest-controls label{flex:1}
+  .invest-controls select{width:100%}
+  .invest-summary{grid-template-columns:1fr}
+}
+
 </style>
 </main>
 
@@ -2306,32 +2371,75 @@ function calcSpec(){
 function renderRankings(){
  const s=getSpec();
  const base=totalMultiplier(s);
+ const pctStep=Math.max(0.1,Number($('#sp_invest_pct')?.value||10));
+ const attackStep=Math.max(1,Number($('#sp_invest_attack')?.value||100));
+
  const tests=[
-   {name:'전방 피해 증폭', apply:t=>({...t,front:t.front+1})},
-   {name:'후방 피해 증폭', apply:t=>({...t,back:t.back+1})},
-   {name:'강타', apply:t=>({...t,smash:t.smash+1})},
-   {name:'무기 피해 증폭', apply:t=>({...t,weapon:t.weapon+1})},
-   {name:'치명타 피해 증폭', apply:t=>({...t,critDmg:t.critDmg+1})},
-   {name:'피해 증폭', apply:t=>({...t,dmg:t.dmg+1})},
-   {name:'PVE 피해 증폭', apply:t=>({...t,pve:t.pve+1})},
-   {name:'보스 피해 증폭', apply:t=>({...t,boss:t.boss+1})},
-   {name:'공격력 +10', flat:10}
+   {key:'front',name:'전방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,front:t.front+pctStep})},
+   {key:'back',name:'후방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,back:t.back+pctStep})},
+   {key:'smash',name:'강타',amount:pctStep,unit:'%',apply:t=>({...t,smash:t.smash+pctStep})},
+   {key:'weapon',name:'무기 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,weapon:t.weapon+pctStep})},
+   {key:'critDmg',name:'치명타 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,critDmg:t.critDmg+pctStep})},
+   {key:'dmg',name:'피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,dmg:t.dmg+pctStep})},
+   {key:'pve',name:'PVE 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,pve:t.pve+pctStep})},
+   {key:'boss',name:'보스 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,boss:t.boss+pctStep})},
+   {key:'attack',name:'공격력',amount:attackStep,unit:'',flat:attackStep}
  ];
+
  const baseScore=scoreByMode(base,currentRankMode);
  const rows=tests.map(t=>{
-   const next=t.flat!=null ? totalMultiplier(s,t.flat) : totalMultiplier(t.apply(s));
-   return {name:t.name,gain:gainPct(baseScore,scoreByMode(next,currentRankMode))};
+   const next=t.flat!=null?totalMultiplier(s,t.flat):totalMultiplier(t.apply(s));
+   const gain=gainPct(baseScore,scoreByMode(next,currentRankMode));
+   return {...t,gain,perUnit:t.amount>0?gain/t.amount:0};
  }).sort((a,b)=>b.gain-a.gain);
 
  const max=Math.max(...rows.map(x=>x.gain),0.001);
+
  $('#sp_rankings').innerHTML=rows.map(r=>`
    <div class="eff-row">
-    <div class="eff-label">${escapeHtml(r.name)}</div>
+    <div class="eff-label">${escapeHtml(r.name)} <span class="muted">+${nf(r.amount)}${r.unit}</span></div>
     <div class="eff-track"><div class="eff-fill" style="width:${Math.max(2,r.gain/max*100)}%"></div></div>
-    <div class="eff-value">+${r.gain.toFixed(2)}%</div>
+    <div class="eff-value-wrap">
+      <span class="eff-value">+${r.gain.toFixed(2)}%</span>
+      <small>1단위당 +${r.perUnit.toFixed(3)}%</small>
+    </div>
    </div>`).join('');
-}
 
+ const top=rows.slice(0,3);
+ $('#sp_invest_summary').innerHTML=top.map((r,i)=>`
+   <div class="invest-best-card ${i===0?'first':''}">
+     <div class="rank">${i===0?'🏆 1위':i===1?'🥈 2위':'🥉 3위'}</div>
+     <div class="name">${escapeHtml(r.name)} +${nf(r.amount)}${r.unit}</div>
+     <div class="gain">+${r.gain.toFixed(2)}%</div>
+     <div class="unitgain">1단위당 +${r.perUnit.toFixed(3)}%</div>
+   </div>`).join('');
+
+ const warnings=[];
+ const effectiveSmash=s.smash+s.partySmash-s.smashResist;
+ const smashRemain=Math.max(0,100-effectiveSmash);
+
+ if(smashRemain<=0){
+   warnings.push('강타는 현재 조건에서 실발동률 100%에 도달해 추가 강타 효율이 0%입니다.');
+ }else if(smashRemain<pctStep){
+   warnings.push(`강타는 약 +${smashRemain.toFixed(1)}%까지만 현재 보스 저항 기준으로 추가 효율이 있습니다.`);
+ }
+
+ if(s.direction==='back'&&s.fbRate>=70){
+   warnings.push(`후방 유지율 ${s.fbRate.toFixed(0)}% 기준으로 후방 피해 증폭이 더 유리하게 반영됩니다.`);
+ }else if(s.direction==='front'&&s.fbRate>=70){
+   warnings.push(`전방 유지율 ${s.fbRate.toFixed(0)}% 기준으로 전방 피해 증폭이 더 유리하게 반영됩니다.`);
+ }
+
+ if(base.normalCritChance>=0.8){
+   warnings.push('일반 스킬 예상 치명타율은 현재 80% 상한으로 계산되고 있습니다.');
+ }
+
+ warnings.push('무기 피해 증폭과 공격력 효율은 장비 공격력 분리값을 사용한 근사 비교입니다.');
+
+ const warningEl=$('#sp_invest_warning');
+ warningEl.innerHTML=warnings.map(x=>'• '+escapeHtml(x)).join('<br>');
+ warningEl.classList.toggle('show',warnings.length>0);
+}
 function calcSimulator(){
  const s=getSpec();
  const base=totalMultiplier(s);
@@ -2640,6 +2748,8 @@ document.querySelectorAll('.rank-tab').forEach(btn=>btn.addEventListener('click'
  currentRankMode=btn.dataset.rankMode;
  renderRankings();
 }));
+$('#sp_invest_pct')?.addEventListener('change',renderRankings);
+$('#sp_invest_attack')?.addEventListener('change',renderRankings);
 $('#sp_save_a')?.addEventListener('click',()=>saveAB('a'));
 $('#sp_save_b')?.addEventListener('click',()=>saveAB('b'));
 
