@@ -785,7 +785,47 @@ main.wrap{
 <div class="card"><div class="head"><h2>부캐 버스 결과</h2><p>부캐 버스에서 선택한 같은 던전을 본부로 돌았을 때와 자동 비교합니다.</p></div><div class="body"><div class="metrics" id="s_metrics"></div></div></div>
 </div></section>
 
-<section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
+<section id="page-compare" class="hidden">
+  <div class="card compare-master-card">
+    <div class="head">
+      <h2>🏆 버스 · 본부 · 부캐버스 종합 비교</h2>
+      <p>각 탭에 현재 입력된 값을 같은 오드·같은 시간 기준으로 환산해 가장 효율적인 방식을 비교합니다.</p>
+    </div>
+    <div class="body">
+
+      <div class="compare-settings">
+        <div>
+          <label>비교 기준 오드</label>
+          <div class="iwrap">
+            <input id="cmp_ode_budget" value="2000">
+            <span class="unit">오드</span>
+          </div>
+        </div>
+
+        <div>
+          <label>비교 기준 시간</label>
+          <div class="iwrap">
+            <input id="cmp_hours" value="3">
+            <span class="unit">시간</span>
+          </div>
+        </div>
+
+        <div class="compare-run-action">
+          <button class="btn primary" id="cmp_run" type="button" onclick="buildCompare()">현재 입력값으로 비교</button>
+        </div>
+      </div>
+
+      <div class="compare-help">
+        버스 기사·본부·부캐 버스 탭에 입력한 현재 값을 사용합니다.
+        판당 소요시간 또는 오드가 0이면 해당 기준 순위에서는 제외됩니다.
+      </div>
+
+      <div id="compareBest" class="compare-best-grid"></div>
+      <div id="compareBox"></div>
+
+    </div>
+  </div>
+</section>
 
 <!-- BUSON2 소개 / SEO 영역 -->
 <section class="buson-info-section">
@@ -1626,6 +1666,170 @@ main.wrap{
     grid-template-columns:1fr;
   }
 }
+
+/* ===== BUSON2 종합 비교 ===== */
+.compare-master-card{
+  background:
+    radial-gradient(circle at top right,rgba(91,140,255,.08),transparent 30%),
+    linear-gradient(180deg,#171e2b,#0f141d);
+}
+
+.compare-settings{
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:12px;
+  align-items:end;
+}
+
+.compare-run-action{
+  display:flex;
+  align-items:end;
+}
+
+.compare-run-action .btn{
+  min-height:46px;
+  white-space:nowrap;
+}
+
+.compare-help{
+  margin-top:12px;
+  padding:11px 13px;
+  border:1px solid #28384f;
+  border-radius:10px;
+  background:#0c131e;
+  color:#8fa2bb;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.compare-best-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:18px;
+}
+
+.compare-best{
+  position:relative;
+  min-height:142px;
+  padding:17px;
+  border:1px solid #2b3b52;
+  border-radius:14px;
+  background:linear-gradient(180deg,#131d2c,#0d1520);
+}
+
+.compare-best.winner{
+  border-color:#397959;
+  background:
+    radial-gradient(circle at top right,rgba(78,205,140,.12),transparent 45%),
+    linear-gradient(180deg,#13231d,#0d1713);
+}
+
+.compare-best .compare-best-label{
+  color:#8497b0;
+  font-size:11px;
+  font-weight:800;
+}
+
+.compare-best .compare-best-name{
+  margin-top:7px;
+  color:#f7fbff;
+  font-size:18px;
+  font-weight:950;
+}
+
+.compare-best .compare-best-value{
+  margin-top:8px;
+  color:#8df0bd;
+  font-size:20px;
+  font-weight:950;
+}
+
+.compare-best .compare-best-sub{
+  margin-top:6px;
+  color:#879ab2;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.compare-table-wrap{
+  margin-top:18px;
+  overflow-x:auto;
+  border:1px solid #29364a;
+  border-radius:14px;
+}
+
+.compare-table-wrap table{
+  min-width:940px;
+  margin:0;
+}
+
+.compare-table-wrap th{
+  background:#111a28;
+}
+
+.compare-row-rank1{
+  background:rgba(69,154,104,.07);
+}
+
+.compare-method{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.compare-method b{
+  color:#f5f9ff;
+}
+
+.compare-method small{
+  color:#7588a1;
+  font-size:10px;
+}
+
+.compare-rank-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:34px;
+  height:28px;
+  padding:0 7px;
+  border-radius:999px;
+  background:#17243a;
+  color:#9fc4ff;
+  font-size:11px;
+  font-weight:900;
+}
+
+.compare-rank-badge.first{
+  background:#173526;
+  color:#8df0bd;
+  border:1px solid #2d6647;
+}
+
+.compare-positive{
+  color:#8df0bd;
+  font-weight:900;
+}
+
+.compare-muted{
+  color:#718198;
+}
+
+@media(max-width:760px){
+  .compare-settings{
+    grid-template-columns:1fr;
+  }
+
+  .compare-run-action .btn{
+    width:100%;
+  }
+
+  .compare-best-grid{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </main>
 
@@ -1751,12 +1955,195 @@ function loadTab(tab){try{const raw=localStorage.getItem('buson2-v5-'+tab),msg=$
  }else{Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});calcSimple(tab==='main'?'m':'s')}
  document.querySelectorAll('.money').forEach(formatMoneyInput);msg.textContent='✓ 저장된 설정을 불러왔습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='불러오기에 실패했습니다.'}}
 
-function driverAverage(){
- const cfg=getDriverConfig(),totalBlocks=cfg.reduce((a,x)=>a+x.block,0),mine=$('#d_myDriver').value||'A',myBlock=(cfg.find(x=>x.name===mine)||{block:0}).block;
- const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fare=val('d_fare'),passengers=val('d_passengers'),net=income+(fare*passengers*(myBlock/totalBlocks))-cost;
- return{name:'버스 기사 '+mine,net,perOde:ode?net/ode:0,hour:mins?net*60/mins:0}
+function selectedDungeonLabel(prefix){
+ const select=$('#'+prefix+'_income');
+ return select?.options?.[select.selectedIndex]?.textContent||'-';
 }
-function buildCompare(){const m=simpleStats('m'),s=simpleStats('s'),items=[driverAverage(),{name:'본부',net:m.net,perOde:m.perOde,hour:m.hour},{name:'부캐 버스',net:s.net,perOde:s.perOde,hour:s.hour}].sort((a,b)=>b.hour-a.hour);$('#compareBox').innerHTML=`<table><thead><tr><th>순위</th><th>방식</th><th>평균 한 판 순수익</th><th>오드 1당</th><th>시간당</th></tr></thead><tbody>${items.map((x,i)=>`<tr><td>${['🥇','🥈','🥉'][i]}</td><td>${x.name}</td><td>${money(x.net)}</td><td>${money(x.perOde)}</td><td>${money(x.hour)}</td></tr>`).join('')}</tbody></table>`}
+
+function selectedContentTypeLabel(prefix){
+ const type=$('#'+prefix+'_content_type')?.value||'expedition';
+ return type==='transcendence'?'초월':'원정';
+}
+
+function driverAverage(){
+ const cfg=getDriverConfig();
+ const totalBlocks=cfg.reduce((a,x)=>a+x.block,0);
+ const mine=$('#d_myDriver').value||'A';
+ const myBlock=(cfg.find(x=>x.name===mine)||{block:0}).block;
+ const income=val('d_income');
+ const cost=val('d_cost');
+ const ode=val('d_ode');
+ const mins=val('d_minutes');
+ const fare=val('d_fare');
+ const passengers=val('d_passengers');
+ const share=totalBlocks?myBlock/totalBlocks:0;
+ const net=income+(fare*passengers*share)-cost;
+
+ return{
+   key:'driver',
+   name:'버스 기사 '+mine,
+   type:selectedContentTypeLabel('d'),
+   dungeon:selectedDungeonLabel('d'),
+   net,
+   ode,
+   mins,
+   perOde:ode?net/ode:0,
+   hour:mins?net*60/mins:0
+ };
+}
+
+function compareItemFromSimple(prefix,name){
+ const x=simpleStats(prefix);
+ return{
+   key:prefix,
+   name,
+   type:selectedContentTypeLabel(prefix),
+   dungeon:selectedDungeonLabel(prefix),
+   net:x.net,
+   ode:x.ode,
+   mins:x.mins,
+   perOde:x.perOde,
+   hour:x.hour
+ };
+}
+
+function compareRank(items,key){
+ return [...items]
+   .filter(x=>Number.isFinite(x[key]) && x[key]>0)
+   .sort((a,b)=>b[key]-a[key]);
+}
+
+function buildCompare(){
+ const odeBudget=Math.max(0,Math.floor(val('cmp_ode_budget')||0));
+ const hours=Math.max(0,val('cmp_hours')||0);
+
+ const items=[
+   driverAverage(),
+   compareItemFromSimple('m','본부'),
+   compareItemFromSimple('s','부캐 버스')
+ ].map(x=>{
+   const odeRuns=x.ode>0?Math.floor(odeBudget/x.ode):0;
+   const odeProfit=odeRuns*x.net;
+   const timeRuns=x.mins>0?Math.floor((hours*60)/x.mins):0;
+   const timeProfit=timeRuns*x.net;
+
+   return{
+     ...x,
+     odeRuns,
+     odeProfit,
+     timeRuns,
+     timeProfit
+   };
+ });
+
+ const hourRank=compareRank(items,'hour');
+ const odeRank=compareRank(items,'perOde');
+ const budgetRank=compareRank(items,'odeProfit');
+ const timeRank=compareRank(items,'timeProfit');
+
+ function bestCard(label,rank,valueKey,valueFormat,subFn){
+   const x=rank[0];
+
+   if(!x){
+     return `<div class="compare-best">
+       <div class="compare-best-label">${label}</div>
+       <div class="compare-best-name">계산 불가</div>
+       <div class="compare-best-sub">필요한 오드/시간 값을 입력해주세요.</div>
+     </div>`;
+   }
+
+   return `<div class="compare-best winner">
+     <div class="compare-best-label">${label}</div>
+     <div class="compare-best-name">🏆 ${x.name}</div>
+     <div class="compare-best-value">${valueFormat(x[valueKey])}</div>
+     <div class="compare-best-sub">${subFn(x)}</div>
+   </div>`;
+ }
+
+ $('#compareBest').innerHTML=[
+   bestCard(
+     '시간당 효율 1위',
+     hourRank,
+     'hour',
+     money,
+     x=>`${x.type} · ${escapeHtml(x.dungeon)}`
+   ),
+   bestCard(
+     `오드 ${nf(odeBudget)} 기준 총수익 1위`,
+     budgetRank,
+     'odeProfit',
+     money,
+     x=>`${nf(x.odeRuns)}판 가능 · 판당 ${nf(x.ode)} 오드`
+   ),
+   bestCard(
+     `${hours}시간 기준 총수익 1위`,
+     timeRank,
+     'timeProfit',
+     money,
+     x=>`${nf(x.timeRuns)}판 가능 · 판당 ${x.mins||0}분`
+   )
+ ].join('');
+
+ const hourMap=new Map(hourRank.map((x,i)=>[x.key,i+1]));
+ const odeMap=new Map(odeRank.map((x,i)=>[x.key,i+1]));
+
+ const rows=[...items]
+   .sort((a,b)=>(b.hour||0)-(a.hour||0))
+   .map((x,i)=>{
+     const hourRankNo=hourMap.get(x.key);
+     const odeRankNo=odeMap.get(x.key);
+     const invalidOde=x.ode<=0;
+     const invalidTime=x.mins<=0;
+
+     return `<tr class="${i===0&&x.hour>0?'compare-row-rank1':''}">
+       <td>
+         <span class="compare-rank-badge ${hourRankNo===1?'first':''}">
+           ${hourRankNo?hourRankNo+'위':'-'}
+         </span>
+       </td>
+       <td>
+         <div class="compare-method">
+           <b>${x.name}</b>
+           <small>${x.type} · ${escapeHtml(x.dungeon)}</small>
+         </div>
+       </td>
+       <td>${money(x.net)}</td>
+       <td class="${invalidOde?'compare-muted':''}">
+         ${invalidOde?'-':money(x.perOde)}
+         ${odeRankNo===1?'<span class="compare-positive"> · 최고</span>':''}
+       </td>
+       <td class="${invalidTime?'compare-muted':''}">
+         ${invalidTime?'-':money(x.hour)}
+         ${hourRankNo===1?'<span class="compare-positive"> · 최고</span>':''}
+       </td>
+       <td class="${invalidOde?'compare-muted':''}">
+         ${invalidOde?'-':`${nf(x.odeRuns)}판<br><b>${money(x.odeProfit)}</b>`}
+       </td>
+       <td class="${invalidTime?'compare-muted':''}">
+         ${invalidTime?'-':`${nf(x.timeRuns)}판<br><b>${money(x.timeProfit)}</b>`}
+       </td>
+     </tr>`;
+   }).join('');
+
+ $('#compareBox').innerHTML=`
+   <div class="compare-table-wrap">
+     <table>
+       <thead>
+         <tr>
+           <th>시간 효율</th>
+           <th>방식</th>
+           <th>판당 순수익</th>
+           <th>오드 1당</th>
+           <th>시간당</th>
+           <th>오드 ${nf(odeBudget)} 사용 시</th>
+           <th>${hours}시간 플레이 시</th>
+         </tr>
+       </thead>
+       <tbody>${rows}</tbody>
+     </table>
+   </div>
+ `;
+}
 
 
 let newsLoaded=false;
@@ -2263,7 +2650,9 @@ SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('change',calcSpec));
 SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
 calcSpec();
-$('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
+$('#cmp_ode_budget')?.addEventListener('input',buildCompare);
+$('#cmp_hours')?.addEventListener('input',buildCompare);
+$('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');buildCompare();
 loadOfficialNews();
 </script>
   <script>
