@@ -80,7 +80,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 .news-updated{font-size:12px;color:#718096}
 
 
-.dungeon-toolbar{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:10px;margin-bottom:16px}
+.dungeon-toolbar{display:grid;grid-template-columns:.7fr 1fr .8fr .8fr;gap:10px;margin-bottom:16px}
 .dungeon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .dungeon-card{border:1px solid #293347;background:#0d131c;border-radius:14px;padding:16px}
 .dungeon-card h3{margin:0 0 7px;font-size:17px}
@@ -370,17 +370,20 @@ main.wrap{
   <div class="card">
     <div class="head">
       <h2>🗺️ 던전 · 파밍 DB</h2>
-      <p>던전별 오드, 기본 키나, 시간당 수익과 오드 효율을 한눈에 비교하세요.</p>
+      <p>원정·초월을 선택한 뒤 던전별 오드, 기본 키나, 시간당 수익과 오드 효율을 비교하세요.</p>
     </div>
     <div class="body">
       <div class="dungeon-toolbar">
+        <select id="dg_type">
+          <option value="expedition" selected>원정</option>
+          <option value="transcendence">초월</option>
+        </select>
         <select id="dg_filter">
-          <option value="all">전체 던전</option>
-          <option value="타데바">타데바</option>
+          <option value="all">원정 전체</option>
           <option value="푸섬">푸섬</option>
           <option value="환영">환영</option>
-          <option value="연심">연심</option>
-          <option value="암굴">암굴</option>
+          <option value="타데바">타데바</option>
+          <option value="데우스">데우스</option>
         </select>
         <select id="dg_sort">
           <option value="kina">한 판 키나순</option>
@@ -576,6 +579,10 @@ main.wrap{
 <div class="grid2">
 <div class="card"><div class="head"><h2>🚌 버스 기사 설정</h2><p>던전을 선택하면 한 판 기본 키나와 소비 오드가 자동으로 함께 설정됩니다.</p></div><div class="body">
 <div class="fields">
+<div><label>콘텐츠 유형</label><select id="d_content_type">
+<option value="expedition" selected>원정</option>
+<option value="transcendence">초월</option>
+</select></div>
 <div><label>한 판 기본 획득 키나</label><select id="d_income">
 <option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
 <option value="2010000" data-ode="80">타데바 보통 - 201만</option>
@@ -659,6 +666,10 @@ main.wrap{
 <section id="page-main" class="hidden">
 <div class="grid2">
 <div class="card"><div class="head"><h2>⚔️ 본부 설정</h2></div><div class="body"><div class="fields">
+<div><label>콘텐츠 유형</label><select id="m_content_type">
+<option value="expedition" selected>원정</option>
+<option value="transcendence">초월</option>
+</select></div>
 <div><label>한 판 획득 기본 키나</label><select id="m_income">
 <option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
 <option value="2010000" data-ode="80">타데바 보통 - 201만</option>
@@ -716,6 +727,10 @@ main.wrap{
 <section id="page-sub" class="hidden">
 <div class="grid2">
 <div class="card"><div class="head"><h2>🎒 부캐 버스 설정</h2></div><div class="body"><div class="fields">
+<div><label>콘텐츠 유형</label><select id="s_content_type">
+<option value="expedition" selected>원정</option>
+<option value="transcendence">초월</option>
+</select></div>
 <div><label>한 판 획득 기본 키나</label><select id="s_income">
 <option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
 <option value="2010000" data-ode="80">타데바 보통 - 201만</option>
@@ -1713,14 +1728,14 @@ function calcSimple(p){
 
 function fieldsFor(tab){
  if(tab==='driver'){
-   const arr=['d_income','d_cost','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs','d_ownedOde'];
+   const arr=['d_content_type','d_income','d_cost','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs','d_ownedOde'];
    if(Number($('#d_driverCount').value)===2){
      arr.push('d_blockA','d_blockB');
    }
    return arr;
  }
- if(tab==='main')return['m_income','m_cost','m_ode','m_minutes','m_runs','m_ownedOde'];
- return['s_income','s_cost','s_ode','s_minutes','s_runs','s_ownedOde'];
+ if(tab==='main')return['m_content_type','m_income','m_cost','m_ode','m_minutes','m_runs','m_ownedOde'];
+ return['s_content_type','s_income','s_cost','s_ode','s_minutes','s_runs','s_ownedOde'];
 }
 function saveTab(tab){const data={};fieldsFor(tab).forEach(id=>data[id]=$('#'+id).value);try{localStorage.setItem('buson2-v5-'+tab,JSON.stringify(data));const msg=$('#msg_'+tab);msg.textContent='✓ '+({driver:'버스 기사',main:'본부',sub:'부캐 버스'}[tab])+' 설정을 따로 저장했습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='저장에 실패했습니다.'}}
 function loadTab(tab){try{const raw=localStorage.getItem('buson2-v5-'+tab),msg=$('#msg_'+tab);if(!raw){msg.textContent='저장된 설정이 없습니다.';return}const d=JSON.parse(raw);
@@ -1991,47 +2006,156 @@ function loadSpec(){
 }
 
 const DUNGEONS=[
- {id:'tadeba-n-40',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'tadeba-n-80',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'tadeba-h-60',group:'타데바',name:'타락한 데바의 성',difficulty:'어려움',reward:1800000,ode:60,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'tadeba-h-120',group:'타데바',name:'타락한 데바의 성',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'pusum-n-40',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
- {id:'pusum-n-40b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'pusum-h-80a',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'pusum-h-80b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'hall-n-40',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
- {id:'hall-n-40b',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'hall-h-80a',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'hall-h-80b',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'redmirror-1-40',group:'연심',name:'붉은 연심의 거울',difficulty:'1단',reward:750000,ode:40,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
- {id:'redmirror-1-80',group:'연심',name:'붉은 연심의 거울',difficulty:'1단',reward:1500000,ode:80,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
- {id:'redmirror-2-40',group:'연심',name:'붉은 연심의 거울',difficulty:'2단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
- {id:'redmirror-2-80',group:'연심',name:'붉은 연심의 거울',difficulty:'2단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
- {id:'redmirror-3-40',group:'연심',name:'붉은 연심의 거울',difficulty:'3단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'redmirror-3-80',group:'연심',name:'붉은 연심의 거울',difficulty:'3단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'redmirror-4-40',group:'연심',name:'붉은 연심의 거울',difficulty:'4단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
- {id:'redmirror-4-80',group:'연심',name:'붉은 연심의 거울',difficulty:'4단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
- {id:'abyss-horn-1-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'abyss-horn-1-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'abyss-horn-2-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
- {id:'abyss-horn-2-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
- {id:'abyss-horn-3-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'abyss-horn-3-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'abyss-horn-4-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'4단',reward:2100000,ode:60,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
- {id:'abyss-horn-4-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'4단',reward:4200000,ode:120,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
-  {id:'deus-n-40',group:'데우스',name:'데우스',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'deus-n-80',group:'데우스',name:'데우스',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'deus-h-60',group:'데우스',name:'데우스',difficulty:'어려움',reward:1800000,ode:60,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'deus-h-120',group:'데우스',name:'데우스',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'noiran-1-40',group:'노이란',name:'노이란',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'noiran-1-80',group:'노이란',name:'노이란',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'noiran-2-40',group:'노이란',name:'노이란',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
-{id:'noiran-2-80',group:'노이란',name:'노이란',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
-{id:'noiran-3-40',group:'노이란',name:'노이란',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'noiran-3-80',group:'노이란',name:'노이란',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'noiran-4-60',group:'노이란',name:'노이란',difficulty:'4단',reward:2100000,ode:60,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
-{id:'noiran-4-120',group:'노이란',name:'노이란',difficulty:'4단',reward:4200000,ode:120,source:'buson2',entryLevel:50,itemLevel:4800,extra:''}
+ {id:'tadeba-n-40',group:'타데바',contentType:'expedition',name:'타락한 데바의 성',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'tadeba-n-80',group:'타데바',contentType:'expedition',name:'타락한 데바의 성',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'tadeba-h-60',group:'타데바',contentType:'expedition',name:'타락한 데바의 성',difficulty:'어려움',reward:1800000,ode:60,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'tadeba-h-120',group:'타데바',contentType:'expedition',name:'타락한 데바의 성',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'pusum-n-40',group:'푸섬',contentType:'expedition',name:'푸른 숨의 섬',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'pusum-n-40b',group:'푸섬',contentType:'expedition',name:'푸른 숨의 섬',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'pusum-h-80a',group:'푸섬',contentType:'expedition',name:'푸른 숨의 섬',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
+ {id:'pusum-h-80b',group:'푸섬',contentType:'expedition',name:'푸른 숨의 섬',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
+ {id:'hall-n-40',group:'환영',contentType:'expedition',name:'환영의 회랑',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'hall-n-40b',group:'환영',contentType:'expedition',name:'환영의 회랑',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
+ {id:'hall-h-80a',group:'환영',contentType:'expedition',name:'환영의 회랑',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
+ {id:'hall-h-80b',group:'환영',contentType:'expedition',name:'환영의 회랑',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
+ {id:'redmirror-1-40',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'1단',reward:750000,ode:40,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
+ {id:'redmirror-1-80',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'1단',reward:1500000,ode:80,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
+ {id:'redmirror-2-40',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'2단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
+ {id:'redmirror-2-80',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'2단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
+ {id:'redmirror-3-40',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'3단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'redmirror-3-80',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'3단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'redmirror-4-40',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'4단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
+ {id:'redmirror-4-80',group:'연심',contentType:'transcendence',name:'붉은 연심의 거울',difficulty:'4단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
+ {id:'abyss-horn-1-40',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'abyss-horn-1-80',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+ {id:'abyss-horn-2-40',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+ {id:'abyss-horn-2-80',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+ {id:'abyss-horn-3-40',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'abyss-horn-3-80',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+ {id:'abyss-horn-4-40',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'4단',reward:2100000,ode:60,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
+ {id:'abyss-horn-4-80',group:'암굴',contentType:'other',name:'심연의 뿔 암굴',difficulty:'4단',reward:4200000,ode:120,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
+  {id:'deus-n-40',group:'데우스',contentType:'expedition',name:'데우스',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+{id:'deus-n-80',group:'데우스',contentType:'expedition',name:'데우스',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+{id:'deus-h-60',group:'데우스',contentType:'expedition',name:'데우스',difficulty:'어려움',reward:1800000,ode:60,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+{id:'deus-h-120',group:'데우스',contentType:'expedition',name:'데우스',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+{id:'noiran-1-40',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+{id:'noiran-1-80',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
+{id:'noiran-2-40',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+{id:'noiran-2-80',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
+{id:'noiran-3-40',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+{id:'noiran-3-80',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
+{id:'noiran-4-60',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'4단',reward:2100000,ode:60,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
+{id:'noiran-4-120',group:'노이란',contentType:'transcendence',name:'노이란',difficulty:'4단',reward:4200000,ode:120,source:'buson2',entryLevel:50,itemLevel:4800,extra:''}
 ];
+
+
+const CONTENT_DUNGEON_GROUPS={
+  expedition:['푸섬','환영','타데바','데우스'],
+  transcendence:['연심','노이란']
+};
+
+const CONTENT_LABELS={
+  expedition:'원정',
+  transcendence:'초월'
+};
+
+function updateDungeonFilterOptions(){
+  const type=$('#dg_type')?.value||'expedition';
+  const filter=$('#dg_filter');
+  if(!filter)return;
+
+  const prev=filter.value;
+  const groups=CONTENT_DUNGEON_GROUPS[type]||[];
+
+  filter.innerHTML='';
+
+  const all=document.createElement('option');
+  all.value='all';
+  all.textContent=(CONTENT_LABELS[type]||'')+' 전체';
+  filter.appendChild(all);
+
+  groups.forEach(group=>{
+    const option=document.createElement('option');
+    option.value=group;
+    option.textContent=group;
+    filter.appendChild(option);
+  });
+
+  filter.value=groups.includes(prev)?prev:'all';
+}
+
+const INCOME_OPTION_CACHE={};
+
+function incomeOptionType(label){
+  const t=String(label||'');
+  if(t.includes('타데바')||t.includes('푸섬')||t.includes('환영')||t.includes('데우스')){
+    return 'expedition';
+  }
+  if(t.includes('연심')||t.includes('노이란')){
+    return 'transcendence';
+  }
+  return 'other';
+}
+
+function cacheIncomeOptions(prefix){
+  const select=$('#'+prefix+'_income');
+  if(!select || INCOME_OPTION_CACHE[prefix])return;
+  INCOME_OPTION_CACHE[prefix]=Array.from(select.options).map(option=>({
+    value:option.value,
+    ode:option.dataset.ode||'0',
+    text:option.textContent,
+    type:incomeOptionType(option.textContent)
+  }));
+}
+
+function updateIncomeOptions(prefix){
+  cacheIncomeOptions(prefix);
+
+  const typeEl=$('#'+prefix+'_content_type');
+  const select=$('#'+prefix+'_income');
+  if(!typeEl||!select)return;
+
+  const type=typeEl.value||'expedition';
+  const prevValue=select.value;
+  const prevText=select.options[select.selectedIndex]?.textContent||'';
+
+  const options=(INCOME_OPTION_CACHE[prefix]||[]).filter(x=>x.type===type);
+
+  select.innerHTML='';
+
+  options.forEach((item,index)=>{
+    const option=document.createElement('option');
+    option.value=item.value;
+    option.dataset.ode=item.ode;
+    option.textContent=item.text;
+    if(index===0)option.selected=true;
+    select.appendChild(option);
+  });
+
+  const exact=Array.from(select.options).find(
+    o=>o.value===prevValue && o.textContent===prevText
+  );
+  if(exact)exact.selected=true;
+
+  syncOdeFromDungeon(prefix);
+}
+
+function initContentTypeSelectors(){
+  ['d','m','s'].forEach(prefix=>{
+    cacheIncomeOptions(prefix);
+    updateIncomeOptions(prefix);
+
+    const typeEl=$('#'+prefix+'_content_type');
+    typeEl?.addEventListener('change',()=>{
+      updateIncomeOptions(prefix);
+      if(prefix==='d')calcDriver();
+      else calcSimple(prefix);
+    });
+  });
+
+  updateDungeonFilterOptions();
+}
+
 
 function getDungeonSaved(id){
  try{return JSON.parse(localStorage.getItem('buson2-dungeon-'+id)||'{}')}catch(e){return{}}
@@ -2040,10 +2164,14 @@ function setDungeonSaved(id,key,value){
  const d=getDungeonSaved(id); d[key]=value; localStorage.setItem('buson2-dungeon-'+id,JSON.stringify(d));
 }
 function renderDungeonDB(){
+ const contentType=$('#dg_type')?.value||'expedition';
  const filter=$('#dg_filter')?.value||'all';
  const sort=$('#dg_sort')?.value||'kina';
  const defaultMins=Math.max(1,val('dg_minutes')||7);
- let items=DUNGEONS.filter(x=>filter==='all'||x.group===filter).map(x=>{
+ let items=DUNGEONS
+   .filter(x=>x.contentType===contentType)
+   .filter(x=>filter==='all'||x.group===filter)
+   .map(x=>{
    const saved=getDungeonSaved(x.id);
    const mins=Math.max(1,Number(saved.minutes||defaultMins));
    return {...x,minutes:mins,note:saved.note||'',perOde:x.ode?x.reward/x.ode:0,perHour:x.reward*60/mins};
@@ -2135,7 +2263,7 @@ SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('change',calcSpec));
 SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
 calcSpec();
-$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
+$('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
 loadOfficialNews();
 </script>
   <script>
