@@ -176,6 +176,263 @@
         grid-template-columns: 1fr;
       }
     }
+     /* ===== BUSON2 SPEC GUIDE ===== */
+
+.spec-guide{
+  margin-top:28px;
+  padding:26px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top right,rgba(59,130,246,.10),transparent 35%),
+    linear-gradient(180deg,#111c2e,#0e1726);
+}
+
+.spec-guide-head{
+  margin-bottom:24px;
+}
+
+.spec-guide-badge{
+  display:inline-block;
+  padding:5px 10px;
+  margin-bottom:12px;
+  border:1px solid #3577d4;
+  border-radius:999px;
+  color:#60a5fa;
+  background:#0b1a2f;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+}
+
+.spec-guide-head h2{
+  margin:0 0 10px;
+  color:#f8fafc;
+  font-size:24px;
+  line-height:1.35;
+}
+
+.spec-guide-head p{
+  margin:0;
+  max-width:900px;
+  color:#9fb0c8;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.spec-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.spec-guide-card{
+  min-height:250px;
+  padding:22px 18px;
+  border:1px solid #293b55;
+  border-radius:14px;
+  background:linear-gradient(180deg,#142033,#0e1725);
+  transition:transform .18s ease,border-color .18s ease;
+}
+
+.spec-guide-card:hover{
+  transform:translateY(-3px);
+  border-color:#3b82f6;
+}
+
+.spec-guide-icon{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:18px;
+  border-radius:13px;
+  color:white;
+  font-size:23px;
+  font-weight:900;
+}
+
+.spec-guide-card.purple .spec-guide-icon{
+  background:linear-gradient(135deg,#7c3aed,#6366f1);
+  box-shadow:0 0 22px rgba(124,58,237,.35);
+}
+
+.spec-guide-card.green .spec-guide-icon{
+  background:linear-gradient(135deg,#059669,#22c55e);
+  box-shadow:0 0 22px rgba(34,197,94,.30);
+}
+
+.spec-guide-card.orange .spec-guide-icon{
+  background:linear-gradient(135deg,#d97706,#f59e0b);
+  box-shadow:0 0 22px rgba(245,158,11,.30);
+}
+
+.spec-guide-card.blue .spec-guide-icon{
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  box-shadow:0 0 22px rgba(59,130,246,.30);
+}
+
+.spec-guide-card h3{
+  margin:0 0 12px;
+  color:#f8fafc;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.spec-guide-card p{
+  margin:0;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* FAQ */
+
+.spec-faq{
+  margin-top:18px;
+  padding:24px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top left,rgba(59,130,246,.08),transparent 30%),
+    #111c2e;
+}
+
+.spec-faq-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.spec-faq-title > span{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+}
+
+.spec-faq-title small{
+  display:block;
+  margin-bottom:2px;
+  color:#60a5fa;
+  font-size:10px;
+  font-weight:800;
+}
+
+.spec-faq-title h2{
+  margin:0;
+  color:#f8fafc;
+  font-size:20px;
+}
+
+.spec-faq details{
+  margin-top:9px;
+  overflow:hidden;
+  border:1px solid #293d5a;
+  border-radius:12px;
+  background:#0c1624;
+}
+
+.spec-faq summary{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 16px;
+  color:#f1f5f9;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  list-style:none;
+}
+
+.spec-faq summary::-webkit-details-marker{
+  display:none;
+}
+
+.spec-faq summary b{
+  margin-left:auto;
+  color:#60a5fa;
+  transition:transform .2s ease;
+}
+
+.spec-faq details[open] summary b{
+  transform:rotate(180deg);
+}
+
+.faq-number{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#2563eb;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+
+.faq-answer{
+  padding:0 56px 17px;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* 모바일 */
+
+@media(max-width:850px){
+
+  .spec-guide-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:600px){
+
+  .spec-guide{
+    padding:18px 14px;
+    border-radius:14px;
+  }
+
+  .spec-guide-head h2{
+    font-size:20px;
+  }
+
+  .spec-guide-grid{
+    grid-template-columns:1fr;
+  }
+
+  .spec-guide-card{
+    min-height:auto;
+  }
+
+  .spec-faq{
+    padding:18px 14px;
+  }
+
+  .spec-faq-title h2{
+    font-size:17px;
+  }
+
+  .faq-answer{
+    padding:0 16px 16px;
+  }
+
+}
   </style>
 </head>
 
@@ -270,19 +527,131 @@
   </section>
 
 
-  <section class="info">
+ <!-- ===== 스펙 계산기 가이드 영역 시작 ===== -->
 
-    <h2>스펙 계산기는 언제 사용하나요?</h2>
+<section class="spec-guide">
 
+  <div class="spec-guide-head">
+    <span class="spec-guide-badge">BUSON2 GUIDE</span>
+    <h2>아이온2 강타·피해증폭 효율 비교</h2>
     <p>
-      새 장비를 맞추거나 마석·펫 옵션을 변경할 때
-      단순 수치만 비교하기 어려운 경우 활용할 수 있습니다.
-      실제 캐릭터의 스탯과 전투 조건에 따라 효율이 달라질 수 있으므로
-      계산 결과는 장비 선택을 위한 비교 자료로 활용하세요.
+      아이온2에서 스펙을 올릴 때 단순히 수치가 높은 옵션을 선택하기보다
+      현재 강타, 피해증폭, 공격력 등의 수치를 함께 비교하는 것이 중요합니다.
+      BUSON2 스펙 계산기로 현재 세팅에서 어떤 옵션의 효율이 더 높은지 비교해보세요.
     </p>
+  </div>
 
-  </section>
+  <div class="spec-guide-grid">
+
+    <div class="spec-guide-card purple">
+      <div class="spec-guide-icon">◎</div>
+      <h3>강타 효율은 어떻게 비교하나요?</h3>
+      <p>
+        현재 강타 수치와 상대의 강타 저항을 기준으로 효율을 확인할 수 있습니다.
+        이미 강타 수치가 높은 상태라면 같은 수치를 추가하더라도
+        상대적인 효율이 달라질 수 있습니다.
+      </p>
+    </div>
+
+    <div class="spec-guide-card green">
+      <div class="spec-guide-icon">◆</div>
+      <h3>전방·후방 피해증폭</h3>
+      <p>
+        전방 또는 후방 피해증폭은 수치뿐 아니라 실제 전투에서
+        해당 방향을 얼마나 유지할 수 있는지도 중요합니다.
+        유지율과 대상의 피해 내성을 함께 고려해보세요.
+      </p>
+    </div>
+
+    <div class="spec-guide-card orange">
+      <div class="spec-guide-icon">⇄</div>
+      <h3>스펙 변경 전후를 비교해보세요</h3>
+      <p>
+        장비 교체, 마석 변경 또는 옵션 선택 전의 현재 세팅과
+        변경 후 세팅을 각각 계산하면 어떤 선택이 더 효율적인지
+        쉽게 비교할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="spec-guide-card blue">
+      <div class="spec-guide-icon">▥</div>
+      <h3>여러 상황을 비교하세요</h3>
+      <p>
+        대상, 버프, 파티 구성과 전투 상황에 따라 실제 효율은 달라질 수 있습니다.
+        여러 조건을 가정하여 계산하면 자신의 플레이 환경에
+        더 적합한 세팅을 찾을 수 있습니다.
+      </p>
+    </div>
+
+  </div>
 </section>
+
+
+<!-- FAQ -->
+<section class="spec-faq">
+
+  <div class="spec-faq-title">
+    <span>?</span>
+    <div>
+      <small>FAQ</small>
+      <h2>아이온2 스펙 계산기 자주 묻는 질문</h2>
+    </div>
+  </div>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q1</span>
+      강타가 높으면 무조건 좋은가요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      강타는 중요한 공격 스탯이지만 현재 수치와 상대의 강타 저항에 따라
+      추가 투자 효율이 달라질 수 있습니다.
+      다른 공격 옵션과 함께 비교하는 것이 좋습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q2</span>
+      강타와 피해증폭 중 어떤 것을 올려야 하나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      현재 캐릭터의 스탯과 상대의 저항·내성,
+      전후방 유지율 등에 따라 달라집니다.
+      계산기에 현재 수치를 입력한 뒤 각각의 기대 효율을 비교해보세요.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q3</span>
+      계산 결과가 실제 게임 피해량과 완전히 같은가요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      계산 결과는 입력한 수치와 계산식을 기준으로 한 비교값입니다.
+      실제 전투에서는 대상, 버프, 파티 구성과 전투 상황 등에 따라
+      결과가 달라질 수 있습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q4</span>
+      장비를 바꾸기 전에 사용할 수 있나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      네. 현재 장비의 스탯과 변경하려는 장비의 예상 스탯을 각각 입력해
+      두 세팅의 효율을 비교하는 용도로 활용할 수 있습니다.
+    </div>
+  </details>
+
+</section>
+
+<!-- ===== 스펙 계산기 가이드 영역 끝 ===== -->
 
 <!-- 여기부터 붙여넣기 -->
 
