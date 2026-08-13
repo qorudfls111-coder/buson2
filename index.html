@@ -243,6 +243,7 @@ main.wrap{
 <header><div class="wrap top">
 <div class="brand"><div class="logo">B2</div><div><b>BUSON2</b><small>버스온2 · 아이온2 효율 연구소</small></div></div>
 <nav>
+<button class="tab" data-page="home">홈</button>
 <button class="tab active" data-page="noticehub">공지</button>
 <button class="tab" data-page="dungeon">던전</button>
 <button class="tab" data-page="spec">스펙 계산기</button>
@@ -254,6 +255,75 @@ main.wrap{
 </div></header>
 
 <main class="wrap">
+  <!-- ===== BUSON2 홈 시작 ===== -->
+<section id="page-home" class="hidden">
+
+  <div class="card">
+    <div class="head">
+      <h2>🔎 아이온2 캐릭터 검색</h2>
+      <p>서버와 종족을 선택하고 캐릭터 닉네임을 검색해보세요.</p>
+    </div>
+
+    <div class="body">
+
+      <div style="
+        display:grid;
+        grid-template-columns:140px 180px 1fr 100px;
+        gap:10px;
+        align-items:center;
+      ">
+
+        <select id="char-race">
+          <option value="1">천족</option>
+          <option value="2" selected>마족</option>
+        </select>
+
+        <select id="char-server">
+          <option value="2002">지켈</option>
+        </select>
+
+        <input
+          id="char-keyword"
+          type="text"
+          placeholder="캐릭터 닉네임 입력"
+          autocomplete="off"
+        >
+
+        <button
+          class="btn primary"
+          id="char-search-btn"
+          type="button"
+        >
+          검색
+        </button>
+
+      </div>
+
+      <div
+        id="char-search-status"
+        style="
+          margin-top:14px;
+          color:var(--muted);
+          font-size:13px;
+        "
+      >
+        캐릭터명을 입력한 뒤 검색해주세요.
+      </div>
+
+      <div
+        id="char-search-results"
+        style="
+          margin-top:16px;
+          display:grid;
+          gap:10px;
+        "
+      ></div>
+
+    </div>
+  </div>
+
+</section>
+<!-- ===== BUSON2 홈 끝 ===== -->
 <section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>버스온2(BUSON2) - 아이온2 계산기 · 스펙 계산 · 버스 수익 · 던전 오드 효율</h1><p>버스온2(BUSON2)에서 아이온2 스펙 계산기, 버스 기사·부캐 버스·본부 수익 계산, 던전 키나와 오드 효율을 한곳에서 비교하세요.</p></div></section>
 <section id="page-noticehub">
   <div class="card">
@@ -1281,6 +1351,217 @@ main.wrap{
     font-size:13px;
   }
 }
+  /* ===== BUSON2 HOME CHARACTER SEARCH ===== */
+
+#page-home{
+  margin-top:18px;
+}
+
+#page-home .card{
+  border:1px solid #2d4160;
+  border-radius:18px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at top right,rgba(59,130,246,.08),transparent 30%),
+    linear-gradient(180deg,#111c2e,#0d1624);
+}
+
+#page-home .head{
+  padding:22px 24px 14px;
+}
+
+#page-home .head h2{
+  margin:0 0 6px;
+  color:#f8fafc;
+  font-size:22px;
+}
+
+#page-home .head p{
+  margin:0;
+  color:#93a7c0;
+  font-size:13px;
+}
+
+#page-home .body{
+  padding:0 24px 24px;
+}
+
+/* 기존 inline grid 강제 보정 */
+#page-home .body > div:first-child{
+  display:grid !important;
+  grid-template-columns:130px 180px 1fr 100px !important;
+  gap:10px !important;
+  align-items:center !important;
+}
+
+#char-race,
+#char-server,
+#char-keyword{
+  width:100%;
+  height:46px;
+  box-sizing:border-box;
+  border:1px solid #304762;
+  border-radius:10px;
+  outline:none;
+  background:#0b1523;
+  color:#eef6ff;
+  font-size:13px;
+}
+
+#char-race,
+#char-server{
+  padding:0 12px;
+  cursor:pointer;
+}
+
+#char-keyword{
+  padding:0 14px;
+}
+
+#char-keyword::placeholder{
+  color:#647890;
+}
+
+#char-race:focus,
+#char-server:focus,
+#char-keyword:focus{
+  border-color:#4f8df7;
+  box-shadow:0 0 0 3px rgba(79,141,247,.12);
+}
+
+#char-search-btn{
+  width:100%;
+  height:46px;
+  border:1px solid #4d8ef7;
+  border-radius:10px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+#char-search-btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.08);
+}
+
+#char-search-btn:active{
+  transform:translateY(0);
+}
+
+#char-search-status{
+  margin-top:14px !important;
+  padding:11px 13px;
+  border:1px solid #243850;
+  border-radius:9px;
+  background:#0b1421;
+  color:#8298b2 !important;
+}
+
+#char-search-results{
+  margin-top:14px !important;
+  display:grid !important;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px !important;
+}
+
+/* 나중에 검색 결과가 들어갈 카드 */
+.char-result-card{
+  position:relative;
+  padding:15px;
+  border:1px solid #2c405b;
+  border-radius:12px;
+  background:linear-gradient(180deg,#131f31,#0d1725);
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.char-result-card:hover{
+  transform:translateY(-2px);
+  border-color:#4d84d8;
+  background:#15243a;
+}
+
+.char-result-name{
+  margin-bottom:5px;
+  color:#f7fbff;
+  font-size:15px;
+  font-weight:900;
+}
+
+.char-result-meta{
+  color:#8ca5c0;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.char-result-power{
+  margin-top:8px;
+  color:#38d68b;
+  font-size:12px;
+  font-weight:800;
+}
+
+/* 검색 결과가 없을 때 */
+.char-empty{
+  grid-column:1/-1;
+  padding:28px 16px;
+  border:1px dashed #304762;
+  border-radius:12px;
+  color:#8298b2;
+  text-align:center;
+  font-size:13px;
+}
+
+/* 모바일 */
+@media(max-width:850px){
+
+  #page-home .body > div:first-child{
+    grid-template-columns:1fr 1fr !important;
+  }
+
+  #char-keyword{
+    grid-column:1/-1;
+  }
+
+  #char-search-btn{
+    grid-column:1/-1;
+  }
+
+  #char-search-results{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:600px){
+
+  #page-home .head{
+    padding:18px 16px 12px;
+  }
+
+  #page-home .body{
+    padding:0 16px 18px;
+  }
+
+  #page-home .head h2{
+    font-size:18px;
+  }
+
+  #page-home .body > div:first-child{
+    grid-template-columns:1fr !important;
+  }
+
+  #char-keyword,
+  #char-search-btn{
+    grid-column:auto;
+  }
+
+  #char-search-results{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </main>
 
@@ -1817,5 +2098,226 @@ window.addEventListener('load', function () {
     }
   }
 });
+</script>
+  <script>
+/* ===== BUSON2 공식 AION2 캐릭터 검색 ===== */
+
+(function () {
+
+  const raceEl = document.getElementById('char-race');
+  const serverEl = document.getElementById('char-server');
+  const keywordEl = document.getElementById('char-keyword');
+  const searchBtn = document.getElementById('char-search-btn');
+  const statusEl = document.getElementById('char-search-status');
+  const resultsEl = document.getElementById('char-search-results');
+
+  if (!raceEl || !serverEl || !keywordEl || !searchBtn || !statusEl || !resultsEl) {
+    console.warn('캐릭터 검색 UI를 찾지 못했습니다.');
+    return;
+  }
+
+  function cleanCharacterName(value) {
+    const temp = document.createElement('div');
+    temp.innerHTML = value || '';
+    return temp.textContent || '';
+  }
+
+  function getProfileImage(url) {
+    if (!url) return '';
+
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+
+    return 'https://aion2.plaync.com' + url;
+  }
+
+  function raceName(race) {
+    if (Number(race) === 1) return '천족';
+    if (Number(race) === 2) return '마족';
+    return '알 수 없음';
+  }
+
+  function renderCharacters(list) {
+
+    resultsEl.innerHTML = '';
+
+    if (!Array.isArray(list) || list.length === 0) {
+
+      const empty = document.createElement('div');
+      empty.className = 'char-empty';
+      empty.textContent = '검색된 캐릭터가 없습니다.';
+
+      resultsEl.appendChild(empty);
+      return;
+    }
+
+    list.forEach(character => {
+
+      const card = document.createElement('div');
+      card.className = 'char-result-card';
+
+      const top = document.createElement('div');
+      top.style.display = 'flex';
+      top.style.alignItems = 'center';
+      top.style.gap = '12px';
+
+      const image = document.createElement('img');
+
+      image.src = getProfileImage(character.profileImageUrl);
+      image.alt = cleanCharacterName(character.name);
+      image.loading = 'lazy';
+
+      image.style.width = '58px';
+      image.style.height = '58px';
+      image.style.objectFit = 'cover';
+      image.style.borderRadius = '10px';
+      image.style.background = '#07101d';
+      image.style.border = '1px solid #304762';
+
+      image.onerror = function () {
+        this.style.display = 'none';
+      };
+
+      const info = document.createElement('div');
+      info.style.minWidth = '0';
+
+      const name = document.createElement('div');
+      name.className = 'char-result-name';
+      name.textContent = cleanCharacterName(character.name);
+
+      const meta = document.createElement('div');
+      meta.className = 'char-result-meta';
+
+      meta.textContent =
+        (character.serverName || '서버 정보 없음') +
+        ' · ' +
+        raceName(character.race) +
+        ' · Lv.' +
+        (character.level ?? '-');
+
+      const classInfo = document.createElement('div');
+      classInfo.className = 'char-result-power';
+      classInfo.textContent = '직업 ID ' + (character.pcId ?? '-');
+
+      info.appendChild(name);
+      info.appendChild(meta);
+      info.appendChild(classInfo);
+
+      top.appendChild(image);
+      top.appendChild(info);
+
+      card.appendChild(top);
+
+      card.addEventListener('click', function () {
+
+        console.log('선택한 캐릭터:', character);
+
+        statusEl.textContent =
+          cleanCharacterName(character.name) +
+          ' · ' +
+          character.serverName +
+          ' 캐릭터를 선택했습니다.';
+
+      });
+
+      resultsEl.appendChild(card);
+
+    });
+  }
+
+  async function searchCharacter() {
+
+    const keyword = keywordEl.value.trim();
+
+    if (!keyword) {
+      statusEl.textContent = '캐릭터 닉네임을 입력해주세요.';
+      keywordEl.focus();
+      return;
+    }
+
+    const race = raceEl.value;
+    const serverId = serverEl.value;
+
+    searchBtn.disabled = true;
+    searchBtn.textContent = '검색 중...';
+
+    statusEl.textContent = 'AION2 공식 캐릭터 정보를 검색하고 있습니다.';
+    resultsEl.innerHTML = '';
+
+    try {
+
+      const params = new URLSearchParams({
+        keyword: keyword,
+        race: race,
+        serverId: serverId,
+        page: '1',
+        size: '30'
+      });
+
+      const apiUrl =
+        'https://aion2.plaync.com/api/search/character?' +
+        params.toString();
+
+      console.log('AION2 검색 요청:', apiUrl);
+
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
+      }
+
+      const data = await response.json();
+
+      console.log('AION2 검색 결과:', data);
+
+      const list = Array.isArray(data.list) ? data.list : [];
+
+      statusEl.textContent =
+        '검색 결과 ' + list.length + '개의 캐릭터를 찾았습니다.';
+
+      renderCharacters(list);
+
+    } catch (error) {
+
+      console.error('AION2 캐릭터 검색 오류:', error);
+
+      statusEl.textContent =
+        '공식 AION2 서버에 직접 연결할 수 없습니다. 브라우저 보안 정책(CORS) 여부를 확인해야 합니다.';
+
+      const errorBox = document.createElement('div');
+      errorBox.className = 'char-empty';
+      errorBox.innerHTML =
+        '<b>검색 연결 테스트 실패</b><br>' +
+        '다음 단계에서 BUSON2용 공식 데이터 중계 방식을 연결할 수 있습니다.';
+
+      resultsEl.appendChild(errorBox);
+
+    } finally {
+
+      searchBtn.disabled = false;
+      searchBtn.textContent = '검색';
+
+    }
+
+  }
+
+  searchBtn.addEventListener('click', searchCharacter);
+
+  keywordEl.addEventListener('keydown', function (event) {
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      searchCharacter();
+    }
+
+  });
+
+})();
 </script>
 </body></html>
