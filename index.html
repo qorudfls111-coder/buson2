@@ -689,49 +689,474 @@ main.wrap{
 
 <section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
 
-<section class="card" style="margin-top:20px;">
-  <div class="head">
-    <h2>아이온2 계산기 모음 - BUSON2</h2>
-    <p>버스온2(BUSON2)는 아이온2에서 자주 필요한 스펙 계산, 버스 수익, 키나와 오드 효율을 빠르게 비교할 수 있는 계산기 사이트입니다.</p>
+<!-- BUSON2 소개 / SEO 영역 -->
+<section class="buson-info-section">
+
+  <div class="buson-info-header">
+    <span class="buson-info-badge">BUSON2 TOOLS</span>
+    <h2>아이온2 계산기 모음 <span>- BUSON2</span></h2>
+    <p>
+      버스온2(BUSON2)는 아이온2에서 자주 필요한 스펙 계산,
+      버스 수익, 키나와 오드 효율을 빠르게 비교할 수 있는 계산기 사이트입니다.
+    </p>
   </div>
 
-  <div class="body">
-    <h3>아이온2 스펙 계산기</h3>
-    <p>
-      강타, 피해증폭 등 주요 스탯을 입력해 현재 세팅의 효율을 비교할 수 있습니다.
-      스펙 변경 전 수치 차이를 확인하거나 어떤 옵션을 우선할지 판단할 때 활용할 수 있습니다.
-    </p>
+  <div class="buson-tool-grid">
 
-    <h3>아이온2 버스 수익 계산기</h3>
-    <p>
-      버스 기사와 부캐 버스에서 획득하는 키나, 소비 오드, 버스비와 소요시간을 입력해
-      판당 순수익과 시간당 효율을 계산할 수 있습니다.
-    </p>
+    <a href="/spec/" class="buson-tool-card">
+      <div class="buson-icon icon-purple">↗</div>
+      <h3>아이온2 스펙 계산기</h3>
+      <p>
+        강타, 피해증폭 등 주요 스탯을 입력해
+        현재 세팅의 효율을 비교할 수 있습니다.
+      </p>
+      <span class="buson-link purple">바로가기 →</span>
+    </a>
 
-    <h3>키나·오드 효율 비교</h3>
-    <p>
-      단순 키나 수익뿐 아니라 사용한 오드와 플레이 시간을 함께 고려해
-      여러 파밍 방식의 효율을 비교할 수 있습니다.
-    </p>
+    <a href="/driver/" class="buson-tool-card">
+      <div class="buson-icon icon-green">▦</div>
+      <h3>아이온2 버스 수익 계산기</h3>
+      <p>
+        버스 기사와 부캐 버스에서 키나, 소비 오드,
+        버스비와 시간을 입력해 효율을 계산합니다.
+      </p>
+      <span class="buson-link green">바로가기 →</span>
+    </a>
 
-    <h3>계산기 사용 방법</h3>
-    <p>
-      상단 메뉴에서 원하는 계산기를 선택한 뒤 현재 게임 내 수치를 입력하세요.
-      계산 결과는 입력값을 기준으로 자동 계산되며 실제 게임 상황이나 파티 구성에 따라 차이가 발생할 수 있습니다.
-    </p>
+    <a href="/sub/" class="buson-tool-card">
+      <div class="buson-icon icon-orange">◎</div>
+      <h3>키나·오드 효율 비교</h3>
+      <p>
+        단순 키나 수익뿐 아니라 사용한 오드와 플레이 시간을
+        함께 고려해 여러 파밍 방식의 효율을 비교합니다.
+      </p>
+      <span class="buson-link orange">바로가기 →</span>
+    </a>
 
-    <h3>자주 묻는 질문</h3>
+    <a href="#buson-guide" class="buson-tool-card">
+      <div class="buson-icon icon-blue">?</div>
+      <h3>계산기 사용 방법</h3>
+      <p>
+        상단 메뉴에서 원하는 계산기를 선택한 뒤
+        현재 게임 내 수치를 입력하면 자동 계산됩니다.
+      </p>
+      <span class="buson-link blue">사용법 보기 ↓</span>
+    </a>
 
-    <p><strong>Q. 계산 결과가 실제 수익과 완전히 같나요?</strong><br>
-    입력한 값과 계산식에 따른 예상 결과이며 실제 게임 플레이에서는 드롭, 소요시간, 파티 구성 등에 따라 달라질 수 있습니다.</p>
-
-    <p><strong>Q. 모바일에서도 사용할 수 있나요?</strong><br>
-    네. BUSON2 계산기는 PC와 모바일 브라우저에서 사용할 수 있습니다.</p>
-
-    <p><strong>Q. 계산기 데이터는 저장되나요?</strong><br>
-    일부 계산기의 설정값은 브라우저에 저장될 수 있으며 사이트 운영 방식에 따라 변경될 수 있습니다.</p>
   </div>
+
+  <div id="buson-guide" class="buson-guide">
+    <div class="buson-guide-title">
+      <span>✓</span>
+      <div>
+        <h3>계산기 사용 방법</h3>
+        <p>BUSON2 계산기는 별도의 설치 없이 PC와 모바일 브라우저에서 사용할 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="buson-guide-steps">
+      <div>
+        <b>01</b>
+        <span>원하는 계산기 선택</span>
+      </div>
+      <div>
+        <b>02</b>
+        <span>게임 내 수치 입력</span>
+      </div>
+      <div>
+        <b>03</b>
+        <span>자동 계산 결과 확인</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="buson-faq">
+
+    <div class="buson-faq-heading">
+      <span class="faq-main-icon">?</span>
+      <h2>자주 묻는 질문</h2>
+    </div>
+
+    <details>
+      <summary>
+        <span class="faq-number">Q1</span>
+        <span>계산 결과가 실제 수익과 완전히 같나요?</span>
+      </summary>
+      <p>
+        입력한 값과 계산식에 따른 예상 결과이며 실제 게임 플레이에서는
+        드롭, 소요시간, 파티 구성 등에 따라 달라질 수 있습니다.
+      </p>
+    </details>
+
+    <details>
+      <summary>
+        <span class="faq-number">Q2</span>
+        <span>모바일에서도 사용할 수 있나요?</span>
+      </summary>
+      <p>
+        네. BUSON2 계산기는 PC와 모바일 브라우저에서 모두 사용할 수 있습니다.
+      </p>
+    </details>
+
+    <details>
+      <summary>
+        <span class="faq-number">Q3</span>
+        <span>계산기 데이터는 저장되나요?</span>
+      </summary>
+      <p>
+        일부 계산기의 설정값은 브라우저에 저장될 수 있으며
+        사이트 운영 방식에 따라 변경될 수 있습니다.
+      </p>
+    </details>
+
+  </div>
+
 </section>
+
+<style>
+.buson-info-section{
+  margin-top:28px;
+  margin-bottom:28px;
+  color:#eef4ff;
+}
+
+.buson-info-header{
+  padding:30px 28px 22px;
+  text-align:center;
+  border:1px solid #26354c;
+  border-bottom:0;
+  border-radius:18px 18px 0 0;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(82,112,255,.10),transparent 55%),
+    linear-gradient(180deg,#151e2d,#111927);
+}
+
+.buson-info-badge{
+  display:inline-block;
+  margin-bottom:10px;
+  padding:5px 10px;
+  border:1px solid #31466b;
+  border-radius:999px;
+  color:#7ca8ff;
+  background:#111a2b;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.buson-info-header h2{
+  margin:0 0 10px;
+  font-size:27px;
+  line-height:1.25;
+}
+
+.buson-info-header h2 span{
+  color:#7586ff;
+}
+
+.buson-info-header p{
+  max-width:760px;
+  margin:0 auto;
+  color:#9fb0c8;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.buson-tool-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  padding:0 24px 26px;
+  border-left:1px solid #26354c;
+  border-right:1px solid #26354c;
+  border-bottom:1px solid #26354c;
+  border-radius:0 0 18px 18px;
+  background:#111927;
+}
+
+.buson-tool-card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-height:245px;
+  padding:24px 18px 20px;
+  border:1px solid #2b3b53;
+  border-radius:14px;
+  background:linear-gradient(180deg,#172233,#121b29);
+  color:#eef4ff;
+  text-decoration:none;
+  text-align:center;
+  transition:.2s ease;
+}
+
+.buson-tool-card:hover{
+  transform:translateY(-3px);
+  border-color:#4d6fa8;
+  background:linear-gradient(180deg,#1a2940,#141f30);
+  box-shadow:0 12px 30px rgba(0,0,0,.20);
+}
+
+.buson-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:58px;
+  height:58px;
+  margin-bottom:18px;
+  border-radius:15px;
+  font-size:27px;
+  font-weight:900;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+
+.icon-purple{
+  color:#fff;
+  background:linear-gradient(135deg,#4e6cff,#7756e9);
+}
+
+.icon-green{
+  color:#fff;
+  background:linear-gradient(135deg,#14985e,#24b873);
+}
+
+.icon-orange{
+  color:#fff;
+  background:linear-gradient(135deg,#d07a00,#ef9d17);
+}
+
+.icon-blue{
+  color:#fff;
+  background:linear-gradient(135deg,#2571d9,#3d93ff);
+}
+
+.buson-tool-card h3{
+  margin:0 0 12px;
+  font-size:17px;
+  line-height:1.4;
+}
+
+.buson-tool-card p{
+  flex:1;
+  margin:0;
+  color:#a8b7cc;
+  font-size:13px;
+  line-height:1.75;
+}
+
+.buson-link{
+  margin-top:18px;
+  font-size:13px;
+  font-weight:800;
+}
+
+.buson-link.purple{color:#8192ff;}
+.buson-link.green{color:#38d98a;}
+.buson-link.orange{color:#ffad2f;}
+.buson-link.blue{color:#4da1ff;}
+
+.buson-guide{
+  margin-top:18px;
+  padding:22px 24px;
+  border:1px solid #26354c;
+  border-radius:16px;
+  background:linear-gradient(180deg,#151e2d,#111927);
+}
+
+.buson-guide-title{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.buson-guide-title>span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
+  border-radius:10px;
+  color:#fff;
+  background:#296fd7;
+  font-weight:900;
+}
+
+.buson-guide-title h3{
+  margin:0 0 4px;
+  font-size:18px;
+}
+
+.buson-guide-title p{
+  margin:0;
+  color:#91a3bb;
+  font-size:13px;
+}
+
+.buson-guide-steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:18px;
+}
+
+.buson-guide-steps div{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 14px;
+  border:1px solid #26354c;
+  border-radius:10px;
+  background:#101826;
+  color:#cbd6e6;
+  font-size:13px;
+}
+
+.buson-guide-steps b{
+  color:#5798ff;
+  font-size:12px;
+}
+
+.buson-faq{
+  margin-top:18px;
+  padding:25px;
+  border:1px solid #26354c;
+  border-radius:18px;
+  background:linear-gradient(180deg,#151e2d,#111927);
+}
+
+.buson-faq-heading{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:18px;
+}
+
+.buson-faq-heading h2{
+  margin:0;
+  font-size:23px;
+}
+
+.faq-main-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  color:#fff;
+  background:linear-gradient(135deg,#286dd4,#438fff);
+  font-weight:900;
+}
+
+.buson-faq details{
+  margin-top:9px;
+  border:1px solid #26364e;
+  border-radius:12px;
+  background:#101826;
+  overflow:hidden;
+}
+
+.buson-faq summary{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px 17px;
+  cursor:pointer;
+  list-style:none;
+  color:#eef4ff;
+  font-size:14px;
+  font-weight:750;
+}
+
+.buson-faq summary::-webkit-details-marker{
+  display:none;
+}
+
+.buson-faq summary::after{
+  content:"⌄";
+  margin-left:auto;
+  color:#8fa5c2;
+  font-size:18px;
+}
+
+.buson-faq details[open] summary::after{
+  transform:rotate(180deg);
+}
+
+.faq-number{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  border-radius:50%;
+  color:#fff;
+  background:linear-gradient(135deg,#2466c8,#448eff);
+  font-size:11px;
+  font-weight:900;
+}
+
+.buson-faq details p{
+  margin:0;
+  padding:0 18px 17px 63px;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.7;
+}
+
+@media(max-width:900px){
+  .buson-tool-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .buson-info-header{
+    padding:24px 18px 18px;
+    text-align:left;
+  }
+
+  .buson-info-header h2{
+    font-size:22px;
+  }
+
+  .buson-info-header p{
+    font-size:13px;
+  }
+
+  .buson-tool-grid{
+    grid-template-columns:1fr;
+    padding:0 14px 16px;
+  }
+
+  .buson-tool-card{
+    min-height:0;
+    align-items:flex-start;
+    text-align:left;
+  }
+
+  .buson-guide{
+    padding:18px;
+  }
+
+  .buson-guide-steps{
+    grid-template-columns:1fr;
+  }
+
+  .buson-faq{
+    padding:18px 14px;
+  }
+
+  .buson-faq-heading h2{
+    font-size:20px;
+  }
+
+  .buson-faq details p{
+    padding:0 16px 16px;
+  }
+}
+</style>
 </main>
 
 <footer><div class="wrap">BUSON2 · 계산 결과는 입력값과 실제 게임 운영 방식에 따라 달라질 수 있습니다.</div></footer>
