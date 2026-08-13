@@ -1504,6 +1504,42 @@ main.wrap{
   font-weight:800;
 }
 
+
+.char-recent-badge{
+  display:inline-block;
+  margin-top:8px;
+  padding:4px 7px;
+  border-radius:999px;
+  background:#142b22;
+  border:1px solid #275540;
+  color:#8df0bd;
+  font-size:10px;
+  font-weight:800;
+}
+
+.char-delete-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:28px;
+  height:28px;
+  padding:0;
+  border:1px solid #3a4658;
+  border-radius:8px;
+  background:#111a28;
+  color:#92a2b8;
+  font-size:14px;
+  line-height:1;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.char-delete-btn:hover{
+  border-color:#a64c5b;
+  background:#2a151b;
+  color:#ff9aa8;
+}
+
 /* 검색 결과가 없을 때 */
 .char-empty{
   grid-column:1/-1;
@@ -2226,8 +2262,120 @@ window.addEventListener('load', function () {
     });
   }
 
-  function searchCharacter() {
+  const RECENT_CHAR_KEY = 'buson2_recent_characters';
+  const RECENT_CHAR_LIMIT = 10;
 
+  function getRaceName(race) {
+    return Number(race) === 1 ? '천족' : '마족';
+  }
+
+  function getSelectedServerName() {
+    const option = serverEl.options[serverEl.selectedIndex];
+    return option ? option.textContent : '전체 서버';
+  }
+
+  function buildOfficialCharacterSearchUrl(item) {
+    const params = new URLSearchParams();
+    params.set('race', String(item.race));
+    if (item.serverId) params.set('serverId', String(item.serverId));
+    params.set('keyword', item.keyword);
+
+    return 'https://aion2.plaync.com/ko-kr/characters/index?' + params.toString();
+  }
+
+  function loadRecentCharacters() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(RECENT_CHAR_KEY) || '[]');
+      return Array.isArray(saved) ? saved : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveRecentCharacter(item) {
+    const recent = loadRecentCharacters().filter(old => !(
+      String(old.keyword).toLowerCase() === String(item.keyword).toLowerCase() &&
+      String(old.race) === String(item.race) &&
+      String(old.serverId || '') === String(item.serverId || '')
+    ));
+
+    recent.unshift(item);
+    localStorage.setItem(
+      RECENT_CHAR_KEY,
+      JSON.stringify(recent.slice(0, RECENT_CHAR_LIMIT))
+    );
+  }
+
+  function deleteRecentCharacter(index) {
+    const recent = loadRecentCharacters();
+    recent.splice(index, 1);
+    localStorage.setItem(RECENT_CHAR_KEY, JSON.stringify(recent));
+    renderRecentCharacters();
+  }
+
+  function renderRecentCharacters() {
+    const recent = loadRecentCharacters();
+    resultsEl.innerHTML = '';
+
+    if (recent.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'char-empty';
+      empty.textContent = '최근 검색한 캐릭터가 없습니다.';
+      resultsEl.appendChild(empty);
+      statusEl.textContent = '캐릭터명을 입력한 뒤 검색해주세요.';
+      return;
+    }
+
+    statusEl.textContent =
+      '최근 검색 캐릭터 ' + recent.length + '개 · 카드를 누르면 AION2 공식 검색 결과가 열립니다.';
+
+    recent.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'char-result-card';
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.type = 'button';
+      deleteBtn.className = 'char-delete-btn';
+      deleteBtn.title = '최근 검색에서 삭제';
+      deleteBtn.setAttribute('aria-label', item.keyword + ' 최근 검색 삭제');
+      deleteBtn.textContent = '×';
+
+      deleteBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        deleteRecentCharacter(index);
+      });
+
+      const name = document.createElement('div');
+      name.className = 'char-result-name';
+      name.textContent = item.keyword;
+
+      const meta = document.createElement('div');
+      meta.className = 'char-result-meta';
+      meta.textContent =
+        getRaceName(item.race) + ' · ' + (item.serverName || '전체 서버');
+
+      const badge = document.createElement('span');
+      badge.className = 'char-recent-badge';
+      badge.textContent = '최근 검색';
+
+      card.appendChild(deleteBtn);
+      card.appendChild(name);
+      card.appendChild(meta);
+      card.appendChild(badge);
+
+      card.addEventListener('click', function () {
+        window.open(
+          buildOfficialCharacterSearchUrl(item),
+          '_blank',
+          'noopener,noreferrer'
+        );
+      });
+
+      resultsEl.appendChild(card);
+    });
+  }
+
+  function searchCharacter() {
     const keyword = keywordEl.value.trim();
 
     if (!keyword) {
@@ -2236,29 +2384,25 @@ window.addEventListener('load', function () {
       return;
     }
 
-    const race = raceEl.value;
-    const serverId = serverEl.value;
+    const item = {
+      keyword,
+      race: Number(raceEl.value),
+      serverId: serverEl.value,
+      serverName: getSelectedServerName(),
+      searchedAt: Date.now()
+    };
 
-    const params = new URLSearchParams();
-    params.set('race', race);
-    if (serverId) params.set('serverId', serverId);
-    params.set('keyword', keyword);
-
-    const officialUrl =
-      'https://aion2.plaync.com/ko-kr/characters/index?' +
-      params.toString();
+    saveRecentCharacter(item);
+    renderRecentCharacters();
 
     statusEl.textContent =
       'AION2 공식 캐릭터정보실에서 "' + keyword + '" 검색 결과를 엽니다.';
 
-    resultsEl.innerHTML = '';
-
-    const guide = document.createElement('div');
-    guide.className = 'char-empty';
-    guide.textContent = '새 탭에서 AION2 공식 캐릭터 검색 결과를 확인해주세요.';
-    resultsEl.appendChild(guide);
-
-    window.open(officialUrl, '_blank', 'noopener,noreferrer');
+    window.open(
+      buildOfficialCharacterSearchUrl(item),
+      '_blank',
+      'noopener,noreferrer'
+    );
   }
 
 const AION2_SERVERS = [
