@@ -414,19 +414,29 @@ main.wrap{
           <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" value="0"></div>
           <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" value="0"></div>
           <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
-          <div><label>장비 돌파 부위 수 <span class="muted">부위당 +5%</span></label><input id="sp_break" value="0"></div>
+          <div class="breakthrough-box">
+            <label>장비 돌파 단계별 부위 수 <span class="muted">돌파 단계만큼 공격력 % 적용</span></label>
+            <div class="breakthrough-grid">
+              <label><span>+5 돌파</span><input id="sp_break5" value="0"><small>개</small></label>
+              <label><span>+4 돌파</span><input id="sp_break4" value="0"><small>개</small></label>
+              <label><span>+3 돌파</span><input id="sp_break3" value="0"><small>개</small></label>
+              <label><span>+2 돌파</span><input id="sp_break2" value="0"><small>개</small></label>
+              <label><span>+1 돌파</span><input id="sp_break1" value="0"><small>개</small></label>
+            </div>
+            <div id="sp_break_summary" class="breakthrough-summary">돌파 공격력 보너스 +0%</div>
+          </div>
         </div>
 
         <div class="subhead">증폭 스탯</div>
         <div class="fields">
-          <div><label>피해 증폭 %</label><input id="sp_dmg" value="0"></div>
-          <div><label>무기 피해 증폭 %</label><input id="sp_weapon" value="0"></div>
-          <div><label>치명타 피해 증폭 %</label><input id="sp_critdmg" value="0"></div>
-          <div><label>전방 피해 증폭 %</label><input id="sp_front" value="0"></div>
-          <div><label>후방 피해 증폭 %</label><input id="sp_back" value="0"></div>
-          <div><label>강타 %</label><input id="sp_smash" value="0"></div>
-          <div><label>PVE 피해 증폭 %</label><input id="sp_pve" value="0"></div>
-          <div><label>보스 피해 증폭 %</label><input id="sp_boss" value="0"></div>
+          <div><label>피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_dmg" value="0"></div>
+          <div><label>무기 피해 증폭 % <span class="max-roll">펫 맥옵 2.4%</span></label><input id="sp_weapon" value="0"></div>
+          <div><label>치명타 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_critdmg" value="0"></div>
+          <div><label>전방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_front" value="0"></div>
+          <div><label>후방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_back" value="0"></div>
+          <div><label>강타 % <span class="max-roll smash">펫 맥옵 2.4%</span></label><input id="sp_smash" value="0"></div>
+          <div><label>PVE 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_pve" value="0"></div>
+          <div><label>보스 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_boss" value="0"></div>
         </div>
 
         <div class="subhead">전투 환경 가정</div>
@@ -542,6 +552,20 @@ main.wrap{
           </div>
 
           <div id="sp_invest_summary" class="invest-summary"></div>
+
+          <div class="maxroll-panel">
+            <div class="maxroll-head">
+              <div>
+                <b>🎯 펫 이해도 맥옵 기준 효율</b>
+                <span>각 옵션이 맥스 수치로 1줄 붙었을 때 현재 세팅의 예상 딜 상승률입니다.</span>
+              </div>
+            </div>
+            <div id="sp_maxroll_eff" class="maxroll-grid"></div>
+            <div class="maxroll-note">
+              기준: 피해증폭·PVE·보스·치피증·전/후방 3.0%, 무피증·강타 2.4%.
+              피해증폭/PVE/보스는 각 200% 상한을 적용합니다.
+            </div>
+          </div>
 
           <div class="rank-tabs">
             <button class="rank-tab active" data-rank-mode="mixed">내 딜사이클</button>
@@ -1895,6 +1919,129 @@ main.wrap{
   .invest-summary{grid-template-columns:1fr}
 }
 
+
+/* ===== 돌파 단계 입력 / 맥옵 효율 ===== */
+.breakthrough-box{
+  grid-column:1/-1;
+  padding:12px;
+  border:1px solid #2a3a51;
+  border-radius:12px;
+  background:#0d1520;
+}
+.breakthrough-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  margin-top:8px;
+}
+.breakthrough-grid label{
+  position:relative;
+  margin:0;
+}
+.breakthrough-grid label span{
+  display:block;
+  margin-bottom:5px;
+  color:#8fa6c0;
+  font-size:10px;
+  font-weight:800;
+}
+.breakthrough-grid input{
+  padding-right:30px;
+}
+.breakthrough-grid small{
+  position:absolute;
+  right:10px;
+  bottom:12px;
+  color:#657a95;
+  font-size:10px;
+}
+.breakthrough-summary{
+  margin-top:9px;
+  color:#8df0bd;
+  font-size:11px;
+  font-weight:900;
+}
+.max-roll{
+  display:inline-block;
+  margin-left:4px;
+  padding:2px 5px;
+  border-radius:999px;
+  background:#132b22;
+  border:1px solid #28523f;
+  color:#8df0bd;
+  font-size:9px;
+  font-weight:850;
+}
+.max-roll.smash{
+  background:#2a2512;
+  border-color:#5a4c20;
+  color:#ffd86a;
+}
+.maxroll-panel{
+  margin:12px 0 14px;
+  padding:13px;
+  border:1px solid #2d405d;
+  border-radius:12px;
+  background:#0b1420;
+}
+.maxroll-head b{
+  color:#f3f7ff;
+  font-size:13px;
+}
+.maxroll-head span{
+  display:block;
+  margin-top:4px;
+  color:#8398b2;
+  font-size:10px;
+}
+.maxroll-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:11px;
+}
+.maxroll-card{
+  padding:11px;
+  border:1px solid #2a3a50;
+  border-radius:10px;
+  background:#101a28;
+}
+.maxroll-card.best{
+  border-color:#39785a;
+  background:linear-gradient(180deg,#13251d,#0e1814);
+}
+.maxroll-card .mr-name{
+  color:#d9e5f4;
+  font-size:10px;
+  font-weight:900;
+}
+.maxroll-card .mr-roll{
+  margin-top:3px;
+  color:#7f93ad;
+  font-size:9px;
+}
+.maxroll-card .mr-gain{
+  margin-top:7px;
+  color:#8df0bd;
+  font-size:16px;
+  font-weight:950;
+}
+.maxroll-card .mr-status{
+  margin-top:3px;
+  color:#8093aa;
+  font-size:9px;
+}
+.maxroll-note{
+  margin-top:9px;
+  color:#72859d;
+  font-size:9px;
+  line-height:1.5;
+}
+@media(max-width:760px){
+  .breakthrough-grid{grid-template-columns:repeat(2,1fr)}
+  .maxroll-grid{grid-template-columns:repeat(2,1fr)}
+}
+
 </style>
 </main>
 
@@ -2257,7 +2404,7 @@ async function loadOfficialNews(force=false){
 
 
 const SPEC_IDS=[
- 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break',
+ 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
  'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_pve','sp_boss',
  'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_guaranteed_crit_share'
 ];
@@ -2269,7 +2416,13 @@ function sv(id){return Number($('#'+id)?.value||0)}
 function getSpec(){
  return {
   attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
-  destroy:sv('sp_destroy'), power:sv('sp_power'), breakthrough:sv('sp_break'),
+  destroy:sv('sp_destroy'), power:sv('sp_power'),
+  breakthroughBonus:
+    sv('sp_break5')*5 +
+    sv('sp_break4')*4 +
+    sv('sp_break3')*3 +
+    sv('sp_break2')*2 +
+    sv('sp_break1')*1,
   dmg:sv('sp_dmg'), weapon:sv('sp_weapon'), critDmg:sv('sp_critdmg'),
   front:sv('sp_front'), back:sv('sp_back'), smash:sv('sp_smash'), pve:sv('sp_pve'), boss:sv('sp_boss'),
   critRate:clamp(sv('sp_crit_rate'),0,80), direction:($('#sp_direction')?.value||'back'), fbRate:clamp(sv('sp_fb_rate'),0,100),
@@ -2283,10 +2436,11 @@ function getSpec(){
 }
 
 // 공개된 계산 구조를 참고한 독립 구현.
-// 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 돌파 5%p.
+// 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
+// 예: +5돌 1부위 = +5%, +3돌 2부위 = +6%.
 // 돌파분은 장비 귀속으로 보고 장비 해제 공격력에는 제외.
 function deriveAttack(s, flatGearAdd=0){
- const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthrough*5)/100;
+ const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthroughBonus)/100;
  const offInc=1+(s.destroy*0.2+s.power*0.1)/100;
 
  const baseRaw=offInc>0 ? s.attackOff/offInc : s.attackOff;
@@ -2303,7 +2457,10 @@ function deriveAttack(s, flatGearAdd=0){
 function totalMultiplier(s, flatGearAdd=0){
  const a=deriveAttack(s,flatGearAdd);
 
- const effectiveDmgPct=s.dmg+s.pve+s.boss+s.partyDmg-s.targetDmgResist;
+ const cappedDmg=clamp(s.dmg,0,200);
+ const cappedPve=clamp(s.pve,0,200);
+ const cappedBoss=clamp(s.boss,0,200);
+ const effectiveDmgPct=cappedDmg+cappedPve+cappedBoss+s.partyDmg-s.targetDmgResist;
  const general=Math.max(0.01,1+effectiveDmgPct/100);
 
  const normalCritChance=clamp(s.critRate-s.targetCritResist,0,80)/100;
@@ -2343,6 +2500,14 @@ function scoreByMode(result,mode){
 function calcSpec(){
  const s=getSpec();
  const base=totalMultiplier(s);
+
+ const breakParts=
+   sv('sp_break5')+sv('sp_break4')+sv('sp_break3')+sv('sp_break2')+sv('sp_break1');
+ const breakSummary=$('#sp_break_summary');
+ if(breakSummary){
+   breakSummary.textContent=
+     '장착 '+nf(breakParts)+'부위 · 돌파 공격력 보너스 +'+s.breakthroughBonus.toFixed(1)+'%';
+ }
 
  $('#sp_base_attack').textContent=nf(Math.round(base.attack.baseAttack));
  $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack));
@@ -2439,6 +2604,36 @@ function renderRankings(){
  const warningEl=$('#sp_invest_warning');
  warningEl.innerHTML=warnings.map(x=>'• '+escapeHtml(x)).join('<br>');
  warningEl.classList.toggle('show',warnings.length>0);
+
+ const maxRollTests=[
+   {name:'피해 증폭',roll:3.0,apply:t=>({...t,dmg:Math.min(200,t.dmg+3.0)}),capped:s.dmg>=200},
+   {name:'PVE 피해 증폭',roll:3.0,apply:t=>({...t,pve:Math.min(200,t.pve+3.0)}),capped:s.pve>=200},
+   {name:'보스 피해 증폭',roll:3.0,apply:t=>({...t,boss:Math.min(200,t.boss+3.0)}),capped:s.boss>=200},
+   {name:'무기 피해 증폭',roll:2.4,apply:t=>({...t,weapon:t.weapon+2.4})},
+   {name:'치명타 피해 증폭',roll:3.0,apply:t=>({...t,critDmg:t.critDmg+3.0})},
+   {name:'전방 피해 증폭',roll:3.0,apply:t=>({...t,front:t.front+3.0})},
+   {name:'후방 피해 증폭',roll:3.0,apply:t=>({...t,back:t.back+3.0})},
+   {name:'강타',roll:2.4,apply:t=>({...t,smash:t.smash+2.4})}
+ ];
+
+ const mrBase=scoreByMode(base,currentRankMode);
+ const mrRows=maxRollTests.map(t=>{
+   const next=totalMultiplier(t.apply(s));
+   const gain=gainPct(mrBase,scoreByMode(next,currentRankMode));
+   return {...t,gain};
+ }).sort((a,b)=>b.gain-a.gain);
+
+ const mrBox=$('#sp_maxroll_eff');
+ if(mrBox){
+   mrBox.innerHTML=mrRows.map((r,i)=>`
+     <div class="maxroll-card ${i===0?'best':''}">
+       <div class="mr-name">${i===0?'🏆 ':''}${escapeHtml(r.name)}</div>
+       <div class="mr-roll">맥옵 +${r.roll.toFixed(1)}%</div>
+       <div class="mr-gain">+${r.gain.toFixed(2)}%</div>
+       <div class="mr-status">${r.capped?'상한 도달':'현재 세팅 기준 예상 딜 상승'}</div>
+     </div>
+   `).join('');
+ }
 }
 function calcSimulator(){
  const s=getSpec();
@@ -2495,6 +2690,7 @@ function loadSpec(){
  try{
   const d=JSON.parse(localStorage.getItem('buson2-stat-efficiency')||'{}');
   Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+  if(d.sp_break!=null && !d.sp_break5 && $('#sp_break5')) $('#sp_break5').value=d.sp_break;
   $('#sp_saved').textContent=Object.keys(d).length?'저장한 스탯을 불러왔습니다.':'저장된 스탯이 없습니다.';
   calcSpec();
  }catch(e){$('#sp_saved').textContent='저장값을 불러오지 못했습니다.'}
