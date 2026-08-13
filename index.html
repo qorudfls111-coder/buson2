@@ -278,11 +278,6 @@ main.wrap{
           <option value="2" selected>마족</option>
         </select>
 
-<select id="char-race">
-  <option value="1">천족</option>
-  <option value="2" selected>마족</option>
-</select>
-
 <select id="char-server">
   <option value="">전체 서버</option>
 </select>
@@ -2231,7 +2226,7 @@ window.addEventListener('load', function () {
     });
   }
 
-  async function searchCharacter() {
+  function searchCharacter() {
 
     const keyword = keywordEl.value.trim();
 
@@ -2244,73 +2239,28 @@ window.addEventListener('load', function () {
     const race = raceEl.value;
     const serverId = serverEl.value;
 
-    searchBtn.disabled = true;
-    searchBtn.textContent = '검색 중...';
+    const params = new URLSearchParams();
+    params.set('race', race);
+    if (serverId) params.set('serverId', serverId);
+    params.set('keyword', keyword);
 
-    statusEl.textContent = 'AION2 공식 캐릭터 정보를 검색하고 있습니다.';
+    const officialUrl =
+      'https://aion2.plaync.com/ko-kr/characters/index?' +
+      params.toString();
+
+    statusEl.textContent =
+      'AION2 공식 캐릭터정보실에서 "' + keyword + '" 검색 결과를 엽니다.';
+
     resultsEl.innerHTML = '';
 
-    try {
+    const guide = document.createElement('div');
+    guide.className = 'char-empty';
+    guide.textContent = '새 탭에서 AION2 공식 캐릭터 검색 결과를 확인해주세요.';
+    resultsEl.appendChild(guide);
 
-      const params = new URLSearchParams({
-        keyword: keyword,
-        race: race,
-        serverId: serverId,
-        page: '1',
-        size: '30'
-      });
-
-      const apiUrl =
-        'https://aion2.plaync.com/api/search/character?' +
-        params.toString();
-
-      console.log('AION2 검색 요청:', apiUrl);
-
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('HTTP ' + response.status);
-      }
-
-      const data = await response.json();
-
-      console.log('AION2 검색 결과:', data);
-
-      const list = Array.isArray(data.list) ? data.list : [];
-
-      statusEl.textContent =
-        '검색 결과 ' + list.length + '개의 캐릭터를 찾았습니다.';
-
-      renderCharacters(list);
-
-    } catch (error) {
-
-      console.error('AION2 캐릭터 검색 오류:', error);
-
-      statusEl.textContent =
-        '공식 AION2 서버에 직접 연결할 수 없습니다. 브라우저 보안 정책(CORS) 여부를 확인해야 합니다.';
-
-      const errorBox = document.createElement('div');
-      errorBox.className = 'char-empty';
-      errorBox.innerHTML =
-        '<b>검색 연결 테스트 실패</b><br>' +
-        '다음 단계에서 BUSON2용 공식 데이터 중계 방식을 연결할 수 있습니다.';
-
-      resultsEl.appendChild(errorBox);
-
-    } finally {
-
-      searchBtn.disabled = false;
-      searchBtn.textContent = '검색';
-
-    }
-
+    window.open(officialUrl, '_blank', 'noopener,noreferrer');
   }
+
 const AION2_SERVERS = [
   { race: 1, id: 1001, name: '시엘' },
   { race: 1, id: 1002, name: '네자칸' },
