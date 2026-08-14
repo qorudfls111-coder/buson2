@@ -890,6 +890,7 @@ main.wrap{
 </div>
 <table><thead><tr><th>판</th><th>수금 기사</th><th>내 버스비 수금</th><th>내 순수익</th></tr></thead><tbody id="d_table"></tbody></table>
 </div></div>
+<div class="spec-save-panel tab-save-panel" data-tab-save-slots="driver"></div>
 </div>
 </section>
 
@@ -956,6 +957,7 @@ main.wrap{
 <div><label>보유 오드</label><div class="iwrap"><input id="m_ownedOde" value="0"><span class="unit">오드</span></div></div>
 </div><div class="actions"><button class="btn primary" onclick="calcSimple('m')">계산하기</button><button class="btn secondary" onclick="saveTab('main')">본부 저장</button><button class="btn success" onclick="loadTab('main')">본부 불러오기</button></div><div class="saved" id="msg_main"></div></div></div>
 <div class="card"><div class="head"><h2>본부 결과</h2></div><div class="body"><div class="metrics" id="m_metrics"></div></div></div>
+<div class="spec-save-panel tab-save-panel" data-tab-save-slots="main"></div>
 </div></section>
 
 <section id="page-sub" class="hidden">
@@ -1021,6 +1023,7 @@ main.wrap{
 <div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" value="0"><span class="unit">오드</span></div></div>
 </div><div class="actions"><button class="btn primary" onclick="calcSimple('s')">계산하기</button><button class="btn secondary" onclick="saveTab('sub')">부캐 버스 저장</button><button class="btn success" onclick="loadTab('sub')">부캐 버스 불러오기</button></div><div class="saved" id="msg_sub"></div></div></div>
 <div class="card"><div class="head"><h2>부캐 버스 결과</h2><p>부캐 버스에서 선택한 같은 던전을 본부로 돌았을 때와 자동 비교합니다.</p></div><div class="body"><div class="metrics" id="s_metrics"></div></div></div>
+<div class="spec-save-panel tab-save-panel" data-tab-save-slots="sub"></div>
 </div></section>
 
 <section id="page-compare" class="hidden">
@@ -2394,6 +2397,7 @@ main.wrap{
   border-radius:14px;
   background:#0c141f;
 }
+.tab-save-panel{grid-column:1/-1;margin-top:0}
 .spec-save-head{
   display:flex;
   align-items:center;
@@ -2921,6 +2925,84 @@ function loadTab(tab){try{const raw=localStorage.getItem('buson2-v5-'+tab),msg=$
    calcDriver();
  }else{Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});calcSimple(tab==='main'?'m':'s')}
  document.querySelectorAll('.money').forEach(formatMoneyInput);msg.textContent='✓ 저장된 설정을 불러왔습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='불러오기에 실패했습니다.'}}
+
+const TAB_SLOT_COUNT=5;
+const TAB_SLOT_LABELS={driver:'버스 기사',main:'본부',sub:'부캐 버스'};
+function tabSlotKey(tab,slot){return`buson2-${tab}-slot-${slot}`}
+function tabSlotNameKey(tab,slot){return`buson2-${tab}-slot-name-${slot}`}
+function readTabSlot(tab,slot){
+ try{const data=JSON.parse(localStorage.getItem(tabSlotKey(tab,slot))||'{}');return data&&typeof data==='object'?data:{}}catch(e){return{}}
+}
+function readTabSlotName(tab,slot){return localStorage.getItem(tabSlotNameKey(tab,slot))||''}
+function renderTabSaveSlots(){
+ document.querySelectorAll('[data-tab-save-slots]').forEach(panel=>{
+   const tab=panel.dataset.tabSaveSlots;
+   panel.innerHTML=`<div class="spec-save-head"><div><b>💾 ${TAB_SLOT_LABELS[tab]} 설정 저장</b><span>이름을 적고 최대 5개까지 저장할 수 있습니다.</span></div></div><div class="spec-save-grid">${Array.from({length:TAB_SLOT_COUNT},(_,index)=>{
+     const slot=index+1;
+     return `<div class="spec-save-slot tab-save-slot" data-tab="${tab}" data-tab-slot="${slot}"><div class="slot-top"><b>저장 ${slot}</b><span id="${tab}_slot_status_${slot}">비어 있음</span></div><input id="${tab}_slot_name_${slot}" class="slot-name" placeholder="예: 성역 기사 ${slot}" maxlength="20"><div class="slot-actions"><button type="button" class="slot-save" data-tab-slot-save="${slot}" data-tab="${tab}">저장</button><button type="button" class="slot-load" data-tab-slot-load="${slot}" data-tab="${tab}">불러오기</button><button type="button" class="slot-delete" data-tab-slot-delete="${slot}" data-tab="${tab}">삭제</button></div></div>`;
+   }).join('')}</div>`;
+   updateTabSlotUI(tab);
+ });
+}
+function updateTabSlotUI(tab){
+ for(let slot=1;slot<=TAB_SLOT_COUNT;slot++){
+   const hasData=Object.keys(readTabSlot(tab,slot)).length>0;
+   const card=document.querySelector(`.tab-save-slot[data-tab="${tab}"][data-tab-slot="${slot}"]`);
+   const status=$('#'+tab+'_slot_status_'+slot);
+   const input=$('#'+tab+'_slot_name_'+slot);
+   card?.classList.toggle('has-data',hasData);
+   if(status)status.textContent=hasData?'저장됨':'비어 있음';
+   if(input && document.activeElement!==input)input.value=readTabSlotName(tab,slot);
+ }
+}
+function saveTabSlot(tab,slot){
+ const data={};
+ fieldsFor(tab).forEach(id=>{const el=$('#'+id);if(el)data[id]=el.value});
+ const input=$('#'+tab+'_slot_name_'+slot);
+ const name=(input?.value||'').trim()||('저장 '+slot);
+ localStorage.setItem(tabSlotKey(tab,slot),JSON.stringify(data));
+ localStorage.setItem(tabSlotNameKey(tab,slot),name);
+ $('#msg_'+tab).textContent=`✓ ${TAB_SLOT_LABELS[tab]} 저장 ${slot} · "${name}"에 저장했습니다.`;
+ updateTabSlotUI(tab);
+}
+function applyTabSlotSettings(tab,data){
+ if(tab==='driver'){
+   if(data.d_content_type){$('#d_content_type').value=data.d_content_type;updateIncomeOptions('d')}
+   $('#d_driverCount').value=data.d_driverCount||1;
+   syncDriverPartySettings();renderDrivers(false);
+   Object.entries(data).forEach(([id,value])=>{if($('#'+id))$('#'+id).value=value});
+   if(Number($('#d_driverCount').value)===2){renderDrivers(true);Object.entries(data).forEach(([id,value])=>{if($('#'+id))$('#'+id).value=value})}
+   syncDriverPartySettings();calcDriver();
+ }else{
+   const prefix=tab==='main'?'m':'s';
+   if(data[prefix+'_content_type']){$('#'+prefix+'_content_type').value=data[prefix+'_content_type'];updateIncomeOptions(prefix)}
+   Object.entries(data).forEach(([id,value])=>{if($('#'+id))$('#'+id).value=value});
+   calcSimple(prefix);
+ }
+ document.querySelectorAll('.money').forEach(formatMoneyInput);
+}
+function loadTabSlot(tab,slot){
+ const data=readTabSlot(tab,slot);
+ const name=readTabSlotName(tab,slot)||('저장 '+slot);
+ if(!Object.keys(data).length){$('#msg_'+tab).textContent=`${TAB_SLOT_LABELS[tab]} 저장 ${slot}은 비어 있습니다.`;return}
+ applyTabSlotSettings(tab,data);
+ $('#msg_'+tab).textContent=`✓ ${TAB_SLOT_LABELS[tab]} 저장 ${slot} · "${name}"을 불러왔습니다.`;
+}
+function deleteTabSlot(tab,slot){
+ const name=readTabSlotName(tab,slot)||('저장 '+slot);
+ if(!Object.keys(readTabSlot(tab,slot)).length){$('#msg_'+tab).textContent=`${TAB_SLOT_LABELS[tab]} 저장 ${slot}은 이미 비어 있습니다.`;return}
+ localStorage.removeItem(tabSlotKey(tab,slot));
+ localStorage.removeItem(tabSlotNameKey(tab,slot));
+ $('#msg_'+tab).textContent=`✓ ${TAB_SLOT_LABELS[tab]} 저장 ${slot} · "${name}"을 삭제했습니다.`;
+ updateTabSlotUI(tab);
+}
+function saveTabSlotName(tab,slot){
+ const input=$('#'+tab+'_slot_name_'+slot);
+ if(!input)return;
+ const name=input.value.trim();
+ if(name)localStorage.setItem(tabSlotNameKey(tab,slot),name);else localStorage.removeItem(tabSlotNameKey(tab,slot));
+ updateTabSlotUI(tab);
+}
 
 function selectedDungeonLabel(prefix){
  const select=$('#'+prefix+'_income');
@@ -4001,6 +4083,17 @@ for(let slot=1;slot<=SPEC_SLOT_COUNT;slot++){
 }
 migrateOldSpecSave();
 updateSpecSlotUI();
+renderTabSaveSlots();
+document.querySelectorAll('[data-tab-slot-save]').forEach(btn=>btn.addEventListener('click',()=>saveTabSlot(btn.dataset.tab,Number(btn.dataset.tabSlotSave))));
+document.querySelectorAll('[data-tab-slot-load]').forEach(btn=>btn.addEventListener('click',()=>loadTabSlot(btn.dataset.tab,Number(btn.dataset.tabSlotLoad))));
+document.querySelectorAll('[data-tab-slot-delete]').forEach(btn=>btn.addEventListener('click',()=>deleteTabSlot(btn.dataset.tab,Number(btn.dataset.tabSlotDelete))));
+Object.keys(TAB_SLOT_LABELS).forEach(tab=>{
+ for(let slot=1;slot<=TAB_SLOT_COUNT;slot++){
+   const input=$('#'+tab+'_slot_name_'+slot);
+   input?.addEventListener('change',()=>saveTabSlotName(tab,slot));
+   input?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveTabSlotName(tab,slot);input.blur()}});
+ }
+});
 
 $('#sp_calc')?.addEventListener('click',calcSpec);
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
