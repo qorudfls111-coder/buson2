@@ -3954,29 +3954,88 @@ function renderABDifferences(aData,bData){
 }
 
 function renderABCompare(){
- updateABSlotOptions();
- const A=getABData('a');
- const B=getABData('b');
- const aStatus=$('#sp_ab_a');
- const bStatus=$('#sp_ab_b');
- if(aStatus)aStatus.textContent=A.empty?A.name:'✓ '+A.name;
- if(bStatus)bStatus.textContent=B.empty?B.name:'✓ '+B.name;
- const gainEl=$('#sp_ab_gain');
- const namesEl=$('#sp_ab_compare_names');
- const diffBox=$('#sp_ab_differences');
- if(namesEl){
-   namesEl.innerHTML='A : '+escapeHtml(A.name)+'<br>B : '+escapeHtml(B.name);
- }
- if(A.empty||B.empty){
-   if(gainEl)gainEl.textContent='—';
-   if(diffBox)diffBox.innerHTML='<span class="ab-diff-empty">A와 B 세팅을 모두 선택하면 변경점이 표시됩니다.</span>';
-   return;
- }
- const ar=totalMultiplier(specFromSnapshot(A.data));
- const br=totalMultiplier(specFromSnapshot(B.data));
- const g=gainPct(ar.mixedTotal,br.mixedTotal);
- if(gainEl)gainEl.textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
- renderABDifferences(A.data,B.data);
+  updateABSlotOptions();
+
+  const A=getABData('a');
+  const B=getABData('b');
+
+  const aStatus=$('#sp_ab_a');
+  const bStatus=$('#sp_ab_b');
+
+  if(aStatus)aStatus.textContent=A.empty?A.name:'✓ '+A.name;
+  if(bStatus)bStatus.textContent=B.empty?B.name:'✓ '+B.name;
+
+  const gainEl=$('#sp_ab_gain');
+  const namesEl=$('#sp_ab_compare_names');
+  const diffBox=$('#sp_ab_differences');
+
+  if(namesEl){
+    namesEl.innerHTML='A : '+escapeHtml(A.name)+'<br>B : '+escapeHtml(B.name);
+  }
+
+  if(A.empty||B.empty){
+    if(gainEl)gainEl.textContent='—';
+
+    if(diffBox){
+      diffBox.innerHTML=
+        '<span class="ab-diff-empty">'+
+        'A와 B 세팅을 모두 선택하면 변경점이 표시됩니다.'+
+        '</span>';
+    }
+
+    return;
+  }
+
+  const ar=totalMultiplier(specFromSnapshot(A.data));
+  const br=totalMultiplier(specFromSnapshot(B.data));
+
+  const g=gainPct(ar.mixedTotal,br.mixedTotal);
+
+  if(gainEl){
+
+    gainEl.textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
+
+    /* ===== A/B 자동 추천 ===== */
+
+    let recommendText='';
+    let recommendColor='';
+
+    if(g >= 0.5){
+
+      recommendText='🏆 B 세팅 추천';
+      recommendColor='#8df0bd';
+
+    }else if(g <= -0.5){
+
+      recommendText='🏆 A 세팅 추천';
+      recommendColor='#8df0bd';
+
+    }else{
+
+      recommendText='⚖️ 차이 거의 없음';
+      recommendColor='#ffd980';
+
+    }
+
+    let recommendEl=document.getElementById('sp_ab_recommend');
+
+    if(!recommendEl){
+
+      recommendEl=document.createElement('div');
+      recommendEl.id='sp_ab_recommend';
+
+      recommendEl.style.marginTop='10px';
+      recommendEl.style.fontSize='15px';
+      recommendEl.style.fontWeight='900';
+
+      gainEl.insertAdjacentElement('afterend',recommendEl);
+    }
+
+    recommendEl.textContent=recommendText;
+    recommendEl.style.color=recommendColor;
+  }
+
+  renderABDifferences(A.data,B.data);
 }
 
 const SPEC_SLOT_COUNT=5;
