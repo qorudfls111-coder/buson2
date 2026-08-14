@@ -719,7 +719,7 @@ main.wrap{
 <h3>💰 월드 거래소 버스비 정산</h3>
 <div class="note" id="marketNote">
 손님 1명당 버스비를 월드 거래소 판매가로 보고 자동 계산합니다.
-판매 수수료 20%와 등록 수수료 0.2%를 차감한 금액이 실제 수금액으로 반영됩니다.
+판매 수수료 20%와 등록 수수료 2%를 차감한 금액이 실제 수금액으로 반영됩니다.
 </div>
 </div>
 
@@ -742,7 +742,7 @@ main.wrap{
 <div class="metric"><div class="k">내가 수금하는 판수</div><div class="v" id="d_paidRuns">-</div><div class="s">설정 판수 내</div></div>
 <div class="metric"><div class="k">총 수금 버스비</div><div class="v" id="d_fareTotal">-</div><div class="s">선택 기사 기준</div></div>
 <div class="metric"><div class="k">월드 거래소 총 판매가</div><div class="v" id="d_marketGross">-</div><div class="s">수금판 × 손님 수 × 버스비</div></div>
-<div class="metric"><div class="k">월드 거래소 총 수수료</div><div class="v" id="d_marketFees">-</div><div class="s" id="d_marketFeesSub">20% 판매 수수료 + 등록비 0.2%</div></div>
+<div class="metric"><div class="k">월드 거래소 총 수수료</div><div class="v" id="d_marketFees">-</div><div class="s" id="d_marketFeesSub">20% 판매 수수료 + 등록비 2%</div></div>
 <div class="metric"><div class="k">실제 수금 버스비</div><div class="v green" id="d_marketNet">-</div><div class="s">월드 거래소 차감 후</div></div>
 <div class="metric"><div class="k">총 순수익</div><div class="v gold" id="d_grandTotal">-</div><div class="s">월드 거래소 실수령 반영</div></div>
 </div>
@@ -2142,7 +2142,7 @@ function calcDriver(){
  const schedule=[]; cfg.forEach(x=>{for(let i=0;i<x.block;i++)schedule.push(x.name)});
 
  const WORLD_RATE=0.20;
- const LISTING_RATE=0.002;
+ const LISTING_RATE=0.02;
 
  let total=0,paidRuns=0,grossFareTotal=0,netFareTotal=0,totalSaleFee=0,totalListingFee=0,rows=[];
 
@@ -2201,7 +2201,7 @@ function calcDriver(){
    const oneSaleFee=oneGross*WORLD_RATE;
    const oneListingFee=oneGross*LISTING_RATE;
    const oneNet=Math.max(0,oneGross-oneSaleFee-oneListingFee);
-   note.innerHTML=`손님 1명당 버스비 <b>${money(fare)}</b> 입력 시 → 판매 수수료 <b>${money(oneSaleFee)}</b> + 등록비 0.2% <b>${money(oneListingFee)}</b> 차감 → 실제 수금 <b>${money(oneNet)}</b> / 1명`;
+   note.innerHTML=`손님 1명당 버스비 <b>${money(fare)}</b> 입력 시 → 판매 수수료 <b>${money(oneSaleFee)}</b> + 등록비 2% <b>${money(oneListingFee)}</b> 차감 → 실제 수금 <b>${money(oneNet)}</b> / 1명`;
  }
 }
 function simpleStats(p){const income=val(p+'_income'),cost=val(p+'_cost'),ode=val(p+'_ode'),mins=val(p+'_minutes'),runs=Math.max(0,Math.floor(val(p+'_runs'))),owned=val(p+'_ownedOde'),net=income-cost,perOde=ode?net/ode:0,hour=mins?net*60/mins:0,total=net*runs,possible=ode?Math.floor(owned/ode):0;return{income,cost,ode,mins,runs,owned,net,perOde,hour,total,possible,possibleProfit:possible*net}}
