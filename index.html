@@ -629,6 +629,82 @@ main.wrap{
     </div>
   </div>
 
+  <div class="card gear-compare-card" style="margin-top:18px">
+    <div class="head">
+      <h2>🛡️ 장비 교체 비교</h2>
+      <p>현재 장비 한 부위와 교체할 장비의 옵션을 입력하면 현재 캐릭터 스펙을 기준으로 예상 실딜 변화를 비교합니다.</p>
+    </div>
+    <div class="body">
+      <div class="gear-compare-guide">
+        <b>입력 방법</b>
+        현재 스탯창에는 기존 장비 옵션이 이미 반영되어 있습니다.
+        아래에는 <b>비교할 장비 한 부위의 옵션만</b> 입력하세요.
+        계산기는 <b>새 장비 − 현재 장비</b> 차이만 현재 스펙에 반영합니다.
+      </div>
+
+      <div class="gear-compare-grid">
+        <div class="gear-side current">
+          <div class="gear-side-title"><span>A</span><div><b>현재 장비</b><small>지금 착용 중인 한 부위</small></div></div>
+          <div class="gear-fields">
+            <div><label>공격력</label><input id="gc_a_attack" value="0"></div>
+            <div><label>추가 공격력</label><input id="gc_a_addatk" value="0"></div>
+            <div><label>최대 공격력</label><input id="gc_a_maxatk" value="0"></div>
+            <div><label>피해 증폭 %</label><input id="gc_a_dmg" value="0"></div>
+            <div><label>무기 피해 증폭 %</label><input id="gc_a_weapon" value="0"></div>
+            <div><label>치명타 피해 증폭 %</label><input id="gc_a_critdmg" value="0"></div>
+            <div><label>전방 피해 증폭 %</label><input id="gc_a_front" value="0"></div>
+            <div><label>후방 피해 증폭 %</label><input id="gc_a_back" value="0"></div>
+            <div><label>강타 %</label><input id="gc_a_smash" value="0"></div>
+            <div><label>완벽 %</label><input id="gc_a_perfect" value="0"></div>
+            <div><label>PVE 피해 증폭 %</label><input id="gc_a_pve" value="0"></div>
+            <div><label>보스 피해 증폭 %</label><input id="gc_a_boss" value="0"></div>
+          </div>
+        </div>
+
+        <div class="gear-swap-arrow">→</div>
+
+        <div class="gear-side new">
+          <div class="gear-side-title"><span>B</span><div><b>교체 장비</b><small>바꿀 장비 한 부위</small></div></div>
+          <div class="gear-fields">
+            <div><label>공격력</label><input id="gc_b_attack" value="0"></div>
+            <div><label>추가 공격력</label><input id="gc_b_addatk" value="0"></div>
+            <div><label>최대 공격력</label><input id="gc_b_maxatk" value="0"></div>
+            <div><label>피해 증폭 %</label><input id="gc_b_dmg" value="0"></div>
+            <div><label>무기 피해 증폭 %</label><input id="gc_b_weapon" value="0"></div>
+            <div><label>치명타 피해 증폭 %</label><input id="gc_b_critdmg" value="0"></div>
+            <div><label>전방 피해 증폭 %</label><input id="gc_b_front" value="0"></div>
+            <div><label>후방 피해 증폭 %</label><input id="gc_b_back" value="0"></div>
+            <div><label>강타 %</label><input id="gc_b_smash" value="0"></div>
+            <div><label>완벽 %</label><input id="gc_b_perfect" value="0"></div>
+            <div><label>PVE 피해 증폭 %</label><input id="gc_b_pve" value="0"></div>
+            <div><label>보스 피해 증폭 %</label><input id="gc_b_boss" value="0"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gear-compare-actions">
+        <button class="btn primary" id="gc_calc" type="button">장비 비교하기</button>
+        <button class="btn secondary" id="gc_swap" type="button">A ↔ B 바꾸기</button>
+        <button class="btn secondary" id="gc_reset" type="button">입력 초기화</button>
+      </div>
+
+      <div id="gc_result" class="gear-compare-result">
+        <div class="gear-result-main">
+          <div class="gear-result-label">교체 예상 실딜 변화</div>
+          <div class="gear-result-big neutral" id="gc_gain">+0.00%</div>
+          <div class="gear-result-verdict" id="gc_verdict">옵션을 입력하고 비교해주세요.</div>
+        </div>
+        <div class="gear-result-modes">
+          <div><span>일반 스킬</span><b id="gc_normal">+0.00%</b></div>
+          <div><span>확정 치명</span><b id="gc_guaranteed">+0.00%</b></div>
+          <div class="accent"><span>내 딜사이클</span><b id="gc_mixed">+0.00%</b></div>
+        </div>
+        <div id="gc_deltas" class="gear-delta-list"></div>
+        <div id="gc_note" class="gear-result-note"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="card" style="margin-top:18px">
     <div class="head">
       <h2>🧪 옵션 시뮬레이터</h2>
@@ -2077,6 +2153,44 @@ main.wrap{
 #page-spec .calc-trust-note .trust-warn{line-height:1.55}
 .maxroll-card .mr-status{min-height:28px}
 
+
+/* ===== 장비 교체 비교 ===== */
+.gear-compare-card{background:radial-gradient(circle at 85% 0,rgba(106,130,255,.08),transparent 32%),linear-gradient(180deg,#171e2b,#0f141d)}
+.gear-compare-guide{padding:12px 14px;border:1px solid #2e405a;border-radius:12px;background:#0b1420;color:#aab9cc;font-size:13px;line-height:1.65}
+.gear-compare-guide b{color:#8fc3ff}
+.gear-compare-grid{display:grid;grid-template-columns:1fr 42px 1fr;gap:12px;align-items:stretch;margin-top:14px}
+.gear-side{padding:14px;border:1px solid #2a374b;border-radius:14px;background:#0d141f}
+.gear-side.new{border-color:#355d4a;background:linear-gradient(180deg,#0f1a18,#0c1514)}
+.gear-side-title{display:flex;gap:10px;align-items:center;margin-bottom:13px}
+.gear-side-title>span{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:#18253a;color:#a9c9ff;font-weight:950}
+.gear-side.new .gear-side-title>span{background:#153226;color:#8df0bd}
+.gear-side-title b{font-size:16px}
+.gear-side-title small{display:block;margin-top:2px;color:#7f91a9;font-size:10px}
+.gear-fields{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.gear-fields label{font-size:11px;margin-bottom:5px}
+.gear-fields input{padding:10px 11px;font-size:13px}
+.gear-swap-arrow{display:grid;place-items:center;color:#6e83a3;font-size:25px;font-weight:900}
+.gear-compare-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.gear-compare-result{margin-top:15px;padding:17px;border:1px solid #2c3c52;border-radius:15px;background:#0c131d}
+.gear-result-main{text-align:center}
+.gear-result-label{color:#8799b0;font-size:12px}
+.gear-result-big{margin-top:5px;font-size:36px;font-weight:1000;color:#8df0bd}
+.gear-result-big.negative{color:#ff8b9d}
+.gear-result-big.neutral{color:#c2ccda}
+.gear-result-verdict{margin-top:4px;font-size:14px;font-weight:900;color:#dbe6f5}
+.gear-result-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}
+.gear-result-modes>div{padding:11px;border:1px solid #29384c;border-radius:11px;background:#101925}
+.gear-result-modes>div.accent{border-color:#3b674f;background:#102018}
+.gear-result-modes span{display:block;color:#8194ad;font-size:10px;margin-bottom:5px}
+.gear-result-modes b{font-size:17px}
+.gear-delta-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.gear-delta-chip{padding:6px 9px;border-radius:999px;border:1px solid #2e3c51;background:#111b29;color:#afbed2;font-size:11px}
+.gear-delta-chip.pos{border-color:#315a46;background:#11241b;color:#8df0bd}
+.gear-delta-chip.neg{border-color:#5d3740;background:#26161a;color:#ff9cac}
+.gear-result-note{margin-top:12px;color:#7589a2;font-size:11px;line-height:1.6}
+@media(max-width:860px){.gear-compare-grid{grid-template-columns:1fr}.gear-swap-arrow{transform:rotate(90deg);height:32px}.gear-result-modes{grid-template-columns:1fr}}
+@media(max-width:560px){.gear-fields{grid-template-columns:1fr}}
+
 </style>
 </main>
 
@@ -2657,6 +2771,7 @@ function calcSpec(){
  renderRankings();
  calcSimulator();
  renderABCompare();
+ calcGearCompare();
 }
 
 function renderRankings(){
@@ -2772,6 +2887,91 @@ function renderRankings(){
    `).join('');
  }
 }
+
+const GEAR_COMPARE_FIELDS=[
+ ['attack','공격력',''],['addatk','추가 공격력',''],['maxatk','최대 공격력',''],
+ ['dmg','피해 증폭','%'],['weapon','무기 피해 증폭','%'],['critdmg','치명타 피해 증폭','%'],
+ ['front','전방 피해 증폭','%'],['back','후방 피해 증폭','%'],['smash','강타','%'],
+ ['perfect','완벽','%'],['pve','PVE 피해 증폭','%'],['boss','보스 피해 증폭','%']
+];
+
+function gearCompareRead(side){
+ const o={};
+ GEAR_COMPARE_FIELDS.forEach(([key])=>{o[key]=Number($('#gc_'+side+'_'+key)?.value||0)});
+ return o;
+}
+function gearCompareAdjustedSpec(base,a,b){
+ const d={};
+ GEAR_COMPARE_FIELDS.forEach(([key])=>d[key]=(b[key]||0)-(a[key]||0));
+ return {
+   spec:{...base,dmg:base.dmg+d.dmg,weapon:base.weapon+d.weapon,critDmg:base.critDmg+d.critdmg,
+     front:base.front+d.front,back:base.back+d.back,smash:base.smash+d.smash,
+     perfect:base.perfect+d.perfect,pve:base.pve+d.pve,boss:base.boss+d.boss},
+   delta:d
+ };
+}
+function signedPct(v){const n=Number(v)||0;return (n>=0?'+':'')+n.toFixed(2)+'%'}
+
+function calcGearCompare(){
+ const baseSpec=getSpec();
+ const a=gearCompareRead('a'),b=gearCompareRead('b');
+ const adjusted=gearCompareAdjustedSpec(baseSpec,a,b),d=adjusted.delta;
+ const before=totalMultiplier(baseSpec);
+ const after=totalMultiplier(adjusted.spec,d.attack,d.addatk,d.maxatk);
+
+ const normal=gainPct(before.normalTotal,after.normalTotal);
+ const guaranteed=gainPct(before.guaranteedTotal,after.guaranteedTotal);
+ const mixed=gainPct(before.mixedTotal,after.mixedTotal);
+
+ const gainEl=$('#gc_gain');
+ if(gainEl){
+   gainEl.textContent=signedPct(mixed);
+   gainEl.classList.toggle('negative',mixed<-0.005);
+   gainEl.classList.toggle('neutral',Math.abs(mixed)<=0.005);
+ }
+ $('#gc_normal').textContent=signedPct(normal);
+ $('#gc_guaranteed').textContent=signedPct(guaranteed);
+ $('#gc_mixed').textContent=signedPct(mixed);
+
+ let verdict='거의 동일한 세팅입니다.';
+ if(mixed>0.05)verdict='✅ B 장비 교체 추천';
+ else if(mixed<-0.05)verdict='❌ 현재 A 장비 유지 추천';
+ $('#gc_verdict').textContent=verdict;
+
+ const chips=[];
+ GEAR_COMPARE_FIELDS.forEach(([key,label,unit])=>{
+   const v=d[key]||0;
+   if(Math.abs(v)<1e-9)return;
+   chips.push(`<span class="gear-delta-chip ${v>0?'pos':'neg'}">${escapeHtml(label)} ${v>0?'+':''}${nf(v)}${unit}</span>`);
+ });
+ $('#gc_deltas').innerHTML=chips.length?chips.join(''):'<span class="gear-delta-chip">A와 B의 입력 옵션이 같습니다.</span>';
+
+ const notes=[];
+ if((a.maxatk||b.maxatk)&&!(baseSpec.weaponMax>baseSpec.weaponMin&&baseSpec.weaponMin>0))
+   notes.push('최대 공격력 효율은 스펙 입력에서 주무기 최소/최대 공격력을 입력해야 정확히 비교할 수 있습니다.');
+ if(a.perfect!==b.perfect&&!(baseSpec.weaponMax>baseSpec.weaponMin&&baseSpec.weaponMin>0))
+   notes.push('완벽 효율은 주무기 최소/최대 공격력 범위가 없으면 차이가 반영되지 않습니다.');
+ notes.push('공격력·추가 공격력·최대 공격력도 현재 A 장비 수치를 다시 더하지 않고 B−A 차이만 반영합니다.');
+ notes.push('현재 입력된 보스 저항, 전/후방 유지율, 치명 조건과 딜사이클을 그대로 사용합니다.');
+ $('#gc_note').innerHTML=notes.map(x=>'• '+escapeHtml(x)).join('<br>');
+}
+
+function swapGearCompare(){
+ GEAR_COMPARE_FIELDS.forEach(([key])=>{
+   const a=$('#gc_a_'+key),b=$('#gc_b_'+key);
+   if(!a||!b)return;
+   const tmp=a.value;a.value=b.value;b.value=tmp;
+ });
+ calcGearCompare();
+}
+function resetGearCompare(){
+ GEAR_COMPARE_FIELDS.forEach(([key])=>{
+   const a=$('#gc_a_'+key),b=$('#gc_b_'+key);
+   if(a)a.value='0';if(b)b.value='0';
+ });
+ calcGearCompare();
+}
+
 function calcSimulator(){
  const s=getSpec();
  const base=totalMultiplier(s);
@@ -3084,6 +3284,13 @@ document.querySelectorAll('.rank-tab').forEach(btn=>btn.addEventListener('click'
 $('#sp_save_a')?.addEventListener('click',()=>saveAB('a'));
 $('#sp_save_b')?.addEventListener('click',()=>saveAB('b'));
 
+$('#gc_calc')?.addEventListener('click',calcGearCompare);
+$('#gc_swap')?.addEventListener('click',swapGearCompare);
+$('#gc_reset')?.addEventListener('click',resetGearCompare);
+GEAR_COMPARE_FIELDS.forEach(([key])=>{
+ $('#gc_a_'+key)?.addEventListener('input',calcGearCompare);
+ $('#gc_b_'+key)?.addEventListener('input',calcGearCompare);
+});
 $('#sp_calc')?.addEventListener('click',calcSpec);
 $('#sp_save')?.addEventListener('click',saveSpec);
 $('#sp_load')?.addEventListener('click',loadSpec);
@@ -3091,6 +3298,7 @@ SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('change',calcSpec));
 SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
 calcSpec();
+calcGearCompare();
 $('#cmp_ode_budget')?.addEventListener('input',buildCompare);
 $('#cmp_hours')?.addEventListener('input',buildCompare);
 $('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');buildCompare();
