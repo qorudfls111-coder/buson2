@@ -797,6 +797,7 @@ main.wrap{
 <div><label>콘텐츠 유형</label><select id="d_content_type">
 <option value="expedition" selected>원정</option>
 <option value="transcendence">초월</option>
+<option value="sanctuary">성역</option>
 </select></div>
 <div><label>한 판 기본 획득 키나</label><select id="d_income">
 <option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
@@ -836,21 +837,23 @@ main.wrap{
 <option value="2400000" data-ode="80">노이란 3단 - 240만</option>
 <option value="2100000" data-ode="60">노이란 4단 - 210만</option>
 <option value="4200000" data-ode="120">노이란 4단 - 420만</option>
+<option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
+<option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
 </select></div>
-<div><label>한 판 소비 키나</label><div class="iwrap"><input id="d_cost" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>한 판 소비 오드</label><select id="d_ode">
 <option value="0" selected>0 오드</option>
 <option value="40">40 오드</option>
 <option value="60">60 오드</option>
 <option value="80">80 오드</option>
 <option value="120">120 오드</option>
+<option value="160">160 오드</option>
 </select></div>
 <div><label>한 판 소요시간</label><div class="iwrap"><input id="d_minutes" value="0"><span class="unit">분</span></div></div>
 <div><label>손님 1명당 버스비</label><div class="iwrap"><input id="d_fare" class="money" value="0"><span class="unit">키나</span></div></div>
-<div><label>손님 수</label><div class="iwrap"><input id="d_passengers" value="0"><span class="unit">명</span></div></div>
+<div><label id="d_passengers_label">손님 수</label><div class="iwrap"><input id="d_passengers" value="0"><span class="unit">명</span></div></div>
 <div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
 <div><label>내 기사</label><select id="d_myDriver"></select></div>
-<div><label>계산할 총 판수</label><div class="iwrap"><input id="d_runs" value="0"><span class="unit">판</span></div></div>
+<div><label id="d_runs_label">계산할 총 판수</label><div class="iwrap"><input id="d_runs" value="0"><span class="unit">판</span></div></div>
 
 </div>
 
@@ -878,9 +881,9 @@ main.wrap{
 <div class="metric"><div class="k">설정 판수 총 순수익</div><div class="v" id="d_total">-</div><div class="s" id="d_total_short"></div></div>
 <div class="metric"><div class="k">오드 1당 순수익</div><div class="v" id="d_perOde">-</div><div class="s">평균 기준</div></div>
 <div class="metric"><div class="k">시간당 순수익</div><div class="v gold" id="d_hour">-</div><div class="s" id="d_hour_short"></div></div>
-<div class="metric"><div class="k">내가 수금하는 판수</div><div class="v" id="d_paidRuns">-</div><div class="s">설정 판수 내</div></div>
+<div class="metric"><div class="k">나에게 결제하는 승객 수</div><div class="v" id="d_paidRuns">-</div><div class="s">성역 1판 · 분할 결제 포함</div></div>
 <div class="metric"><div class="k">총 수금 버스비</div><div class="v" id="d_fareTotal">-</div><div class="s">선택 기사 기준</div></div>
-<div class="metric"><div class="k">월드 거래소 총 판매가</div><div class="v" id="d_marketGross">-</div><div class="s">수금판 × 손님 수 × 버스비</div></div>
+<div class="metric"><div class="k">월드 거래소 총 판매가</div><div class="v" id="d_marketGross">-</div><div class="s" id="d_marketGrossSub">수금판 × 손님 수 × 버스비</div></div>
 <div class="metric"><div class="k">월드 거래소 총 수수료</div><div class="v" id="d_marketFees">-</div><div class="s" id="d_marketFeesSub">20% 판매 수수료 + 등록비 2%</div></div>
 <div class="metric"><div class="k">실제 수금 버스비</div><div class="v green" id="d_marketNet">-</div><div class="s">월드 거래소 차감 후</div></div>
 <div class="metric"><div class="k">총 순수익</div><div class="v gold" id="d_grandTotal">-</div><div class="s">월드 거래소 실수령 반영</div></div>
@@ -896,6 +899,7 @@ main.wrap{
 <div><label>콘텐츠 유형</label><select id="m_content_type">
 <option value="expedition" selected>원정</option>
 <option value="transcendence">초월</option>
+<option value="sanctuary">성역</option>
 </select></div>
 <div><label>한 판 획득 기본 키나</label><select id="m_income">
 <option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
@@ -935,6 +939,8 @@ main.wrap{
 <option value="2400000" data-ode="80">노이란 3단 - 240만</option>
 <option value="2100000" data-ode="60">노이란 4단 - 210만</option>
 <option value="4200000" data-ode="120">노이란 4단 - 420만</option>
+<option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
+<option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
 </select></div>
 <div><label>한 판 소비 키나</label><div class="iwrap"><input id="m_cost" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>한 판 소비 오드</label><select id="m_ode">
@@ -943,6 +949,7 @@ main.wrap{
 <option value="60">60 오드</option>
 <option value="80">80 오드</option>
 <option value="120">120 오드</option>
+<option value="160">160 오드</option>
 </select></div>
 <div><label>한 판 소요시간</label><div class="iwrap"><input id="m_minutes" value="0"><span class="unit">분</span></div></div>
 <div><label>계산할 판수</label><div class="iwrap"><input id="m_runs" value="0"><span class="unit">판</span></div></div>
@@ -957,6 +964,7 @@ main.wrap{
 <div><label>콘텐츠 유형</label><select id="s_content_type">
 <option value="expedition" selected>원정</option>
 <option value="transcendence">초월</option>
+<option value="sanctuary">성역</option>
 </select></div>
 <div><label>한 판 획득 기본 키나</label><select id="s_income">
 <option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
@@ -996,6 +1004,8 @@ main.wrap{
 <option value="2400000" data-ode="80">노이란 3단 - 240만</option>
 <option value="2100000" data-ode="60">노이란 4단 - 210만</option>
 <option value="4200000" data-ode="120">노이란 4단 - 420만</option>
+<option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
+<option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
 </select></div>
 <div><label>한 판 버스비/소비 키나</label><div class="iwrap"><input id="s_cost" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>한 판 소비 오드</label><select id="s_ode">
@@ -1004,6 +1014,7 @@ main.wrap{
 <option value="60">60 오드</option>
 <option value="80">80 오드</option>
 <option value="120">120 오드</option>
+<option value="160">160 오드</option>
 </select></div>
 <div><label>한 판 소요시간</label><div class="iwrap"><input id="s_minutes" value="0"><span class="unit">분</span></div></div>
 <div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" value="0"><span class="unit">판</span></div></div>
@@ -2646,15 +2657,49 @@ function syncOdeFromDungeon(prefix){
  const opt=incomeSel.options[incomeSel.selectedIndex];
  if(opt && opt.dataset.ode!==undefined) odeSel.value=opt.dataset.ode;
 }
+function driverMaxCount(){
+ return $('#d_content_type')?.value==='sanctuary'?9:3;
+}
+function syncDriverPartySettings(){
+ const countEl=$('#d_driverCount');
+ const passengerEl=$('#d_passengers');
+ const passengerLabel=$('#d_passengers_label');
+ const runsEl=$('#d_runs');
+ const runsLabel=$('#d_runs_label');
+ if(!countEl||!passengerEl)return;
+
+ const previous=Math.max(1,Number(countEl.value)||1);
+ const max=driverMaxCount();
+ countEl.innerHTML=Array.from({length:max},(_,i)=>`<option value="${i+1}">${i+1}명</option>`).join('');
+ countEl.value=String(Math.min(previous,max));
+
+ const isSanctuary=$('#d_content_type')?.value==='sanctuary';
+ passengerEl.readOnly=isSanctuary;
+ passengerEl.setAttribute('aria-readonly',String(isSanctuary));
+ if(isSanctuary){
+   passengerEl.value=Math.max(1,10-Number(countEl.value));
+   passengerEl.title='무스펠 어려움은 10인 파티이므로 기사 수에 따라 자동 계산됩니다.';
+   if(passengerLabel)passengerLabel.textContent='버스 받는 승객 수 (10인 자동)';
+   if(runsEl){runsEl.value='1';runsEl.readOnly=true;runsEl.setAttribute('aria-readonly','true')}
+   if(runsLabel)runsLabel.textContent='성역 판수 (1판 고정)';
+ }else{
+   passengerEl.removeAttribute('title');
+   if(passengerLabel)passengerLabel.textContent='손님 수';
+   if(runsEl){runsEl.readOnly=false;runsEl.setAttribute('aria-readonly','false')}
+   if(runsLabel)runsLabel.textContent='계산할 총 판수';
+ }
+}
 function renderDrivers(preserve=true){
- const count=Math.max(1,Math.min(3,Number($('#d_driverCount').value)||1));
+ const count=Math.max(1,Math.min(driverMaxCount(),Number($('#d_driverCount').value)||1));
  const old={};
  if(preserve){document.querySelectorAll('[data-block-driver]').forEach(x=>old[x.dataset.blockDriver]=x.value)}
- const names=['A','B','C'];
+ const names=Array.from({length:9},(_,i)=>String(i+1));
 
  const previous=$('#d_myDriver').value;
  $('#d_myDriver').innerHTML=names.slice(0,count).map(n=>`<option value="${n}">기사 ${n}</option>`).join('');
- if(names.slice(0,count).includes(previous))$('#d_myDriver').value=previous;
+ const oldNameMap={A:'1',B:'2',C:'3'};
+ const normalizedPrevious=oldNameMap[previous]||previous;
+ if(names.slice(0,count).includes(normalizedPrevious))$('#d_myDriver').value=normalizedPrevious;
 
  if(count===2){
    $('#driverBlocks').innerHTML=names.slice(0,2).map(n=>`
@@ -2663,45 +2708,99 @@ function renderDrivers(preserve=true){
      <label>연속 수금 판수</label>
      <div class="iwrap"><input id="d_block${n}" data-block-driver="${n}" value="${old[n]??0}"><span class="unit">판</span></div>
    </div>`).join('');
-   $('#rotationNote').textContent='기사 A가 설정한 판수만큼 수금한 뒤 기사 B가 설정한 판수만큼 수금하고, 다시 A → B 순서로 반복합니다.';
+   $('#rotationNote').textContent='기사 1이 설정한 판수만큼 수금한 뒤 기사 2가 설정한 판수만큼 수금하고, 다시 1 → 2 순서로 반복합니다.';
    document.querySelectorAll('[data-block-driver]').forEach(x=>x.addEventListener('input',calcDriver));
  }else{
    $('#driverBlocks').innerHTML='';
    if(count===1){
      $('#rotationNote').textContent='기사 1명이 모든 판의 손님에게 계속 수금합니다. 연속 수금 판수 설정은 필요하지 않습니다.';
    }else{
-     $('#rotationNote').textContent='기사 3명은 A → B → C 순서로 1판씩 번갈아 수금하는 방식으로 계산합니다.';
+     const passengers=Math.max(0,Math.floor(val('d_passengers')));
+     const isSanctuary=$('#d_content_type')?.value==='sanctuary';
+     if(isSanctuary && passengers>0){
+       const totalFare=val('d_fare')*passengers;
+       const fairPerDriver=count?totalFare/count:0;
+       $('#rotationNote').textContent=`성역은 1판 고정입니다. 승객 ${passengers}명의 총 버스비를 기사 ${count}명에게 나누며, 필요한 승객은 아이템을 2개 이상 나눠 구매합니다. 기사 1명당 약 ${money(fairPerDriver)}씩 받습니다.`;
+     }else{
+       $('#rotationNote').textContent=`기사 ${count}명은 1 → ${count} 순서로 1판씩 번갈아 수금하는 방식으로 계산합니다.`;
+     }
    }
  }
  calcDriver();
 }
 function getDriverConfig(){
- const count=Math.max(1,Math.min(3,Number($('#d_driverCount').value)||1));
- if(count===1) return [{name:'A',block:1}];
+ const count=Math.max(1,Math.min(driverMaxCount(),Number($('#d_driverCount').value)||1));
+ if(count===1) return [{name:'1',block:1}];
  if(count===2){
-   return ['A','B'].map(n=>({name:n,block:Math.max(0,Math.floor(val('d_block'+n)))}));
+   return ['1','2'].map(n=>({name:n,block:Math.max(0,Math.floor(val('d_block'+n)))}));
  }
- return [{name:'A',block:1},{name:'B',block:1},{name:'C',block:1}];
+ return Array.from({length:count},(_,i)=>({name:String(i+1),block:1}));
+}
+function buildSanctuaryFairPlan(fare,passengers,driverCount){
+ const totalFare=Math.max(0,Math.round(fare))*Math.max(0,passengers);
+ const roundUnit=100000;
+ const driverGross=[];
+ let previousBoundary=0;
+
+ for(let driverIndex=1;driverIndex<=driverCount;driverIndex++){
+   const boundary=driverIndex===driverCount
+     ?totalFare
+     :Math.max(previousBoundary,Math.min(totalFare,Math.round((totalFare*driverIndex/driverCount)/roundUnit)*roundUnit));
+   driverGross.push(boundary-previousBoundary);
+   previousBoundary=boundary;
+ }
+
+ const transactions=[];
+ let passengerIndex=0,driverIndex=0;
+ let passengerRemaining=Math.max(0,Math.round(fare));
+ let driverRemaining=driverGross[0]||0;
+
+ while(passengerIndex<passengers && driverIndex<driverCount){
+   if(passengerRemaining<=0){passengerIndex++;passengerRemaining=Math.max(0,Math.round(fare));continue}
+   if(driverRemaining<=0){driverIndex++;driverRemaining=driverGross[driverIndex]||0;continue}
+   const amount=Math.min(passengerRemaining,driverRemaining);
+   if(amount>0)transactions.push({passenger:passengerIndex+1,driver:String(driverIndex+1),amount});
+   passengerRemaining-=amount;
+   driverRemaining-=amount;
+ }
+
+ return{totalFare,driverGross,transactions};
 }
 function calcDriver(){
  const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fare=val('d_fare'),passengers=Math.max(0,Math.floor(val('d_passengers')));
- const mine=$('#d_myDriver').value||'A',runs=Math.max(0,Math.floor(val('d_runs'))),cfg=getDriverConfig();
+ const isSanctuary=$('#d_content_type')?.value==='sanctuary';
+ const mine=$('#d_myDriver').value||'1',runs=isSanctuary?1:Math.max(0,Math.floor(val('d_runs'))),cfg=getDriverConfig();
  const schedule=[]; cfg.forEach(x=>{for(let i=0;i<x.block;i++)schedule.push(x.name)});
+ const fairSanctuaryPlan=isSanctuary?buildSanctuaryFairPlan(fare,passengers,cfg.length):null;
 
  const WORLD_RATE=0.20;
  const LISTING_RATE=0.02;
 
- let total=0,paidRuns=0,grossFareTotal=0,netFareTotal=0,totalSaleFee=0,totalListingFee=0,rows=[];
+ let total=0,paidPassengers=0,grossFareTotal=0,netFareTotal=0,totalSaleFee=0,totalListingFee=0,rows=[];
 
  if(runs>0){
    for(let i=0;i<runs;i++){
      const receiver=schedule.length?schedule[i%schedule.length]:'-';
 
-     // 내 수금판이면 손님 1명당 월드 거래소에 버스비 가격으로 1건씩 등록한다고 계산.
+     // 성역은 한 판 안에서 승객별 결제를 쪼개 모든 기사에게 거의 같은 금액이 돌아가게 한다.
      let grossFare=0,netFare=0,saleFee=0,listingFee=0;
+     let receiverLabel=receiver==='-'?'-':`<span class="badge">기사 ${receiver}</span>`;
 
-     if(receiver===mine && fare>0 && passengers>0){
-       paidRuns++;
+     if(fairSanctuaryPlan){
+       const assigned=fairSanctuaryPlan.transactions;
+       const mineTransactions=assigned.filter(x=>x.driver===mine);
+       paidPassengers=new Set(mineTransactions.map(x=>x.passenger)).size;
+       grossFare=mineTransactions.reduce((sum,x)=>sum+x.amount,0);
+       saleFee=grossFare*WORLD_RATE;
+       listingFee=grossFare*LISTING_RATE;
+       netFare=grossFare-saleFee-listingFee;
+       grossFareTotal+=grossFare;
+       netFareTotal+=netFare;
+       totalSaleFee+=saleFee;
+       totalListingFee+=listingFee;
+       receiverLabel=assigned.length?assigned.map(x=>`<span class="badge">손님 ${x.passenger} → 기사 ${x.driver} · ${money(x.amount)}</span>`).join(' '):'-';
+     }else if(receiver===mine && fare>0 && passengers>0){
+       paidPassengers=paidPassengers+passengers;
        grossFare=fare*passengers;
        saleFee=grossFare*WORLD_RATE;
        listingFee=grossFare*LISTING_RATE;
@@ -2719,7 +2818,7 @@ function calcDriver(){
      if(i<24){
        rows.push(`<tr>
          <td>${i+1}판</td>
-         <td>${receiver==='-'?'-':`<span class="badge">기사 ${receiver}</span>`}</td>
+         <td>${receiverLabel}</td>
          <td>${money(netFare)}</td>
          <td>${money(net)}</td>
        </tr>`);
@@ -2732,15 +2831,28 @@ function calcDriver(){
  $('#d_total').textContent=money(total);$('#d_total_short').textContent=short(total);
  $('#d_perOde').textContent=money(perOde);
  $('#d_hour').textContent=money(hour);$('#d_hour_short').textContent=short(hour)+'/시간';
- $('#d_paidRuns').textContent=nf(paidRuns)+' 판';
+ $('#d_paidRuns').textContent=nf(paidPassengers)+' 명';
  $('#d_fareTotal').textContent=money(netFareTotal);
  $('#d_table').innerHTML=rows.join('');
 
  $('#d_marketGross').textContent=money(grossFareTotal);
+ const grossSub=$('#d_marketGrossSub');
+ if(grossSub)grossSub.textContent=isSanctuary?'선택 기사에게 배정된 아이템 판매가 합계':'수금판 × 손님 수 × 버스비';
  $('#d_marketFees').textContent=money(totalSaleFee+totalListingFee);
  $('#d_marketNet').textContent=money(netFareTotal);
  $('#d_grandTotal').textContent=money(total);
  $('#d_marketFeesSub').textContent=`판매 ${money(totalSaleFee)} + 등록 ${money(totalListingFee)}`;
+
+ if(fairSanctuaryPlan){
+   const minDriverFare=Math.min(...fairSanctuaryPlan.driverGross);
+   const maxDriverFare=Math.max(...fairSanctuaryPlan.driverGross);
+   const splitPassengers=new Set(
+     fairSanctuaryPlan.transactions
+       .filter((x,index,all)=>all.some(y=>y.passenger===x.passenger && y.driver!==x.driver))
+       .map(x=>x.passenger)
+   );
+   $('#rotationNote').textContent=`성역 1판 공평 정산: 승객 ${passengers}명은 각각 총 ${money(fare)}만 결제하고, ${splitPassengers.size}명은 아이템을 나눠 구매합니다. 기사별 판매가는 ${money(minDriverFare)}~${money(maxDriverFare)}로 최대 ${money(maxDriverFare-minDriverFare)}만 차이 납니다.`;
+ }
 
  const note=$('#marketNote');
  if(note){
@@ -2748,7 +2860,11 @@ function calcDriver(){
    const oneSaleFee=oneGross*WORLD_RATE;
    const oneListingFee=oneGross*LISTING_RATE;
    const oneNet=Math.max(0,oneGross-oneSaleFee-oneListingFee);
-   note.innerHTML=`손님 1명당 버스비 <b>${money(fare)}</b> 입력 시 → 판매 수수료 <b>${money(oneSaleFee)}</b> + 등록비 2% <b>${money(oneListingFee)}</b> 차감 → 실제 수금 <b>${money(oneNet)}</b> / 1명`;
+   if(fairSanctuaryPlan){
+     note.innerHTML=`승객 ${passengers}명 × <b>${money(fare)}</b> = 총 <b>${money(fairSanctuaryPlan.totalFare)}</b>을 기사 ${cfg.length}명에게 한 판 안에서 공평하게 나눕니다. 각 승객의 총 결제액은 그대로이며, 아래 결과표에 구매할 기사와 아이템 가격이 표시됩니다.`;
+   }else{
+     note.innerHTML=`손님 1명당 버스비 <b>${money(fare)}</b> 입력 시 → 판매 수수료 <b>${money(oneSaleFee)}</b> + 등록비 2% <b>${money(oneListingFee)}</b> 차감 → 실제 수금 <b>${money(oneNet)}</b> / 1명`;
+   }
  }
 }
 function simpleStats(p){const income=val(p+'_income'),cost=val(p+'_cost'),ode=val(p+'_ode'),mins=val(p+'_minutes'),runs=Math.max(0,Math.floor(val(p+'_runs'))),owned=val(p+'_ownedOde'),net=income-cost,perOde=ode?net/ode:0,hour=mins?net*60/mins:0,total=net*runs,possible=ode?Math.floor(owned/ode):0;return{income,cost,ode,mins,runs,owned,net,perOde,hour,total,possible,possibleProfit:possible*net}}
@@ -2776,9 +2892,9 @@ function calcSimple(p){
 
 function fieldsFor(tab){
  if(tab==='driver'){
-   const arr=['d_content_type','d_income','d_cost','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs'];
+   const arr=['d_content_type','d_income','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs'];
    if(Number($('#d_driverCount').value)===2){
-     arr.push('d_blockA','d_blockB');
+     arr.push('d_block1','d_block2');
    }
    return arr;
  }
@@ -2789,12 +2905,19 @@ function saveTab(tab){const data={};fieldsFor(tab).forEach(id=>data[id]=$('#'+id
 function loadTab(tab){try{const raw=localStorage.getItem('buson2-v5-'+tab),msg=$('#msg_'+tab);if(!raw){msg.textContent='저장된 설정이 없습니다.';return}const d=JSON.parse(raw);
  if(tab==='driver'){
    $('#d_driverCount').value=d.d_driverCount||1;
+   if(d.d_myDriver==='A')d.d_myDriver='1';
+   if(d.d_myDriver==='B')d.d_myDriver='2';
+   if(d.d_myDriver==='C')d.d_myDriver='3';
+   if(d.d_blockA!=null && d.d_block1==null)d.d_block1=d.d_blockA;
+   if(d.d_blockB!=null && d.d_block2==null)d.d_block2=d.d_blockB;
+   syncDriverPartySettings();
    renderDrivers(false);
    Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
    if(Number($('#d_driverCount').value)===2){
      renderDrivers(true);
      Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
    }
+   syncDriverPartySettings();
    calcDriver();
  }else{Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});calcSimple(tab==='main'?'m':'s')}
  document.querySelectorAll('.money').forEach(formatMoneyInput);msg.textContent='✓ 저장된 설정을 불러왔습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='불러오기에 실패했습니다.'}}
@@ -2806,13 +2929,13 @@ function selectedDungeonLabel(prefix){
 
 function selectedContentTypeLabel(prefix){
  const type=$('#'+prefix+'_content_type')?.value||'expedition';
- return type==='transcendence'?'초월':'원정';
+ return type==='transcendence'?'초월':type==='sanctuary'?'성역':'원정';
 }
 
 function driverAverage(){
  const cfg=getDriverConfig();
  const totalBlocks=cfg.reduce((a,x)=>a+x.block,0);
- const mine=$('#d_myDriver').value||'A';
+ const mine=$('#d_myDriver').value||'1';
  const myBlock=(cfg.find(x=>x.name===mine)||{block:0}).block;
  const income=val('d_income');
  const cost=val('d_cost');
@@ -3637,12 +3760,14 @@ const DUNGEONS=[
 
 const CONTENT_DUNGEON_GROUPS={
   expedition:['푸섬','환영','타데바','데우스'],
-  transcendence:['연심','노이란']
+  transcendence:['연심','노이란'],
+  sanctuary:['무스펠']
 };
 
 const CONTENT_LABELS={
   expedition:'원정',
-  transcendence:'초월'
+  transcendence:'초월',
+  sanctuary:'성역'
 };
 
 function updateDungeonFilterOptions(){
@@ -3679,6 +3804,9 @@ function incomeOptionType(label){
   }
   if(t.includes('연심')||t.includes('노이란')){
     return 'transcendence';
+  }
+  if(t.includes('무스펠')){
+    return 'sanctuary';
   }
   return 'other';
 }
@@ -3734,7 +3862,10 @@ function initContentTypeSelectors(){
     const typeEl=$('#'+prefix+'_content_type');
     typeEl?.addEventListener('change',()=>{
       updateIncomeOptions(prefix);
-      if(prefix==='d')calcDriver();
+      if(prefix==='d'){
+        syncDriverPartySettings();
+        renderDrivers(true);
+      }
       else calcSimple(prefix);
     });
   });
@@ -3824,8 +3955,8 @@ function escapeHtml(text){
 }
 
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
-$('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
-['d_cost','d_minutes','d_fare','d_passengers','d_runs'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
+$('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
+['d_minutes','d_fare','d_passengers','d_runs'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
 $('#d_ode').addEventListener('change',calcDriver);
 ['m_cost','m_minutes','m_runs','m_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>{calcSimple('m');calcSimple('s')}));
@@ -3879,7 +4010,7 @@ calcSpec();
 calcGearCompare();
 $('#cmp_ode_budget')?.addEventListener('input',buildCompare);
 $('#cmp_hours')?.addEventListener('input',buildCompare);
-$('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');buildCompare();
+$('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();syncDriverPartySettings();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');buildCompare();
 loadOfficialNews();
 </script>
   <script>
