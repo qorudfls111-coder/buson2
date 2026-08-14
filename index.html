@@ -4389,10 +4389,13 @@ $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();ren
 ['d_minutes','d_fare','d_passengers','d_runs'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
 $('#d_ode').addEventListener('change',calcDriver);
-['m_cost','m_minutes','m_runs','m_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>{calcSimple('m');calcSimple('s')}));
+['m_cost','m_runs','m_ownedOde'].forEach(id=>$('#'+id)?.addEventListener('input',()=>{
+  calcSimple('m');
+  calcSimple('s');
+}));
 $('#m_income').addEventListener('change',()=>{syncOdeFromDungeon('m');calcSimple('m');calcSimple('s')});
 $('#m_ode').addEventListener('change',()=>{calcSimple('m');calcSimple('s')});
-['s_cost','s_minutes','s_runs','s_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>calcSimple('s')));
+['s_cost','s_runs','s_ownedOde'].forEach(id=>$('#'+id)?.addEventListener('input',()=>calcSimple('s')));
 $('#s_income').addEventListener('change',()=>{syncOdeFromDungeon('s');calcSimple('s')});
 $('#s_ode').addEventListener('change',()=>calcSimple('s'));
 document.addEventListener('change',e=>{
