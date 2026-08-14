@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>BUSON2 소개 | 아이온2 계산기 및 효율 비교 도구</title>
+  <meta name="description" content="BUSON2는 아이온2 플레이에 필요한 스펙 계산, 장비 및 펫 옵션 비교, 던전 효율, 버스 수익과 파밍 효율을 계산하고 비교할 수 있는 비공식 팬 도구입니다.">
+  <meta name="robots" content="index,follow">
+
+  <link rel="canonical" href="https://buson2.com/about/">
+
+  <style>
+    :root{
+      --bg:#090b10;
+      --panel:#111621;
+      --line:#263043;
+      --text:#eef4ff;
+      --muted:#93a0b5;
+      --blue:#6fa4ff;
+      --green:#8df0bd;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at top,#12192a,#090b10 45%);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,"Pretendard","Malgun Gothic",sans-serif;
+    }
+
+    .wrap{
+      max-width:900px;
+      margin:auto;
+      padding:0 20px;
+    }
+
+    header{
+      border-bottom:1px solid #1d2430;
+      background:rgba(9,11,16,.92);
+    }
+
+    .top{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      color:#fff;
+      text-decoration:none;
+    }
+
+    .logo{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,#6fa4ff,#7f6dff);
+      font-weight:900;
+    }
+
+    .brand b{
+      font-size:19px;
+    }
+
+    .home-link{
+      color:#a9c8ff;
+      text-decoration:none;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    main{
+      padding:44px 0 70px;
+    }
+
+    .hero{
+      margin-bottom:20px;
+    }
+
+    .eyebrow{
+      color:var(--green);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+    }
+
+    h1{
+      margin:8px 0 10px;
+      font-size:34px;
+      line-height:1.25;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:14px;
+    }
+
+    .card{
+      margin-top:18px;
+      padding:24px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(180deg,#171e2b,#0f141d);
+    }
+
+    .card h2{
+      margin:0 0 12px;
+      font-size:21px;
+    }
+
+    .card h3{
+      margin:26px 0 8px;
+      font-size:17px;
+    }
+
+    .card p,
+    .card li{
+      color:#aab8ca;
+      font-size:14px;
+      line-height:1.85;
+    }
+
+    .card ul{
+      padding-left:20px;
+    }
+
+    .tools{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .tool{
+      padding:18px;
+      border:1px solid #29364a;
+      border-radius:13px;
+      background:#0d1521;
+    }
+
+    .tool strong{
+      display:block;
+      margin-bottom:7px;
+      color:#edf4ff;
+      font-size:15px;
+    }
+
+    .tool span{
+      color:#91a3bb;
+      font-size:13px;
+      line-height:1.65;
+    }
+
+    .notice{
+      margin-top:20px;
+      padding:15px;
+      border:1px solid #2b3b52;
+      border-radius:12px;
+      background:#0b121c;
+      color:#91a4bc;
+      font-size:12px;
+      line-height:1.75;
+    }
+
+    .links{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:22px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:0 16px;
+      border-radius:10px;
+      border:1px solid #38577d;
+      background:#13243a;
+      color:#b9d7ff;
+      text-decoration:none;
+      font-weight:850;
+      font-size:13px;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,#2563eb,#3b82f6);
+      border-color:#4d8ef7;
+      color:#fff;
+    }
+
+    footer{
+      border-top:1px solid #1d2633;
+      color:#718096;
+      font-size:11px;
+      padding:24px 0 36px;
+    }
+
+    @media(max-width:600px){
+      h1{font-size:28px}
+      .card{padding:18px}
+      .tools{grid-template-columns:1fr}
+      .top{min-height:64px}
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap top">
+    <a class="brand" href="/">
+      <div class="logo">B2</div>
+      <b>BUSON2</b>
+    </a>
+
+    <a class="home-link" href="/">홈으로 돌아가기 →</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">ABOUT BUSON2</div>
+
+    <h1>BUSON2 소개</h1>
+
+    <p>
+      BUSON2는 아이온2 플레이 중 자주 필요한 여러 계산을
+      빠르고 편리하게 확인할 수 있도록 만든 비공식 팬 도구입니다.
+    </p>
+  </div>
+
+  <section class="card">
+
+    <h2>BUSON2는 어떤 사이트인가요?</h2>
+
+    <p>
+      아이온2를 플레이하다 보면 장비나 옵션을 변경했을 때 어느 쪽이 더 효율적인지,
+      던전을 어떤 방식으로 플레이하는 것이 유리한지,
+      버스나 파밍을 통해 실제로 어느 정도의 수익을 얻을 수 있는지
+      여러 수치를 직접 비교해야 하는 경우가 있습니다.
+    </p>
+
+    <p>
+      BUSON2는 이러한 계산을 매번 직접 하지 않아도 되도록
+      사용자가 게임 내 수치를 입력하면 결과를 쉽게 비교할 수 있도록 만든
+      계산 및 효율 비교 사이트입니다.
+    </p>
+
+    <h3>제공하는 주요 기능</h3>
+
+    <div class="tools">
+
+      <div class="tool">
+        <strong>아이온2 스펙 계산</strong>
+        <span>
+          캐릭터의 주요 스탯과 조건을 입력하여
+          서로 다른 세팅의 예상 효율을 비교합니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong>장비 및 옵션 비교</strong>
+        <span>
+          장비, 펫 등에서 선택할 수 있는 여러 옵션의
+          효율 차이를 비교하는 데 활용할 수 있습니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong>던전 효율 계산</strong>
+        <span>
+          오드 사용량, 획득 키나, 소요시간 등을 기준으로
+          던전 및 파밍 방식의 효율을 비교합니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong>버스 수익 계산</strong>
+        <span>
+          버스 기사 및 관련 플레이 방식에서 발생하는
+          예상 수익과 비용을 계산할 수 있습니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong>부캐 육성 효율 비교</strong>
+        <span>
+          부캐 육성 과정에서 발생하는 비용과 획득량을 기준으로
+          여러 육성 방식의 효율을 비교합니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong>파밍 효율 비교</strong>
+        <span>
+          같은 시간이나 자원을 사용했을 때
+          어떤 방식이 상대적으로 효율적인지 확인할 수 있습니다.
+        </span>
+      </div>
+
+    </div>
+
+    <h3>계산 데이터 운영 기준</h3>
+
+    <p>
+      BUSON2는 사용자가 직접 입력한 게임 내 수치와
+      공개적으로 확인 가능한 정보를 바탕으로 계산합니다.
+      계산 과정에 가정값이 필요한 경우에는 가능한 한 계산기 내부에서
+      해당 조건을 확인할 수 있도록 안내하는 것을 원칙으로 합니다.
+    </p>
+
+    <p>
+      게임 업데이트에 따라 스탯, 보상, 던전 정보 또는 계산 기준이
+      변경될 수 있으므로 중요한 의사결정 전에는
+      게임 내 최신 정보도 함께 확인하시기 바랍니다.
+    </p>
+
+    <h3>사이트 운영 목적</h3>
+
+    <p>
+      BUSON2의 목적은 복잡하거나 반복적인 계산을 간단하게 만들고,
+      여러 선택지를 수치로 비교할 수 있도록 돕는 것입니다.
+      계산기와 데이터는 이용자가 실제 플레이에서 활용하기 쉽도록
+      지속적으로 수정하고 개선하고 있습니다.
+    </p>
+
+    <h3>비공식 팬 사이트 안내</h3>
+
+    <p>
+      BUSON2는 NCSOFT 또는 아이온2의 공식 서비스가 아니며,
+      게임사와 제휴·후원 또는 공식적인 관계가 없는 비공식 팬 사이트입니다.
+    </p>
+
+    <p>
+      게임 계정, 결제, 제재, 복구 등 공식 서비스와 관련된 사항은
+      아이온2 공식 서비스를 통해 확인하시기 바랍니다.
+    </p>
+
+    <div class="notice">
+      BUSON2의 계산 결과는 입력값과 적용된 계산 기준을 바탕으로 제공되는
+      참고 자료입니다. 실제 게임 결과는 캐릭터 세팅, 게임 업데이트,
+      파티 구성 및 기타 조건에 따라 달라질 수 있습니다.
+    </div>
+
+    <div class="links">
+      <a class="btn primary" href="/">BUSON2 계산기 이용하기</a>
+      <a class="btn" href="/contact/">문의하기</a>
+      <a class="btn" href="/privacy/">개인정보처리방침</a>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    © BUSON2 · 아이온2 효율 계산을 위한 비공식 팬 도구
+  </div>
+</footer>
+
+</body>
+</html>
