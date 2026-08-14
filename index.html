@@ -148,6 +148,8 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 .ab-result .k{font-size:12px;color:#8797ad}
 .ab-result .big{font-size:28px;font-weight:1000;color:#ff5977;margin-top:6px}
 .ab-result .s{font-size:11px;color:#7d8da5}
+.ab-box select{margin-top:6px;padding:10px 12px;font-size:13px}
+.ab-box .ab-status{margin:10px 0 2px}
 
 .spec-action-buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .spec-action-buttons button{
@@ -666,24 +668,43 @@ main.wrap{
   <div class="card compare-card" style="margin-top:18px">
     <div class="head">
       <h2>🔁 스탯 A/B 비교</h2>
-      <p>현재 세팅을 A와 B에 저장해 두고 장비 교체 전후 효율을 빠르게 비교합니다.</p>
+      <p>현재 입력값 또는 내 스펙 저장 1~5번을 선택해 서로 비교할 수 있습니다.</p>
     </div>
     <div class="body">
       <div class="ab-grid">
         <div class="ab-box">
           <b>A 세팅</b>
+          <label style="margin-top:12px">내 스펙 저장에서 선택</label>
+          <select id="sp_ab_slot_a">
+            <option value="">직접 저장한 A 사용</option>
+            <option value="1">저장 1</option>
+            <option value="2">저장 2</option>
+            <option value="3">저장 3</option>
+            <option value="4">저장 4</option>
+            <option value="5">저장 5</option>
+          </select>
           <div id="sp_ab_a" class="ab-status">저장값 없음</div>
-          <button class="ab-save-btn" id="sp_save_a">현재값 A 저장</button>
+          <button class="ab-save-btn" id="sp_save_a" type="button">현재 입력값을 A로 저장</button>
         </div>
         <div class="ab-box">
           <b>B 세팅</b>
+          <label style="margin-top:12px">내 스펙 저장에서 선택</label>
+          <select id="sp_ab_slot_b">
+            <option value="">직접 저장한 B 사용</option>
+            <option value="1">저장 1</option>
+            <option value="2">저장 2</option>
+            <option value="3">저장 3</option>
+            <option value="4">저장 4</option>
+            <option value="5">저장 5</option>
+          </select>
           <div id="sp_ab_b" class="ab-status">저장값 없음</div>
-          <button class="ab-save-btn" id="sp_save_b">현재값 B 저장</button>
+          <button class="ab-save-btn" id="sp_save_b" type="button">현재 입력값을 B로 저장</button>
         </div>
         <div class="ab-result">
           <div class="k">B가 A보다</div>
           <div class="big" id="sp_ab_gain">—</div>
           <div class="s">내 딜사이클 혼합 기준</div>
+          <div id="sp_ab_compare_names" style="margin-top:10px;color:#8294ab;font-size:11px;line-height:1.6"></div>
         </div>
       </div>
     </div>
@@ -3665,7 +3686,11 @@ function calcSimulator(){
 }
 
 
-function snapshotSpec(){const d={};SPEC_IDS.forEach(id=>d[id]=$('#'+id)?.value??'');return d}
+function snapshotSpec(){
+ const d={};
+ SPEC_IDS.forEach(id=>d[id]=$('#'+id)?.value??'');
+ return d;
+}
 function specFromSnapshot(d){
  const current=snapshotSpec();
  Object.entries(d||{}).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
@@ -3676,20 +3701,67 @@ function specFromSnapshot(d){
 function saveAB(which){
  const d=snapshotSpec();
  localStorage.setItem('buson2-spec-'+which,JSON.stringify(d));
- $('#sp_ab_'+which).textContent='현재값 저장됨';
+ const select=$('#sp_ab_slot_'+which);
+ if(select)select.value='';
  renderABCompare();
 }
+function getABData(which){
+ const select=$('#sp_ab_slot_'+which);
+ const slot=select?.value||'';
+ if(slot){
+   const data=readSpecSlot(Number(slot));
+   const savedName=readSpecSlotName(Number(slot))||('저장 '+slot);
+   if(!data||!Object.keys(data).length){
+     return {data:{},name:'저장 '+slot+' · 비어 있음',empty:true};
+   }
+   return {data,name:'저장 '+slot+' · '+savedName,empty:false};
+ }
+ let data={};
+ try{data=JSON.parse(localStorage.getItem('buson2-spec-'+which)||'{}')}catch(e){data={}}
+ return {
+   data,
+   name:Object.keys(data).length?'직접 저장한 '+which.toUpperCase()+' 세팅':'저장값 없음',
+   empty:!Object.keys(data).length
+ };
+}
+function updateABSlotOptions(){
+ ['a','b'].forEach(which=>{
+   const select=$('#sp_ab_slot_'+which);
+   if(!select)return;
+   const currentValue=select.value;
+   for(let slot=1;slot<=SPEC_SLOT_COUNT;slot++){
+     const option=select.querySelector('option[value="'+slot+'"]');
+     if(!option)continue;
+     const data=readSpecSlot(slot);
+     const name=readSpecSlotName(slot)||('저장 '+slot);
+     option.textContent=Object.keys(data).length
+       ? '저장 '+slot+' · '+name
+       : '저장 '+slot+' · 비어 있음';
+   }
+   select.value=currentValue;
+ });
+}
 function renderABCompare(){
- let a={},b={};
- try{a=JSON.parse(localStorage.getItem('buson2-spec-a')||'{}')}catch(e){}
- try{b=JSON.parse(localStorage.getItem('buson2-spec-b')||'{}')}catch(e){}
- $('#sp_ab_a').textContent=Object.keys(a).length?'A 세팅 저장됨':'저장값 없음';
- $('#sp_ab_b').textContent=Object.keys(b).length?'B 세팅 저장됨':'저장값 없음';
- if(!Object.keys(a).length||!Object.keys(b).length){$('#sp_ab_gain').textContent='—';return}
- const ar=totalMultiplier(specFromSnapshot(a));
- const br=totalMultiplier(specFromSnapshot(b));
+ updateABSlotOptions();
+ const A=getABData('a');
+ const B=getABData('b');
+ const aStatus=$('#sp_ab_a');
+ const bStatus=$('#sp_ab_b');
+ if(aStatus)aStatus.textContent=A.empty?A.name:'✓ '+A.name;
+ if(bStatus)bStatus.textContent=B.empty?B.name:'✓ '+B.name;
+ const gainEl=$('#sp_ab_gain');
+ const namesEl=$('#sp_ab_compare_names');
+ if(namesEl){
+   namesEl.innerHTML='A : '+escapeHtml(A.name)+'<br>B : '+escapeHtml(B.name);
+ }
+ if(A.empty||B.empty){
+   if(gainEl)gainEl.textContent='—';
+   return;
+ }
+ const ar=totalMultiplier(specFromSnapshot(A.data));
+ const br=totalMultiplier(specFromSnapshot(B.data));
  const g=gainPct(ar.mixedTotal,br.mixedTotal);
- $('#sp_ab_gain').textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
+ if(gainEl)gainEl.textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
 }
 
 const SPEC_SLOT_COUNT=5;
@@ -3740,6 +3812,7 @@ function saveSpecSlot(slot){
 
  $('#sp_saved').textContent='저장 '+slot+' · "'+name+'" 스펙을 저장했습니다.';
  updateSpecSlotUI();
+ renderABCompare();
 }
 
 function loadSpecSlot(slot){
@@ -3773,6 +3846,7 @@ function deleteSpecSlot(slot){
 
  $('#sp_saved').textContent='저장 '+slot+' · "'+name+'" 스펙을 삭제했습니다.';
  updateSpecSlotUI();
+ renderABCompare();
 }
 
 function saveSpecSlotName(slot){
@@ -3782,6 +3856,7 @@ function saveSpecSlotName(slot){
  if(name)localStorage.setItem(specSlotNameKey(slot),name);
  else localStorage.removeItem(specSlotNameKey(slot));
  updateSpecSlotUI();
+ renderABCompare();
 }
 
 // 기존 단일 저장값이 있으면 저장 1로 자동 이전(저장 1이 비어 있을 때만).
@@ -4067,6 +4142,8 @@ document.querySelectorAll('.rank-tab').forEach(btn=>btn.addEventListener('click'
 }));
 $('#sp_save_a')?.addEventListener('click',()=>saveAB('a'));
 $('#sp_save_b')?.addEventListener('click',()=>saveAB('b'));
+$('#sp_ab_slot_a')?.addEventListener('change',renderABCompare);
+$('#sp_ab_slot_b')?.addEventListener('change',renderABCompare);
 
 $('#gc_calc')?.addEventListener('click',calcGearCompare);
 $('#gc_swap')?.addEventListener('click',swapGearCompare);
