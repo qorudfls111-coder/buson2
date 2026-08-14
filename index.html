@@ -965,7 +965,49 @@ main.wrap{
 <div id="driverBlocks" class="driver-blocks"></div>
 <div class="note" id="rotationNote"></div>
 </div>
+<!-- ===== 손님 수금 문구 생성기 ===== -->
+<div class="driver-config fare-copy-panel">
+  <h3>📋 손님 수금 문구</h3>
 
+  <div class="fare-copy-top">
+    <div>
+      <label>거래소 아이템 링크 / 앞 문구</label>
+      <input
+        id="fare_copy_prefix"
+        value="거래소 아이템 링크"
+        placeholder="예: 거래소 아이템 링크"
+      >
+    </div>
+
+    <button
+      type="button"
+      class="btn secondary"
+      id="fare_fill_default"
+    >
+      현재 버스비 전체 적용
+    </button>
+  </div>
+
+  <div class="note">
+    현재 손님 수에 맞춰 입력칸이 자동 생성됩니다.
+    아이디와 수금액을 입력한 뒤 각 줄의 복사 버튼을 누르세요.
+  </div>
+
+  <div id="fare_copy_rows" class="fare-copy-rows"></div>
+
+  <div class="fare-copy-actions">
+    <button
+      type="button"
+      class="btn primary"
+      id="fare_copy_all"
+    >
+      전체 문구 복사
+    </button>
+
+    <span id="fare_copy_status"></span>
+  </div>
+</div>
+<!-- ===== 손님 수금 문구 생성기 끝 ===== -->
 <div class="actions"><button class="btn primary" onclick="calcDriver()">계산하기</button><button class="btn secondary" onclick="saveTab('driver')">버스 기사 저장</button><button class="btn success" onclick="loadTab('driver')">버스 기사 불러오기</button></div>
 <div class="saved" id="msg_driver"></div>
 </div></div>
@@ -2731,7 +2773,115 @@ main.wrap{
     grid-template-columns:1fr !important;
   }
 }
+/* ===== 버스 기사 손님 수금 문구 ===== */
 
+.fare-copy-panel{
+  margin-top:14px;
+}
+
+.fare-copy-top{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  align-items:end;
+}
+
+.fare-copy-top .btn{
+  min-height:44px;
+  white-space:nowrap;
+}
+
+.fare-copy-rows{
+  display:grid;
+  gap:9px;
+  margin-top:13px;
+}
+
+.fare-copy-row{
+  display:grid;
+  grid-template-columns:44px 1fr 180px 90px;
+  gap:8px;
+  align-items:center;
+  padding:10px;
+  border:1px solid #29384b;
+  border-radius:11px;
+  background:#101925;
+}
+
+.fare-copy-number{
+  display:grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  background:#182842;
+  color:#a9c8ff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.fare-copy-row input{
+  padding:10px 11px;
+}
+
+.fare-copy-preview{
+  grid-column:2 / 4;
+  color:#8195ad;
+  font-size:11px;
+  line-height:1.5;
+  word-break:break-all;
+}
+
+.fare-row-copy{
+  border:1px solid #376049;
+  border-radius:9px;
+  min-height:40px;
+  background:#14261d;
+  color:#8df0bd;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.fare-row-copy:hover{
+  filter:brightness(1.12);
+}
+
+.fare-copy-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:13px;
+  flex-wrap:wrap;
+}
+
+#fare_copy_status{
+  color:#8df0bd;
+  font-size:12px;
+  font-weight:800;
+}
+
+@media(max-width:720px){
+  .fare-copy-top{
+    grid-template-columns:1fr;
+  }
+
+  .fare-copy-row{
+    grid-template-columns:38px 1fr;
+  }
+
+  .fare-copy-row .fare-price{
+    grid-column:2;
+  }
+
+  .fare-row-copy{
+    grid-column:2;
+  }
+
+  .fare-copy-preview{
+    grid-column:2;
+  }
+}
 </style>
 </main>
 
@@ -2826,7 +2976,330 @@ function syncDriverPartySettings(){
       runsLabel.textContent = '계산할 판수';
     }
   }
+  setTimeout(renderFareCopyRows, 0);
 }
+  /* ===== 손님 수금 문구 생성기 ===== */
+
+function fareCopyFormatKina(value){
+  const n=Math.max(
+    0,
+    Math.floor(
+      Number(String(value ?? '').replace(/,/g,'')) || 0
+    )
+  );
+
+  if(!n)return '0키나';
+
+  const eok=Math.floor(n / 100000000);
+  const afterEok=n % 100000000;
+
+  const man=Math.floor(afterEok / 10000);
+  const rest=afterEok % 10000;
+
+  const parts=[];
+
+  if(eok>0){
+    parts.push(eok.toLocaleString('ko-KR')+'억');
+  }
+
+  if(man>0){
+    parts.push(man.toLocaleString('ko-KR')+'만');
+  }
+
+  if(rest>0){
+    parts.push(rest.toLocaleString('ko-KR'));
+  }
+
+  return parts.join(' ')+'키나';
+}
+
+
+function fareCopyGetCurrentRows(){
+  return Array.from(
+    document.querySelectorAll('.fare-copy-row')
+  ).map(row=>({
+    name:row.querySelector('.fare-name')?.value || '',
+    price:row.querySelector('.fare-price')?.value || ''
+  }));
+}
+
+
+function fareCopyBuildText(name,price){
+  const prefix=(
+    $('#fare_copy_prefix')?.value ||
+    '거래소 아이템 링크'
+  ).trim();
+
+  const cleanName=String(name||'').trim();
+  const amount=parseNum(price);
+
+  return `${prefix} > ${cleanName} > ${fareCopyFormatKina(amount)}`;
+}
+
+
+function fareCopyUpdatePreview(row){
+  if(!row)return;
+
+  const name=row.querySelector('.fare-name')?.value || '';
+  const price=row.querySelector('.fare-price')?.value || '';
+  const preview=row.querySelector('.fare-copy-preview');
+
+  if(!preview)return;
+
+  if(!name.trim() && !parseNum(price)){
+    preview.textContent='아이디와 수금액을 입력해주세요.';
+    return;
+  }
+
+  preview.textContent=fareCopyBuildText(
+    name || '아이디',
+    price
+  );
+}
+
+
+function renderFareCopyRows(){
+  const box=$('#fare_copy_rows');
+  if(!box)return;
+
+  const old=fareCopyGetCurrentRows();
+
+  const passengerCount=Math.max(
+    0,
+    Math.floor(val('d_passengers'))
+  );
+
+  const defaultFare=val('d_fare');
+
+  if(passengerCount<=0){
+    box.innerHTML=
+      '<div class="note">손님 수가 설정되면 입력칸이 자동으로 생성됩니다.</div>';
+    return;
+  }
+
+  box.innerHTML=Array.from(
+    {length:passengerCount},
+    (_,index)=>{
+
+      const saved=old[index] || {};
+
+      const name=saved.name || '';
+
+      const price=
+        saved.price !== undefined &&
+        saved.price !== ''
+          ? saved.price
+          : defaultFare || '';
+
+      return `
+        <div class="fare-copy-row" data-fare-row="${index}">
+
+          <div class="fare-copy-number">
+            ${index+1}
+          </div>
+
+          <input
+            class="fare-name"
+            type="text"
+            value="${escapeHtml(name)}"
+            placeholder="손님 아이디"
+            autocomplete="off"
+          >
+
+          <input
+            class="fare-price money"
+            type="text"
+            value="${price ? nf(price) : ''}"
+            placeholder="예: 2000211"
+            inputmode="numeric"
+          >
+
+          <button
+            type="button"
+            class="fare-row-copy"
+          >
+            복사
+          </button>
+
+          <div class="fare-copy-preview"></div>
+
+        </div>
+      `;
+    }
+  ).join('');
+
+
+  document.querySelectorAll('.fare-copy-row').forEach(row=>{
+
+    const name=row.querySelector('.fare-name');
+    const price=row.querySelector('.fare-price');
+    const copy=row.querySelector('.fare-row-copy');
+
+    fareCopyUpdatePreview(row);
+
+    name?.addEventListener('input',()=>{
+      fareCopyUpdatePreview(row);
+    });
+
+    price?.addEventListener('input',()=>{
+      formatMoneyInput(price);
+      fareCopyUpdatePreview(row);
+    });
+
+    copy?.addEventListener('click',async()=>{
+
+      const customer=name?.value.trim() || '';
+      const amount=parseNum(price?.value);
+
+      if(!customer){
+        fareCopySetStatus('손님 아이디를 입력해주세요.');
+        name?.focus();
+        return;
+      }
+
+      if(amount<=0){
+        fareCopySetStatus('수금액을 입력해주세요.');
+        price?.focus();
+        return;
+      }
+
+      const text=fareCopyBuildText(customer,amount);
+
+      await fareCopyToClipboard(text);
+
+      copy.textContent='✓ 복사됨';
+
+      setTimeout(()=>{
+        copy.textContent='복사';
+      },1200);
+
+      fareCopySetStatus(
+        customer+' 문구를 복사했습니다.'
+      );
+    });
+
+  });
+}
+
+
+async function fareCopyToClipboard(text){
+  try{
+
+    if(
+      navigator.clipboard &&
+      window.isSecureContext
+    ){
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+  }catch(e){}
+
+  const textarea=document.createElement('textarea');
+
+  textarea.value=text;
+  textarea.style.position='fixed';
+  textarea.style.opacity='0';
+
+  document.body.appendChild(textarea);
+
+  textarea.focus();
+  textarea.select();
+
+  document.execCommand('copy');
+
+  textarea.remove();
+}
+
+
+function fareCopySetStatus(text){
+  const status=$('#fare_copy_status');
+
+  if(!status)return;
+
+  status.textContent=text;
+
+  clearTimeout(
+    window.fareCopyStatusTimer
+  );
+
+  window.fareCopyStatusTimer=setTimeout(()=>{
+    status.textContent='';
+  },2500);
+}
+
+
+/* 현재 버스비를 모든 손님에게 적용 */
+$('#fare_fill_default')?.addEventListener('click',()=>{
+
+  const fare=val('d_fare');
+
+  document.querySelectorAll(
+    '.fare-copy-row'
+  ).forEach(row=>{
+
+    const price=row.querySelector('.fare-price');
+
+    if(price){
+      price.value=fare ? nf(fare) : '';
+      fareCopyUpdatePreview(row);
+    }
+
+  });
+
+  fareCopySetStatus(
+    '현재 버스비를 전체 손님에게 적용했습니다.'
+  );
+});
+
+
+/* 앞 문구 변경 시 미리보기 즉시 변경 */
+$('#fare_copy_prefix')?.addEventListener('input',()=>{
+
+  document.querySelectorAll(
+    '.fare-copy-row'
+  ).forEach(fareCopyUpdatePreview);
+
+});
+
+
+/* 전체 복사 */
+$('#fare_copy_all')?.addEventListener('click',async()=>{
+
+  const lines=[];
+
+  document.querySelectorAll(
+    '.fare-copy-row'
+  ).forEach(row=>{
+
+    const name=row.querySelector('.fare-name')?.value.trim() || '';
+    const price=parseNum(
+      row.querySelector('.fare-price')?.value
+    );
+
+    if(name && price>0){
+      lines.push(
+        fareCopyBuildText(name,price)
+      );
+    }
+
+  });
+
+  if(!lines.length){
+    fareCopySetStatus(
+      '복사할 손님 정보를 입력해주세요.'
+    );
+    return;
+  }
+
+  await fareCopyToClipboard(
+    lines.join('\n')
+  );
+
+  fareCopySetStatus(
+    lines.length+'명의 문구를 전체 복사했습니다.'
+  );
+});
 function renderDrivers(preserve=true){
  const count=Math.max(1,Math.min(driverMaxCount(),Number($('#d_driverCount').value)||1));
  const old={};
@@ -2864,6 +3337,7 @@ function renderDrivers(preserve=true){
      }
    }
  }
+  setTimeout(renderFareCopyRows, 0);
  calcDriver();
 }
 function getDriverConfig(){
