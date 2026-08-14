@@ -945,6 +945,7 @@ main.wrap{
 <option value="160">160 오드</option>
 </select></div>
 <div><label>손님 1명당 버스비</label><div class="iwrap"><input id="d_fare" class="money" value="0"><span class="unit">키나</span></div></div>
+  <div><label>버스비 적용 판수</label><div class="iwrap"><input id="d_fare_runs" type="number" min="1" max="10" value="1"><span class="unit">판</span></div></div>
 <div><label id="d_passengers_label">손님 수</label><div class="iwrap"><input id="d_passengers" value="0"><span class="unit">명</span></div></div>
 <div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
 <div><label>내 기사</label><select id="d_myDriver"></select></div>
@@ -3354,7 +3355,16 @@ function buildSanctuaryFairPlan(fare,passengers,driverCount){
  return{totalFare,driverGross,transactions};
 }
 function calcDriver(){
- const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fare=val('d_fare'),passengers=Math.max(0,Math.floor(val('d_passengers')));
+const income=val('d_income');
+const cost=val('d_cost');
+const ode=val('d_ode');
+const mins=val('d_minutes');
+
+const fare=val('d_fare'); // 손님 1명이 실제로 한 번에 결제하는 총 버스비
+const fareRuns=Math.max(1,Math.floor(val('d_fare_runs')) || 1);
+const farePerRun=fare/fareRuns; // 계산용 1판당 버스비
+
+const passengers=Math.max(0,Math.floor(val('d_passengers')));
  const isSanctuary=$('#d_content_type')?.value==='sanctuary';
  const mine=$('#d_myDriver').value||'1',runs=isSanctuary?1:Math.max(0,Math.floor(val('d_runs'))),cfg=getDriverConfig();
  const schedule=[]; cfg.forEach(x=>{for(let i=0;i<x.block;i++)schedule.push(x.name)});
@@ -3388,7 +3398,7 @@ function calcDriver(){
        receiverLabel=assigned.length?assigned.map(x=>`<span class="badge">손님 ${x.passenger} → 기사 ${x.driver} · ${money(x.amount)}</span>`).join(' '):'-';
      }else if(receiver===mine && fare>0 && passengers>0){
        paidPassengers=paidPassengers+passengers;
-       grossFare=fare*passengers;
+      grossFare=farePerRun*passengers;
        saleFee=grossFare*WORLD_RATE;
        listingFee=grossFare*LISTING_RATE;
        netFare=grossFare-saleFee-listingFee;
@@ -3479,7 +3489,7 @@ function calcSimple(p){
 
 function fieldsFor(tab){
  if(tab==='driver'){
-   const arr=['d_content_type','d_income','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs'];
+   const arr=['d_content_type','d_income','d_ode','d_minutes','d_fare','d_fare_runs','d_passengers','d_driverCount','d_myDriver','d_runs'];
    if(Number($('#d_driverCount').value)===2){
      arr.push('d_block1','d_block2');
    }
