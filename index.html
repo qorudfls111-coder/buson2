@@ -521,64 +521,7 @@ main.wrap{
           <button class="primary" id="sp_calc">계산하기</button>
         </div>
 
-        <div class="spec-save-panel">
-          <div class="spec-save-head">
-            <div>
-              <b>💾 내 스펙 저장</b>
-              <span>최대 5개까지 이 브라우저에 저장할 수 있습니다.</span>
-            </div>
-          </div>
 
-          <div class="spec-save-grid" id="specSaveGrid">
-            <div class="spec-save-slot" data-slot="1">
-              <div class="slot-top"><b>저장 1</b><span id="sp_slot_status_1">비어 있음</span></div>
-              <input id="sp_slot_name_1" class="slot-name" placeholder="예: 본캐 PVE" maxlength="20">
-              <div class="slot-actions">
-                <button type="button" class="slot-save" data-slot-save="1">저장</button>
-                <button type="button" class="slot-load" data-slot-load="1">불러오기</button>
-                <button type="button" class="slot-delete" data-slot-delete="1">삭제</button>
-              </div>
-            </div>
-            <div class="spec-save-slot" data-slot="2">
-              <div class="slot-top"><b>저장 2</b><span id="sp_slot_status_2">비어 있음</span></div>
-              <input id="sp_slot_name_2" class="slot-name" placeholder="예: 보스 세팅" maxlength="20">
-              <div class="slot-actions">
-                <button type="button" class="slot-save" data-slot-save="2">저장</button>
-                <button type="button" class="slot-load" data-slot-load="2">불러오기</button>
-                <button type="button" class="slot-delete" data-slot-delete="2">삭제</button>
-              </div>
-            </div>
-            <div class="spec-save-slot" data-slot="3">
-              <div class="slot-top"><b>저장 3</b><span id="sp_slot_status_3">비어 있음</span></div>
-              <input id="sp_slot_name_3" class="slot-name" placeholder="예: 강타 세팅" maxlength="20">
-              <div class="slot-actions">
-                <button type="button" class="slot-save" data-slot-save="3">저장</button>
-                <button type="button" class="slot-load" data-slot-load="3">불러오기</button>
-                <button type="button" class="slot-delete" data-slot-delete="3">삭제</button>
-              </div>
-            </div>
-            <div class="spec-save-slot" data-slot="4">
-              <div class="slot-top"><b>저장 4</b><span id="sp_slot_status_4">비어 있음</span></div>
-              <input id="sp_slot_name_4" class="slot-name" placeholder="예: 펫작 비교" maxlength="20">
-              <div class="slot-actions">
-                <button type="button" class="slot-save" data-slot-save="4">저장</button>
-                <button type="button" class="slot-load" data-slot-load="4">불러오기</button>
-                <button type="button" class="slot-delete" data-slot-delete="4">삭제</button>
-              </div>
-            </div>
-            <div class="spec-save-slot" data-slot="5">
-              <div class="slot-top"><b>저장 5</b><span id="sp_slot_status_5">비어 있음</span></div>
-              <input id="sp_slot_name_5" class="slot-name" placeholder="예: 테스트 세팅" maxlength="20">
-              <div class="slot-actions">
-                <button type="button" class="slot-save" data-slot-save="5">저장</button>
-                <button type="button" class="slot-load" data-slot-load="5">불러오기</button>
-                <button type="button" class="slot-delete" data-slot-delete="5">삭제</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="saved" id="sp_saved"></div>
       </div>
     </div>
 
@@ -657,6 +600,65 @@ main.wrap{
         </div>
       </div>
     </div>
+
+        <div class="spec-save-panel spec-save-wide">
+          <div class="spec-save-head">
+            <div>
+              <b>💾 내 스펙 저장</b>
+              <span>최대 5개까지 이 브라우저에 저장할 수 있습니다.</span>
+            </div>
+          </div>
+
+          <div class="spec-save-grid" id="specSaveGrid">
+            <div class="spec-save-slot" data-slot="1">
+              <div class="slot-top"><b>저장 1</b><span id="sp_slot_status_1">비어 있음</span></div>
+              <input id="sp_slot_name_1" class="slot-name" placeholder="예: 본캐 PVE" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="1">저장</button>
+                <button type="button" class="slot-load" data-slot-load="1">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="1">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="2">
+              <div class="slot-top"><b>저장 2</b><span id="sp_slot_status_2">비어 있음</span></div>
+              <input id="sp_slot_name_2" class="slot-name" placeholder="예: 보스 세팅" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="2">저장</button>
+                <button type="button" class="slot-load" data-slot-load="2">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="2">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="3">
+              <div class="slot-top"><b>저장 3</b><span id="sp_slot_status_3">비어 있음</span></div>
+              <input id="sp_slot_name_3" class="slot-name" placeholder="예: 강타 세팅" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="3">저장</button>
+                <button type="button" class="slot-load" data-slot-load="3">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="3">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="4">
+              <div class="slot-top"><b>저장 4</b><span id="sp_slot_status_4">비어 있음</span></div>
+              <input id="sp_slot_name_4" class="slot-name" placeholder="예: 펫작 비교" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="4">저장</button>
+                <button type="button" class="slot-load" data-slot-load="4">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="4">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="5">
+              <div class="slot-top"><b>저장 5</b><span id="sp_slot_status_5">비어 있음</span></div>
+              <input id="sp_slot_name_5" class="slot-name" placeholder="예: 테스트 세팅" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="5">저장</button>
+                <button type="button" class="slot-load" data-slot-load="5">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="5">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="saved" id="sp_saved"></div>
   </div>
 
   <div class="card compare-card" style="margin-top:18px">
@@ -2571,6 +2573,53 @@ main.wrap{
 }
 @media(max-width:480px){
   .spec-save-grid{
+    grid-template-columns:1fr !important;
+  }
+}
+
+
+/* ===== 내 스펙 저장: 기존 큰 카드 크기 유지 + 5개 한 줄 ===== */
+.spec-save-wide{
+  grid-column:1 / -1;
+  width:100%;
+  box-sizing:border-box;
+  margin-top:0;
+}
+.spec-save-wide .spec-save-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  gap:12px;
+  width:100%;
+}
+.spec-save-wide .spec-save-slot{
+  min-width:0 !important;
+  min-height:190px;
+  padding:15px;
+}
+.spec-save-wide .slot-top b{
+  font-size:15px;
+}
+.spec-save-wide .slot-top span{
+  font-size:11px;
+}
+.spec-save-wide .slot-name{
+  min-height:44px;
+  font-size:14px !important;
+}
+.spec-save-wide .slot-actions button{
+  min-height:42px;
+  font-size:12px;
+}
+.spec-save-wide .slot-actions .slot-delete{
+  min-height:36px;
+}
+@media(max-width:900px){
+  .spec-save-wide .spec-save-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:480px){
+  .spec-save-wide .spec-save-grid{
     grid-template-columns:1fr !important;
   }
 }
