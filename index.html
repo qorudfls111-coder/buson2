@@ -2233,11 +2233,12 @@ main.wrap{
 .footer-links{
   display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;
 }
-.footer-links button{
+.footer-links button,.footer-links a{
   border:0;background:transparent;padding:0;
   color:#a6b6ca;font-size:12px;cursor:pointer;
+  text-decoration:none;
 }
-.footer-links button:hover{color:#7fb7ff}
+.footer-links button:hover,.footer-links a:hover{color:#7fb7ff}
 .footer-copy{
   margin-top:15px;padding-top:14px;border-top:1px solid #172231;
   color:#65768c;font-size:10px;line-height:1.5;
@@ -2290,6 +2291,11 @@ main.wrap{
   .info-modal{padding:10px}
   .info-modal-body{padding:16px}
 }
+
+
+.info-modal{pointer-events:auto}
+.info-modal.hidden{display:none!important}
+.info-modal-card,.info-modal-backdrop{pointer-events:auto}
 
 </style>
 </main>
@@ -3894,23 +3900,56 @@ const INFO_PAGES={
   }
 };
 
-function openInfoPage(key){
+window.openInfoPage=function(key){
   const page=INFO_PAGES[key];
-  if(!page)return;
-  $('#infoModalTitle').textContent=page.title;
-  $('#infoModalBody').innerHTML=page.html;
-  $('#infoModal').classList.remove('hidden');
-  $('#infoModal').setAttribute('aria-hidden','false');
+  const modal=document.getElementById('infoModal');
+  const title=document.getElementById('infoModalTitle');
+  const body=document.getElementById('infoModalBody');
+  if(!page||!modal||!title||!body)return;
+
+  title.textContent=page.title;
+  body.innerHTML=page.html;
+  modal.classList.remove('hidden');
+  modal.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
-}
-function closeInfoPage(){
-  $('#infoModal').classList.add('hidden');
-  $('#infoModal').setAttribute('aria-hidden','true');
+};
+
+window.closeInfoPage=function(){
+  const modal=document.getElementById('infoModal');
+  if(!modal)return;
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden','true');
   document.body.style.overflow='';
+};
+
+document.addEventListener('click',function(e){
+  const pageLink=e.target.closest('[data-info-page]');
+  if(pageLink){
+    e.preventDefault();
+    window.openInfoPage(pageLink.dataset.infoPage);
+    return;
+  }
+
+  const closeTarget=e.target.closest('[data-info-close]');
+  if(closeTarget){
+    e.preventDefault();
+    window.closeInfoPage();
+  }
+});
+
+document.addEventListener('keydown',function(e){
+  const modal=document.getElementById('infoModal');
+  if(e.key==='Escape' && modal && !modal.classList.contains('hidden')){
+    window.closeInfoPage();
+  }
+});
+
+function openInfoFromHash(){
+  const key=(location.hash||'').replace('#','');
+  if(INFO_PAGES[key]) window.openInfoPage(key);
 }
-document.querySelectorAll('[data-info-page]').forEach(btn=>btn.addEventListener('click',()=>openInfoPage(btn.dataset.infoPage)));
-document.querySelectorAll('[data-info-close]').forEach(el=>el.addEventListener('click',closeInfoPage));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#infoModal')?.classList.contains('hidden'))closeInfoPage()});
+window.addEventListener('hashchange',openInfoFromHash);
+setTimeout(openInfoFromHash,0);
 
 </script>
 
@@ -3924,10 +3963,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#infoModal')?.c
       </div>
     </div>
     <nav class="footer-links" aria-label="사이트 안내">
-      <button type="button" data-info-page="about">소개</button>
-      <button type="button" data-info-page="guide">이용방법</button>
-      <button type="button" data-info-page="contact">문의</button>
-      <button type="button" data-info-page="privacy">개인정보처리방침</button>
+      <a href="#about" data-info-page="about">소개</a>
+      <a href="#guide" data-info-page="guide">이용방법</a>
+      <a href="#contact" data-info-page="contact">문의</a>
+      <a href="#privacy" data-info-page="privacy">개인정보처리방침</a>
     </nav>
     <div class="footer-copy">© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구입니다.</div>
   </div>
