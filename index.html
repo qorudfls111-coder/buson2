@@ -638,7 +638,7 @@ main.wrap{
       <div class="gear-compare-type">
         <button type="button" class="gc-type active" data-gc-type="gear">🛡️ 장비</button>
         <button type="button" class="gc-type" data-gc-type="pet">🐾 펫 이해도</button>
-        <button type="button" class="gc-type" data-gc-type="arcana">✨ 아르카나</button>
+        
       </div>
       <div class="gear-compare-guide" id="gc_guide">
         <b>입력 방법</b>
@@ -2205,6 +2205,92 @@ main.wrap{
 .gc-type:hover{border-color:#4b6485;color:#dce8f8}
 .gc-type.active{border-color:#6f86ff;background:#172348;color:#fff;box-shadow:inset 0 0 0 1px rgba(126,147,255,.18)}
 
+
+/* ===== 기본 페이지 / 푸터 ===== */
+.site-footer{
+  margin-top:28px;
+  border-top:1px solid #202b3a;
+  background:#090e15;
+}
+.footer-inner{
+  max-width:1100px;
+  margin:0 auto;
+  padding:26px 20px 30px;
+}
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.footer-logo{
+  width:34px;height:34px;border-radius:10px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#6881ff,#755cff);
+  color:#fff;font-weight:900;font-size:12px;
+}
+.footer-brand b{display:block;font-size:14px;color:#f1f5fb}
+.footer-brand span{display:block;margin-top:2px;color:#7f90a7;font-size:11px}
+.footer-links{
+  display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;
+}
+.footer-links button{
+  border:0;background:transparent;padding:0;
+  color:#a6b6ca;font-size:12px;cursor:pointer;
+}
+.footer-links button:hover{color:#7fb7ff}
+.footer-copy{
+  margin-top:15px;padding-top:14px;border-top:1px solid #172231;
+  color:#65768c;font-size:10px;line-height:1.5;
+}
+.info-modal{
+  position:fixed;inset:0;z-index:9999;
+  display:grid;place-items:center;padding:20px;
+}
+.info-modal.hidden{display:none}
+.info-modal-backdrop{
+  position:absolute;inset:0;background:rgba(3,8,14,.76);backdrop-filter:blur(4px);
+}
+.info-modal-card{
+  position:relative;
+  width:min(760px,100%);
+  max-height:min(82vh,860px);
+  overflow:hidden;
+  border:1px solid #34445b;
+  border-radius:16px;
+  background:#101722;
+  box-shadow:0 24px 80px rgba(0,0,0,.45);
+}
+.info-modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:17px 20px;border-bottom:1px solid #26364b;
+}
+.info-modal-head h2{margin:0;font-size:20px}
+.info-close{
+  width:36px;height:36px;border:0;border-radius:9px;
+  background:#182231;color:#ccd8e8;font-size:24px;cursor:pointer;
+}
+.info-modal-body{
+  overflow:auto;max-height:calc(82vh - 72px);
+  padding:20px;color:#b9c7d8;font-size:13px;line-height:1.75;
+}
+.info-modal-body h3{
+  margin:22px 0 8px;color:#f3f7fd;font-size:16px;
+}
+.info-modal-body h3:first-child{margin-top:0}
+.info-modal-body p{margin:8px 0}
+.info-modal-body ul{margin:8px 0 8px 18px;padding:0}
+.info-modal-body li{margin:5px 0}
+.info-modal-body .info-note{
+  margin-top:14px;padding:12px 14px;border:1px solid #2e4058;border-radius:10px;
+  background:#0b1420;color:#92a5bd;
+}
+@media(max-width:640px){
+  .footer-inner{padding:22px 16px 26px}
+  .footer-links{gap:11px}
+  .info-modal{padding:10px}
+  .info-modal-body{padding:16px}
+}
+
 </style>
 </main>
 
@@ -2928,12 +3014,6 @@ function setGearCompareType(type){
    subtitle:'현재 펫 이해도 옵션과 바꿀 옵션의 실전 딜 효율을 같은 계산식으로 비교합니다.',
    a:'현재 펫 옵션',as:'현재 적용 중인 이해도 옵션',b:'변경 펫 옵션',bs:'바꿀 이해도 옵션',
    guide:'현재 전체 스펙에는 기존 펫작이 이미 포함되어 있으므로 현재 옵션과 변경 옵션만 입력하세요.'
-  },
-  arcana:{
-   title:'✨ 아르카나 옵션 비교',
-   subtitle:'현재 아르카나 옵션과 교체할 옵션의 실전 딜 효율을 현재 캐릭터 스펙 기준으로 비교합니다.',
-   a:'현재 아르카나',as:'현재 적용 중인 옵션',b:'변경 아르카나',bs:'바꿀 옵션',
-   guide:'현재 전체 스펙에는 기존 아르카나 옵션이 이미 포함되어 있으므로 A와 B의 옵션 차이만 계산합니다.'
   }
  }[type]||null;
  if(!cfg)return;
@@ -2989,8 +3069,8 @@ function calcGearCompare(){
  $('#gc_mixed').textContent=signedPct(mixed);
 
  let verdict='거의 동일한 세팅입니다.';
- if(mixed>0.05)verdict=gearCompareType==='gear'?'✅ B 장비 교체 추천':gearCompareType==='pet'?'✅ B 펫 옵션 변경 추천':'✅ B 아르카나 옵션 변경 추천';
- else if(mixed<-0.05)verdict=gearCompareType==='gear'?'❌ 현재 A 장비 유지 추천':gearCompareType==='pet'?'❌ 현재 A 펫 옵션 유지 추천':'❌ 현재 A 아르카나 옵션 유지 추천';
+ if(mixed>0.05)verdict=gearCompareType==='gear'?'✅ B 장비 교체 추천':'✅ B 펫 옵션 변경 추천';
+ else if(mixed<-0.05)verdict=gearCompareType==='gear'?'❌ 현재 A 장비 유지 추천':'❌ 현재 A 펫 옵션 유지 추천';
  $('#gc_verdict').textContent=verdict;
 
  const chips=[];
@@ -3733,5 +3813,135 @@ updateServerOptions();
 })();
 
 setGearCompareType('gear');
+
+const INFO_PAGES={
+  about:{
+    title:'BUSON2 소개',
+    html:`
+      <h3>BUSON2는 어떤 사이트인가요?</h3>
+      <p>BUSON2는 아이온2 플레이 중 자주 필요한 계산을 빠르게 확인할 수 있도록 만든 비공식 팬 도구입니다.</p>
+      <p>스펙 투자 효율, 장비·펫 옵션 비교, 던전 오드 효율, 버스 기사 수익, 부캐 버스와 본부 비교 등을 한 곳에서 계산할 수 있도록 구성하고 있습니다.</p>
+
+      <h3>운영 방향</h3>
+      <p>가능한 한 사용자가 직접 입력한 게임 수치와 공개적으로 확인 가능한 정보를 바탕으로 계산하며, 실험값이나 근사식을 사용하는 항목은 계산기 안에서 별도로 안내하는 것을 원칙으로 합니다.</p>
+
+      <h3>비공식 팬 사이트</h3>
+      <p>BUSON2는 NCSOFT 또는 아이온2의 공식 서비스가 아니며, 게임사와 제휴·후원 관계가 없는 비공식 팬 사이트입니다.</p>
+    `
+  },
+  guide:{
+    title:'BUSON2 이용방법',
+    html:`
+      <h3>스펙 계산기</h3>
+      <p>현재 캐릭터의 공격력, 증폭 스탯, 강타, 완벽, 전·후방 유지율과 대상 저항 수치를 입력하면 예상 딜 효율과 투자 우선순위를 비교할 수 있습니다.</p>
+
+      <h3>장비 / 펫 이해도 비교</h3>
+      <p>A에는 현재 적용 중인 옵션, B에는 바꿀 옵션을 입력하세요. 현재 전체 스펙에는 A 옵션이 이미 포함되어 있으므로 계산기는 B−A 차이만 반영합니다.</p>
+
+      <h3>던전</h3>
+      <p>원정 또는 초월을 선택한 뒤 던전별 오드 소모, 기본 키나, 소요시간을 기준으로 오드당·시간당 효율을 비교할 수 있습니다.</p>
+
+      <h3>버스 기사</h3>
+      <p>손님 1명당 버스비와 기사 분배, 판수, 소요시간을 입력하면 예상 순수익을 계산합니다. 월드 거래소로 버스비를 받을 경우 등록비 2%와 판매 수수료 20%를 자동 차감합니다.</p>
+
+      <h3>부캐 버스 / 본부 / 파밍 비교</h3>
+      <p>각 방식의 현재 입력값을 저장한 뒤 파밍 비교 탭에서 판당 수익, 오드당 수익, 시간당 수익과 총수익을 비교할 수 있습니다.</p>
+
+      <div class="info-note">게임 업데이트로 공식 수치나 계산 방식이 바뀔 수 있으므로 중요한 의사결정 전에는 게임 내 최신 정보를 함께 확인해주세요.</div>
+    `
+  },
+  contact:{
+    title:'문의',
+    html:`
+      <h3>오류 제보 및 계산식 문의</h3>
+      <p>계산 결과가 게임 내 수치와 다르거나 수정이 필요한 부분이 있다면 아래 항목을 함께 보내주시면 확인에 도움이 됩니다.</p>
+      <ul>
+        <li>사용한 계산기 또는 탭 이름</li>
+        <li>입력한 수치</li>
+        <li>예상한 결과와 실제 표시 결과</li>
+        <li>가능한 경우 게임 화면 캡처</li>
+      </ul>
+
+      <h3>연락 방법</h3>
+      <p>현재 BUSON2는 별도의 문의 폼을 운영하지 않습니다. 문의 이메일을 정한 뒤 이 페이지에 추가하는 것을 권장합니다.</p>
+
+      <div class="info-note">광고·제휴 문의 주소를 사용할 예정이라면 개인 이메일과 분리된 BUSON2 전용 이메일을 사용하는 것을 추천합니다.</div>
+    `
+  },
+  privacy:{
+    title:'개인정보처리방침',
+    html:`
+      <h3>1. 기본 원칙</h3>
+      <p>BUSON2는 계산기 이용을 위해 이름, 주민등록번호, 전화번호 등 직접적인 개인정보 입력을 요구하지 않습니다.</p>
+
+      <h3>2. 브라우저에 저장되는 정보</h3>
+      <p>일부 계산기에는 사용자가 입력한 수치나 설정을 다시 불러올 수 있도록 브라우저의 로컬 저장소(localStorage)를 사용할 수 있습니다. 이러한 정보는 기본적으로 사용자의 브라우저에 저장됩니다.</p>
+
+      <h3>3. 접속 기록 및 통계</h3>
+      <p>향후 사이트 이용 통계를 위해 Google Analytics 등 분석 도구를 사용할 수 있으며, 이 경우 쿠키 또는 유사 기술을 통해 기기·브라우저·접속 관련 정보가 처리될 수 있습니다.</p>
+
+      <h3>4. 광고 서비스</h3>
+      <p>향후 Google AdSense 등 광고 서비스를 사용하는 경우 광고 제공 과정에서 쿠키가 사용될 수 있으며, 광고 사업자의 정책에 따라 맞춤형 또는 비맞춤형 광고가 제공될 수 있습니다.</p>
+
+      <h3>5. 외부 서비스</h3>
+      <p>캐릭터 정보나 게임 데이터를 표시하기 위해 외부 서비스의 공개 페이지 또는 API를 참고할 수 있습니다. 외부 서비스 이용 시 해당 서비스의 정책이 적용될 수 있습니다.</p>
+
+      <h3>6. 문의</h3>
+      <p>개인정보 관련 문의를 받을 이메일 주소는 사이트 운영용 이메일을 정한 뒤 별도로 공개하는 것을 권장합니다.</p>
+
+      <div class="info-note">이 문서는 현재 BUSON2의 기능을 기준으로 작성한 기본 초안입니다. 실제로 Analytics, AdSense, 문의 폼 등을 연결한 뒤 해당 서비스와 실제 데이터 처리 방식에 맞춰 최종 문구를 업데이트해야 합니다.</div>
+    `
+  }
+};
+
+function openInfoPage(key){
+  const page=INFO_PAGES[key];
+  if(!page)return;
+  $('#infoModalTitle').textContent=page.title;
+  $('#infoModalBody').innerHTML=page.html;
+  $('#infoModal').classList.remove('hidden');
+  $('#infoModal').setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeInfoPage(){
+  $('#infoModal').classList.add('hidden');
+  $('#infoModal').setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+document.querySelectorAll('[data-info-page]').forEach(btn=>btn.addEventListener('click',()=>openInfoPage(btn.dataset.infoPage)));
+document.querySelectorAll('[data-info-close]').forEach(el=>el.addEventListener('click',closeInfoPage));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#infoModal')?.classList.contains('hidden'))closeInfoPage()});
+
 </script>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">B2</div>
+      <div>
+        <b>BUSON2</b>
+        <span>아이온2 효율 계산 · 버스 · 던전 · 스펙 비교 도구</span>
+      </div>
+    </div>
+    <nav class="footer-links" aria-label="사이트 안내">
+      <button type="button" data-info-page="about">소개</button>
+      <button type="button" data-info-page="guide">이용방법</button>
+      <button type="button" data-info-page="contact">문의</button>
+      <button type="button" data-info-page="privacy">개인정보처리방침</button>
+    </nav>
+    <div class="footer-copy">© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구입니다.</div>
+  </div>
+</footer>
+
+<div id="infoModal" class="info-modal hidden" aria-hidden="true">
+  <div class="info-modal-backdrop" data-info-close="1"></div>
+  <div class="info-modal-card" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+    <div class="info-modal-head">
+      <h2 id="infoModalTitle">BUSON2</h2>
+      <button type="button" class="info-close" data-info-close="1" aria-label="닫기">×</button>
+    </div>
+    <div id="infoModalBody" class="info-modal-body"></div>
+  </div>
+</div>
+
 </body></html>
