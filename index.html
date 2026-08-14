@@ -271,10 +271,10 @@ main.wrap{
 </head>
 <body>
 <header><div class="wrap top">
-<div class="brand"><div class="logo">B2</div><div><b>BUSON2</b><small>버스온2 · 아이온2 효율 연구소</small></div></div>
+<div class="brand" id="brandHome" role="button" tabindex="0" title="홈으로"><div class="logo">B2</div><div><b>BUSON2</b><small>버스온2 · 아이온2 효율 연구소</small></div></div>
 <nav>
-<button class="tab" data-page="home">홈</button>
-<button class="tab active" data-page="noticehub">공지</button>
+<button class="tab active" data-page="home">홈</button>
+<button class="tab" data-page="noticehub">공지</button>
 <button class="tab" data-page="dungeon">던전</button>
 <button class="tab" data-page="spec">스펙 계산기</button>
 <button class="tab" data-page="driver">버스 기사</button>
@@ -286,7 +286,7 @@ main.wrap{
 
 <main class="wrap">
   <!-- ===== BUSON2 홈 시작 ===== -->
-<section id="page-home" class="hidden">
+<section id="page-home">
 
   <div class="card">
     <div class="head">
@@ -355,7 +355,7 @@ main.wrap{
 </section>
 <!-- ===== BUSON2 홈 끝 ===== -->
 <section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>버스온2(BUSON2) - 아이온2 계산기 · 스펙 계산 · 버스 수익 · 던전 오드 효율</h1><p>버스온2(BUSON2)에서 아이온2 스펙 계산기, 버스 기사·부캐 버스·본부 수익 계산, 던전 키나와 오드 효율을 한곳에서 비교하세요.</p></div></section>
-<section id="page-noticehub">
+<section id="page-noticehub" class="hidden">
   <div class="card">
     <div class="head">
       <h2>📣 아이온2 공식 소식</h2>
@@ -631,11 +631,16 @@ main.wrap{
 
   <div class="card gear-compare-card" style="margin-top:18px">
     <div class="head">
-      <h2>🛡️ 장비 교체 비교</h2>
-      <p>현재 장비 한 부위와 교체할 장비의 옵션을 입력하면 현재 캐릭터 스펙을 기준으로 예상 실딜 변화를 비교합니다.</p>
+      <h2 id="gc_title">🛡️ 장비 교체 비교</h2>
+      <p id="gc_subtitle">현재 장비 한 부위와 교체할 장비의 옵션을 입력하면 현재 캐릭터 스펙을 기준으로 예상 실딜 변화를 비교합니다.</p>
     </div>
     <div class="body">
-      <div class="gear-compare-guide">
+      <div class="gear-compare-type">
+        <button type="button" class="gc-type active" data-gc-type="gear">🛡️ 장비</button>
+        <button type="button" class="gc-type" data-gc-type="pet">🐾 펫 이해도</button>
+        <button type="button" class="gc-type" data-gc-type="arcana">✨ 아르카나</button>
+      </div>
+      <div class="gear-compare-guide" id="gc_guide">
         <b>입력 방법</b>
         현재 스탯창에는 기존 장비 옵션이 이미 반영되어 있습니다.
         아래에는 <b>비교할 장비 한 부위의 옵션만</b> 입력하세요.
@@ -644,7 +649,7 @@ main.wrap{
 
       <div class="gear-compare-grid">
         <div class="gear-side current">
-          <div class="gear-side-title"><span>A</span><div><b>현재 장비</b><small>지금 착용 중인 한 부위</small></div></div>
+          <div class="gear-side-title"><span>A</span><div><b id="gc_a_title">현재 장비</b><small id="gc_a_sub">지금 착용 중인 한 부위</small></div></div>
           <div class="gear-fields">
             <div><label>공격력</label><input id="gc_a_attack" value="0"></div>
             <div><label>추가 공격력</label><input id="gc_a_addatk" value="0"></div>
@@ -664,7 +669,7 @@ main.wrap{
         <div class="gear-swap-arrow">→</div>
 
         <div class="gear-side new">
-          <div class="gear-side-title"><span>B</span><div><b>교체 장비</b><small>바꿀 장비 한 부위</small></div></div>
+          <div class="gear-side-title"><span>B</span><div><b id="gc_b_title">교체 장비</b><small id="gc_b_sub">바꿀 장비 한 부위</small></div></div>
           <div class="gear-fields">
             <div><label>공격력</label><input id="gc_b_attack" value="0"></div>
             <div><label>추가 공격력</label><input id="gc_b_addatk" value="0"></div>
@@ -788,7 +793,7 @@ main.wrap{
 <div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
 <div><label>내 기사</label><select id="d_myDriver"></select></div>
 <div><label>계산할 총 판수</label><div class="iwrap"><input id="d_runs" value="0"><span class="unit">판</span></div></div>
-<div><label>보유 오드</label><div class="iwrap"><input id="d_ownedOde" value="0"><span class="unit">오드</span></div></div>
+
 </div>
 
 <div class="driver-config" style="margin-top:14px">
@@ -2191,6 +2196,15 @@ main.wrap{
 @media(max-width:860px){.gear-compare-grid{grid-template-columns:1fr}.gear-swap-arrow{transform:rotate(90deg);height:32px}.gear-result-modes{grid-template-columns:1fr}}
 @media(max-width:560px){.gear-fields{grid-template-columns:1fr}}
 
+
+.brand{cursor:pointer;user-select:none;border-radius:10px;padding:4px 6px;margin-left:-6px;transition:.15s}
+.brand:hover{background:rgba(255,255,255,.045)}
+.brand:focus-visible{outline:2px solid #758cff;outline-offset:2px}
+.gear-compare-type{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.gc-type{border:1px solid #304158;background:#0d1622;color:#9dafc7;border-radius:10px;padding:9px 13px;font-weight:850;cursor:pointer}
+.gc-type:hover{border-color:#4b6485;color:#dce8f8}
+.gc-type.active{border-color:#6f86ff;background:#172348;color:#fff;box-shadow:inset 0 0 0 1px rgba(126,147,255,.18)}
+
 </style>
 </main>
 
@@ -2343,7 +2357,7 @@ function calcSimple(p){
 
 function fieldsFor(tab){
  if(tab==='driver'){
-   const arr=['d_content_type','d_income','d_cost','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs','d_ownedOde'];
+   const arr=['d_content_type','d_income','d_cost','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs'];
    if(Number($('#d_driverCount').value)===2){
      arr.push('d_blockA','d_blockB');
    }
@@ -2895,6 +2909,47 @@ const GEAR_COMPARE_FIELDS=[
  ['perfect','완벽','%'],['pve','PVE 피해 증폭','%'],['boss','보스 피해 증폭','%']
 ];
 
+
+let gearCompareType='gear';
+
+function setGearCompareType(type){
+ gearCompareType=type;
+ document.querySelectorAll('.gc-type').forEach(btn=>btn.classList.toggle('active',btn.dataset.gcType===type));
+
+ const cfg={
+  gear:{
+   title:'🛡️ 장비 교체 비교',
+   subtitle:'현재 장비 한 부위와 교체할 장비의 옵션을 입력하면 현재 캐릭터 스펙을 기준으로 예상 실딜 변화를 비교합니다.',
+   a:'현재 장비',as:'지금 착용 중인 한 부위',b:'교체 장비',bs:'바꿀 장비 한 부위',
+   guide:'현재 스탯창에는 기존 장비 옵션이 이미 반영되어 있습니다. 아래에는 비교할 장비 한 부위의 옵션만 입력하세요.'
+  },
+  pet:{
+   title:'🐾 펫 이해도 옵션 비교',
+   subtitle:'현재 펫 이해도 옵션과 바꿀 옵션의 실전 딜 효율을 같은 계산식으로 비교합니다.',
+   a:'현재 펫 옵션',as:'현재 적용 중인 이해도 옵션',b:'변경 펫 옵션',bs:'바꿀 이해도 옵션',
+   guide:'현재 전체 스펙에는 기존 펫작이 이미 포함되어 있으므로 현재 옵션과 변경 옵션만 입력하세요.'
+  },
+  arcana:{
+   title:'✨ 아르카나 옵션 비교',
+   subtitle:'현재 아르카나 옵션과 교체할 옵션의 실전 딜 효율을 현재 캐릭터 스펙 기준으로 비교합니다.',
+   a:'현재 아르카나',as:'현재 적용 중인 옵션',b:'변경 아르카나',bs:'바꿀 옵션',
+   guide:'현재 전체 스펙에는 기존 아르카나 옵션이 이미 포함되어 있으므로 A와 B의 옵션 차이만 계산합니다.'
+  }
+ }[type]||null;
+ if(!cfg)return;
+
+ $('#gc_title').textContent=cfg.title;
+ $('#gc_subtitle').textContent=cfg.subtitle;
+ $('#gc_a_title').textContent=cfg.a;
+ $('#gc_a_sub').textContent=cfg.as;
+ $('#gc_b_title').textContent=cfg.b;
+ $('#gc_b_sub').textContent=cfg.bs;
+ $('#gc_guide').innerHTML='<b>입력 방법</b> '+cfg.guide+' 계산기는 <b>B − A 차이만</b> 현재 스펙에 반영합니다.';
+ calcGearCompare();
+}
+
+document.querySelectorAll('.gc-type').forEach(btn=>btn.addEventListener('click',()=>setGearCompareType(btn.dataset.gcType)));
+
 function gearCompareRead(side){
  const o={};
  GEAR_COMPARE_FIELDS.forEach(([key])=>{o[key]=Number($('#gc_'+side+'_'+key)?.value||0)});
@@ -2934,8 +2989,8 @@ function calcGearCompare(){
  $('#gc_mixed').textContent=signedPct(mixed);
 
  let verdict='거의 동일한 세팅입니다.';
- if(mixed>0.05)verdict='✅ B 장비 교체 추천';
- else if(mixed<-0.05)verdict='❌ 현재 A 장비 유지 추천';
+ if(mixed>0.05)verdict=gearCompareType==='gear'?'✅ B 장비 교체 추천':gearCompareType==='pet'?'✅ B 펫 옵션 변경 추천':'✅ B 아르카나 옵션 변경 추천';
+ else if(mixed<-0.05)verdict=gearCompareType==='gear'?'❌ 현재 A 장비 유지 추천':gearCompareType==='pet'?'❌ 현재 A 펫 옵션 유지 추천':'❌ 현재 A 아르카나 옵션 유지 추천';
  $('#gc_verdict').textContent=verdict;
 
  const chips=[];
@@ -3248,6 +3303,17 @@ document.querySelectorAll('.subtab').forEach(btn=>btn.addEventListener('click',(
  loadOfficialNews();
 }));
 
+
+const brandHome=$('#brandHome');
+function goBusonHome(){
+ const homeTab=document.querySelector('.tab[data-page="home"]');
+ if(homeTab)homeTab.click();
+}
+brandHome?.addEventListener('click',goBusonHome);
+brandHome?.addEventListener('keydown',e=>{
+ if(e.key==='Enter'||e.key===' '){e.preventDefault();goBusonHome()}
+});
+
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
 let newsLoaded=false;
 function escapeHtml(text){
@@ -3256,7 +3322,7 @@ function escapeHtml(text){
 
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
-['d_cost','d_minutes','d_fare','d_passengers','d_runs','d_ownedOde'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
+['d_cost','d_minutes','d_fare','d_passengers','d_runs'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
 $('#d_ode').addEventListener('change',calcDriver);
 ['m_cost','m_minutes','m_runs','m_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>{calcSimple('m');calcSimple('s')}));
@@ -3665,5 +3731,7 @@ updateServerOptions();
   });
 
 })();
+
+setGearCompareType('gear');
 </script>
 </body></html>
