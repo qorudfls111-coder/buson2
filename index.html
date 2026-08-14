@@ -151,6 +151,19 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 .ab-box select{margin-top:6px;padding:10px 12px;font-size:13px}
 .ab-box .ab-status{margin:10px 0 2px}
 
+/* ===== A/B 변경점 요약 ===== */
+.ab-diff-wrap{margin-top:12px;padding:12px;border:1px solid #2a3a50;border-radius:13px;background:#0b121c}
+.ab-diff-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:11px}
+.ab-diff-head b{font-size:14px;color:#eef4ff}
+.ab-diff-head span{font-size:11px;color:#7f91a9}
+.ab-diff-list{display:flex;gap:8px;flex-wrap:wrap}
+.ab-diff-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border:1px solid #334258;border-radius:999px;background:#111a28;color:#c3cfdf;font-size:12px;font-weight:800}
+.ab-diff-chip.pos{border-color:#315d47;background:#11231b;color:#8df0bd}
+.ab-diff-chip.neg{border-color:#623744;background:#27171d;color:#ff9fb0}
+.ab-diff-chip.change{border-color:#38577d;background:#0e1c2d;color:#90c4ff}
+.ab-diff-empty{color:#71839b;font-size:12px}
+@media(max-width:600px){.ab-diff-chip{font-size:11px;padding:6px 8px}}
+
 .spec-action-buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .spec-action-buttons button{
   min-height:46px;
@@ -705,6 +718,12 @@ main.wrap{
           <div class="big" id="sp_ab_gain">—</div>
           <div class="s">내 딜사이클 혼합 기준</div>
           <div id="sp_ab_compare_names" style="margin-top:10px;color:#8294ab;font-size:11px;line-height:1.6"></div>
+        </div>
+      </div>
+
+      <div id="sp_ab_diff_wrap" class="ab-diff-wrap">
+        <div id="sp_ab_differences" class="ab-diff-list">
+          <span class="ab-diff-empty">A와 B 세팅을 선택하면 차이가 표시됩니다.</span>
         </div>
       </div>
     </div>
@@ -3741,6 +3760,81 @@ function updateABSlotOptions(){
    select.value=currentValue;
  });
 }
+const AB_DIFF_FIELDS=[
+ {id:'sp_attack_on',label:'공격력',type:'number',digits:0},
+ {id:'sp_attack_off',label:'장비 해제 공격력',type:'number',digits:0},
+ {id:'sp_destroy',label:'파괴',type:'number',digits:0},
+ {id:'sp_power',label:'위력',type:'number',digits:0},
+ {id:'sp_weapon_min',label:'무기 최소 공격력',type:'number',digits:0},
+ {id:'sp_weapon_max',label:'무기 최대 공격력',type:'number',digits:0},
+ {id:'sp_break5',label:'+5 돌파',type:'count',digits:0},
+ {id:'sp_break4',label:'+4 돌파',type:'count',digits:0},
+ {id:'sp_break3',label:'+3 돌파',type:'count',digits:0},
+ {id:'sp_break2',label:'+2 돌파',type:'count',digits:0},
+ {id:'sp_break1',label:'+1 돌파',type:'count',digits:0},
+ {id:'sp_dmg',label:'피증',type:'percent',digits:1},
+ {id:'sp_weapon',label:'무피증',type:'percent',digits:1},
+ {id:'sp_critdmg',label:'치피증',type:'percent',digits:1},
+ {id:'sp_front',label:'전피증',type:'percent',digits:1},
+ {id:'sp_back',label:'후피증',type:'percent',digits:1},
+ {id:'sp_smash',label:'강타',type:'percent',digits:1},
+ {id:'sp_perfect',label:'완벽',type:'percent',digits:1},
+ {id:'sp_pve',label:'PVE피증',type:'percent',digits:1},
+ {id:'sp_boss',label:'보스피증',type:'percent',digits:1},
+ {id:'sp_crit_rate',label:'치명타율',type:'percent',digits:1},
+ {id:'sp_fb_rate',label:'방향 유지율',type:'percent',digits:1},
+ {id:'sp_smash_resist',label:'강타 저항',type:'percent',digits:1},
+ {id:'sp_party_smash',label:'파티 강타',type:'percent',digits:1},
+ {id:'sp_party_dmg',label:'파티 피증',type:'percent',digits:1},
+ {id:'sp_target_crit_resist',label:'치명 저항',type:'percent',digits:1},
+ {id:'sp_target_dmg_resist',label:'피해 내성',type:'percent',digits:1},
+ {id:'sp_target_critdmg_resist',label:'치피 내성',type:'percent',digits:1},
+ {id:'sp_target_perfect_resist',label:'완벽 저항',type:'percent',digits:1},
+ {id:'sp_guaranteed_crit_share',label:'확정치명 비중',type:'percent',digits:1}
+];
+
+function abSnapshotNumber(data,id){
+ return Number(String(data?.[id]??'0').replace(/,/g,''))||0;
+}
+function abPrettyNumber(v,digits=1){
+ const n=Number(v)||0;
+ if(digits===0)return Math.round(n).toLocaleString('ko-KR');
+ return n.toFixed(digits).replace(/\.0+$/,'');
+}
+function renderABDifferences(aData,bData){
+ const box=$('#sp_ab_differences');
+ if(!box)return;
+ const chips=[];
+
+ const dirA=aData?.sp_direction||'back';
+ const dirB=bData?.sp_direction||'back';
+ if(dirA!==dirB){
+   const name=v=>v==='front'?'전방':'후방';
+   chips.push(`<span class="ab-diff-chip change">방향 ${name(dirA)} → ${name(dirB)}</span>`);
+ }
+
+ AB_DIFF_FIELDS.forEach(field=>{
+   const a=abSnapshotNumber(aData,field.id);
+   const b=abSnapshotNumber(bData,field.id);
+   const diff=b-a;
+   if(Math.abs(diff)<1e-9)return;
+
+   const cls=diff>0?'pos':'neg';
+   const sign=diff>0?'+':'-';
+   const abs=Math.abs(diff);
+   let value='';
+   if(field.type==='percent')value=sign+abPrettyNumber(abs,field.digits)+'%';
+   else if(field.type==='count')value=sign+abPrettyNumber(abs,0)+'개';
+   else value=sign+abPrettyNumber(abs,field.digits);
+
+   chips.push(`<span class="ab-diff-chip ${cls}">${escapeHtml(field.label)} ${value}</span>`);
+ });
+
+ box.innerHTML=chips.length
+   ?chips.join('')
+   :'<span class="ab-diff-empty">A와 B의 입력 스탯이 같습니다.</span>';
+}
+
 function renderABCompare(){
  updateABSlotOptions();
  const A=getABData('a');
@@ -3751,17 +3845,20 @@ function renderABCompare(){
  if(bStatus)bStatus.textContent=B.empty?B.name:'✓ '+B.name;
  const gainEl=$('#sp_ab_gain');
  const namesEl=$('#sp_ab_compare_names');
+ const diffBox=$('#sp_ab_differences');
  if(namesEl){
    namesEl.innerHTML='A : '+escapeHtml(A.name)+'<br>B : '+escapeHtml(B.name);
  }
  if(A.empty||B.empty){
    if(gainEl)gainEl.textContent='—';
+   if(diffBox)diffBox.innerHTML='<span class="ab-diff-empty">A와 B 세팅을 모두 선택하면 변경점이 표시됩니다.</span>';
    return;
  }
  const ar=totalMultiplier(specFromSnapshot(A.data));
  const br=totalMultiplier(specFromSnapshot(B.data));
  const g=gainPct(ar.mixedTotal,br.mixedTotal);
  if(gainEl)gainEl.textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
+ renderABDifferences(A.data,B.data);
 }
 
 const SPEC_SLOT_COUNT=5;
