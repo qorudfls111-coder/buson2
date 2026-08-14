@@ -945,11 +945,10 @@ main.wrap{
 <option value="160">160 오드</option>
 </select></div>
 <div><label>손님 1명당 버스비</label><div class="iwrap"><input id="d_fare" class="money" value="0"><span class="unit">키나</span></div></div>
-  <div><label>버스비 적용 판수</label><div class="iwrap"><input id="d_fare_runs" type="number" min="1" max="10" value="1"><span class="unit">판</span></div></div>
+<div><label>계산할 판수</label><div class="iwrap"><input id="d_fare_runs" type="number" min="1" max="10" value="1"><span class="unit">판</span></div></div>
 <div><label id="d_passengers_label">손님 수</label><div class="iwrap"><input id="d_passengers" value="0"><span class="unit">명</span></div></div>
 <div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
 <div><label>내 기사</label><select id="d_myDriver"></select></div>
-<div><label id="d_runs_label">계산할 총 판수</label><div class="iwrap"><input id="d_runs" value="0"><span class="unit">판</span></div></div>
 
 </div>
 
@@ -2904,8 +2903,6 @@ function syncDriverPartySettings(){
   const countEl = $('#d_driverCount');
   const passengerEl = $('#d_passengers');
   const passengerLabel = $('#d_passengers_label');
-  const runsEl = $('#d_runs');
-  const runsLabel = $('#d_runs_label');
 
   if(!countEl || !passengerEl) return;
 
@@ -2935,16 +2932,6 @@ function syncDriverPartySettings(){
       passengerLabel.textContent = '버스 받는 총객 수 (10인 자동)';
     }
 
-    if(runsEl){
-      runsEl.value = '1';
-      runsEl.readOnly = true;
-      runsEl.setAttribute('aria-readonly','true');
-    }
-
-    if(runsLabel){
-      runsLabel.textContent = '성역 판수 (1판 고정)';
-    }
-
   }else{
     // 원정 / 초월: 총원 5명 고정
     // 기사 수에 따라 손님 수 자동 계산
@@ -2959,15 +2946,6 @@ function syncDriverPartySettings(){
       passengerLabel.textContent = '손님 수 (5인 자동)';
     }
 
-    // 계산 판수는 기존처럼 직접 입력
-    if(runsEl){
-      runsEl.readOnly = false;
-      runsEl.removeAttribute('aria-readonly');
-    }
-
-    if(runsLabel){
-      runsLabel.textContent = '계산할 판수';
-    }
   }
   setTimeout(renderFareCopyRows, 0);
 }
@@ -3366,7 +3344,9 @@ const farePerRun=fare/fareRuns; // 계산용 1판당 버스비
 
 const passengers=Math.max(0,Math.floor(val('d_passengers')));
  const isSanctuary=$('#d_content_type')?.value==='sanctuary';
- const mine=$('#d_myDriver').value||'1',runs=isSanctuary?1:Math.max(0,Math.floor(val('d_runs'))),cfg=getDriverConfig();
+ const mine=$('#d_myDriver').value||'1';
+const runs=isSanctuary?1:fareRuns;
+const cfg=getDriverConfig();
  const schedule=[]; cfg.forEach(x=>{for(let i=0;i<x.block;i++)schedule.push(x.name)});
  const fairSanctuaryPlan=isSanctuary?buildSanctuaryFairPlan(fare,passengers,cfg.length):null;
 
@@ -3489,7 +3469,7 @@ function calcSimple(p){
 
 function fieldsFor(tab){
  if(tab==='driver'){
-   const arr=['d_content_type','d_income','d_ode','d_minutes','d_fare','d_fare_runs','d_passengers','d_driverCount','d_myDriver','d_runs'];
+const arr=['d_content_type','d_income','d_ode','d_minutes','d_fare','d_fare_runs','d_passengers','d_driverCount','d_myDriver'];
    if(Number($('#d_driverCount').value)===2){
      arr.push('d_block1','d_block2');
    }
@@ -4935,7 +4915,7 @@ function escapeHtml(text){
 
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
-['d_minutes','d_fare','d_passengers','d_runs'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
+['d_minutes','d_fare','d_fare_runs','d_passengers'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
 $('#d_ode').addEventListener('change',calcDriver);
 ['m_cost','m_runs','m_ownedOde'].forEach(id=>$('#'+id)?.addEventListener('input',()=>{
