@@ -2758,33 +2758,74 @@ function driverMaxCount(){
  return $('#d_content_type')?.value==='sanctuary'?9:3;
 }
 function syncDriverPartySettings(){
- const countEl=$('#d_driverCount');
- const passengerEl=$('#d_passengers');
- const passengerLabel=$('#d_passengers_label');
- const runsEl=$('#d_runs');
- const runsLabel=$('#d_runs_label');
- if(!countEl||!passengerEl)return;
+  const countEl = $('#d_driverCount');
+  const passengerEl = $('#d_passengers');
+  const passengerLabel = $('#d_passengers_label');
+  const runsEl = $('#d_runs');
+  const runsLabel = $('#d_runs_label');
 
- const previous=Math.max(1,Number(countEl.value)||1);
- const max=driverMaxCount();
- countEl.innerHTML=Array.from({length:max},(_,i)=>`<option value="${i+1}">${i+1}명</option>`).join('');
- countEl.value=String(Math.min(previous,max));
+  if(!countEl || !passengerEl) return;
 
- const isSanctuary=$('#d_content_type')?.value==='sanctuary';
- passengerEl.readOnly=isSanctuary;
- passengerEl.setAttribute('aria-readonly',String(isSanctuary));
- if(isSanctuary){
-   passengerEl.value=Math.max(1,10-Number(countEl.value));
-   passengerEl.title='무스펠 어려움은 10인 파티이므로 기사 수에 따라 자동 계산됩니다.';
-   if(passengerLabel)passengerLabel.textContent='버스 받는 승객 수 (10인 자동)';
-   if(runsEl){runsEl.value='1';runsEl.readOnly=true;runsEl.setAttribute('aria-readonly','true')}
-   if(runsLabel)runsLabel.textContent='성역 판수 (1판 고정)';
- }else{
-   passengerEl.removeAttribute('title');
-   if(passengerLabel)passengerLabel.textContent='손님 수';
-   if(runsEl){runsEl.readOnly=false;runsEl.setAttribute('aria-readonly','false')}
-   if(runsLabel)runsLabel.textContent='계산할 총 판수';
- }
+  const previous = Math.max(1, Number(countEl.value) || 1);
+  const max = driverMaxCount();
+
+  countEl.innerHTML = Array.from(
+    {length:max},
+    (_,i) => `<option value="${i+1}">${i+1}명</option>`
+  ).join('');
+
+  countEl.value = String(Math.min(previous, max));
+
+  const isSanctuary = $('#d_content_type')?.value === 'sanctuary';
+  const driverCount = Number(countEl.value) || 1;
+
+  if(isSanctuary){
+    // 성역: 기존 방식 유지
+    passengerEl.readOnly = true;
+    passengerEl.setAttribute('aria-readonly','true');
+
+    passengerEl.value = Math.max(1, 10 - driverCount);
+
+    passengerEl.title = '무스딘 연습을 보면 파티 인원별 기사 수에 따라 자동 계산됩니다.';
+
+    if(passengerLabel){
+      passengerLabel.textContent = '버스 받는 총객 수 (10인 자동)';
+    }
+
+    if(runsEl){
+      runsEl.value = '1';
+      runsEl.readOnly = true;
+      runsEl.setAttribute('aria-readonly','true');
+    }
+
+    if(runsLabel){
+      runsLabel.textContent = '성역 판수 (1판 고정)';
+    }
+
+  }else{
+    // 원정 / 초월: 총원 5명 고정
+    // 기사 수에 따라 손님 수 자동 계산
+    passengerEl.readOnly = true;
+    passengerEl.setAttribute('aria-readonly','true');
+
+    passengerEl.value = Math.max(1, 5 - driverCount);
+
+    passengerEl.title = '원정/초월은 총 5명 기준으로 기사 수에 따라 손님 수가 자동 계산됩니다.';
+
+    if(passengerLabel){
+      passengerLabel.textContent = '손님 수 (5인 자동)';
+    }
+
+    // 계산 판수는 기존처럼 직접 입력
+    if(runsEl){
+      runsEl.readOnly = false;
+      runsEl.removeAttribute('aria-readonly');
+    }
+
+    if(runsLabel){
+      runsLabel.textContent = '계산할 판수';
+    }
+  }
 }
 function renderDrivers(preserve=true){
  const count=Math.max(1,Math.min(driverMaxCount(),Number($('#d_driverCount').value)||1));
