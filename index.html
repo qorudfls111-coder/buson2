@@ -2544,6 +2544,37 @@ main.wrap{
   .slot-name{font-size:15px!important}
 }
 
+
+/* ===== 내 스펙 저장: 데스크톱 5개 한 줄 표시 ===== */
+.spec-save-panel{
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
+}
+.spec-save-grid{
+  width:100%;
+  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  gap:10px;
+}
+.spec-save-slot{
+  min-width:0 !important;
+}
+.slot-name{
+  min-width:0;
+  width:100%;
+  box-sizing:border-box;
+}
+@media(max-width:900px){
+  .spec-save-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:480px){
+  .spec-save-grid{
+    grid-template-columns:1fr !important;
+  }
+}
+
 </style>
 </main>
 
