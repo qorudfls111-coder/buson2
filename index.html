@@ -444,9 +444,9 @@ main.wrap{
           <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" value="0"></div>
           <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" value="0"></div>
           <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
-          <div><label>무기 최소 공격력 <span class="muted">완벽/최공 계산용</span></label><input id="sp_weapon_min" value="0"></div>
-          <div><label>무기 최대 공격력 <span class="muted">완벽/최공 계산용</span></label><input id="sp_weapon_max" value="0"></div>
-          <div><label>옷장 무기 공격력 증가 % <span class="muted">최공 계산용</span></label><input id="sp_wardrobe_weapon" value="0"></div>
+          <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" value="0"></div>
+          <div><label>주무기 최대 공격력 <span class="muted">예: 641 ~ 709(+350) → 709</span></label><input id="sp_weapon_max" value="0"></div>
+          <div class="weapon-input-help" style="grid-column:1/-1;padding:12px 14px;border:1px solid #29405d;border-radius:10px;background:#0b1625;color:#b8c8db;font-size:13px;line-height:1.7"><b style="color:#79c7ff">무기 입력 방법</b>　게임에 <b>641 ~ 709(+350)</b> 이라고 보이면 <b>641 / 709</b>만 입력하세요.<br><b style="color:#ffd166">(+350)은 입력하지 않습니다.</b> 현재 스탯창 공격력에 이미 반영된 강화 수치라 다시 더하면 중복 계산됩니다.<br><span style="color:#8fa6bd">가더의 169(+350), 공격력 150·38 등도 별도 입력하지 않습니다. 현재 총 공격력에 이미 포함된 값으로 처리합니다.</span><br><span style="color:#8fa6bd">※ 현재 확인 가능한 실험 자료에서 ‘완벽’은 <b>무기 최대 공격력</b> 기반으로 설명·검증되어 있습니다. 가더 공격력이 완벽의 최대값 기준에 별도로 합산된다는 근거는 확인되지 않아 완벽 계산에는 주무기 범위만 사용합니다.</span></div>
           <div class="breakthrough-box">
             <label>장비 돌파 단계별 부위 수 <span class="muted">돌파 단계만큼 공격력 % 적용</span></label>
             <div class="breakthrough-grid">
@@ -513,7 +513,7 @@ main.wrap{
 
         <div class="calc-trust-note">
           <b>계산 기준</b>
-          <span>피해증폭·PVE·보스피증은 합산 후 대상 피해내성을 반영합니다. 전/후방은 실제 유지율로 가중 평균하며, 완벽은 입력한 무기 최소~최대 공격력 범위를 이용한 실측 기반 근사치입니다.</span>
+          <span>피해증폭·PVE·보스피증은 합산 후 대상 피해내성을 반영합니다. 전/후방은 실제 유지율로 가중 평균하며, 완벽은 입력한 주무기 기본 최소~최대 공격력에 괄호 안 강화 공격력을 양쪽에 더한 범위를 이용한 실측 기반 근사치입니다.</span>
           <span class="trust-warn">무기 피해 증폭·공격력 효율은 장비 공격력/보스 방어력 정보가 없으면 근사 비교값입니다.</span>
         </div>
 
@@ -2427,7 +2427,7 @@ async function loadOfficialNews(force=false){
 
 
 const SPEC_IDS=[
- 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_wardrobe_weapon','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
+ 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
  'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_perfect','sp_pve','sp_boss',
  'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
@@ -2439,7 +2439,7 @@ function sv(id){return Number($('#'+id)?.value||0)}
 function getSpec(){
  return {
   attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
-  destroy:sv('sp_destroy'), power:sv('sp_power'), weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), wardrobeWeapon:sv('sp_wardrobe_weapon'),
+  destroy:sv('sp_destroy'), power:sv('sp_power'), weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), weaponEnhance:0,
   breakthroughBonus:
     sv('sp_break5')*5 +
     sv('sp_break4')*4 +
@@ -2463,6 +2463,8 @@ function getSpec(){
 // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
 // 예: +5돌 1부위 = +5%, +3돌 2부위 = +6%.
 // 돌파분은 장비 귀속으로 보고 장비 해제 공격력에는 제외.
+// 완벽 계산의 무기 범위에는 주무기 최소/최대만 사용한다. 가더 공격력은 attackOn에 이미 포함되며,
+// 현재 공개 실험만으로 가더가 완벽의 '무기 최대 공격력' 기준에 별도 합산된다고 확인할 수 없어 중복 반영하지 않는다.
 function perfectData(s){
  const min=Math.max(0,s.weaponMin||0);
  const max=Math.max(min,s.weaponMax||0);
@@ -2482,7 +2484,7 @@ function perfectData(s){
 
 // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
 // 추가 공격력은 공격력 증가 효과를 받고, 최대 공격력은 현재 완벽 확률과
-// 무기 피해 증폭/옷장 무기 공격력 증가를 반영한 실측 기반 근사 비교값으로 계산.
+// 최대 공격력은 현재 완벽 확률을 반영한 실측 기반 근사 비교값으로 계산.
 function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=0){
  const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthroughBonus)/100;
  const offInc=1+(s.destroy*0.2+s.power*0.1)/100;
@@ -2502,14 +2504,9 @@ function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=
  const additionalDelta=extraAdditionalAttack*wornInc;
 
  // 최대 공격력: 비완벽 구간에서는 평균적으로 절반, 완벽 구간에서는 전부 기여.
- // 무피증과 옷장 무기 공격력 증가를 받는다는 실측을 반영.
+ // 실측 자료 기준: 최대 공격력도 공격력 증가%를 받음. 완벽 시 최대값 기여도를 반영.
  const maxWeight=0.5+(0.5*perfect.chance);
- const maxDelta=
-   extraMaxAttack *
-   wornInc *
-   (1+s.weapon/100) *
-   (1+(s.wardrobeWeapon||0)/100) *
-   maxWeight;
+ const maxDelta=extraMaxAttack*wornInc*maxWeight;
 
  // 완벽은 무기 최소~최대 범위의 평균값 대비 최대값 적용 확률로 근사.
  const perfectAdjustedCore=coreAttack*perfect.factor;
@@ -2649,7 +2646,7 @@ function renderRankings(){
 
  const warnings=[];
  if(!(s.weaponMax>s.weaponMin && s.weaponMin>0)){
-   warnings.push('완벽·최대 공격력 효율을 계산하려면 무기 최소 공격력과 최대 공격력을 입력해주세요.');
+   warnings.push('완벽·최대 공격력 효율을 계산하려면 주무기 기본 최소/최대 공격력을 입력해주세요. 괄호 안 (+숫자)는 현재 총 공격력에 이미 포함되므로 입력하지 않습니다.');
  }
  const effectiveSmash=s.smash+s.partySmash-s.smashResist;
  const smashRemain=Math.max(0,100-effectiveSmash);
