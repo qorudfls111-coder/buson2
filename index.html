@@ -2297,6 +2297,25 @@ main.wrap{
 .info-modal.hidden{display:none!important}
 .info-modal-card,.info-modal-backdrop{pointer-events:auto}
 
+
+.contact-email{
+  display:inline-flex;
+  align-items:center;
+  padding:9px 12px;
+  border:1px solid #38577d;
+  border-radius:9px;
+  background:#0d1a2a;
+  color:#8fc3ff!important;
+  font-weight:850;
+  text-decoration:none;
+  word-break:break-all;
+}
+.contact-email:hover{
+  border-color:#6596d2;
+  background:#11243a;
+  color:#c5e0ff!important;
+}
+
 </style>
 </main>
 
@@ -3869,9 +3888,11 @@ const INFO_PAGES={
       </ul>
 
       <h3>연락 방법</h3>
-      <p>현재 BUSON2는 별도의 문의 폼을 운영하지 않습니다. 문의 이메일을 정한 뒤 이 페이지에 추가하는 것을 권장합니다.</p>
+      <p>오류 제보, 계산식 수정 제안, 기능 건의 및 기타 문의는 아래 이메일로 보내주세요.</p>
+      <p><a class="contact-email" href="mailto:qorudfls111@gmail.com?subject=BUSON2%20문의">qorudfls111@gmail.com</a></p>
+      <p>이메일 주소를 누르면 사용 중인 메일 앱에서 BUSON2 문의 제목으로 새 메일을 작성할 수 있습니다.</p>
 
-      <div class="info-note">광고·제휴 문의 주소를 사용할 예정이라면 개인 이메일과 분리된 BUSON2 전용 이메일을 사용하는 것을 추천합니다.</div>
+      <div class="info-note">오류 문의 시 사용한 탭, 입력값, 표시된 결과와 가능하면 화면 캡처를 함께 보내주시면 확인에 도움이 됩니다.</div>
     `
   },
   privacy:{
@@ -3893,7 +3914,7 @@ const INFO_PAGES={
       <p>캐릭터 정보나 게임 데이터를 표시하기 위해 외부 서비스의 공개 페이지 또는 API를 참고할 수 있습니다. 외부 서비스 이용 시 해당 서비스의 정책이 적용될 수 있습니다.</p>
 
       <h3>6. 문의</h3>
-      <p>개인정보 관련 문의를 받을 이메일 주소는 사이트 운영용 이메일을 정한 뒤 별도로 공개하는 것을 권장합니다.</p>
+      <p>개인정보 및 사이트 운영 관련 문의: <a class="contact-email" href="mailto:qorudfls111@gmail.com?subject=BUSON2%20개인정보%20문의">qorudfls111@gmail.com</a></p>
 
       <div class="info-note">이 문서는 현재 BUSON2의 기능을 기준으로 작성한 기본 초안입니다. 실제로 Analytics, AdSense, 문의 폼 등을 연결한 뒤 해당 서비스와 실제 데이터 처리 방식에 맞춰 최종 문구를 업데이트해야 합니다.</div>
     `
