@@ -2471,6 +2471,79 @@ main.wrap{
   .spec-save-grid{grid-template-columns:1fr}
 }
 
+
+/* ===== 내 스펙 저장 UI 확대 ===== */
+.spec-save-panel{
+  margin-top:18px;
+  padding:20px;
+  border-radius:16px;
+}
+.spec-save-head{
+  margin-bottom:16px;
+}
+.spec-save-head b{
+  font-size:18px;
+}
+.spec-save-head span{
+  margin-top:5px;
+  font-size:13px;
+  line-height:1.5;
+}
+.spec-save-grid{
+  grid-template-columns:repeat(5,minmax(160px,1fr));
+  gap:12px;
+}
+.spec-save-slot{
+  padding:15px;
+  border-radius:13px;
+  min-height:154px;
+}
+.slot-top{
+  margin-bottom:10px;
+}
+.slot-top b{
+  font-size:15px;
+}
+.slot-top span{
+  font-size:11px;
+}
+.slot-name{
+  min-height:44px;
+  padding:11px 12px!important;
+  font-size:14px!important;
+  font-weight:750;
+  border-radius:9px!important;
+}
+.slot-name::placeholder{
+  font-size:12px;
+  font-weight:500;
+}
+.slot-actions{
+  gap:7px;
+  margin-top:10px;
+}
+.slot-actions button{
+  min-height:38px;
+  padding:9px 7px;
+  font-size:12px;
+  border-radius:8px;
+}
+.slot-actions .slot-delete{
+  padding:7px;
+}
+@media(max-width:1100px){
+  .spec-save-grid{grid-template-columns:repeat(3,minmax(180px,1fr))}
+}
+@media(max-width:720px){
+  .spec-save-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .spec-save-panel{padding:16px}
+}
+@media(max-width:480px){
+  .spec-save-grid{grid-template-columns:1fr}
+  .spec-save-slot{min-height:auto}
+  .slot-name{font-size:15px!important}
+}
+
 </style>
 </main>
 
