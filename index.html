@@ -152,17 +152,71 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
 .ab-box .ab-status{margin:10px 0 2px}
 
 /* ===== A/B 변경점 요약 ===== */
-.ab-diff-wrap{margin-top:12px;padding:12px;border:1px solid #2a3a50;border-radius:13px;background:#0b121c}
-.ab-diff-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:11px}
-.ab-diff-head b{font-size:14px;color:#eef4ff}
-.ab-diff-head span{font-size:11px;color:#7f91a9}
-.ab-diff-list{display:flex;gap:8px;flex-wrap:wrap}
-.ab-diff-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border:1px solid #334258;border-radius:999px;background:#111a28;color:#c3cfdf;font-size:12px;font-weight:800}
-.ab-diff-chip.pos{border-color:#315d47;background:#11231b;color:#8df0bd}
-.ab-diff-chip.neg{border-color:#623744;background:#27171d;color:#ff9fb0}
-.ab-diff-chip.change{border-color:#38577d;background:#0e1c2d;color:#90c4ff}
-.ab-diff-empty{color:#71839b;font-size:12px}
-@media(max-width:600px){.ab-diff-chip{font-size:11px;padding:6px 8px}}
+.ab-diff-wrap{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid #2a3a50;
+  border-radius:13px;
+  background:#0b121c;
+}
+
+.ab-diff-list{
+  display:grid;
+  gap:9px;
+}
+
+.ab-diff-group{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.ab-diff-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:7px 10px;
+  border:1px solid #334258;
+  border-radius:999px;
+  background:#111a28;
+  color:#c3cfdf;
+  font-size:12px;
+  font-weight:800;
+}
+
+/* + 수치 */
+.ab-diff-chip.pos{
+  border-color:#315d47;
+  background:#11231b;
+  color:#8df0bd;
+}
+
+/* - 수치 */
+.ab-diff-chip.neg{
+  border-color:#623744;
+  background:#27171d;
+  color:#ff9fb0;
+}
+
+/* 방향 변경 */
+.ab-diff-chip.change{
+  border-color:#38577d;
+  background:#0e1c2d;
+  color:#90c4ff;
+}
+
+.ab-diff-empty{
+  color:#71839b;
+  font-size:12px;
+}
+
+@media(max-width:600px){
+  .ab-diff-chip{
+    font-size:11px;
+    padding:6px 8px;
+  }
+}
 
 .spec-action-buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .spec-action-buttons button{
@@ -3802,37 +3856,101 @@ function abPrettyNumber(v,digits=1){
  return n.toFixed(digits).replace(/\.0+$/,'');
 }
 function renderABDifferences(aData,bData){
- const box=$('#sp_ab_differences');
- if(!box)return;
- const chips=[];
+  const box=$('#sp_ab_differences');
+  if(!box)return;
 
- const dirA=aData?.sp_direction||'back';
- const dirB=bData?.sp_direction||'back';
- if(dirA!==dirB){
-   const name=v=>v==='front'?'전방':'후방';
-   chips.push(`<span class="ab-diff-chip change">방향 ${name(dirA)} → ${name(dirB)}</span>`);
- }
+  const positive=[];
+  const negative=[];
+  const changes=[];
 
- AB_DIFF_FIELDS.forEach(field=>{
-   const a=abSnapshotNumber(aData,field.id);
-   const b=abSnapshotNumber(bData,field.id);
-   const diff=b-a;
-   if(Math.abs(diff)<1e-9)return;
+  const dirA=aData?.sp_direction||'back';
+  const dirB=bData?.sp_direction||'back';
 
-   const cls=diff>0?'pos':'neg';
-   const sign=diff>0?'+':'-';
-   const abs=Math.abs(diff);
-   let value='';
-   if(field.type==='percent')value=sign+abPrettyNumber(abs,field.digits)+'%';
-   else if(field.type==='count')value=sign+abPrettyNumber(abs,0)+'개';
-   else value=sign+abPrettyNumber(abs,field.digits);
+  /* 방향이 바뀐 경우 */
+  if(dirA!==dirB){
+    const name=v=>v==='front'?'전방':'후방';
 
-   chips.push(`<span class="ab-diff-chip ${cls}">${escapeHtml(field.label)} ${value}</span>`);
- });
+    changes.push(
+      `<span class="ab-diff-chip change">방향 ${name(dirA)} → ${name(dirB)}</span>`
+    );
+  }
 
- box.innerHTML=chips.length
-   ?chips.join('')
-   :'<span class="ab-diff-empty">A와 B의 입력 스탯이 같습니다.</span>';
+  /* 각 스탯의 A → B 차이 계산 */
+  AB_DIFF_FIELDS.forEach(field=>{
+    const a=abSnapshotNumber(aData,field.id);
+    const b=abSnapshotNumber(bData,field.id);
+
+    const diff=b-a;
+
+    if(Math.abs(diff)<1e-9)return;
+
+    const sign=diff>0?'+':'-';
+    const abs=Math.abs(diff);
+
+    let value='';
+
+    if(field.type==='percent'){
+      value=sign+abPrettyNumber(abs,field.digits)+'%';
+    }
+    else if(field.type==='count'){
+      value=sign+abPrettyNumber(abs,0)+'개';
+    }
+    else{
+      value=sign+abPrettyNumber(abs,field.digits);
+    }
+
+    const cls=diff>0?'pos':'neg';
+
+    const chip=
+      `<span class="ab-diff-chip ${cls}">`+
+      `${escapeHtml(field.label)} ${value}`+
+      `</span>`;
+
+    if(diff>0){
+      positive.push(chip);
+    }else{
+      negative.push(chip);
+    }
+  });
+
+  /* A와 B가 완전히 같을 때 */
+  if(
+    positive.length===0 &&
+    negative.length===0 &&
+    changes.length===0
+  ){
+    box.innerHTML=
+      '<span class="ab-diff-empty">A와 B의 입력 스탯이 같습니다.</span>';
+    return;
+  }
+
+  let html='';
+
+  /* + 수치는 첫 번째 줄 */
+  if(positive.length){
+    html+=
+      '<div class="ab-diff-group">'+
+      positive.join('')+
+      '</div>';
+  }
+
+  /* - 수치는 두 번째 줄 */
+  if(negative.length){
+    html+=
+      '<div class="ab-diff-group">'+
+      negative.join('')+
+      '</div>';
+  }
+
+  /* 공격 방향 변경은 마지막 줄 */
+  if(changes.length){
+    html+=
+      '<div class="ab-diff-group">'+
+      changes.join('')+
+      '</div>';
+  }
+
+  box.innerHTML=html;
 }
 
 function renderABCompare(){
