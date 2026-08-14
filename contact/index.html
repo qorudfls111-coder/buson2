@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>문의 | BUSON2</title>
+  <meta name="description" content="BUSON2 오류 제보, 계산식 문의, 기능 제안 및 사이트 운영 문의 안내 페이지입니다.">
+  <meta name="robots" content="index,follow">
+
+  <link rel="canonical" href="https://buson2.com/contact/">
+
+  <style>
+    :root{
+      --bg:#090b10;
+      --panel:#111621;
+      --line:#263043;
+      --text:#eef4ff;
+      --muted:#93a0b5;
+      --blue:#6fa4ff;
+      --green:#8df0bd;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at top,#12192a,#090b10 45%);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,"Pretendard","Malgun Gothic",sans-serif;
+    }
+
+    .wrap{
+      max-width:900px;
+      margin:auto;
+      padding:0 20px;
+    }
+
+    header{
+      border-bottom:1px solid #1d2430;
+      background:rgba(9,11,16,.92);
+    }
+
+    .top{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      color:#fff;
+      text-decoration:none;
+    }
+
+    .logo{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,#6fa4ff,#7f6dff);
+      font-weight:900;
+    }
+
+    .brand b{
+      font-size:19px;
+    }
+
+    .home-link{
+      color:#a9c8ff;
+      text-decoration:none;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    main{
+      padding:44px 0 70px;
+    }
+
+    .hero{
+      margin-bottom:20px;
+    }
+
+    .hero .eyebrow{
+      color:var(--green);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+    }
+
+    h1{
+      margin:8px 0 10px;
+      font-size:34px;
+      line-height:1.25;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .card{
+      margin-top:18px;
+      padding:24px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(180deg,#171e2b,#0f141d);
+    }
+
+    .card h2{
+      margin:0 0 10px;
+      font-size:21px;
+    }
+
+    .card h3{
+      margin:24px 0 8px;
+      font-size:17px;
+    }
+
+    .card h3:first-of-type{
+      margin-top:12px;
+    }
+
+    .card p,
+    .card li{
+      color:#aab8ca;
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .card ul{
+      padding-left:20px;
+    }
+
+    .email-box{
+      margin-top:14px;
+      padding:18px;
+      border:1px solid #365a82;
+      border-radius:13px;
+      background:#0d1827;
+    }
+
+    .email-label{
+      color:#8ea2ba;
+      font-size:12px;
+      margin-bottom:8px;
+    }
+
+    .email-address{
+      font-size:18px;
+      font-weight:900;
+      color:#8fc3ff;
+      word-break:break-all;
+    }
+
+    .email-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:0 16px;
+      border-radius:10px;
+      border:1px solid #38577d;
+      background:#13243a;
+      color:#b9d7ff;
+      text-decoration:none;
+      font-weight:850;
+      font-size:13px;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,#2563eb,#3b82f6);
+      border-color:#4d8ef7;
+      color:#fff;
+    }
+
+    .notice{
+      margin-top:18px;
+      padding:14px 15px;
+      border:1px solid #2b3b52;
+      border-radius:12px;
+      background:#0b121c;
+      color:#91a4bc;
+      font-size:12px;
+      line-height:1.7;
+    }
+
+    footer{
+      border-top:1px solid #1d2633;
+      color:#718096;
+      font-size:11px;
+      padding:24px 0 36px;
+    }
+
+    @media(max-width:600px){
+      h1{font-size:28px}
+      .card{padding:18px}
+      .top{min-height:64px}
+      .email-actions{flex-direction:column}
+      .btn{width:100%}
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap top">
+    <a class="brand" href="/">
+      <div class="logo">B2</div>
+      <b>BUSON2</b>
+    </a>
+
+    <a class="home-link" href="/">홈으로 돌아가기 →</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">BUSON2 SUPPORT</div>
+    <h1>문의</h1>
+    <p>
+      BUSON2 계산기 오류 제보, 계산식 수정 제안,
+      기능 개선 및 사이트 운영 관련 문의를 받고 있습니다.
+    </p>
+  </div>
+
+  <section class="card">
+    <h2>BUSON2 문의 안내</h2>
+
+    <p>
+      계산 결과와 실제 게임 내 결과가 다르거나 사이트 이용 중 오류를 발견한 경우
+      아래 이메일을 통해 문의해주세요.
+    </p>
+
+    <h3>오류 제보 시 보내주시면 좋은 정보</h3>
+
+    <ul>
+      <li>사용한 계산기 또는 메뉴 이름</li>
+      <li>계산기에 입력한 수치</li>
+      <li>BUSON2에서 표시된 계산 결과</li>
+      <li>예상했던 결과 또는 실제 게임 내 결과</li>
+      <li>가능한 경우 게임 화면 또는 오류 화면 캡처</li>
+    </ul>
+
+    <h3>기능 및 데이터 제안</h3>
+
+    <p>
+      새로운 계산 기능, 던전 데이터, 게임 업데이트로 변경된 수치,
+      계산 방식에 대한 의견도 받고 있습니다.
+      확인 가능한 자료나 게임 내 수치를 함께 보내주시면 사이트 개선에 도움이 됩니다.
+    </p>
+
+    <h3>사이트 운영 문의</h3>
+
+    <p>
+      광고, 개인정보처리, 사이트 기능 및 BUSON2 운영과 관련된 문의도
+      아래 이메일로 보내주세요.
+    </p>
+
+    <div class="email-box">
+      <div class="email-label">문의 이메일</div>
+      <div class="email-address" id="emailText">qorudfls111@gmail.com</div>
+
+      <div class="email-actions">
+        <a
+          class="btn primary"
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=qorudfls111@gmail.com&su=BUSON2%20문의"
+          target="_blank"
+          rel="noopener"
+        >
+          Gmail로 문의하기
+        </a>
+
+        <button class="btn" type="button" id="copyEmail">
+          이메일 주소 복사
+        </button>
+      </div>
+    </div>
+
+    <div class="notice">
+      BUSON2는 아이온2 비공식 팬 사이트이며 NCSOFT의 공식 고객센터가 아닙니다.
+      계정, 결제, 제재, 복구 등 공식 서비스 관련 문의는 아이온2 공식 고객센터를 이용해주세요.
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    © BUSON2 · 아이온2 효율 계산을 위한 비공식 팬 도구
+  </div>
+</footer>
+
+<script>
+document.getElementById('copyEmail').addEventListener('click', async function () {
+  const email = 'qorudfls111@gmail.com';
+
+  try {
+    await navigator.clipboard.writeText(email);
+    this.textContent = '복사 완료 ✓';
+
+    setTimeout(() => {
+      this.textContent = '이메일 주소 복사';
+    }, 1800);
+  } catch (e) {
+    window.prompt('아래 이메일 주소를 복사해주세요.', email);
+  }
+});
+</script>
+
+</body>
+</html>
