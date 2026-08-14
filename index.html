@@ -970,14 +970,6 @@ main.wrap{
   <h3>📋 손님 수금 문구</h3>
 
   <div class="fare-copy-top">
-    <div>
-      <label>거래소 아이템 링크 / 앞 문구</label>
-      <input
-        id="fare_copy_prefix"
-        value="거래소 아이템 링크"
-        placeholder="예: 거래소 아이템 링크"
-      >
-    </div>
 
     <button
       type="button"
@@ -3246,17 +3238,6 @@ $('#fare_fill_default')?.addEventListener('click',()=>{
   );
 });
 
-
-/* 앞 문구 변경 시 미리보기 즉시 변경 */
-$('#fare_copy_prefix')?.addEventListener('input',()=>{
-
-  document.querySelectorAll(
-    '.fare-copy-row'
-  ).forEach(fareCopyUpdatePreview);
-
-});
-
-
 /* 전체 복사 */
 $('#fare_copy_all')?.addEventListener('click',async()=>{
 
@@ -3507,6 +3488,41 @@ function fieldsFor(tab){
  if(tab==='main')return['m_content_type','m_income','m_cost','m_ode','m_minutes','m_runs','m_ownedOde'];
  return['s_content_type','s_income','s_cost','s_ode','s_minutes','s_runs','s_ownedOde'];
 }
+  /* ===== 손님 수금 문구 저장 / 복원 ===== */
+function captureFareCopyRows(){
+  return Array.from(document.querySelectorAll('.fare-copy-row')).map(row=>({
+    name: row.querySelector('.fare-name')?.value || '',
+    price: row.querySelector('.fare-price')?.value || ''
+  }));
+}
+
+function restoreFareCopyRows(rows){
+  if(!Array.isArray(rows)) return;
+
+  // 현재 기사 수/손님 수 기준으로 칸을 먼저 생성
+  renderFareCopyRows();
+
+  setTimeout(()=>{
+    const rowEls=document.querySelectorAll('.fare-copy-row');
+
+    rows.forEach((saved,index)=>{
+      const row=rowEls[index];
+      if(!row) return;
+
+      const nameEl=row.querySelector('.fare-name');
+      const priceEl=row.querySelector('.fare-price');
+
+      if(nameEl) nameEl.value=saved.name || '';
+
+      if(priceEl){
+        priceEl.value=saved.price || '';
+        if(priceEl.value) formatMoneyInput(priceEl);
+      }
+
+      fareCopyUpdatePreview(row);
+    });
+  },0);
+}
 function saveTab(tab){const data={};fieldsFor(tab).forEach(id=>data[id]=$('#'+id).value);try{localStorage.setItem('buson2-v5-'+tab,JSON.stringify(data));const msg=$('#msg_'+tab);msg.textContent='✓ '+({driver:'버스 기사',main:'본부',sub:'부캐 버스'}[tab])+' 설정을 따로 저장했습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='저장에 실패했습니다.'}}
 function loadTab(tab){try{const raw=localStorage.getItem('buson2-v5-'+tab),msg=$('#msg_'+tab);if(!raw){msg.textContent='저장된 설정이 없습니다.';return}const d=JSON.parse(raw);
  if(tab==='driver'){
@@ -3559,7 +3575,16 @@ function updateTabSlotUI(tab){
 }
 function saveTabSlot(tab,slot){
  const data={};
- fieldsFor(tab).forEach(id=>{const el=$('#'+id);if(el)data[id]=el.value});
+
+ fieldsFor(tab).forEach(id=>{
+   const el=$('#'+id);
+   if(el)data[id]=el.value;
+ });
+
+ // 버스 기사 저장 시 손님 아이디 + 수금액도 같이 저장
+ if(tab==='driver'){
+   data.fareCopyRows=captureFareCopyRows();
+ }
  const input=$('#'+tab+'_slot_name_'+slot);
  const name=(input?.value||'').trim()||('저장 '+slot);
  localStorage.setItem(tabSlotKey(tab,slot),JSON.stringify(data));
@@ -3574,7 +3599,12 @@ function applyTabSlotSettings(tab,data){
    syncDriverPartySettings();renderDrivers(false);
    Object.entries(data).forEach(([id,value])=>{if($('#'+id))$('#'+id).value=value});
    if(Number($('#d_driverCount').value)===2){renderDrivers(true);Object.entries(data).forEach(([id,value])=>{if($('#'+id))$('#'+id).value=value})}
-   syncDriverPartySettings();calcDriver();
+syncDriverPartySettings();
+calcDriver();
+
+if(data.fareCopyRows){
+  restoreFareCopyRows(data.fareCopyRows);
+}
  }else{
    const prefix=tab==='main'?'m':'s';
    if(data[prefix+'_content_type']){$('#'+prefix+'_content_type').value=data[prefix+'_content_type'];updateIncomeOptions(prefix)}
