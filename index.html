@@ -519,9 +519,65 @@ main.wrap{
 
         <div class="actions spec-action-buttons" style="margin-top:14px">
           <button class="primary" id="sp_calc">계산하기</button>
-          <button id="sp_save">스펙 저장</button>
-          <button class="green" id="sp_load">스펙 불러오기</button>
         </div>
+
+        <div class="spec-save-panel">
+          <div class="spec-save-head">
+            <div>
+              <b>💾 내 스펙 저장</b>
+              <span>최대 5개까지 이 브라우저에 저장할 수 있습니다.</span>
+            </div>
+          </div>
+
+          <div class="spec-save-grid" id="specSaveGrid">
+            <div class="spec-save-slot" data-slot="1">
+              <div class="slot-top"><b>저장 1</b><span id="sp_slot_status_1">비어 있음</span></div>
+              <input id="sp_slot_name_1" class="slot-name" placeholder="예: 본캐 PVE" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="1">저장</button>
+                <button type="button" class="slot-load" data-slot-load="1">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="1">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="2">
+              <div class="slot-top"><b>저장 2</b><span id="sp_slot_status_2">비어 있음</span></div>
+              <input id="sp_slot_name_2" class="slot-name" placeholder="예: 보스 세팅" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="2">저장</button>
+                <button type="button" class="slot-load" data-slot-load="2">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="2">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="3">
+              <div class="slot-top"><b>저장 3</b><span id="sp_slot_status_3">비어 있음</span></div>
+              <input id="sp_slot_name_3" class="slot-name" placeholder="예: 강타 세팅" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="3">저장</button>
+                <button type="button" class="slot-load" data-slot-load="3">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="3">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="4">
+              <div class="slot-top"><b>저장 4</b><span id="sp_slot_status_4">비어 있음</span></div>
+              <input id="sp_slot_name_4" class="slot-name" placeholder="예: 펫작 비교" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="4">저장</button>
+                <button type="button" class="slot-load" data-slot-load="4">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="4">삭제</button>
+              </div>
+            </div>
+            <div class="spec-save-slot" data-slot="5">
+              <div class="slot-top"><b>저장 5</b><span id="sp_slot_status_5">비어 있음</span></div>
+              <input id="sp_slot_name_5" class="slot-name" placeholder="예: 테스트 세팅" maxlength="20">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" data-slot-save="5">저장</button>
+                <button type="button" class="slot-load" data-slot-load="5">불러오기</button>
+                <button type="button" class="slot-delete" data-slot-delete="5">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="saved" id="sp_saved"></div>
       </div>
     </div>
@@ -2316,6 +2372,105 @@ main.wrap{
   color:#c5e0ff!important;
 }
 
+
+/* ===== 스펙 저장 5슬롯 ===== */
+.spec-save-panel{
+  margin-top:14px;
+  padding:14px;
+  border:1px solid #2c3c52;
+  border-radius:14px;
+  background:#0c141f;
+}
+.spec-save-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:11px;
+}
+.spec-save-head b{font-size:15px;color:#f2f6fc}
+.spec-save-head span{display:block;margin-top:3px;color:#8294ab;font-size:11px}
+.spec-save-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+.spec-save-slot{
+  min-width:0;
+  padding:10px;
+  border:1px solid #29384b;
+  border-radius:11px;
+  background:#101925;
+}
+.spec-save-slot.has-data{
+  border-color:#355e4a;
+  background:linear-gradient(180deg,#102019,#0e1815);
+}
+.slot-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:5px;
+  margin-bottom:7px;
+}
+.slot-top b{font-size:12px}
+.slot-top span{
+  color:#70839b;
+  font-size:9px;
+  white-space:nowrap;
+}
+.spec-save-slot.has-data .slot-top span{color:#8df0bd}
+.slot-name{
+  width:100%;
+  min-width:0;
+  padding:9px 9px!important;
+  font-size:11px!important;
+  border-radius:8px!important;
+}
+.slot-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  margin-top:7px;
+}
+.slot-actions button{
+  border:1px solid #33435a;
+  border-radius:7px;
+  padding:7px 5px;
+  background:#151f2d;
+  color:#c5d2e3;
+  font-size:10px;
+  font-weight:850;
+  cursor:pointer;
+}
+.slot-actions .slot-save{
+  border-color:#435b8c;
+  background:#182541;
+  color:#a9c8ff;
+}
+.slot-actions .slot-load{
+  border-color:#376049;
+  background:#14261d;
+  color:#8df0bd;
+}
+.slot-actions .slot-delete{
+  grid-column:1/-1;
+  padding:5px;
+  background:transparent;
+  color:#7789a0;
+  border-color:#29374a;
+}
+.slot-actions button:hover{filter:brightness(1.12)}
+@media(max-width:980px){
+  .spec-save-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:620px){
+  .spec-save-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:420px){
+  .spec-save-grid{grid-template-columns:1fr}
+}
+
 </style>
 </main>
 
@@ -3177,21 +3332,111 @@ function renderABCompare(){
  $('#sp_ab_gain').textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
 }
 
-function saveSpec(){
+const SPEC_SLOT_COUNT=5;
+const SPEC_SLOT_PREFIX='buson2-stat-slot-';
+const SPEC_SLOT_NAME_PREFIX='buson2-stat-slot-name-';
+
+function captureFullSpec(){
  const data={};
  [...SPEC_IDS,...SIM_IDS].forEach(id=>data[id]=$('#'+id)?.value??'');
- localStorage.setItem('buson2-stat-efficiency',JSON.stringify(data));
- $('#sp_saved').textContent='현재 스탯을 이 브라우저에 저장했습니다.';
+ return data;
 }
-function loadSpec(){
- try{
-  const d=JSON.parse(localStorage.getItem('buson2-stat-efficiency')||'{}');
-  Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
-  if(d.sp_break!=null && !d.sp_break5 && $('#sp_break5')) $('#sp_break5').value=d.sp_break;
-  $('#sp_saved').textContent=Object.keys(d).length?'저장한 스탯을 불러왔습니다.':'저장된 스탯이 없습니다.';
-  calcSpec();
- }catch(e){$('#sp_saved').textContent='저장값을 불러오지 못했습니다.'}
+
+function specSlotKey(slot){return SPEC_SLOT_PREFIX+slot}
+function specSlotNameKey(slot){return SPEC_SLOT_NAME_PREFIX+slot}
+
+function readSpecSlot(slot){
+ let data={};
+ try{data=JSON.parse(localStorage.getItem(specSlotKey(slot))||'{}')}catch(e){}
+ return data&&typeof data==='object'?data:{};
 }
+
+function readSpecSlotName(slot){
+ return localStorage.getItem(specSlotNameKey(slot))||'';
+}
+
+function updateSpecSlotUI(){
+ for(let slot=1;slot<=SPEC_SLOT_COUNT;slot++){
+   const data=readSpecSlot(slot);
+   const hasData=Object.keys(data).length>0;
+   const name=readSpecSlotName(slot);
+   const card=document.querySelector('.spec-save-slot[data-slot="'+slot+'"]');
+   const status=$('#sp_slot_status_'+slot);
+   const nameInput=$('#sp_slot_name_'+slot);
+
+   card?.classList.toggle('has-data',hasData);
+   if(status)status.textContent=hasData?'저장됨':'비어 있음';
+   if(nameInput && document.activeElement!==nameInput)nameInput.value=name;
+ }
+}
+
+function saveSpecSlot(slot){
+ const data=captureFullSpec();
+ const nameInput=$('#sp_slot_name_'+slot);
+ const name=(nameInput?.value||'').trim() || ('저장 '+slot);
+
+ localStorage.setItem(specSlotKey(slot),JSON.stringify(data));
+ localStorage.setItem(specSlotNameKey(slot),name);
+
+ $('#sp_saved').textContent='저장 '+slot+' · "'+name+'" 스펙을 저장했습니다.';
+ updateSpecSlotUI();
+}
+
+function loadSpecSlot(slot){
+ const d=readSpecSlot(slot);
+ const name=readSpecSlotName(slot)||('저장 '+slot);
+
+ if(!Object.keys(d).length){
+   $('#sp_saved').textContent='저장 '+slot+'에 저장된 스펙이 없습니다.';
+   return;
+ }
+
+ Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+ if(d.sp_break!=null && !d.sp_break5 && $('#sp_break5'))$('#sp_break5').value=d.sp_break;
+
+ $('#sp_saved').textContent='저장 '+slot+' · "'+name+'" 스펙을 불러왔습니다.';
+ calcSpec();
+}
+
+function deleteSpecSlot(slot){
+ const name=readSpecSlotName(slot)||('저장 '+slot);
+ if(!Object.keys(readSpecSlot(slot)).length){
+   $('#sp_saved').textContent='저장 '+slot+'은 이미 비어 있습니다.';
+   return;
+ }
+
+ localStorage.removeItem(specSlotKey(slot));
+ localStorage.removeItem(specSlotNameKey(slot));
+
+ const input=$('#sp_slot_name_'+slot);
+ if(input)input.value='';
+
+ $('#sp_saved').textContent='저장 '+slot+' · "'+name+'" 스펙을 삭제했습니다.';
+ updateSpecSlotUI();
+}
+
+function saveSpecSlotName(slot){
+ const input=$('#sp_slot_name_'+slot);
+ if(!input)return;
+ const name=input.value.trim();
+ if(name)localStorage.setItem(specSlotNameKey(slot),name);
+ else localStorage.removeItem(specSlotNameKey(slot));
+ updateSpecSlotUI();
+}
+
+// 기존 단일 저장값이 있으면 저장 1로 자동 이전(저장 1이 비어 있을 때만).
+function migrateOldSpecSave(){
+ const slot1=readSpecSlot(1);
+ if(Object.keys(slot1).length)return;
+
+ let old={};
+ try{old=JSON.parse(localStorage.getItem('buson2-stat-efficiency')||'{}')}catch(e){}
+ if(Object.keys(old).length){
+   localStorage.setItem(specSlotKey(1),JSON.stringify(old));
+   localStorage.setItem(specSlotNameKey(1),'기존 저장 스펙');
+ }
+}
+
 
 const DUNGEONS=[
  {id:'tadeba-n-40',group:'타데바',contentType:'expedition',name:'타락한 데바의 성',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
@@ -3462,9 +3707,18 @@ GEAR_COMPARE_FIELDS.forEach(([key])=>{
  $('#gc_a_'+key)?.addEventListener('input',calcGearCompare);
  $('#gc_b_'+key)?.addEventListener('input',calcGearCompare);
 });
+document.querySelectorAll('[data-slot-save]').forEach(btn=>btn.addEventListener('click',()=>saveSpecSlot(Number(btn.dataset.slotSave))));
+document.querySelectorAll('[data-slot-load]').forEach(btn=>btn.addEventListener('click',()=>loadSpecSlot(Number(btn.dataset.slotLoad))));
+document.querySelectorAll('[data-slot-delete]').forEach(btn=>btn.addEventListener('click',()=>deleteSpecSlot(Number(btn.dataset.slotDelete))));
+for(let slot=1;slot<=SPEC_SLOT_COUNT;slot++){
+  const input=$('#sp_slot_name_'+slot);
+  input?.addEventListener('change',()=>saveSpecSlotName(slot));
+  input?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveSpecSlotName(slot);input.blur()}});
+}
+migrateOldSpecSave();
+updateSpecSlotUI();
+
 $('#sp_calc')?.addEventListener('click',calcSpec);
-$('#sp_save')?.addEventListener('click',saveSpec);
-$('#sp_load')?.addEventListener('click',loadSpec);
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('change',calcSpec));
 SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
