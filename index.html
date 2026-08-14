@@ -3025,17 +3025,11 @@ function fareCopyGetCurrentRows(){
 
 
 function fareCopyBuildText(name,price){
-  const prefix=(
-    $('#fare_copy_prefix')?.value ||
-    '거래소 아이템 링크'
-  ).trim();
-
   const cleanName=String(name||'').trim();
   const amount=parseNum(price);
 
-  return `${prefix} > ${cleanName} > ${fareCopyFormatKina(amount)}`;
+  return `${cleanName} > ${fareCopyFormatKina(amount).replace(/키나$/,'')}`;
 }
-
 
 function fareCopyUpdatePreview(row){
   if(!row)return;
@@ -3293,7 +3287,7 @@ $('#fare_copy_all')?.addEventListener('click',async()=>{
   }
 
   await fareCopyToClipboard(
-    lines.join('\n')
+lines.join(' / ')
   );
 
   fareCopySetStatus(
