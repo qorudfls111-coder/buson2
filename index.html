@@ -946,7 +946,15 @@ main.wrap{
 </select></div>
 <div><label>손님 1명당 버스비</label><div class="iwrap"><input id="d_fare" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>계산할 판수</label><div class="iwrap"><input id="d_fare_runs" type="number" min="1" max="10" value="1"><span class="unit">판</span></div></div>
-<div><label id="d_passengers_label">손님 수</label><div class="iwrap"><input id="d_passengers" value="0"><span class="unit">명</span></div></div>
+<div>
+  <label id="d_passengers_label">손님 수</label>
+  <select id="d_passengers">
+    <option value="1">1명</option>
+    <option value="2">2명</option>
+    <option value="3">3명</option>
+    <option value="4" selected>4명</option>
+  </select>
+</div>
 <div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
 <div><label>내 기사</label><select id="d_myDriver"></select></div>
 
@@ -2906,47 +2914,53 @@ function syncDriverPartySettings(){
 
   if(!countEl || !passengerEl) return;
 
-  const previous = Math.max(1, Number(countEl.value) || 1);
-  const max = driverMaxCount();
+  // 기존 기사 수 기억
+  const previousDriver = Math.max(1, Number(countEl.value) || 1);
 
+  // 기존에 선택한 손님 수 기억
+  const previousPassenger = Math.max(1, Number(passengerEl.value) || 1);
+
+  const maxDriver = driverMaxCount();
+
+  // 기사 수 선택지 생성
   countEl.innerHTML = Array.from(
-    {length:max},
+    {length:maxDriver},
     (_,i) => `<option value="${i+1}">${i+1}명</option>`
   ).join('');
 
-  countEl.value = String(Math.min(previous, max));
+  countEl.value = String(Math.min(previousDriver, maxDriver));
 
   const isSanctuary = $('#d_content_type')?.value === 'sanctuary';
   const driverCount = Number(countEl.value) || 1;
 
-  if(isSanctuary){
-    // 성역: 기존 방식 유지
-    passengerEl.readOnly = true;
-    passengerEl.setAttribute('aria-readonly','true');
+  // 파티 최대 인원
+  const partySize = isSanctuary ? 10 : 5;
 
-    passengerEl.value = Math.max(1, 10 - driverCount);
+  // 기사 수를 제외하고 들어갈 수 있는 최대 손님 수
+  const maxPassenger = Math.max(1, partySize - driverCount);
 
-    passengerEl.title = '무스딘 연습을 보면 파티 인원별 기사 수에 따라 자동 계산됩니다.';
+  // 손님 수는 직접 선택
+  passengerEl.innerHTML = Array.from(
+    {length:maxPassenger},
+    (_,i) => `<option value="${i+1}">${i+1}명</option>`
+  ).join('');
 
-    if(passengerLabel){
-      passengerLabel.textContent = '버스 받는 총객 수 (10인 자동)';
-    }
+  // 기존 선택값이 가능한 범위면 그대로 유지
+  // 초과할 때만 최대값으로 보정
+  passengerEl.value = String(
+    Math.min(previousPassenger, maxPassenger)
+  );
 
-  }else{
-    // 원정 / 초월: 총원 5명 고정
-    // 기사 수에 따라 손님 수 자동 계산
-    passengerEl.readOnly = true;
-    passengerEl.setAttribute('aria-readonly','true');
-
-    passengerEl.value = Math.max(1, 5 - driverCount);
-
-    passengerEl.title = '원정/초월은 총 5명 기준으로 기사 수에 따라 손님 수가 자동 계산됩니다.';
-
-    if(passengerLabel){
-      passengerLabel.textContent = '손님 수 (5인 자동)';
-    }
-
+  if(passengerLabel){
+    passengerLabel.textContent = isSanctuary
+      ? '손님 수 (10인 파티)'
+      : '손님 수 (5인 파티)';
   }
+
+  passengerEl.title = isSanctuary
+    ? '기사 수를 제외한 범위에서 손님 수를 직접 선택합니다.'
+    : '기사 수를 제외한 범위에서 손님 수를 직접 선택합니다.';
+
   setTimeout(renderFareCopyRows, 0);
 }
   /* ===== 손님 수금 문구 생성기 ===== */
