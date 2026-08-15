@@ -1028,6 +1028,42 @@ main.wrap{
 <table><thead><tr><th>판</th><th>수금 기사</th><th>내 버스비 수금</th><th>내 순수익</th></tr></thead><tbody id="d_table"></tbody></table>
 </div></div>
 <div class="spec-save-panel tab-save-panel" data-tab-save-slots="driver"></div>
+
+<div id="driverRecruitTemplates" class="card" style="margin-top:14px">
+  <div class="head">
+    <h2>📋 인기 버스 모집글</h2>
+    <p>자주 쓰는 모집글을 수정한 뒤 저장하거나 바로 복사하세요.</p>
+  </div>
+
+  <div class="body">
+    <div class="recruit-template">
+      <textarea id="recruit_text_1" rows="2">2인버스/2판350만/입구대기/기여도O</textarea>
+      <div class="actions">
+        <button type="button" class="btn secondary" onclick="saveRecruitTemplate(1)">💾 저장</button>
+        <button type="button" class="btn success" onclick="copyRecruitTemplate(1)">📋 복사</button>
+        <button type="button" class="btn secondary" onclick="resetRecruitTemplate(1)">↺ 기본값</button>
+      </div>
+    </div>
+
+    <div class="recruit-template">
+      <textarea id="recruit_text_2" rows="2">마족 올참딜버스/3판250만/기여도O</textarea>
+      <div class="actions">
+        <button type="button" class="btn secondary" onclick="saveRecruitTemplate(2)">💾 저장</button>
+        <button type="button" class="btn success" onclick="copyRecruitTemplate(2)">📋 복사</button>
+        <button type="button" class="btn secondary" onclick="resetRecruitTemplate(2)">↺ 기본값</button>
+      </div>
+    </div>
+
+    <div class="recruit-template">
+      <textarea id="recruit_text_3" rows="2">천족/2인버스/2판350만/미터기O/입구대기</textarea>
+      <div class="actions">
+        <button type="button" class="btn secondary" onclick="saveRecruitTemplate(3)">💾 저장</button>
+        <button type="button" class="btn success" onclick="copyRecruitTemplate(3)">📋 복사</button>
+        <button type="button" class="btn secondary" onclick="resetRecruitTemplate(3)">↺ 기본값</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 </section>
 
@@ -2964,7 +3000,79 @@ function syncDriverPartySettings(){
   setTimeout(renderFareCopyRows, 0);
 }
   /* ===== 손님 수금 문구 생성기 ===== */
+/* ===== 인기 버스 모집글 저장 / 복사 ===== */
 
+const RECRUIT_DEFAULTS = {
+  1: '2인버스/2판350만/입구대기/기여도O',
+  2: '마족 올참딜버스/3판250만/기여도O',
+  3: '천족/2인버스/2판350만/미터기O/입구대기'
+};
+
+function recruitStorageKey(n){
+  return `buson2_recruit_template_${n}`;
+}
+
+function saveRecruitTemplate(n){
+  const el = document.getElementById(`recruit_text_${n}`);
+  if(!el) return;
+
+  localStorage.setItem(recruitStorageKey(n), el.value);
+
+  const oldText = el.value;
+  el.value = '✅ 저장되었습니다.';
+
+  setTimeout(()=>{
+    el.value = oldText;
+  },700);
+}
+
+async function copyRecruitTemplate(n){
+  const el = document.getElementById(`recruit_text_${n}`);
+  if(!el) return;
+
+  const text = el.value.trim();
+  if(!text) return;
+
+  try{
+    await navigator.clipboard.writeText(text);
+
+    const oldText = el.value;
+    el.value = '📋 복사되었습니다.';
+
+    setTimeout(()=>{
+      el.value = oldText;
+    },700);
+
+  }catch(err){
+    el.select();
+    document.execCommand('copy');
+  }
+}
+
+function resetRecruitTemplate(n){
+  const el = document.getElementById(`recruit_text_${n}`);
+  if(!el) return;
+
+  const defaultText = RECRUIT_DEFAULTS[n] || '';
+
+  el.value = defaultText;
+  localStorage.removeItem(recruitStorageKey(n));
+}
+
+function loadRecruitTemplates(){
+  [1,2,3].forEach(n=>{
+    const el = document.getElementById(`recruit_text_${n}`);
+    if(!el) return;
+
+    const saved = localStorage.getItem(recruitStorageKey(n));
+
+    if(saved !== null){
+      el.value = saved;
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', loadRecruitTemplates);
 function fareCopyFormatKina(value){
   const n=Math.max(
     0,
