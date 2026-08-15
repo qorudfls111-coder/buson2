@@ -3941,7 +3941,7 @@ function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=
 
  // 최대 공격력: 비완벽 구간에서는 평균적으로 절반, 완벽 구간에서는 전부 기여.
  // 실측 자료 기준: 최대 공격력도 공격력 증가%를 받음. 완벽 시 최대값 기여도를 반영.
-const maxWeight=1.325;
+const maxWeight=0.5+(0.5*perfect.chance);
 const maxDelta=extraMaxAttack*wornInc*maxWeight;
 
  // 완벽은 무기 최소~최대 범위의 평균값 대비 최대값 적용 확률로 근사.
@@ -4040,25 +4040,86 @@ function renderRankings(){
  const pctStep=1;
  const attackStep=10;
 
- const tests=[
-   {key:'front',name:'전방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,front:t.front+pctStep})},
-   {key:'back',name:'후방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,back:t.back+pctStep})},
-   {key:'smash',name:'강타',amount:pctStep,unit:'%',apply:t=>({...t,smash:t.smash+pctStep})},
-   {key:'perfect',name:'완벽',amount:pctStep,unit:'%',apply:t=>({...t,perfect:t.perfect+pctStep})},
-   {key:'weapon',name:'무기 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,weapon:t.weapon+pctStep})},
-   {key:'critDmg',name:'치명타 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,critDmg:t.critDmg+pctStep})},
-   {key:'dmg',name:'피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,dmg:t.dmg+pctStep})},
-   {key:'pve',name:'PVE 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,pve:t.pve+pctStep})},
-   {key:'boss',name:'보스 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,boss:t.boss+pctStep})},
-   {key:'attack',name:'공격력',amount:attackStep,unit:'',flat:attackStep}
- ];
+const tests=[
+  {key:'front',name:'전방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,front:t.front+pctStep})},
+  {key:'back',name:'후방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,back:t.back+pctStep})},
+  {key:'smash',name:'강타',amount:pctStep,unit:'%',apply:t=>({...t,smash:t.smash+pctStep})},
+  {key:'perfect',name:'완벽',amount:pctStep,unit:'%',apply:t=>({...t,perfect:t.perfect+pctStep})},
+  {key:'weapon',name:'무기 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,weapon:t.weapon+pctStep})},
+  {key:'critDmg',name:'치명타 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,critDmg:t.critDmg+pctStep})},
+  {key:'dmg',name:'피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,dmg:t.dmg+pctStep})},
+  {key:'pve',name:'PVE 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,pve:t.pve+pctStep})},
+  {key:'boss',name:'보스 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,boss:t.boss+pctStep})},
+
+  // 1티어 공격력 +10
+  // 공격력% + 무기 피해 증폭 적용
+  {
+    key:'attack',
+    name:'공격력',
+    amount:10,
+    unit:'',
+    flat:10
+  },
+
+  // 추가 공격력 +16
+  // 공격력%만 적용 / 무기 피해 증폭 미적용
+  {
+    key:'addAttack',
+    name:'추가 공격력',
+    amount:16,
+    unit:'',
+    extraAdditionalAttack:16
+  },
+
+  // 최대 공격력 +20
+  // 비완벽 = +10
+  // 완벽 = +20
+  // 현재 완벽 확률에 따라 자동 가중
+  {
+    key:'maxAttack',
+    name:'최대 공격력',
+    amount:20,
+    unit:'',
+    extraMaxAttack:20
+  }
+];
 
  const baseScore=scoreByMode(base,currentRankMode);
  const rows=tests.map(t=>{
-   const next=t.flat!=null?totalMultiplier(s,t.flat):totalMultiplier(t.apply(s));
-   const gain=gainPct(baseScore,scoreByMode(next,currentRankMode));
-   return {...t,gain,perUnit:t.amount>0?gain/t.amount:0};
- }).sort((a,b)=>b.gain-a.gain);
+  let next;
+
+  if(t.key==='attack'){
+    // 일반 공격력:
+    // 공격력% + 무기 피해 증폭 적용
+    next=totalMultiplier(s,t.flat,0,0);
+
+  }else if(t.key==='addAttack'){
+    // 추가 공격력:
+    // 공격력%만 적용
+    next=totalMultiplier(s,0,t.extraAdditionalAttack,0);
+
+  }else if(t.key==='maxAttack'){
+    // 최대 공격력:
+    // 비완벽에서는 증가량 절반,
+    // 완벽에서는 증가량 전부가 반영되도록
+    // deriveAttack()의 perfect.factor와 함께 계산
+    next=totalMultiplier(s,0,0,t.extraMaxAttack);
+
+  }else{
+    next=totalMultiplier(t.apply(s));
+  }
+
+  const gain=gainPct(
+    baseScore,
+    scoreByMode(next,currentRankMode)
+  );
+
+  return {
+    ...t,
+    gain,
+    perUnit:t.amount>0 ? gain/t.amount : 0
+  };
+}).sort((a,b)=>b.gain-a.gain);
 
  const max=Math.max(...rows.map(x=>x.gain),0.001);
 
