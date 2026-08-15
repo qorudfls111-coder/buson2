@@ -2918,6 +2918,145 @@ main.wrap{
     grid-column:2;
   }
 }
+  /* ===== 인기 버스 모집글 ===== */
+
+#driverRecruitTemplates{
+  margin-top:18px;
+  border:1px solid #2b3a4f;
+  border-radius:16px;
+  overflow:hidden;
+  background:#111a28;
+}
+
+#driverRecruitTemplates .head{
+  padding:18px 20px 14px;
+  border-bottom:1px solid #26354a;
+}
+
+#driverRecruitTemplates .head h2{
+  margin:0 0 6px;
+  font-size:18px;
+  font-weight:800;
+  color:#f5f8ff;
+}
+
+#driverRecruitTemplates .head p{
+  margin:0;
+  font-size:13px;
+  color:#8fa4c2;
+}
+
+#driverRecruitTemplates .body{
+  padding:16px;
+  display:grid;
+  gap:14px;
+}
+
+.recruit-template{
+  position:relative;
+  padding:15px;
+  border:1px solid #2a3a50;
+  border-radius:13px;
+  background:#0d1623;
+}
+
+.recruit-template::before{
+  display:block;
+  margin-bottom:9px;
+  font-size:12px;
+  font-weight:800;
+  color:#79a7ff;
+}
+
+.recruit-template:nth-child(1)::before{
+  content:"🔥 인기 예시 1";
+}
+
+.recruit-template:nth-child(2)::before{
+  content:"📌 인기 예시 2";
+}
+
+.recruit-template:nth-child(3)::before{
+  content:"⭐ 인기 예시 3";
+}
+
+.recruit-template textarea{
+  width:100%;
+  min-height:64px;
+  box-sizing:border-box;
+  resize:vertical;
+
+  padding:12px 13px;
+
+  border:1px solid #33465f;
+  border-radius:10px;
+
+  background:#09121f;
+  color:#eef5ff;
+
+  font-family:inherit;
+  font-size:14px;
+  line-height:1.55;
+
+  outline:none;
+  transition:.15s ease;
+}
+
+.recruit-template textarea:focus{
+  border-color:#6f83ff;
+  box-shadow:0 0 0 3px rgba(111,131,255,.12);
+}
+
+.recruit-template .actions{
+  display:flex;
+  gap:8px;
+  margin-top:11px;
+  flex-wrap:wrap;
+}
+
+.recruit-template .actions .btn{
+  min-width:84px;
+  height:38px;
+  padding:0 14px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:9px;
+  font-size:13px;
+  font-weight:800;
+}
+
+.recruit-template .actions .btn.success{
+  background:#123d2a;
+  border-color:#236946;
+  color:#73f5ad;
+}
+
+.recruit-template .actions .btn.success:hover{
+  background:#185238;
+}
+
+@media (max-width:640px){
+  #driverRecruitTemplates .body{
+    padding:12px;
+  }
+
+  .recruit-template{
+    padding:12px;
+  }
+
+  .recruit-template .actions{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .recruit-template .actions .btn{
+    min-width:0;
+    padding:0 8px;
+  }
+}
 </style>
 </main>
 
