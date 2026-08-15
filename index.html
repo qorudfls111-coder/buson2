@@ -3941,8 +3941,8 @@ function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=
 
  // 최대 공격력: 비완벽 구간에서는 평균적으로 절반, 완벽 구간에서는 전부 기여.
  // 실측 자료 기준: 최대 공격력도 공격력 증가%를 받음. 완벽 시 최대값 기여도를 반영.
- const maxWeight=0.5+(0.5*perfect.chance);
- const maxDelta=extraMaxAttack*wornInc*maxWeight;
+const maxWeight=1.325;
+const maxDelta=extraMaxAttack*wornInc*maxWeight;
 
  // 완벽은 무기 최소~최대 범위의 평균값 대비 최대값 적용 확률로 근사.
  const perfectAdjustedCore=coreAttack*perfect.factor;
