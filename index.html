@@ -1026,7 +1026,7 @@ main.wrap{
 <div class="metric"><div class="k">설정 판수 총 순수익</div><div class="v" id="d_total">-</div><div class="s" id="d_total_short"></div></div>
 <div class="metric"><div class="k">오드 1당 순수익</div><div class="v" id="d_perOde">-</div><div class="s">평균 기준</div></div>
 <div class="metric"><div class="k">시간당 순수익</div><div class="v gold" id="d_hour">-</div><div class="s" id="d_hour_short"></div></div>
-<div class="metric"><div class="k">나에게 결제하는 승객 수</div><div class="v" id="d_paidRuns">-</div><div class="s">성역 1판 · 분할 결제 포함</div></div>
+<div class="metric"><div class="k">나에게 결제하는 손님 수</div><div class="v" id="d_paidRuns">-</div><div class="s">선택 기사 기준</div></div>
 <div class="metric"><div class="k">총 수금 버스비</div><div class="v" id="d_fareTotal">-</div><div class="s">선택 기사 기준</div></div>
 <div class="metric"><div class="k">월드 거래소 총 판매가</div><div class="v" id="d_marketGross">-</div><div class="s" id="d_marketGrossSub">수금판 × 손님 수 × 버스비</div></div>
 <div class="metric"><div class="k">월드 거래소 총 수수료</div><div class="v" id="d_marketFees">-</div><div class="s" id="d_marketFeesSub">20% 판매 수수료 + 등록비 2%</div></div>
@@ -3661,7 +3661,7 @@ const isSanctuary=$('#d_content_type')?.value==='sanctuary';
        totalListingFee+=listingFee;
        receiverLabel=assigned.length?assigned.map(x=>`<span class="badge">손님 ${x.passenger} → 기사 ${x.driver} · ${money(x.amount)}</span>`).join(' '):'-';
      }else if(receiver===mine && fare>0 && passengers>0){
-       paidPassengers=paidPassengers+passengers;
+      paidPassengers=passengers;
       grossFare=fare*passengers;
        saleFee=grossFare*WORLD_RATE;
        listingFee=grossFare*LISTING_RATE;
