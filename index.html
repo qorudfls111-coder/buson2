@@ -944,7 +944,16 @@ main.wrap{
 <option value="120">120 오드</option>
 <option value="160">160 오드</option>
 </select></div>
-<div><label>손님 1명당 버스비</label><div class="iwrap"><input id="d_fare" class="money" value="0"><span class="unit">키나</span></div></div>
+<div>
+  <label>손님 1명당 총 버스비</label>
+  <div class="iwrap">
+    <input id="d_fare" class="money" value="0">
+    <span class="unit">키나</span>
+  </div>
+  <div id="d_fare_per_run" style="margin-top:8px;font-size:13px;font-weight:800;color:#8df0bd;">
+    1판당 1명 버스비: 0 키나
+  </div>
+</div>
 <div><label>계산할 판수</label><div class="iwrap"><input id="d_fare_runs" type="number" min="1" max="10" value="1"><span class="unit">판</span></div></div>
 <div>
   <label id="d_passengers_label">손님 수</label>
@@ -3613,20 +3622,15 @@ function buildSanctuaryFairPlan(fare,passengers,driverCount){
  return{totalFare,driverGross,transactions};
 }
 function calcDriver(){
-const income=val('d_income');
-const cost=val('d_cost');
-const ode=val('d_ode');
-const mins=val('d_minutes');
+ const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fareInput=val('d_fare'),passengers=Math.max(0,Math.floor(val('d_passengers')));
+const mine=$('#d_myDriver').value||'1',runs=Math.max(0,Math.floor(val('d_fare_runs'))),cfg=getDriverConfig();
+const isSanctuary=$('#d_content_type')?.value==='sanctuary';
+ const fare = runs > 0 ? fareInput / runs : 0;
 
-const fare=val('d_fare'); // 손님 1명이 실제로 한 번에 결제하는 총 버스비
-const fareRuns=Math.max(1,Math.floor(val('d_fare_runs')) || 1);
-const farePerRun=fare/fareRuns; // 계산용 1판당 버스비
-
-const passengers=Math.max(0,Math.floor(val('d_passengers')));
- const isSanctuary=$('#d_content_type')?.value==='sanctuary';
- const mine=$('#d_myDriver').value||'1';
-const runs=isSanctuary?1:fareRuns;
-const cfg=getDriverConfig();
+ const farePerRunEl = $('#d_fare_per_run');
+ if(farePerRunEl){
+   farePerRunEl.textContent = '1판당 1명 버스비: ' + money(fare);
+ }
  const schedule=[]; cfg.forEach(x=>{for(let i=0;i<x.block;i++)schedule.push(x.name)});
  const fairSanctuaryPlan=isSanctuary?buildSanctuaryFairPlan(fare,passengers,cfg.length):null;
 
@@ -3658,7 +3662,7 @@ const cfg=getDriverConfig();
        receiverLabel=assigned.length?assigned.map(x=>`<span class="badge">손님 ${x.passenger} → 기사 ${x.driver} · ${money(x.amount)}</span>`).join(' '):'-';
      }else if(receiver===mine && fare>0 && passengers>0){
        paidPassengers=paidPassengers+passengers;
-      grossFare=farePerRun*passengers;
+      grossFare=fare*passengers;
        saleFee=grossFare*WORLD_RATE;
        listingFee=grossFare*LISTING_RATE;
        netFare=grossFare-saleFee-listingFee;
@@ -3966,10 +3970,18 @@ function driverAverage(){
  const cost=val('d_cost');
  const ode=val('d_ode');
  const mins=val('d_minutes');
- const fare=val('d_fare');
- const passengers=val('d_passengers');
- const share=totalBlocks?myBlock/totalBlocks:0;
- const net=income+(fare*passengers*share)-cost;
+const fareInput=val('d_fare');
+const passengers=val('d_passengers');
+const runs=Math.max(0,Math.floor(val('d_fare_runs')));
+const fare=runs>0 ? fareInput/runs : 0;
+const isSanctuary=$('#d_content_type')?.value==='sanctuary';
+const share=isSanctuary
+  ? (cfg.length ? 1/cfg.length : 0)
+  : (totalBlocks ? myBlock/totalBlocks : 0);
+
+const grossFare=fare*passengers*share;
+const netFare=grossFare*0.78;
+const net=income+netFare-cost;
 
  return{
    key:'driver',
