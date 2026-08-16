@@ -1180,8 +1180,17 @@ main.wrap{
 <option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
 <option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
 </select></div>
-<div><label>총 버스비</label><div class="iwrap"><input id="s_cost" class="money" value="0"><span class="unit">키나</span></div></div><div><label>한 판 소비 오드</label><select id="s_ode">
-<option value="0" selected>0 오드</option>
+<div>
+  <label>총 버스비</label>
+  <div class="iwrap">
+    <input id="s_cost" class="money" value="0">
+    <span class="unit">키나</span>
+  </div>
+  <div id="s_cost_per_run" style="margin-top:7px;font-size:12px;color:#8fa0b8;">
+    1판당 버스비: 0 키나
+  </div>
+</div>
+  <option value="0" selected>0 오드</option>
 <option value="40">40 오드</option>
 <option value="60">60 오드</option>
 <option value="80">80 오드</option>
@@ -3748,6 +3757,12 @@ function simpleStats(p){
 }
 function calcSimple(p){
  const x=simpleStats(p);
+   if(p === 's'){
+   const perRunEl = $('#s_cost_per_run');
+   if(perRunEl){
+     perRunEl.textContent = '1판당 버스비: ' + money(x.cost);
+   }
+ }
  let extra='';
  if(p==='s'){
    const busSpend=x.inputCost;
