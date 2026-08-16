@@ -1180,8 +1180,7 @@ main.wrap{
 <option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
 <option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
 </select></div>
-<div><label>한 판 버스비/소비 키나</label><div class="iwrap"><input id="s_cost" class="money" value="0"><span class="unit">키나</span></div></div>
-<div><label>한 판 소비 오드</label><select id="s_ode">
+<div><label>총 버스비</label><div class="iwrap"><input id="s_cost" class="money" value="0"><span class="unit">키나</span></div></div><div><label>한 판 소비 오드</label><select id="s_ode">
 <option value="0" selected>0 오드</option>
 <option value="40">40 오드</option>
 <option value="60">60 오드</option>
@@ -3711,12 +3710,47 @@ const cfg=getDriverConfig();
    }
  }
 }
-function simpleStats(p){const income=val(p+'_income'),cost=val(p+'_cost'),ode=val(p+'_ode'),mins=val(p+'_minutes'),runs=Math.max(0,Math.floor(val(p+'_runs'))),owned=val(p+'_ownedOde'),net=income-cost,perOde=ode?net/ode:0,hour=mins?net*60/mins:0,total=net*runs,possible=ode?Math.floor(owned/ode):0;return{income,cost,ode,mins,runs,owned,net,perOde,hour,total,possible,possibleProfit:possible*net}}
+function simpleStats(p){
+  const income = val(p+'_income');
+  const inputCost = val(p+'_cost');
+  const ode = val(p+'_ode');
+  const mins = val(p+'_minutes');
+  const runs = Math.max(0, Math.floor(val(p+'_runs')));
+  const owned = val(p+'_ownedOde');
+
+  // 부캐 버스는 입력한 금액을 전체 판수의 총 버스비로 사용
+  // 본부는 기존처럼 판당 소비 키나로 사용
+  const cost = (p === 's' && runs > 0)
+    ? inputCost / runs
+    : inputCost;
+
+  const net = income - cost;
+  const perOde = ode ? net / ode : 0;
+  const hour = mins ? net * 60 / mins : 0;
+  const total = net * runs;
+  const possible = ode ? Math.floor(owned / ode) : 0;
+
+  return {
+    income,
+    cost,
+    inputCost,
+    ode,
+    mins,
+    runs,
+    owned,
+    net,
+    perOde,
+    hour,
+    total,
+    possible,
+    possibleProfit: possible * net
+  };
+}
 function calcSimple(p){
  const x=simpleStats(p);
  let extra='';
  if(p==='s'){
-   const busSpend=x.cost*x.runs;
+   const busSpend=x.inputCost;
 
    // 부캐 버스에서 선택한 던전/보상 프리셋을 그대로 본부 기준으로 사용.
    const sameDungeonIncome=val('s_income');
