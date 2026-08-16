@@ -945,6 +945,7 @@ main.wrap{
 <option value="160">160 오드</option>
 </select></div>
 <div>
+ <div>
   <label>손님 1명당 총 버스비</label>
   <div class="iwrap">
     <input id="d_fare" class="money" value="0">
@@ -953,17 +954,10 @@ main.wrap{
   <div id="d_fare_per_run" style="margin-top:8px;font-size:13px;font-weight:800;color:#8df0bd;">
     1판당 1명 버스비: 0 키나
   </div>
-<div>
-  <div>
-  <label id="d_passengers_label">손님 수</label>
-  <select id="d_passengers">
-    <option value="1">1명</option>
-    <option value="2">2명</option>
-    <option value="3">3명</option>
-    <option value="4" selected>4명</option>
-  </select>
 </div>
-  <div><label>계산할 판수</label>
+
+<div>
+  <label>계산할 판수</label>
   <select id="d_fare_runs">
     <option value="1" selected>1판</option>
     <option value="2">2판</option>
@@ -977,9 +971,30 @@ main.wrap{
     <option value="10">10판</option>
   </select>
 </div>
-<div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
-<div><label>내 기사</label><select id="d_myDriver"></select></div>
 
+<div>
+  <label id="d_passengers_label">손님 수</label>
+  <select id="d_passengers">
+    <option value="1">1명</option>
+    <option value="2">2명</option>
+    <option value="3">3명</option>
+    <option value="4" selected>4명</option>
+  </select>
+</div>
+
+<div>
+  <label>기사 수</label>
+  <select id="d_driverCount">
+    <option value="1" selected>1명</option>
+    <option value="2">2명</option>
+    <option value="3">3명</option>
+  </select>
+</div>
+
+<div>
+  <label>내 기사</label>
+  <select id="d_myDriver"></select>
+</div>
 </div>
 
 <div class="driver-config" style="margin-top:14px">
