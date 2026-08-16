@@ -1181,6 +1181,7 @@ main.wrap{
 <option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
 </select></div>
 <div>
+<div>
   <label>총 버스비</label>
   <div class="iwrap">
     <input id="s_cost" class="money" value="0">
@@ -1190,13 +1191,18 @@ main.wrap{
     1판당 버스비: 0 키나
   </div>
 </div>
-  <option value="0" selected>0 오드</option>
-<option value="40">40 오드</option>
-<option value="60">60 오드</option>
-<option value="80">80 오드</option>
-<option value="120">120 오드</option>
-<option value="160">160 오드</option>
-</select></div>
+
+<div>
+  <label>한 판 소비 오드</label>
+  <select id="s_ode">
+    <option value="0">0 오드</option>
+    <option value="40">40 오드</option>
+    <option value="60">60 오드</option>
+    <option value="80">80 오드</option>
+    <option value="120">120 오드</option>
+    <option value="160">160 오드</option>
+  </select>
+</div>
 <div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" value="0"><span class="unit">판</span></div></div>
 <div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" value="0"><span class="unit">오드</span></div></div>
   </div></div></div>
