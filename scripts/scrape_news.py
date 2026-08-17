@@ -65,17 +65,42 @@ def date_from_ancestor(a):
         txt = a.evaluate("""el => {
           let p = el;
 
-          for(let i = 0; i < 6 && p; i++, p = p.parentElement){
+          for (let i = 0; i < 8 && p; i++, p = p.parentElement) {
+
+            // 현재 게시물 링크가 들어있는 한 행/카드 후보
             const links = p.querySelectorAll(
               'a[href*="/board/"][href*="/view"]'
-            ).length;
+            );
 
-            if(links > 1) return '';
+            // 여러 게시물이 같이 들어있는 큰 부모는 제외
+            if (links.length > 1) {
+              continue;
+            }
 
-            const t = (p.innerText || '').trim();
+            // 해당 영역 안에서 날짜/시간처럼 보이는 작은 요소들만 확인
+            const nodes = p.querySelectorAll(
+              'time, span, div, p, em'
+            );
 
-            if(/20\\d{2}[-./년]/.test(t)){
-              return t;
+            for (const node of nodes) {
+              const text = (node.innerText || '').trim();
+
+              // 날짜 + 시간이 같이 있는 경우 우선
+              if (
+                /20\\d{2}[-./]\\d{1,2}[-./]\\d{1,2}/.test(text) &&
+                /(?:[01]?\\d|2[0-3]):[0-5]\\d/.test(text)
+              ) {
+                return text;
+              }
+            }
+
+            // 날짜만 있는 경우
+            for (const node of nodes) {
+              const text = (node.innerText || '').trim();
+
+              if (/20\\d{2}[-./]\\d{1,2}[-./]\\d{1,2}/.test(text)) {
+                return text;
+              }
             }
           }
 
