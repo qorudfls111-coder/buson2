@@ -127,12 +127,6 @@ def date_from_detail(browser, url):
         except Exception:
             pass
 
-        # 3) 마지막 fallback: 화면 전체 텍스트
-        try:
-            candidates.append(page.locator("body").inner_text(timeout=5000))
-        except Exception:
-            pass
-
         best_date, best_time = "", ""
         for c in candidates:
             d, t = extract_date(c)
