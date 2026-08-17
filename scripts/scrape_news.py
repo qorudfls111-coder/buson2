@@ -111,14 +111,14 @@ def date_from_detail(browser, url):
             content = page.content()
 
             for key in [
-    "publishedAt",
-    "publishDate",
-    "publishedDate",
-    "publishedDateTime",
-    "publishDateTime",
-    "openDate",
-    "displayDate"
-]:
+                "publishedAt",
+                "publishDate",
+                "publishedDate",
+                "publishedDateTime",
+                "publishDateTime",
+                "openDate",
+                "displayDate"
+            ]:
                 pattern = rf"""["']?{re.escape(key)}["']?\s*[:=]\s*["']([^"']+)["']"""
 
                 for m in re.finditer(pattern, content, re.I):
@@ -127,36 +127,37 @@ def date_from_detail(browser, url):
         except Exception:
             pass
 
-best_date, best_time = "", ""
+        best_date, best_time = "", ""
 
-print("\n========== DETAIL DEBUG ==========")
-print("URL:", url)
+        print("\n========== DETAIL DEBUG ==========")
+        print("URL:", url)
 
-for idx, c in enumerate(candidates):
-    d, t = extract_date(c)
+        for idx, c in enumerate(candidates):
+            d, t = extract_date(c)
 
-    print(
-        f"CANDIDATE {idx}:",
-        repr(str(c)[:300]),
-        "=>",
-        d,
-        t
-    )
+            print(
+                f"CANDIDATE {idx}:",
+                repr(str(c)[:300]),
+                "=>",
+                d,
+                t
+            )
 
-    if d:
-        if t:
-            print("SELECTED DETAIL TIME:", d, t)
-            print("==================================\n")
-            return d, t
+            if d:
+                if t:
+                    print("SELECTED DETAIL TIME:", d, t)
+                    print("==================================\n")
+                    return d, t
 
-        if not best_date:
-            best_date = d
+                if not best_date:
+                    best_date = d
 
-print("NO DETAIL TIME FOUND")
-print("BEST DATE ONLY:", best_date)
-print("==================================\n")
+        print("NO DETAIL TIME FOUND")
+        print("BEST DATE ONLY:", best_date)
+        print("==================================\n")
 
-return best_date, best_timeg
+        return best_date, best_time
+
     finally:
         page.close()
 
