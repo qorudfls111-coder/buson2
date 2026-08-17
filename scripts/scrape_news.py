@@ -122,12 +122,12 @@ def date_from_detail(browser, url):
         try:
             body_text = page.locator("body").inner_text(timeout=10000)
 
-        m = re.search(
-            r"관리자[\s.]*"
-            r"(20\d{2}-\d{2}-\d{2})\s+"
-            r"([01]\d|2[0-3]):([0-5]\d)(?::[0-5]\d)?",
-            body_text
-        )
+            m = re.search(
+                r"관리자[\s.]*"
+                r"(20\d{2}-\d{2}-\d{2})\s+"
+                r"([01]\d|2[0-3]):([0-5]\d)(?::[0-5]\d)?",
+                body_text
+            )
 
             if m:
                 real_date = m.group(1)
