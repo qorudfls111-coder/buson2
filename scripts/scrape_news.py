@@ -11,45 +11,81 @@ BOARDS = {
     "cm": ("https://aion2.plaync.com/ko-kr/board/cm_story/list", "/board/cm_story/view"),
 }
 OUT = Path("news.json")
+KST = timezone(timedelta(hours=9))
+
 
 DATE_PATTERNS = [
     re.compile(r"(20\d{2})[-./]\s*(\d{1,2})[-./]\s*(\d{1,2})"),
     re.compile(r"(20\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일"),
 ]
 TIME_RE = re.compile(r"(?<!\d)([01]?\d|2[0-3]):([0-5]\d)(?!\d)")
-ISO_RE = re.compile(r"(20\d{2}-\d{2}-\d{2})[T\s](\d{2}:\d{2})(?::\d{2})?")
+ISO_RE = re.compile(
+    r"(20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)"
+)
 
 def clean(s):
     return re.sub(r"\s+", " ", (s or "")).strip()
 
 def extract_date(text):
     text = text or ""
+
+    # ISO 날짜/시간 우선 확인
     iso = ISO_RE.search(text)
     if iso:
-        return iso.group(1), iso.group(2)
+        raw = iso.group(1)
+
+        try:
+            dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+
+            # UTC 또는 timezone 정보가 있으면 한국시간으로 변환
+            if dt.tzinfo is not None:
+                dt = dt.astimezone(KST)
+
+            return dt.strftime("%Y-%m-%d"), dt.strftime("%H:%M")
+
+        except Exception:
+            pass
+
+    # 일반적인 화면 표시 날짜
     for pat in DATE_PATTERNS:
         m = pat.search(text)
         if m:
             d = f"{int(m.group(1)):04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"
-            tm = TIME_RE.search(text[m.end():])
-            return d, (f"{int(tm.group(1)):02d}:{tm.group(2)}" if tm else "")
-    return "", ""
 
+            tm = TIME_RE.search(text[m.end():])
+
+            return d, (
+                f"{int(tm.group(1)):02d}:{tm.group(2)}"
+                if tm else ""
+            )
+
+    return "", ""
 def date_from_ancestor(a):
-    # Climb until we find visible date information.
     try:
         txt = a.evaluate("""el => {
-          let p=el;
-          for(let i=0;i<9 && p;i++,p=p.parentElement){
-            const t=(p.innerText||'').trim();
-            if(/20\\d{2}[-./년]/.test(t)) return t;
+          let p = el;
+
+          for(let i = 0; i < 6 && p; i++, p = p.parentElement){
+            const links = p.querySelectorAll(
+              'a[href*="/board/"][href*="/view"]'
+            ).length;
+
+            if(links > 1) return '';
+
+            const t = (p.innerText || '').trim();
+
+            if(/20\\d{2}[-./년]/.test(t)){
+              return t;
+            }
           }
+
           return '';
         }""")
+
         return extract_date(txt)
+
     except Exception:
         return "", ""
-
 def date_from_detail(browser, url):
     page = browser.new_page(viewport={"width":1280,"height":1000})
     try:
@@ -70,24 +106,30 @@ def date_from_detail(browser, url):
                 if v:
                     candidates.append(v)
 
-        # 2) Visible document text
+        # 2) Page HTML / hydration JSON - 구조화된 게시시간 우선
         try:
-            candidates.append(page.locator("body").inner_text(timeout=5000))
+            content = page.content()
+
+            for key in [
+    "publishedAt",
+    "publishDate",
+    "publishedDate",
+    "publishedDateTime",
+    "publishDateTime",
+    "openDate",
+    "displayDate"
+]:
+                pattern = rf"""["']?{re.escape(key)}["']?\s*[:=]\s*["']([^"']+)["']"""
+
+                for m in re.finditer(pattern, content, re.I):
+                    candidates.append(m.group(1))
+
         except Exception:
             pass
 
-        # 3) Page HTML / hydration JSON often includes createdAt/publishedAt timestamps
+        # 3) 마지막 fallback: 화면 전체 텍스트
         try:
-            content = page.content()
-            for key in [
-                "publishedAt","publishDate","publishedDate","createdAt","createDate",
-                "createdDate","registerDate","registeredAt","writeDate","regDate"
-            ]:
-                for m in re.finditer(
-                    rf'"?{key}"?\s*[:=]\s*["\']([^"\']+)["\']',
-                    content, re.I
-                ):
-                    candidates.append(m.group(1))
+            candidates.append(page.locator("body").inner_text(timeout=5000))
         except Exception:
             pass
 
@@ -128,17 +170,19 @@ def collect(page, browser, list_url, href_part):
                 continue
             seen.add(url)
 
-            date, tm = date_from_ancestor(a)
-            if not date:
-                date, tm = date_from_detail(browser, url)
+# 1순위: 상세 페이지에서 실제 게시 날짜/시간 확인
+date, tm = date_from_detail(browser, url)
 
-            # Detail page fallback for time even when list already had the date
-            if date and not tm:
-                d2, t2 = date_from_detail(browser, url)
-                if d2:
-                    date = d2
-                if t2:
-                    tm = t2
+# 2순위: 상세 페이지에서 못 찾았을 때만 목록 날짜 사용
+if not date or not tm:
+    d2, t2 = date_from_ancestor(a)
+
+    if not date and d2:
+        date = d2
+
+    if not tm and t2:
+        tm = t2
+
 
             dt = f"{date} {tm}".strip() if date else ""
             items.append({
