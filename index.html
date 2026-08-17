@@ -1240,7 +1240,7 @@ main.wrap{
   <div class="card compare-master-card">
     <div class="head">
       <h2>🏆 버스 · 본부 · 부캐버스 종합 비교</h2>
-      <p>각 탭에 현재 입력된 값을 같은 오드·같은 시간 기준으로 환산해 가장 효율적인 방식을 비교합니다.</p>
+      <p>각 탭에 현재 입력된 값을 같은 오드 기준으로 환산해 가장 효율적인 방식을 비교합니다.</p>
     </div>
     <div class="body">
 
@@ -1253,22 +1253,14 @@ main.wrap{
           </div>
         </div>
 
-        <div>
-          <label>비교 기준 시간</label>
-          <div class="iwrap">
-            <input id="cmp_hours" value="3">
-            <span class="unit">시간</span>
-          </div>
-        </div>
-
         <div class="compare-run-action">
           <button class="btn primary" id="cmp_run" type="button" onclick="buildCompare()">현재 입력값으로 비교</button>
         </div>
       </div>
 
       <div class="compare-help">
-        버스 기사·본부·부캐 버스 탭에 입력한 현재 값을 사용합니다.
-        판당 소요시간 또는 오드가 0이면 해당 기준 순위에서는 제외됩니다.
+버스 기사·본부·부캐 버스 탭에 입력한 현재 값을 사용합니다.
+판당 소비 오드가 0인 방식은 오드 기준 비교에서 제외됩니다.
       </div>
 
       <div id="compareBest" class="compare-best-grid"></div>
@@ -4083,137 +4075,132 @@ function compareRank(items,key){
 }
 
 function buildCompare(){
- const odeBudget=Math.max(0,Math.floor(val('cmp_ode_budget')||0));
- const hours=Math.max(0,val('cmp_hours')||0);
+  const odeBudget=Math.max(0,Math.floor(val('cmp_ode_budget')||0));
 
- const items=[
-   driverAverage(),
-   compareItemFromSimple('m','본부'),
-   compareItemFromSimple('s','부캐 버스')
- ].map(x=>{
-   const odeRuns=x.ode>0?Math.floor(odeBudget/x.ode):0;
-   const odeProfit=odeRuns*x.net;
-   const timeRuns=x.mins>0?Math.floor((hours*60)/x.mins):0;
-   const timeProfit=timeRuns*x.net;
+  const items=[
+    driverAverage(),
+    compareItemFromSimple('m','본부'),
+    compareItemFromSimple('s','부캐 버스')
+  ].map(x=>{
+    const odeRuns=x.ode>0?Math.floor(odeBudget/x.ode):0;
+    const odeProfit=odeRuns*x.net;
 
-   return{
-     ...x,
-     odeRuns,
-     odeProfit,
-     timeRuns,
-     timeProfit
-   };
- });
+    return{
+      ...x,
+      odeRuns,
+      odeProfit
+    };
+  });
 
- const hourRank=compareRank(items,'hour');
- const odeRank=compareRank(items,'perOde');
- const budgetRank=compareRank(items,'odeProfit');
- const timeRank=compareRank(items,'timeProfit');
+  const netRank=compareRank(items,'net');
+  const odeRank=compareRank(items,'perOde');
+  const budgetRank=compareRank(items,'odeProfit');
 
- function bestCard(label,rank,valueKey,valueFormat,subFn){
-   const x=rank[0];
+  function bestCard(label,rank,valueKey,valueFormat,subFn){
+    const x=rank[0];
 
-   if(!x){
-     return `<div class="compare-best">
-       <div class="compare-best-label">${label}</div>
-       <div class="compare-best-name">계산 불가</div>
-       <div class="compare-best-sub">필요한 오드/시간 값을 입력해주세요.</div>
-     </div>`;
-   }
+    if(!x){
+      return `<div class="compare-best">
+        <div class="compare-best-label">${label}</div>
+        <div class="compare-best-name">비교 대상 없음</div>
+        <div class="compare-best-sub">각 탭의 입력값을 확인해주세요.</div>
+      </div>`;
+    }
 
-   return `<div class="compare-best winner">
-     <div class="compare-best-label">${label}</div>
-     <div class="compare-best-name">🏆 ${x.name}</div>
-     <div class="compare-best-value">${valueFormat(x[valueKey])}</div>
-     <div class="compare-best-sub">${subFn(x)}</div>
-   </div>`;
- }
+    return `<div class="compare-best winner">
+      <div class="compare-best-label">${label}</div>
+      <div class="compare-best-name">🏆 ${x.name}</div>
+      <div class="compare-best-value">${valueFormat(x[valueKey])}</div>
+      <div class="compare-best-sub">${subFn(x)}</div>
+    </div>`;
+  }
 
- $('#compareBest').innerHTML=[
-   bestCard(
-     '시간당 효율 1위',
-     hourRank,
-     'hour',
-     money,
-     x=>`${x.type} · ${escapeHtml(x.dungeon)}`
-   ),
-   bestCard(
-     `오드 ${nf(odeBudget)} 기준 총수익 1위`,
-     budgetRank,
-     'odeProfit',
-     money,
-     x=>`${nf(x.odeRuns)}판 가능 · 판당 ${nf(x.ode)} 오드`
-   ),
-   bestCard(
-     `${hours}시간 기준 총수익 1위`,
-     timeRank,
-     'timeProfit',
-     money,
-     x=>`${nf(x.timeRuns)}판 가능 · 판당 ${x.mins||0}분`
-   )
- ].join('');
+  $('#compareBest').innerHTML=[
+    bestCard(
+      '판당 순수익 1위',
+      netRank,
+      'net',
+      money,
+      x=>`${x.type} · ${escapeHtml(x.dungeon)}`
+    ),
+    bestCard(
+      '오드 1당 순수익 1위',
+      odeRank,
+      'perOde',
+      money,
+      x=>`판당 ${nf(x.ode)} 오드`
+    ),
+    bestCard(
+      `오드 ${nf(odeBudget)} 기준 총수익 1위`,
+      budgetRank,
+      'odeProfit',
+      money,
+      x=>`${nf(x.odeRuns)}판 가능 · 판당 ${nf(x.ode)} 오드`
+    )
+  ].join('');
 
- const hourMap=new Map(hourRank.map((x,i)=>[x.key,i+1]));
- const odeMap=new Map(odeRank.map((x,i)=>[x.key,i+1]));
+  const netMap=new Map(netRank.map((x,i)=>[x.key,i+1]));
+  const odeMap=new Map(odeRank.map((x,i)=>[x.key,i+1]));
 
- const rows=[...items]
-   .sort((a,b)=>(b.hour||0)-(a.hour||0))
-   .map((x,i)=>{
-     const hourRankNo=hourMap.get(x.key);
-     const odeRankNo=odeMap.get(x.key);
-     const invalidOde=x.ode<=0;
-     const invalidTime=x.mins<=0;
+  const rows=[...items]
+    .sort((a,b)=>(b.net||0)-(a.net||0))
+    .map((x,i)=>{
+      const netRankNo=netMap.get(x.key);
+      const odeRankNo=odeMap.get(x.key);
+      const invalidOde=x.ode<=0;
 
-     return `<tr class="${i===0&&x.hour>0?'compare-row-rank1':''}">
-       <td>
-         <span class="compare-rank-badge ${hourRankNo===1?'first':''}">
-           ${hourRankNo?hourRankNo+'위':'-'}
-         </span>
-       </td>
-       <td>
-         <div class="compare-method">
-           <b>${x.name}</b>
-           <small>${x.type} · ${escapeHtml(x.dungeon)}</small>
-         </div>
-       </td>
-       <td>${money(x.net)}</td>
-       <td class="${invalidOde?'compare-muted':''}">
-         ${invalidOde?'-':money(x.perOde)}
-         ${odeRankNo===1?'<span class="compare-positive"> · 최고</span>':''}
-       </td>
-       <td class="${invalidTime?'compare-muted':''}">
-         ${invalidTime?'-':money(x.hour)}
-         ${hourRankNo===1?'<span class="compare-positive"> · 최고</span>':''}
-       </td>
-       <td class="${invalidOde?'compare-muted':''}">
-         ${invalidOde?'-':`${nf(x.odeRuns)}판<br><b>${money(x.odeProfit)}</b>`}
-       </td>
-       <td class="${invalidTime?'compare-muted':''}">
-         ${invalidTime?'-':`${nf(x.timeRuns)}판<br><b>${money(x.timeProfit)}</b>`}
-       </td>
-     </tr>`;
-   }).join('');
+      return `<tr class="${i===0&&x.net>0?'compare-row-rank1':''}">
+        <td>
+          <span class="compare-rank-badge ${netRankNo===1?'first':''}">
+            ${netRankNo?netRankNo+'위':'-'}
+          </span>
+        </td>
 
- $('#compareBox').innerHTML=`
-   <div class="compare-table-wrap">
-     <table>
-       <thead>
-         <tr>
-           <th>시간 효율</th>
-           <th>방식</th>
-           <th>판당 순수익</th>
-           <th>오드 1당</th>
-           <th>시간당</th>
-           <th>오드 ${nf(odeBudget)} 사용 시</th>
-           <th>${hours}시간 플레이 시</th>
-         </tr>
-       </thead>
-       <tbody>${rows}</tbody>
-     </table>
-   </div>
- `;
+        <td>
+          <div class="compare-method">
+            <b>${x.name}</b>
+            <small>${x.type} · ${escapeHtml(x.dungeon)}</small>
+          </div>
+        </td>
+
+        <td>
+          ${money(x.net)}
+          ${netRankNo===1?'<span class="compare-positive"> · 최고</span>':''}
+        </td>
+
+        <td class="${invalidOde?'compare-muted':''}">
+          ${invalidOde?'-':money(x.perOde)}
+          ${odeRankNo===1?'<span class="compare-positive"> · 최고</span>':''}
+        </td>
+
+        <td class="${invalidOde?'compare-muted':''}">
+          ${invalidOde?'-':`${nf(x.ode)} 오드`}
+        </td>
+
+        <td class="${invalidOde?'compare-muted':''}">
+          ${invalidOde?'-':`${nf(x.odeRuns)}판<br><b>${money(x.odeProfit)}</b>`}
+        </td>
+      </tr>`;
+    }).join('');
+
+  $('#compareBox').innerHTML=`
+    <div class="compare-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>판당 수익 순위</th>
+            <th>방식</th>
+            <th>판당 순수익</th>
+            <th>오드 1당 순수익</th>
+            <th>판당 소비 오드</th>
+            <th>오드 ${nf(odeBudget)} 사용 시</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
 }
-
 
 let newsLoaded=false;
 function escapeHtml(text){
@@ -5448,7 +5435,6 @@ SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
 calcSpec();
 calcGearCompare();
 $('#cmp_ode_budget')?.addEventListener('input',buildCompare);
-$('#cmp_hours')?.addEventListener('input',buildCompare);
 $('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();syncDriverPartySettings();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');buildCompare();
 loadOfficialNews();
 </script>
