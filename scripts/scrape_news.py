@@ -118,7 +118,27 @@ def date_from_detail(browser, url):
     try:
         page.goto(url, wait_until="domcontentloaded", timeout=60000)
         page.wait_for_timeout(2500)
+        # AION2 실제 게시 등록시간 직접 찾기
+        try:
+            body_text = page.locator("body").inner_text(timeout=10000)
 
+        m = re.search(
+            r"관리자[\s.]*"
+            r"(20\d{2}-\d{2}-\d{2})\s+"
+            r"([01]\d|2[0-3]):([0-5]\d)(?::[0-5]\d)?",
+            body_text
+        )
+
+            if m:
+                real_date = m.group(1)
+                real_time = f"{m.group(2)}:{m.group(3)}"
+
+                print("REAL AION2 PUBLISH TIME:", real_date, real_time)
+
+                return real_date, real_time
+
+        except Exception as e:
+            print("publish time search failed:", e)
         # 1) Standard metadata/time elements
         candidates = []
         for selector, attr in [
