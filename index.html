@@ -329,15 +329,6 @@ main.wrap{
 @media(max-width:860px){.invest-fixed-basis{white-space:normal;width:100%}.invest-panel{padding:14px}}
 
 </style>
-  
-<meta name="robots" content="index,follow">
-<link rel="canonical" href="https://buson2.com/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="버스온2">
-<meta property="og:title" content="버스온2(BUSON2) | 아이온2 계산기 · 스펙 계산 · 버스 수익 · 던전 오드 효율">
-<meta property="og:description" content="버스온2(BUSON2)에서 아이온2 스펙 계산기, 버스 기사·부캐 버스·본부 수익 계산, 던전 키나와 오드 효율을 한곳에서 비교하세요.">
-<meta property="og:url" content="https://buson2.com/">
-<meta name="twitter:card" content="summary">
 
 </head>
 <body>
@@ -918,8 +909,8 @@ main.wrap{
 <option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
 <option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
 <option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
-<option value="2100000" data-ode="40">심연의 뿔 암굴 4단 - 210만</option>
-<option value="4200000" data-ode="80">심연의 뿔 암굴 4단 - 420만</option>
+<option value="2100000" data-ode="60">심연의 뿔 암굴 4단 - 210만</option>
+<option value="4200000" data-ode="120">심연의 뿔 암굴 4단 - 420만</option>
   <option value="1005000" data-ode="40">데우스 보통 - 100.5만</option>
 <option value="2010000" data-ode="80">데우스 보통 - 201만</option>
 <option value="1800000" data-ode="60">데우스 어려움 - 180만</option>
@@ -3140,6 +3131,30 @@ function syncOdeFromDungeon(prefix){
  const opt=incomeSel.options[incomeSel.selectedIndex];
  if(opt && opt.dataset.ode!==undefined) odeSel.value=opt.dataset.ode;
 }
+  function syncSanctuaryRunLock(){
+  const typeEl = $('#d_content_type');
+  const runsEl = $('#d_fare_runs');
+
+  if(!typeEl || !runsEl) return;
+
+  const isSanctuary = typeEl.value === 'sanctuary';
+
+  if(isSanctuary){
+    runsEl.innerHTML = '<option value="1">1판</option>';
+    runsEl.value = '1';
+    runsEl.disabled = true;
+  }else{
+    const current = Math.max(1, Number(runsEl.value) || 1);
+
+    runsEl.innerHTML = Array.from(
+      {length:10},
+      (_,i) => `<option value="${i+1}">${i+1}판</option>`
+    ).join('');
+
+    runsEl.value = String(Math.min(current,10));
+    runsEl.disabled = false;
+  }
+}
 function driverMaxCount(){
  return $('#d_content_type')?.value==='sanctuary'?9:3;
 }
@@ -3745,7 +3760,10 @@ const isSanctuary=$('#d_content_type')?.value==='sanctuary';
        .filter((x,index,all)=>all.some(y=>y.passenger===x.passenger && y.driver!==x.driver))
        .map(x=>x.passenger)
    );
-   $('#rotationNote').textContent=`성역 1판 공평 정산: 승객 ${passengers}명은 각각 총 ${money(fare)}만 결제하고, ${splitPassengers.size}명은 아이템을 나눠 구매합니다. 기사별 판매가는 ${money(minDriverFare)}~${money(maxDriverFare)}로 최대 ${money(maxDriverFare-minDriverFare)}만 차이 납니다.`;
+$('#rotationNote').textContent=
+  `성역 1판 공평 정산: 승객 ${passengers}명은 각각 ${money(fare)}를 결제합니다. ` +
+  `${splitPassengers.size}명은 아이템을 나눠 구매하며, ` +
+  `기사별 판매가는 ${money(minDriverFare)}~${money(maxDriverFare)}로 최대 ${money(maxDriverFare-minDriverFare)} 차이 납니다.`;
  }
 
  const note=$('#marketNote');
@@ -3756,9 +3774,22 @@ const isSanctuary=$('#d_content_type')?.value==='sanctuary';
    const oneNet=Math.max(0,oneGross-oneSaleFee-oneListingFee);
    if(fairSanctuaryPlan){
      note.innerHTML=`승객 ${passengers}명 × <b>${money(fare)}</b> = 총 <b>${money(fairSanctuaryPlan.totalFare)}</b>을 기사 ${cfg.length}명에게 한 판 안에서 공평하게 나눕니다. 각 승객의 총 결제액은 그대로이며, 아래 결과표에 구매할 기사와 아이템 가격이 표시됩니다.`;
-   }else{
-     note.innerHTML=`손님 1명당 버스비 <b>${money(fare)}</b> 입력 시 → 판매 수수료 <b>${money(oneSaleFee)}</b> + 등록비 2% <b>${money(oneListingFee)}</b> 차감 → 실제 수금 <b>${money(oneNet)}</b> / 1명`;
-   }
+ }else{
+  const totalGross = fareInput;
+  const totalSaleFee = totalGross * WORLD_RATE;
+  const totalListingFee = totalGross * LISTING_RATE;
+  const totalNet = Math.max(0, totalGross - totalSaleFee - totalListingFee);
+  const netPerRun = runs > 0 ? totalNet / runs : 0;
+
+  note.innerHTML=
+    `손님 1명당 총 버스비 <b>${money(totalGross)}</b> → ` +
+    `거래 수수료 <b>${money(totalSaleFee)}</b> + ` +
+    `등록 수수료 2% <b>${money(totalListingFee)}</b> 차감 → ` +
+    `실제 총 수금 <b>${money(totalNet)}</b> / 1명` +
+    (runs > 0
+      ? `<br><span style="color:#8df0bd;font-weight:800;">${runs}판 기준 1판당 실제 수금: ${money(netPerRun)}</span>`
+      : '');
+}
  }
 }
 function simpleStats(p){
@@ -3948,6 +3979,7 @@ function applyTabSlotSettings(tab,data){
    Object.entries(data).forEach(([id,value])=>{if($('#'+id))$('#'+id).value=value});
    if(Number($('#d_driverCount').value)===2){renderDrivers(true);Object.entries(data).forEach(([id,value])=>{if($('#'+id))$('#'+id).value=value})}
 syncDriverPartySettings();
+syncSanctuaryRunLock();
 calcDriver();
 
 if(data.fareCopyRows){
@@ -5249,10 +5281,12 @@ function initContentTypeSelectors(){
     typeEl?.addEventListener('change',()=>{
       updateIncomeOptions(prefix);
       if(prefix==='d'){
-        syncDriverPartySettings();
-        renderDrivers(true);
-      }
-      else calcSimple(prefix);
+  syncDriverPartySettings();
+  renderDrivers(true);
+  syncSanctuaryRunLock();
+  calcDriver();
+}
+else calcSimple(prefix);
     });
   });
 
@@ -5342,6 +5376,8 @@ function escapeHtml(text){
 
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
+
+syncSanctuaryRunLock();
 ['d_minutes','d_fare','d_passengers'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
 $('#d_fare_runs')?.addEventListener('change',calcDriver);
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
