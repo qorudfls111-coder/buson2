@@ -185,19 +185,20 @@ def collect(page, browser, list_url, href_part):
                 continue
             seen.add(url)
 
-# 1순위: 상세 페이지에서 실제 게시 날짜/시간 확인
-date, tm = date_from_detail(browser, url)
+            seen.add(url)
 
-# 2순위: 상세 페이지에서 못 찾았을 때만 목록 날짜 사용
-if not date or not tm:
-    d2, t2 = date_from_ancestor(a)
+            # 1순위: 상세 페이지에서 실제 게시 날짜/시간 확인
+            date, tm = date_from_detail(browser, url)
 
-    if not date and d2:
-        date = d2
+            # 2순위: 상세 페이지에서 못 찾았을 때만 목록 날짜 사용
+            if not date or not tm:
+                d2, t2 = date_from_ancestor(a)
 
-    if not tm and t2:
-        tm = t2
+                if not date and d2:
+                    date = d2
 
+                if not tm and t2:
+                    tm = t2
 
             dt = f"{date} {tm}".strip() if date else ""
             items.append({
@@ -207,6 +208,7 @@ if not date or not tm:
                 "datetime": dt,
                 "url": url
             })
+
             if len(items) >= 20:
                 break
         except Exception as e:
