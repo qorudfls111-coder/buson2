@@ -5178,7 +5178,7 @@ const DUNGEONS=[
 
 const CONTENT_DUNGEON_GROUPS={
   expedition:['푸섬','환영','타데바','데우스'],
-  transcendence:['연심','노이란'],
+transcendence:['연심','암굴','노이란'],
   sanctuary:['무스펠']
 };
 
@@ -5220,9 +5220,9 @@ function incomeOptionType(label){
   if(t.includes('타데바')||t.includes('푸섬')||t.includes('환영')||t.includes('데우스')){
     return 'expedition';
   }
-  if(t.includes('연심')||t.includes('노이란')){
-    return 'transcendence';
-  }
+if(t.includes('연심')||t.includes('암굴')||t.includes('노이란')){
+  return 'transcendence';
+}
   if(t.includes('무스펠')){
     return 'sanctuary';
   }
