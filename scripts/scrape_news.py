@@ -106,6 +106,8 @@ def date_from_ancestor(a):
 
           return '';
         }""")
+        print("ANCESTOR RAW:", repr(txt))
+        print("ANCESTOR PARSED:", extract_date(txt))
 
         return extract_date(txt)
 
