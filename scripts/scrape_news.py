@@ -117,10 +117,12 @@ def date_from_detail(browser, url):
     page = browser.new_page(viewport={"width":1280,"height":1000})
     try:
         page.goto(url, wait_until="domcontentloaded", timeout=60000)
-        page.wait_for_timeout(2500)
+        page.wait_for_timeout(7000)
         # AION2 실제 게시 등록시간 직접 찾기
         try:
             body_text = page.locator("body").inner_text(timeout=10000)
+
+            print("DETAIL BODY:", repr(body_text[:1500]))
 
             m = re.search(
                 r"관리자[\s.]*"
