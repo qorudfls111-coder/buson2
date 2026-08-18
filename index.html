@@ -327,7 +327,15 @@ main.wrap{
 #page-spec .eff-value{font-size:15px}
 #page-spec .note{font-size:13px}
 @media(max-width:860px){.invest-fixed-basis{white-space:normal;width:100%}.invest-panel{padding:14px}}
+@media(max-width:860px){
+  #page-lookup .body > div:first-child > div{
+    grid-template-columns:1fr !important;
+  }
 
+  #page-lookup [style*="grid-template-columns:repeat(2,1fr)"]{
+    grid-template-columns:1fr !important;
+  }
+}
 </style>
 
 </head>
@@ -340,6 +348,7 @@ main.wrap{
 <button class="tab" data-page="dungeon">던전</button>
 <button class="tab" data-page="spec">스펙 계산기</button>
 <button class="tab" data-page="driver">버스 기사</button>
+<button class="tab" data-page="lookup">기사 조회</button>
 <button class="tab" data-page="sub">부캐 버스</button>
 <button class="tab" data-page="main">본부</button>
 <button class="tab" data-page="compare">파밍 비교</button>
@@ -1157,7 +1166,295 @@ main.wrap{
 <div class="card"><div class="head"><h2>본부 결과</h2></div><div class="body"><div class="metrics" id="m_metrics"></div></div></div>
 <div class="spec-save-panel tab-save-panel" data-tab-save-slots="main"></div>
 </div></section>
+<section id="page-lookup" class="hidden">
 
+  <div class="card" style="max-width:900px;margin:0 auto;">
+
+    <div class="head">
+      <h2>🔎 버스기사 조회</h2>
+      <p>종족과 서버를 선택하고 기사 아이디를 검색해보세요.</p>
+    </div>
+
+    <div class="body">
+
+      <!-- 검색 영역 -->
+      <div style="
+        padding:18px;
+        border:1px solid #293347;
+        border-radius:14px;
+        background:#0d131c;
+      ">
+
+        <div style="
+          display:grid;
+          grid-template-columns:160px 220px 1fr;
+          gap:12px;
+          align-items:end;
+        ">
+
+          <div>
+            <label>종족</label>
+            <select id="lookup-race">
+              <option value="1">☀️ 천족</option>
+              <option value="2">🌙 마족</option>
+            </select>
+          </div>
+
+          <div>
+            <label>서버</label>
+            <select id="lookup-server">
+              <option value="">서버 선택</option>
+            </select>
+          </div>
+
+          <div>
+            <label>기사 아이디</label>
+            <input
+              id="lookup-name"
+              type="text"
+              placeholder="캐릭터명 입력"
+              autocomplete="off"
+            >
+          </div>
+
+        </div>
+
+        <button
+          id="lookup-search-btn"
+          class="btn primary"
+          type="button"
+          style="width:100%;margin-top:14px;"
+        >
+          🔎 기사 조회
+        </button>
+
+      </div>
+
+
+      <!-- 조회 결과 -->
+      <div id="lookup-result" style="display:none;margin-top:18px;">
+
+        <div style="
+          padding:18px;
+          border:1px solid #30405a;
+          border-radius:14px;
+          background:#101722;
+        ">
+
+          <div style="margin-bottom:16px;">
+            <div
+              id="lookup-result-name"
+              style="font-size:22px;font-weight:900;"
+            >
+              기사명
+            </div>
+
+            <div
+              id="lookup-result-server"
+              style="margin-top:5px;color:#8fa0b8;font-size:13px;"
+            >
+              서버
+            </div>
+          </div>
+
+
+          <!-- 정상 / 문제 -->
+          <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+          ">
+
+            <div style="
+              padding:18px;
+              border:1px solid #315d47;
+              border-radius:13px;
+              background:#11231b;
+              text-align:center;
+            ">
+              <div style="font-size:26px;">👍</div>
+              <div style="margin-top:5px;color:#9ef4bd;font-weight:800;">
+                정상 거래
+              </div>
+              <strong
+                id="lookup-good-count"
+                style="display:block;margin-top:6px;font-size:25px;"
+              >0</strong>
+            </div>
+
+
+            <div style="
+              padding:18px;
+              border:1px solid #623744;
+              border-radius:13px;
+              background:#27171d;
+              text-align:center;
+            ">
+              <div style="font-size:26px;">⚠️</div>
+              <div style="margin-top:5px;color:#ff9fb0;font-weight:800;">
+                문제 제보
+              </div>
+              <strong
+                id="lookup-report-count"
+                style="display:block;margin-top:6px;font-size:25px;"
+              >0</strong>
+            </div>
+
+          </div>
+
+
+          <div
+            id="lookup-rate"
+            style="
+              margin-top:14px;
+              padding:11px 13px;
+              background:#0b1018;
+              border-radius:10px;
+              color:#9fb1c8;
+              font-size:13px;
+            "
+          >
+            아직 등록된 평가가 없습니다.
+          </div>
+
+
+          <!-- 문제 제보 상세 -->
+          <div style="
+            margin-top:16px;
+            padding:16px;
+            border:1px solid #354057;
+            border-radius:13px;
+            background:#0b1018;
+          ">
+
+            <div style="font-weight:900;margin-bottom:12px;">
+              ⚠️ 문제 제보 상세
+            </div>
+
+            <div style="
+              display:grid;
+              grid-template-columns:repeat(2,1fr);
+              gap:9px;
+            ">
+
+              <div style="padding:11px;border:1px solid #293347;border-radius:9px;">
+                🏃 수금 후 잠수
+                <b id="lookup-disappear-count" style="float:right;">0</b>
+              </div>
+
+              <div style="padding:11px;border:1px solid #293347;border-radius:9px;">
+                💰 버스비/키나 문제
+                <b id="lookup-kina-count" style="float:right;">0</b>
+              </div>
+
+              <div style="padding:11px;border:1px solid #293347;border-radius:9px;">
+                ⚠️ 약속 불이행
+                <b id="lookup-promise-count" style="float:right;">0</b>
+              </div>
+
+              <div style="padding:11px;border:1px solid #293347;border-radius:9px;">
+                📌 기타
+                <b id="lookup-other-count" style="float:right;">0</b>
+              </div>
+
+            </div>
+
+            <div style="
+              margin-top:12px;
+              color:#7f8fa8;
+              font-size:11px;
+              line-height:1.6;
+            ">
+              ※ 이용자가 직접 등록한 제보이며 사실 여부가 확인된 정보는 아닙니다.
+            </div>
+
+          </div>
+
+
+          <!-- 평가 버튼 -->
+          <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:10px;
+            margin-top:16px;
+          ">
+
+            <button
+              id="lookup-good-btn"
+              class="btn success"
+              type="button"
+            >
+              👍 정상 거래
+            </button>
+
+            <button
+              id="lookup-report-btn"
+              class="btn secondary"
+              type="button"
+            >
+              ⚠️ 문제 제보
+            </button>
+
+          </div>
+
+
+          <!-- 문제 제보 입력 -->
+          <div
+            id="lookup-report-box"
+            style="
+              display:none;
+              margin-top:14px;
+              padding:15px;
+              border:1px solid #623744;
+              border-radius:12px;
+              background:#1c1217;
+            "
+          >
+
+            <label>어떤 문제가 있었나요?</label>
+
+            <select id="lookup-report-type">
+              <option value="disappear">🏃 수금 후 잠수</option>
+              <option value="kina">💰 버스비/키나 문제</option>
+              <option value="promise">⚠️ 약속 불이행</option>
+              <option value="other">📌 기타</option>
+            </select>
+
+            <button
+              id="lookup-report-submit"
+              class="btn primary"
+              type="button"
+              style="width:100%;margin-top:10px;"
+            >
+              제보 등록
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+
+
+      <div
+        id="lookup-empty"
+        style="
+          display:none;
+          margin-top:16px;
+          padding:14px;
+          border:1px solid #2d3c52;
+          border-radius:12px;
+          color:#9fb1c8;
+          background:#0b1018;
+        "
+      >
+        아직 평가가 등록되지 않은 기사입니다.
+        정상 거래 또는 문제 제보를 남기면 처음 등록됩니다.
+      </div>
+
+    </div>
+  </div>
+
+</section>
 <section id="page-sub" class="hidden">
 <div class="grid2">
 <div class="card"><div class="head"><h2>🎒 부캐 버스 설정</h2></div><div class="body"><div class="fields">
@@ -5361,7 +5658,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 
 syncSanctuaryRunLock();
@@ -6050,5 +6347,319 @@ setTimeout(openInfoFromHash,0);
     <div id="infoModalBody" class="info-modal-body"></div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+const LOOKUP_SUPABASE_URL = "https://gdunbidwaksdddgfkbcw.supabase.co";
+const LOOKUP_SUPABASE_KEY = "sb_publishable_w9cJxV6X-97RNjZh1WCN5w_dJcu8kLE";
+
+const lookupDb = window.supabase.createClient(
+  LOOKUP_SUPABASE_URL,
+  LOOKUP_SUPABASE_KEY
+);
+
+let lookupCurrentDriver = null;
+  const LOOKUP_SERVERS = [
+  { race: 1, name: "시엘" },
+  { race: 1, name: "네자칸" },
+  { race: 1, name: "바이젤" },
+  { race: 1, name: "카이시넬" },
+  { race: 1, name: "유스티엘" },
+  { race: 1, name: "아리엘" },
+  { race: 1, name: "프레기온" },
+  { race: 1, name: "메스람타에다" },
+  { race: 1, name: "히타니에" },
+  { race: 1, name: "나니아" },
+  { race: 1, name: "타하바타" },
+  { race: 1, name: "루터스" },
+  { race: 1, name: "페르노스" },
+  { race: 1, name: "다미누" },
+  { race: 1, name: "카사카" },
+  { race: 1, name: "바카르마" },
+  { race: 1, name: "챈가룽" },
+  { race: 1, name: "코치룽" },
+  { race: 1, name: "이슈타르" },
+  { race: 1, name: "티아마트" },
+  { race: 1, name: "포에타" },
+
+  { race: 2, name: "이스라펠" },
+  { race: 2, name: "지켈" },
+  { race: 2, name: "트리니엘" },
+  { race: 2, name: "루미엘" },
+  { race: 2, name: "마르쿠탄" },
+  { race: 2, name: "아스펠" },
+  { race: 2, name: "에레슈키갈" },
+  { race: 2, name: "브리트라" },
+  { race: 2, name: "네몬" },
+  { race: 2, name: "하달" },
+  { race: 2, name: "루드라" },
+  { race: 2, name: "울고른" },
+  { race: 2, name: "무닌" },
+  { race: 2, name: "오다르" },
+  { race: 2, name: "젠카카" },
+  { race: 2, name: "크로메데" },
+  { race: 2, name: "콰이링" },
+  { race: 2, name: "바바룽" },
+  { race: 2, name: "파프니르" },
+  { race: 2, name: "인드나흐" },
+  { race: 2, name: "이스할겐" }
+];
+
+function updateLookupServerOptions() {
+  const raceEl = document.getElementById("lookup-race");
+  const serverEl = document.getElementById("lookup-server");
+
+  if (!raceEl || !serverEl) return;
+
+  const race = Number(raceEl.value);
+
+  serverEl.innerHTML = '<option value="">서버 선택</option>';
+
+  LOOKUP_SERVERS
+    .filter(server => server.race === race)
+    .forEach(server => {
+      const option = document.createElement("option");
+      option.value = server.name;
+      option.textContent = server.name;
+      serverEl.appendChild(option);
+    });
+}
+
+document
+  .getElementById("lookup-race")
+  ?.addEventListener("change", updateLookupServerOptions);
+
+updateLookupServerOptions();
+
+function lookupValue(id) {
+  return (document.getElementById(id)?.value || "").trim();
+}
+
+function lookupRatingKey(server, name) {
+  return `buson2-rating:${server}:${name}`.toLowerCase();
+}
+
+function lookupAlreadyRated(server, name) {
+  return localStorage.getItem(lookupRatingKey(server, name)) === "1";
+}
+
+function lookupSaveRated(server, name) {
+  localStorage.setItem(lookupRatingKey(server, name), "1");
+}
+
+async function lookupFindDriver(server, name) {
+  const { data, error } = await lookupDb
+    .from("bus_drivers")
+    .select("id, server, character_name")
+    .eq("server", server)
+    .eq("character_name", name)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data;
+}
+
+async function lookupCreateDriver(server, name) {
+  let existing = await lookupFindDriver(server, name);
+
+  if (existing) return existing;
+
+  const { data, error } = await lookupDb
+    .from("bus_drivers")
+    .insert({
+      server: server,
+      character_name: name
+    })
+    .select("id, server, character_name")
+    .single();
+
+  if (!error) return data;
+
+  // 동시에 같은 기사가 등록된 경우 다시 검색
+  existing = await lookupFindDriver(server, name);
+
+  if (existing) return existing;
+
+  throw error;
+}
+
+async function lookupLoadCounts(driver) {
+  const { data, error } = await lookupDb
+    .from("driver_reports")
+    .select("report_type")
+    .eq("driver_id", driver.id);
+
+  if (error) throw error;
+
+  const rows = data || [];
+
+  const good = rows.filter(row => row.report_type === "good").length;
+  const kina = rows.filter(row => row.report_type === "kina").length;
+  const disappear = rows.filter(row => row.report_type === "disappear").length;
+  const promise = rows.filter(row => row.report_type === "promise").length;
+  const other = rows.filter(row => row.report_type === "other").length;
+
+  const problem = kina + disappear + promise + other;
+  const total = good + problem;
+
+  document.getElementById("lookup-good-count").textContent = good;
+  document.getElementById("lookup-report-count").textContent = problem;
+
+  document.getElementById("lookup-kina-count").textContent = kina;
+  document.getElementById("lookup-disappear-count").textContent = disappear;
+  document.getElementById("lookup-promise-count").textContent = promise;
+  document.getElementById("lookup-other-count").textContent = other;
+
+  document.getElementById("lookup-rate").textContent =
+    total > 0
+      ? `정상 거래율: ${((good / total) * 100).toFixed(1)}%`
+      : "아직 등록된 평가가 없습니다.";
+}
+
+function lookupShowDriver(server, name, driver) {
+  lookupCurrentDriver = driver || {
+    id: null,
+    server: server,
+    character_name: name
+  };
+
+  document.getElementById("lookup-result-name").textContent = name;
+  document.getElementById("lookup-result-server").textContent = server;
+
+  document.getElementById("lookup-result").style.display = "block";
+  document.getElementById("lookup-empty").style.display =
+    driver ? "none" : "block";
+
+  if (!driver) {
+    
+    document.getElementById("lookup-good-count").textContent = "0";
+    document.getElementById("lookup-report-count").textContent = "0";
+    document.getElementById("lookup-kina-count").textContent = "0";
+    document.getElementById("lookup-disappear-count").textContent = "0";
+    document.getElementById("lookup-promise-count").textContent = "0";
+    document.getElementById("lookup-other-count").textContent = "0";
+    document.getElementById("lookup-rate").textContent =
+      "아직 등록된 평가가 없습니다.";
+  }
+}
+
+async function lookupSearch() {
+  const server = lookupValue("lookup-server");
+  const name = lookupValue("lookup-name");
+
+  if (!server || !name) {
+    alert("서버와 기사 이름을 모두 입력해주세요.");
+    return;
+  }
+
+  try {
+    const driver = await lookupFindDriver(server, name);
+
+    lookupShowDriver(server, name, driver);
+
+    if (driver) {
+      await lookupLoadCounts(driver);
+    }
+  } catch (error) {
+    console.error(error);
+    alert("기사 정보를 불러오지 못했습니다.");
+  }
+}
+
+async function lookupEnsureDriver() {
+  if (!lookupCurrentDriver) {
+    throw new Error("기사를 먼저 조회해주세요.");
+  }
+
+  if (lookupCurrentDriver.id) {
+    return lookupCurrentDriver;
+  }
+
+  lookupCurrentDriver = await lookupCreateDriver(
+    lookupCurrentDriver.server,
+    lookupCurrentDriver.character_name
+  );
+
+  return lookupCurrentDriver;
+}
+
+async function lookupSubmitRating(type) {
+  if (!lookupCurrentDriver) {
+    alert("먼저 기사를 조회해주세요.");
+    return;
+  }
+
+  const server = lookupCurrentDriver.server;
+  const name = lookupCurrentDriver.character_name;
+
+  if (lookupAlreadyRated(server, name)) {
+    alert("이 브라우저에서는 해당 기사에게 이미 평가를 남겼습니다.");
+    return;
+  }
+
+  try {
+    const driver = await lookupEnsureDriver();
+
+    const { error } = await lookupDb
+      .from("driver_reports")
+      .insert({
+        driver_id: driver.id,
+        report_type: type
+      });
+
+    if (error) throw error;
+
+    lookupSaveRated(server, name);
+
+    document.getElementById("lookup-empty").style.display = "none";
+    document.getElementById("lookup-report-box").style.display = "none";
+
+    await lookupLoadCounts(driver);
+
+    alert(
+      type === "good"
+        ? "정상 거래가 등록되었습니다."
+        : "문제 제보가 등록되었습니다."
+    );
+
+  } catch (error) {
+    console.error(error);
+    alert("등록 중 오류가 발생했습니다.");
+  }
+}
+
+document
+  .getElementById("lookup-search-btn")
+  ?.addEventListener("click", lookupSearch);
+
+document
+  .getElementById("lookup-name")
+  ?.addEventListener("keydown", e => {
+    if (e.key === "Enter") lookupSearch();
+  });
+
+document
+  .getElementById("lookup-good-btn")
+  ?.addEventListener("click", () => {
+    lookupSubmitRating("good");
+  });
+
+document
+  .getElementById("lookup-report-btn")
+  ?.addEventListener("click", () => {
+    const box = document.getElementById("lookup-report-box");
+
+    box.style.display =
+      box.style.display === "none" ? "block" : "none";
+  });
+
+document
+  .getElementById("lookup-report-submit")
+  ?.addEventListener("click", () => {
+    const type = lookupValue("lookup-report-type");
+
+    lookupSubmitRating(type);
+  });
+</script>
 </body></html>
