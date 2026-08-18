@@ -6850,26 +6850,11 @@ const url =
 
 const response = await fetch(url, {
   method: "GET",
-
   headers: {
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "ko-KR,ko;q=0.9",
-    "Referer": "https://aion2.plaync.com/",
-    "User-Agent": request.headers.get("User-Agent") || "Mozilla/5.0"
-  },
-
-  cf: {
-    cacheEverything: true,
-    cacheTtl: 300,
-    cacheTtlByStatus: {
-      "200-299": 300,
-      "404": 30,
-      "429": 0,
-      "500-599": 0
-    }
+    "Accept": "application/json"
   }
 });
-
+  
   if (!response.ok) {
     throw new Error("AION2_SEARCH_FAILED");
   }
