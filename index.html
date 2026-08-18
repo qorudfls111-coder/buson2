@@ -6844,9 +6844,9 @@ async function lookupVerifyAion2Character(race, server, name) {
   params.set("page", "1");
   params.set("size", "30");
 
-  const url =
-    "https://aion2.plaync.com/api/search/character?" +
-    params.toString();
+const url =
+  "https://buson2-aion2-api.qorudfls111.workers.dev/?" +
+  params.toString();
 
   const response = await fetch(url, {
     method: "GET",
