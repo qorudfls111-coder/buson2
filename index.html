@@ -1453,7 +1453,87 @@ main.wrap{
 
     </div>
   </div>
+<!-- 기사 TOP10 -->
+<div style="
+  margin-top:22px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+">
 
+  <!-- 정상 거래 TOP10 -->
+  <div style="
+    border:1px solid #315d47;
+    border-radius:16px;
+    background:#0d1712;
+    overflow:hidden;
+  ">
+    <div style="
+      padding:16px 18px;
+      border-bottom:1px solid #294536;
+    ">
+      <div style="font-size:17px;font-weight:900;color:#9ef4bd;">
+        👍 정상 거래 TOP 10
+      </div>
+      <div style="margin-top:5px;font-size:12px;color:#8798b0;">
+        정상 거래 등록 건수가 많은 기사 순위입니다.
+      </div>
+    </div>
+
+    <div id="lookup-good-top10" style="padding:12px;">
+      <div style="
+        padding:20px;
+        text-align:center;
+        color:#7f8fa8;
+        font-size:13px;
+      ">
+        순위를 불러오는 중입니다.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 문제 제보 TOP10 -->
+  <div style="
+    border:1px solid #623744;
+    border-radius:16px;
+    background:#1a1115;
+    overflow:hidden;
+  ">
+    <div style="
+      padding:16px 18px;
+      border-bottom:1px solid #56303b;
+    ">
+      <div style="font-size:17px;font-weight:900;color:#ff9fb0;">
+        ⚠️ 문제 제보 TOP 10
+      </div>
+      <div style="margin-top:5px;font-size:12px;color:#8798b0;">
+        이용자가 등록한 문제 제보 건수 기준입니다.
+      </div>
+    </div>
+
+    <div id="lookup-problem-top10" style="padding:12px;">
+      <div style="
+        padding:20px;
+        text-align:center;
+        color:#7f8fa8;
+        font-size:13px;
+      ">
+        순위를 불러오는 중입니다.
+      </div>
+    </div>
+
+    <div style="
+      padding:0 16px 14px;
+      color:#718096;
+      font-size:11px;
+      line-height:1.6;
+    ">
+      ※ 이용자가 직접 등록한 제보이며 사실 여부가 확인된 정보는 아닙니다.
+    </div>
+  </div>
+
+</div>
 </section>
 <section id="page-sub" class="hidden">
 <div class="grid2">
@@ -6483,7 +6563,179 @@ async function lookupCreateDriver(server, name) {
 
   throw error;
 }
+async function lookupLoadTop10() {
+  const goodBox = document.getElementById("lookup-good-top10");
+  const problemBox = document.getElementById("lookup-problem-top10");
 
+  if (!goodBox || !problemBox) return;
+
+  try {
+    const { data: drivers, error: driverError } = await lookupDb
+      .from("bus_drivers")
+      .select("id, server, character_name");
+
+    if (driverError) throw driverError;
+
+    const { data: reports, error: reportError } = await lookupDb
+      .from("driver_reports")
+      .select("driver_id, report_type");
+
+    if (reportError) throw reportError;
+
+    const driverMap = new Map();
+
+    (drivers || []).forEach(driver => {
+      driverMap.set(driver.id, {
+        id: driver.id,
+        server: driver.server,
+        name: driver.character_name,
+        good: 0,
+        problem: 0
+      });
+    });
+
+    (reports || []).forEach(report => {
+      const driver = driverMap.get(report.driver_id);
+      if (!driver) return;
+
+      if (report.report_type === "good") {
+        driver.good += 1;
+      } else {
+        driver.problem += 1;
+      }
+    });
+
+    const rows = Array.from(driverMap.values());
+
+    const goodTop10 = rows
+      .filter(driver => driver.good > 0)
+      .sort((a, b) => b.good - a.good)
+      .slice(0, 10);
+
+    const problemTop10 = rows
+      .filter(driver => driver.problem > 0)
+      .sort((a, b) => b.problem - a.problem)
+      .slice(0, 10);
+
+    lookupRenderTop10(goodBox, goodTop10, "good");
+    lookupRenderTop10(problemBox, problemTop10, "problem");
+
+  } catch (error) {
+    console.error(error);
+
+    goodBox.innerHTML = `
+      <div style="padding:20px;text-align:center;color:#ff9a9a;font-size:13px;">
+        순위를 불러오지 못했습니다.
+      </div>
+    `;
+
+    problemBox.innerHTML = `
+      <div style="padding:20px;text-align:center;color:#ff9a9a;font-size:13px;">
+        순위를 불러오지 못했습니다.
+      </div>
+    `;
+  }
+}
+
+function lookupRenderTop10(container, list, type) {
+  if (!list.length) {
+    container.innerHTML = `
+      <div style="padding:20px;text-align:center;color:#7f8fa8;font-size:13px;">
+        아직 순위 데이터가 없습니다.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map((driver, index) => {
+    const count = type === "good"
+      ? driver.good
+      : driver.problem;
+
+    const color = type === "good"
+      ? "#9ef4bd"
+      : "#ff9fb0";
+
+    return `
+      <div
+        class="lookup-top10-row"
+        data-server="${lookupEscapeHtml(driver.server)}"
+        data-name="${lookupEscapeHtml(driver.name)}"
+        style="
+          display:grid;
+          grid-template-columns:38px 1fr auto;
+          gap:10px;
+          align-items:center;
+          padding:11px 10px;
+          border-bottom:1px solid #263043;
+          cursor:pointer;
+        "
+      >
+        <div style="
+          font-weight:900;
+          color:#8fa0b8;
+          text-align:center;
+        ">
+          ${index + 1}
+        </div>
+
+        <div>
+          <div style="font-weight:900;">
+            ${lookupEscapeHtml(driver.name)}
+          </div>
+          <div style="
+            margin-top:3px;
+            color:#718096;
+            font-size:11px;
+          ">
+            ${lookupEscapeHtml(driver.server)}
+          </div>
+        </div>
+
+        <div style="
+          font-weight:900;
+          color:${color};
+          white-space:nowrap;
+        ">
+          ${count}건
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  container
+    .querySelectorAll(".lookup-top10-row")
+    .forEach(row => {
+      row.addEventListener("click", () => {
+        const server = row.dataset.server;
+        const name = row.dataset.name;
+
+        const serverEl = document.getElementById("lookup-server");
+        const nameEl = document.getElementById("lookup-name");
+
+        if (serverEl) serverEl.value = server;
+        if (nameEl) nameEl.value = name;
+
+        lookupSearch();
+
+        document
+          .getElementById("lookup-result")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+      });
+    });
+}
+
+function lookupEscapeHtml(text) {
+  return String(text ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
 async function lookupLoadCounts(driver) {
   const { data, error } = await lookupDb
     .from("driver_reports")
@@ -6616,6 +6868,7 @@ async function lookupSubmitRating(type) {
     document.getElementById("lookup-report-box").style.display = "none";
 
     await lookupLoadCounts(driver);
+    await lookupLoadTop10();
 
     alert(
       type === "good"
@@ -6661,5 +6914,6 @@ document
 
     lookupSubmitRating(type);
   });
+  lookupLoadTop10();
 </script>
 </body></html>
