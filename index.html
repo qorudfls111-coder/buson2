@@ -6804,175 +6804,28 @@ function lookupShowDriver(server, name, driver) {
       "아직 등록된 평가가 없습니다.";
   }
 }
-function lookupGetOfficialServerId(race, serverName) {
-  const sameRaceServers = LOOKUP_SERVERS.filter(
-    server => Number(server.race) === Number(race)
-  );
 
-  const index = sameRaceServers.findIndex(
-    server => server.name === serverName
-  );
-
-  if (index === -1) return null;
-
-  return Number(race) === 1
-    ? 1001 + index
-    : 2001 + index;
-}
-
-function lookupCleanOfficialCharacterName(value) {
-  const temp = document.createElement("div");
-  temp.innerHTML = value || "";
-
-  return (temp.textContent || "")
-    .replace(/\s+/g, "")
-    .trim();
-}
-
-async function lookupVerifyAion2Character(race, server, name) {
-  const serverId = lookupGetOfficialServerId(race, server);
-
-  if (!serverId) {
-    throw new Error("SERVER_NOT_FOUND");
-  }
-
-  const params = new URLSearchParams();
-
-  params.set("keyword", name);
-  params.set("race", String(race));
-  params.set("serverId", String(serverId));
-  params.set("page", "1");
-  params.set("size", "30");
-
-const url =
-  "https://buson2-aion2-api.qorudfls111.workers.dev/?" +
-  params.toString();
-
-const response = await fetch(url, {
-  method: "GET",
-  headers: {
-    "Accept": "application/json"
-  }
-});
-  
-  if (!response.ok) {
-    throw new Error("AION2_SEARCH_FAILED");
-  }
-
-  const data = await response.json();
-
-  const list = Array.isArray(data?.list)
-    ? data.list
-    : [];
-
-  const wantedName = String(name)
-    .replace(/\s+/g, "")
-    .trim()
-    .toLowerCase();
-
-  return list.find(character => {
-    const officialName =
-      lookupCleanOfficialCharacterName(character.name)
-        .toLowerCase();
-
-    return (
-      officialName === wantedName &&
-      Number(character.serverId) === Number(serverId) &&
-      Number(character.race) === Number(race)
-    );
-  }) || null;
-}
 async function lookupSearch() {
-  const race = Number(lookupValue("lookup-race"));
   const server = lookupValue("lookup-server");
   const name = lookupValue("lookup-name");
 
-  const searchBtn =
-    document.getElementById("lookup-search-btn");
-
-  if (!race || !server || !name) {
-    alert("종족, 서버, 기사 아이디를 모두 입력해주세요.");
+  if (!server || !name) {
+    alert("서버와 기사 아이디를 모두 입력해주세요.");
     return;
   }
 
-  lookupCurrentDriver = null;
-
-  document.getElementById("lookup-result").style.display = "none";
-  document.getElementById("lookup-report-box").style.display = "none";
-
-  if (searchBtn) {
-    searchBtn.disabled = true;
-    searchBtn.textContent = "🔎 실제 캐릭터 확인 중...";
-  }
-
   try {
+    const driver = await lookupFindDriver(server, name);
 
-    const officialCharacter =
-      await lookupVerifyAion2Character(
-        race,
-        server,
-        name
-      );
-
-    if (!officialCharacter) {
-      alert(
-        "해당 서버에서 실제 캐릭터를 찾을 수 없습니다.\n\n" +
-        "종족, 서버, 기사 아이디를 다시 확인해주세요.\n" +
-        "실제 존재하는 캐릭터만 기사 평가가 가능합니다."
-      );
-
-      return;
-    }
-
-    const verifiedName =
-      lookupCleanOfficialCharacterName(
-        officialCharacter.name
-      );
-
-    const driver =
-      await lookupFindDriver(
-        server,
-        verifiedName
-      );
-
-    lookupShowDriver(
-      server,
-      verifiedName,
-      driver
-    );
+    lookupShowDriver(server, name, driver);
 
     if (driver) {
       await lookupLoadCounts(driver);
     }
 
-    console.log(
-      "AION2 캐릭터 확인 완료:",
-      officialCharacter
-    );
-
   } catch (error) {
-
-    console.error(
-      "AION2 캐릭터 확인 오류:",
-      error
-    );
-
-    lookupCurrentDriver = null;
-
-    document.getElementById("lookup-result").style.display = "none";
-
-    alert(
-      "AION2 캐릭터 확인 중 오류가 발생했습니다.\n" +
-      "잠시 후 다시 시도해주세요."
-    );
-
-  } finally {
-
-    if (searchBtn) {
-      searchBtn.disabled = false;
-      searchBtn.textContent = "🔎 기사 조회";
-    }
-
+    console.error(error);
+    alert("기사 정보를 불러오지 못했습니다.");
   }
 }
 
