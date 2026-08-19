@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-19 18:54 KST",
+  "updated_at": "2026-08-19 20:03 KST",
   "update": [
     {
       "title": "[안내] 8/19(수) 업데이트 노트 (수정 8/19 15:00)",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 8/19(수) 무점검 패치 안내",
+      "date": "2026-08-19",
+      "time": "10:12",
+      "datetime": "2026-08-19 10:12",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8577b0d97eae18cc40db38"
+    },
+    {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [277차]",
       "date": "2026-08-19",
       "time": "09:27",
@@ -261,13 +268,6 @@
       "time": "19:30",
       "datetime": "2026-08-11 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7b0ec0d97eae18cc40d961"
-    },
-    {
-      "title": "[안내] AION2 LIVE 업데이트 프리뷰 방송 보상 안내",
-      "date": "2026-08-11",
-      "time": "13:15",
-      "datetime": "2026-08-11 13:15",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a7b208ad97eae18cc40d9e9"
     }
   ],
   "cm": [
