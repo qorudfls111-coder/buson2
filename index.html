@@ -5786,7 +5786,16 @@ function escapeHtml(text){
 
 document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
+function openTabFromHash(){
+  const page = location.hash.replace("#", "");
+  if(!page) return;
 
+  const tab = document.querySelector(`.tab[data-page="${page}"]`);
+  if(tab) tab.click();
+}
+
+openTabFromHash();
+window.addEventListener("hashchange", openTabFromHash);
 syncSanctuaryRunLock();
 ['d_minutes','d_fare','d_passengers'].forEach(id=>$('#'+id)?.addEventListener('input',calcDriver));
 $('#d_fare_runs')?.addEventListener('change',calcDriver);
