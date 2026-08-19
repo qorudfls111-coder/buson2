@@ -517,7 +517,7 @@ main.wrap{
           <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
           <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" value="0"></div>
           <div><label>주무기 최대 공격력 <span class="muted">예: 641 ~ 709(+350) → 709</span></label><input id="sp_weapon_max" value="0"></div>
-          <div class="weapon-input-help" style="grid-column:1/-1;padding:12px 14px;border:1px solid #29405d;border-radius:10px;background:#0b1625;color:#b8c8db;font-size:13px;line-height:1.7"><b style="color:#79c7ff">무기 입력 방법</b>　게임에 <b>641 ~ 709(+350)</b> 이라고 보이면 <b>641 / 709</b>만 입력하세요.<br><b style="color:#ffd166">(+350)은 입력하지 않습니다.</b> 현재 스탯창 공격력에 이미 반영된 강화 수치라 다시 더하면 중복 계산됩니다.<br><span style="color:#8fa6bd">가더의 169(+350), 공격력 150·38 등도 별도 입력하지 않습니다. 현재 총 공격력에 이미 포함된 값으로 처리합니다.</span><br><span style="color:#8fa6bd">※ 현재 확인 가능한 실험 자료에서 ‘완벽’은 <b>무기 최대 공격력</b> 기반으로 설명·검증되어 있습니다. 가더 공격력이 완벽의 최대값 기준에 별도로 합산된다는 근거는 확인되지 않아 완벽 계산에는 주무기 범위만 사용합니다.</span></div>
+          <div class="weapon-input-help" style="grid-column:1/-1;padding:12px 14px;border:1px solid #29405d;border-radius:10px;background:#0b1625;color:#b8c8db;font-size:13px;line-height:1.7"><b style="color:#79c7ff">무기 입력 방법</b>　게임에 <b>641 ~ 709(+350)</b> 이라고 보이면 <b>641 / 709</b>만 입력하세요.<br><b style="color:#ffd166">(+350)은 입력하지 않습니다.</b> 현재 스탯창 공격력에 이미 반영된 강화 수치라 다시 더하면 중복 계산됩니다.<br><span style="color:#8fa6bd">가더의 169(+350), 공격력 150·38 등도 별도 입력하지 않습니다. 현재 총 공격력에 이미 포함된 값으로 처리합니다.</span><br><span style="color:#8fa6bd">※ 현재 BUSON2에서는 ‘완벽’을 <b>무기 최대 공격력</b> 기반으로 계산하며, 가더 공격력은 최대값 기준에 별도로 합산하지 않고 주무기 범위만 사용합니다.</span></div>
           <div class="breakthrough-box">
             <label>장비 돌파 단계별 부위 수 <span class="muted">돌파 단계만큼 공격력 % 적용</span></label>
             <div class="breakthrough-grid">
@@ -539,7 +539,7 @@ main.wrap{
           <div><label>전방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_front" value="0"></div>
           <div><label>후방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_back" value="0"></div>
           <div><label>강타 % <span class="max-roll smash">펫 맥옵 2.4%</span></label><input id="sp_smash" value="0"></div>
-          <div><label>완벽 % <span class="muted">최대 공격력 적용 확률</span></label><input id="sp_perfect" value="0"></div>
+          <div><label>완벽 % <span class="muted">최대공격력 기반 스킬데미지 + 추가피해 5%</span></label><input id="sp_perfect" value="0"></div>
           <div><label>PVE 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_pve" value="0"></div>
           <div><label>보스 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_boss" value="0"></div>
         </div>
@@ -584,7 +584,7 @@ main.wrap{
 
         <div class="calc-trust-note">
           <b>계산 기준</b>
-          <span>피해증폭·PVE·보스피증은 합산 후 대상 피해내성을 반영합니다. 전/후방은 실제 유지율로 가중 평균하며, 완벽은 입력한 주무기 기본 최소~최대 공격력에 괄호 안 강화 공격력을 양쪽에 더한 범위를 이용한 실측 기반 근사치입니다.</span>
+          <span>피해증폭·PVE·보스피증은 합산 후 대상 피해내성을 반영합니다. 전/후방은 실제 유지율로 가중 평균하며, 완벽은 입력한 주무기 최소~최대 공격력 범위를 기준으로 완벽 발동 시 최대공격력 기반 스킬데미지를 적용하고 추가 피해 5%를 반영한 기대값으로 계산합니다.</span>
           <span class="trust-warn">무기 피해 증폭·공격력 효율은 장비 공격력/보스 방어력 정보가 없으면 근사 비교값입니다.</span>
         </div>
 
@@ -4670,28 +4670,64 @@ function getSpec(){
 // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
 // 예: +5돌 1부위 = +5%, +3돌 2부위 = +6%.
 // 돌파분은 장비 귀속으로 보고 장비 해제 공격력에는 제외.
-// 완벽 계산의 무기 범위에는 주무기 최소/최대만 사용한다. 가더 공격력은 attackOn에 이미 포함되며,
-// 현재 공개 실험만으로 가더가 완벽의 '무기 최대 공격력' 기준에 별도 합산된다고 확인할 수 없어 중복 반영하지 않는다.
+// 완벽 계산의 무기 범위에는 주무기 최소/최대만 사용한다.
+// 가더 공격력은 attackOn에 이미 포함되므로 완벽 최대값 기준에는 별도로 중복 반영하지 않는다.
 function perfectData(s){
- const min=Math.max(0,s.weaponMin||0);
- const max=Math.max(min,s.weaponMax||0);
- const hasRange=max>min && min>0;
- const chance=clamp((s.perfect||0)-(s.targetPerfectResist||0),0,100)/100;
+  const min=Math.max(0,s.weaponMin||0);
+  const max=Math.max(min,s.weaponMax||0);
 
- if(!hasRange){
-   return {hasRange:false,chance,factor:1,min,max,avg:0};
- }
+  const hasRange=max>min && min>0;
 
- const avg=(min+max)/2;
- const expected=avg*(1-chance)+max*chance;
- const factor=avg>0?expected/avg:1;
+  const chance=
+    clamp(
+      (s.perfect||0)-(s.targetPerfectResist||0),
+      0,
+      100
+    )/100;
 
- return {hasRange:true,chance,factor,min,max,avg};
+  if(!hasRange){
+    return {
+      hasRange:false,
+      chance,
+      factor:1,
+      min,
+      max,
+      avg:0,
+      perfectDamage:0
+    };
+  }
+
+  // 완벽이 발동하지 않았을 때 평균 데미지
+  const avg=(min+max)/2;
+
+  // 완벽 발동:
+  // 최대 공격력 기반 데미지 + 추가 피해 5%
+  const perfectDamage=max*1.05;
+
+  // 완벽 확률을 반영한 기대값
+  const expected=
+    avg*(1-chance)
+    +
+    perfectDamage*chance;
+
+  const factor=
+    avg>0
+      ? expected/avg
+      : 1;
+
+  return {
+    hasRange:true,
+    chance,
+    factor,
+    min,
+    max,
+    avg,
+    perfectDamage
+  };
 }
 
-// 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
-// 추가 공격력은 공격력 증가 효과를 받고, 최대 공격력은 현재 완벽 확률과
-// 최대 공격력은 현재 완벽 확률을 반영한 실측 기반 근사 비교값으로 계산.
+  // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
+  // 추가 공격력은 공격력 증가 효과를 받고, 최대 공격력은 현재 완벽 확률과 추가피해 5%를 반영해 계산.
 function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=0){
  const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthroughBonus)/100;
  const offInc=1+(s.destroy*0.2+s.power*0.1)/100;
@@ -4710,12 +4746,13 @@ function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=
  // 추가 공격력: 공증 적용, 무피증은 적용하지 않는 비교 모델
  const additionalDelta=extraAdditionalAttack*wornInc;
 
- // 최대 공격력: 비완벽 구간에서는 평균적으로 절반, 완벽 구간에서는 전부 기여.
- // 실측 자료 기준: 최대 공격력도 공격력 증가%를 받음. 완벽 시 최대값 기여도를 반영.
-const maxWeight=0.5+(0.5*perfect.chance);
+// 최대 공격력: 비완벽 구간에서는 평균적으로 절반 기여,
+// 완벽 발동 구간에서는 최대공격력 전부에 추가피해 5%까지 반영.
+const maxWeight=0.5+(0.55*perfect.chance);
 const maxDelta=extraMaxAttack*wornInc*maxWeight*(1+s.weapon/100);
 
- // 완벽은 무기 최소~최대 범위의 평균값 대비 최대값 적용 확률로 근사.
+// 완벽은 무기 최소~최대 평균 대비
+// 최대공격력 기반 데미지 × 1.05가 발동할 확률로 기대값을 계산.
  const perfectAdjustedCore=coreAttack*perfect.factor;
  const effectiveAttack=perfectAdjustedCore+additionalDelta+maxDelta;
 
@@ -4842,10 +4879,10 @@ const tests=[
     extraAdditionalAttack:16
   },
 
-  // 최대 공격력 +20
-  // 비완벽 = +10
-  // 완벽 = +20
-  // 현재 완벽 확률에 따라 자동 가중
+// 최대 공격력 +20
+// 비완벽 평균 기여 = +10
+// 완벽 발동 시 기여 = +21 (+20 × 1.05)
+// 현재 완벽 확률에 따라 자동 가중
   {
     key:'maxAttack',
     name:'최대 공격력',
@@ -4870,10 +4907,10 @@ const tests=[
     next=totalMultiplier(s,0,t.extraAdditionalAttack,0);
 
   }else if(t.key==='maxAttack'){
-    // 최대 공격력:
-    // 비완벽에서는 증가량 절반,
-    // 완벽에서는 증가량 전부가 반영되도록
-    // deriveAttack()의 perfect.factor와 함께 계산
+// 최대 공격력:
+// 비완벽에서는 증가량의 평균 절반,
+// 완벽 발동 시 최대 증가량 + 추가피해 5%까지 반영
+// deriveAttack()의 완벽 기대값과 함께 계산
     next=totalMultiplier(s,0,0,t.extraMaxAttack);
 
   }else{
