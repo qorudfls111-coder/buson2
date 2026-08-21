@@ -6034,93 +6034,155 @@ window.addEventListener('load', function () {
     return '알 수 없음';
   }
 
-  function renderCharacters(list) {
+function renderCharacters(list) {
+  resultsEl.innerHTML = '';
 
-    resultsEl.innerHTML = '';
+  resultsEl.style.display = 'grid';
+  resultsEl.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+  resultsEl.style.gap = '12px';
 
-    if (!Array.isArray(list) || list.length === 0) {
+  if (!Array.isArray(list) || list.length === 0) {
+    const empty = document.createElement('div');
 
-      const empty = document.createElement('div');
-      empty.className = 'char-empty';
-      empty.textContent = '검색된 캐릭터가 없습니다.';
+    empty.style.gridColumn = '1 / -1';
+    empty.style.padding = '26px';
+    empty.style.textAlign = 'center';
+    empty.style.border = '1px solid #263043';
+    empty.style.borderRadius = '14px';
+    empty.style.background = '#0b1421';
+    empty.style.color = 'var(--muted)';
 
-      resultsEl.appendChild(empty);
-      return;
-    }
+    empty.textContent = '검색된 캐릭터가 없습니다.';
 
-    list.forEach(character => {
-
-      const card = document.createElement('div');
-      card.className = 'char-result-card';
-
-      const top = document.createElement('div');
-      top.style.display = 'flex';
-      top.style.alignItems = 'center';
-      top.style.gap = '12px';
-
-      const image = document.createElement('img');
-
-      image.src = getProfileImage(character.profileImageUrl);
-      image.alt = cleanCharacterName(character.name);
-      image.loading = 'lazy';
-
-      image.style.width = '58px';
-      image.style.height = '58px';
-      image.style.objectFit = 'cover';
-      image.style.borderRadius = '10px';
-      image.style.background = '#07101d';
-      image.style.border = '1px solid #304762';
-
-      image.onerror = function () {
-        this.style.display = 'none';
-      };
-
-      const info = document.createElement('div');
-      info.style.minWidth = '0';
-
-      const name = document.createElement('div');
-      name.className = 'char-result-name';
-      name.textContent = cleanCharacterName(character.name);
-
-      const meta = document.createElement('div');
-      meta.className = 'char-result-meta';
-
-      meta.textContent =
-        (character.serverName || '서버 정보 없음') +
-        ' · ' +
-        raceName(character.race) +
-        ' · Lv.' +
-        (character.level ?? '-');
-
-      const classInfo = document.createElement('div');
-      classInfo.className = 'char-result-power';
-      classInfo.textContent = '직업 ID ' + (character.pcId ?? '-');
-
-      info.appendChild(name);
-      info.appendChild(meta);
-      info.appendChild(classInfo);
-
-      top.appendChild(image);
-      top.appendChild(info);
-
-      card.appendChild(top);
-
-      card.addEventListener('click', function () {
-
-        console.log('선택한 캐릭터:', character);
-
-        statusEl.textContent =
-          cleanCharacterName(character.name) +
-          ' · ' +
-          character.serverName +
-          ' 캐릭터를 선택했습니다.';
-
-      });
-
-      resultsEl.appendChild(card);
-
-    });
+    resultsEl.appendChild(empty);
+    return;
   }
+
+  list.forEach(character => {
+    const card = document.createElement('div');
+    card.className = 'char-result-card';
+
+    card.style.display = 'flex';
+    card.style.alignItems = 'center';
+    card.style.gap = '14px';
+    card.style.padding = '15px';
+    card.style.minHeight = '96px';
+    card.style.border = '1px solid #2b3950';
+    card.style.borderRadius = '14px';
+    card.style.background = 'linear-gradient(145deg, #101b2b, #0b1420)';
+    card.style.cursor = 'pointer';
+    card.style.transition = 'transform .15s ease, border-color .15s ease, background .15s ease';
+
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-2px)';
+      card.style.borderColor = '#5c7cff';
+      card.style.background = 'linear-gradient(145deg, #14233a, #0c1726)';
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.borderColor = '#2b3950';
+      card.style.background = 'linear-gradient(145deg, #101b2b, #0b1420)';
+    });
+
+    const imageWrap = document.createElement('div');
+
+    imageWrap.style.width = '68px';
+    imageWrap.style.height = '68px';
+    imageWrap.style.flex = '0 0 68px';
+    imageWrap.style.borderRadius = '12px';
+    imageWrap.style.overflow = 'hidden';
+    imageWrap.style.background = '#07101d';
+    imageWrap.style.border = '1px solid #34445f';
+
+    const image = document.createElement('img');
+
+    image.src = getProfileImage(character.profileImageUrl);
+    image.alt = cleanCharacterName(character.name);
+    image.loading = 'lazy';
+
+    image.style.width = '100%';
+    image.style.height = '100%';
+    image.style.objectFit = 'cover';
+    image.style.display = 'block';
+
+    image.onerror = function () {
+      this.style.display = 'none';
+    };
+
+    imageWrap.appendChild(image);
+
+    const info = document.createElement('div');
+    info.style.minWidth = '0';
+    info.style.flex = '1';
+
+    const name = document.createElement('div');
+    name.textContent = cleanCharacterName(character.name);
+
+    name.style.fontSize = '17px';
+    name.style.fontWeight = '900';
+    name.style.color = '#ffffff';
+    name.style.whiteSpace = 'nowrap';
+    name.style.overflow = 'hidden';
+    name.style.textOverflow = 'ellipsis';
+
+    const serverLine = document.createElement('div');
+
+    serverLine.style.marginTop = '6px';
+    serverLine.style.fontSize = '13px';
+    serverLine.style.color = '#9fb1ca';
+
+    serverLine.textContent =
+      (character.serverName || '서버 정보 없음') +
+      ' · ' +
+      raceName(character.race);
+
+    const bottom = document.createElement('div');
+
+    bottom.style.display = 'flex';
+    bottom.style.alignItems = 'center';
+    bottom.style.gap = '8px';
+    bottom.style.marginTop = '8px';
+    bottom.style.flexWrap = 'wrap';
+
+    const level = document.createElement('span');
+    level.textContent = 'Lv.' + (character.level ?? '-');
+
+    level.style.padding = '3px 8px';
+    level.style.borderRadius = '999px';
+    level.style.background = '#172741';
+    level.style.border = '1px solid #30496d';
+    level.style.color = '#8eb8ff';
+    level.style.fontSize = '12px';
+    level.style.fontWeight = '800';
+
+    const classInfo = document.createElement('span');
+    classInfo.textContent = '직업 ID ' + (character.pCId ?? '-');
+
+    classInfo.style.fontSize = '12px';
+    classInfo.style.color = '#7f91aa';
+
+    bottom.appendChild(level);
+    bottom.appendChild(classInfo);
+
+    info.appendChild(name);
+    info.appendChild(serverLine);
+    info.appendChild(bottom);
+
+    card.appendChild(imageWrap);
+    card.appendChild(info);
+
+    card.addEventListener('click', function () {
+      statusEl.textContent =
+        cleanCharacterName(character.name) +
+        ' · ' +
+        character.serverName +
+        ' 캐릭터를 선택했습니다.';
+    });
+
+    resultsEl.appendChild(card);
+  });
+}
 
   const RECENT_CHAR_KEY = 'buson2_recent_characters';
   const RECENT_CHAR_LIMIT = 10;
