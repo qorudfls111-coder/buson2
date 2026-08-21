@@ -355,69 +355,76 @@ main.wrap{
   <!-- ===== BUSON2 홈 시작 ===== -->
 <section id="page-home">
 
-  <div class="card">
-    <div class="head">
-      <h2>🔎 아이온2 캐릭터 검색</h2>
-      <p>서버와 종족을 선택하고 캐릭터 닉네임을 검색해보세요.</p>
-    </div>
-
-    <div class="body">
-
-      <div style="
-        display:grid;
-        grid-template-columns:140px 180px 1fr 100px;
-        gap:10px;
-        align-items:center;
-      ">
-
-        <select id="char-race">
-          <option value="1">천족</option>
-          <option value="2" selected>마족</option>
-        </select>
-
-<select id="char-server">
-  <option value="">전체 서버</option>
-</select>
-
-        <input
-          id="char-keyword"
-          type="text"
-          placeholder="캐릭터 닉네임 입력"
-          autocomplete="off"
-        >
-
-        <button
-          class="btn primary"
-          id="char-search-btn"
-          type="button"
-        >
-          검색
-        </button>
-
-      </div>
-
-      <div
-        id="char-search-status"
-        style="
-          margin-top:14px;
-          color:var(--muted);
-          font-size:13px;
-        "
-      >
-        캐릭터명을 입력한 뒤 검색해주세요.
-      </div>
-
-      <div
-        id="char-search-results"
-        style="
-          margin-top:16px;
-          display:grid;
-          gap:10px;
-        "
-      ></div>
-
-    </div>
+<div class="card" style="
+  max-width:980px;
+  margin:0 auto 22px;
+  overflow:visible;
+">
+  <div class="head" style="
+    padding:24px 26px 14px;
+    border-bottom:0;
+  ">
+    <h2 style="font-size:25px;margin-bottom:7px;">🔎 아이온2 캐릭터 검색</h2>
+    <p style="font-size:14px;">
+      종족과 서버를 선택하고 캐릭터 닉네임을 검색해보세요.
+    </p>
   </div>
+
+  <div class="body" style="padding:10px 26px 26px;">
+
+    <div style="
+      display:grid;
+      grid-template-columns:140px 180px minmax(220px,1fr) 110px;
+      gap:10px;
+      align-items:center;
+    ">
+      <select id="char-race">
+        <option value="1">천족</option>
+        <option value="2" selected>마족</option>
+      </select>
+
+      <select id="char-server">
+        <option value="">전체 서버</option>
+      </select>
+
+      <input
+        id="char-keyword"
+        type="text"
+        placeholder="캐릭터 닉네임 입력"
+        autocomplete="off"
+      >
+
+      <button
+        class="btn primary"
+        id="char-search-btn"
+        type="button"
+      >
+        검색
+      </button>
+    </div>
+
+    <div
+      id="char-search-status"
+      style="
+        margin-top:12px;
+        color:var(--muted);
+        font-size:13px;
+      "
+    >
+      캐릭터명을 입력한 뒤 검색해주세요.
+    </div>
+
+    <div
+      id="char-search-results"
+      style="
+        margin-top:16px;
+        display:grid;
+        gap:10px;
+      "
+    ></div>
+
+  </div>
+</div>
 
 </section>
 <!-- ===== BUSON2 홈 끝 ===== -->
