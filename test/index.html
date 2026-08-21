@@ -6036,7 +6036,13 @@ function getProfileImage(url) {
     if (Number(race) === 2) return '마족';
     return '알 수 없음';
   }
+function className(pcId) {
+  const classes = {
+    11: '수호성'
+  };
 
+  return classes[Number(pcId)] || ('직업 ID ' + (pcId ?? '-'));
+}
 function renderCharacters(list) {
   resultsEl.innerHTML = '';
 
@@ -6160,7 +6166,7 @@ function renderCharacters(list) {
     level.style.fontWeight = '800';
 
     const classInfo = document.createElement('span');
-    classInfo.textContent = '직업 ID ' + (character.pCId ?? '-');
+    classInfo.textContent = className(character.pcId);
 
     classInfo.style.fontSize = '12px';
     classInfo.style.color = '#7f91aa';
