@@ -540,6 +540,7 @@ main.wrap{
           <div><label>후방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_back" value="0"></div>
           <div><label>강타 % <span class="max-roll smash">펫 맥옵 2.4%</span></label><input id="sp_smash" value="0"></div>
           <div><label>완벽 % <span class="muted">최대공격력 기반 스킬데미지 + 추가피해 5%</span></label><input id="sp_perfect" value="0"></div>
+          <div><label>다단히트 % <span class="muted">현재 수치</span></label><input id="sp_multihit" value="0"></div>
           <div><label>PVE 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_pve" value="0"></div>
           <div><label>보스 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_boss" value="0"></div>
         </div>
@@ -814,6 +815,7 @@ main.wrap{
             <div><label>전방 피해 증폭 %</label><input id="gc_a_front" value="0"></div>
             <div><label>후방 피해 증폭 %</label><input id="gc_a_back" value="0"></div>
             <div><label>강타 %</label><input id="gc_a_smash" value="0"></div>
+            
             <div><label>완벽 %</label><input id="gc_a_perfect" value="0"></div>
             <div><label>PVE 피해 증폭 %</label><input id="gc_a_pve" value="0"></div>
             <div><label>보스 피해 증폭 %</label><input id="gc_a_boss" value="0"></div>
@@ -4655,7 +4657,7 @@ async function loadOfficialNews(force=false){
 
 const SPEC_IDS=[
  'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
- 'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_perfect','sp_pve','sp_boss',
+ 'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_perfect','sp_multihit','sp_pve','sp_boss',
  'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
@@ -4674,7 +4676,11 @@ function getSpec(){
     sv('sp_break2')*2 +
     sv('sp_break1')*1,
   dmg:sv('sp_dmg'), weapon:sv('sp_weapon'), critDmg:sv('sp_critdmg'),
-  front:sv('sp_front'), back:sv('sp_back'), smash:sv('sp_smash'), perfect:sv('sp_perfect'), pve:sv('sp_pve'), boss:sv('sp_boss'),
+front:sv('sp_front'), back:sv('sp_back'), smash:sv('sp_smash'),
+perfect:sv('sp_perfect'),
+multihit:sv('sp_multihit'),
+pve:sv('sp_pve'),
+boss:sv('sp_boss'),
   critRate:clamp(sv('sp_crit_rate'),0,80), direction:($('#sp_direction')?.value||'back'), fbRate:clamp(sv('sp_fb_rate'),0,100),
   smashResist:clamp(sv('sp_smash_resist'),0,100),
   partySmash:sv('sp_party_smash'), partyDmg:sv('sp_party_dmg'),
@@ -4744,6 +4750,30 @@ function perfectData(s){
     avg,
     perfectDamage
   };
+}
+  function multihitExpected(statPercent){
+  const s = Math.max(0, Number(statPercent) || 0) / 100;
+
+  const first = Math.min(1, s + 0.20);
+  const chain = Math.min(1, s + 0.50);
+
+  return 1 + 0.055 * first * (
+    1 +
+    chain +
+    chain * chain +
+    chain * chain * chain
+  );
+}
+
+function multihitGain(statPercent, addPercent = 1){
+  const before = multihitExpected(statPercent);
+  const after = multihitExpected(
+    Number(statPercent) + Number(addPercent)
+  );
+
+  if(before <= 0) return 0;
+
+  return (after / before - 1) * 100;
 }
 
   // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
@@ -4873,6 +4903,12 @@ const tests=[
   {key:'back',name:'후방 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,back:t.back+pctStep})},
   {key:'smash',name:'강타',amount:pctStep,unit:'%',apply:t=>({...t,smash:t.smash+pctStep})},
   {key:'perfect',name:'완벽',amount:pctStep,unit:'%',apply:t=>({...t,perfect:t.perfect+pctStep})},
+  {key:'multihit',
+  name:'다단히트',
+  amount:1,
+  unit:'%',
+  multihit:true
+},
   {key:'weapon',name:'무기 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,weapon:t.weapon+pctStep})},
   {key:'critDmg',name:'치명타 피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,critDmg:t.critDmg+pctStep})},
   {key:'dmg',name:'피해 증폭',amount:pctStep,unit:'%',apply:t=>({...t,dmg:t.dmg+pctStep})},
@@ -4932,6 +4968,14 @@ const tests=[
 // 완벽 발동 시 최대 증가량 + 추가피해 5%까지 반영
 // deriveAttack()의 완벽 기대값과 함께 계산
     next=totalMultiplier(s,0,0,t.extraMaxAttack);
+}else if(t.key==='multihit'){
+  const gain=multihitGain(s.multihit,1);
+
+  return {
+    ...t,
+    gain,
+    perUnit:gain
+  };
 
   }else{
     next=totalMultiplier(t.apply(s));
@@ -4953,7 +4997,12 @@ const tests=[
 
  $('#sp_rankings').innerHTML=rows.map(r=>`
    <div class="eff-row">
-    <div class="eff-label">${escapeHtml(r.name)} <span class="muted">+${nf(r.amount)}${r.unit}</span></div>
+    <div class="eff-label">
+  ${r.key==='multihit'
+    ? `다단히트 <span class="muted">${s.multihit.toFixed(0)}% → ${(s.multihit+1).toFixed(0)}%</span>`
+    : `${escapeHtml(r.name)} <span class="muted">+${nf(r.amount)}${r.unit}</span>`
+  }
+</div>
     <div class="eff-track"><div class="eff-fill" style="width:${Math.max(2,r.gain/max*100)}%"></div></div>
     <div class="eff-value-wrap">
       <span class="eff-value">+${r.gain.toFixed(2)}%</span>
@@ -4965,7 +5014,12 @@ const tests=[
  $('#sp_invest_summary').innerHTML=top.map((r,i)=>`
    <div class="invest-best-card ${i===0?'first':''}">
      <div class="rank">${i===0?'🏆 1위':i===1?'🥈 2위':'🥉 3위'}</div>
-     <div class="name">${escapeHtml(r.name)} +${nf(r.amount)}${r.unit}</div>
+     <div class="name">
+  ${r.key==='multihit'
+    ? `다단히트 ${s.multihit.toFixed(0)}% → ${(s.multihit+1).toFixed(0)}%`
+    : `${escapeHtml(r.name)} +${nf(r.amount)}${r.unit}`
+  }
+</div>
      <div class="gain">+${r.gain.toFixed(2)}%</div>
      <div class="unitgain">1단위당 +${r.perUnit.toFixed(3)}%</div>
    </div>`).join('');
@@ -5014,15 +5068,29 @@ const tests=[
 
  const mrBase=scoreByMode(base,currentRankMode);
  const mrRows=maxRollTests.map(t=>{
-   let next;
-   if(t.kind==='additionalAttack') next=totalMultiplier(s,0,16,0);
-   else if(t.kind==='maxAttack') next=totalMultiplier(s,0,0,20);
-   else next=totalMultiplier(t.apply(s));
-   let gain=gainPct(mrBase,scoreByMode(next,currentRankMode));
-   const unavailable=t.kind==='maxAttack' && !base.attack.perfect.hasRange;
-   if(unavailable) gain=-1;
-   return {...t,gain,unavailable};
- }).sort((a,b)=>b.gain-a.gain);
+  let next;
+  let gain;
+
+  if(t.kind==='additionalAttack'){
+    next=totalMultiplier(s,0,16,0);
+    gain=gainPct(mrBase,scoreByMode(next,currentRankMode));
+  }
+  else if(t.kind==='maxAttack'){
+    next=totalMultiplier(s,0,0,20);
+    gain=gainPct(mrBase,scoreByMode(next,currentRankMode));
+  }
+  else{
+    next=totalMultiplier(t.apply(s));
+    gain=gainPct(mrBase,scoreByMode(next,currentRankMode));
+  }
+
+  const unavailable=t.kind==='maxAttack' && !base.attack.perfect.hasRange;
+
+  if(unavailable) gain=-1;
+
+  return {...t,gain,unavailable};
+
+}).sort((a,b)=>b.gain-a.gain);
 
  const mrBox=$('#sp_maxroll_eff');
  if(mrBox){
@@ -5248,6 +5316,7 @@ const AB_DIFF_FIELDS=[
  {id:'sp_back',label:'후피증',type:'percent',digits:1},
  {id:'sp_smash',label:'강타',type:'percent',digits:1},
  {id:'sp_perfect',label:'완벽',type:'percent',digits:1},
+ {id:'sp_multihit',label:'다단히트',type:'percent',digits:1},
  {id:'sp_pve',label:'PVE피증',type:'percent',digits:1},
  {id:'sp_boss',label:'보스피증',type:'percent',digits:1},
  {id:'sp_crit_rate',label:'치명타율',type:'percent',digits:1},
