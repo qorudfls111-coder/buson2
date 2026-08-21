@@ -5527,9 +5527,16 @@ const SPEC_SLOT_PREFIX='buson2-stat-slot-';
 const SPEC_SLOT_NAME_PREFIX='buson2-stat-slot-name-';
 
 function captureFullSpec(){
- const data={};
- [...SPEC_IDS,...SIM_IDS].forEach(id=>data[id]=$('#'+id)?.value??'');
- return data;
+  const data={};
+
+  [...SPEC_IDS,...SIM_IDS].forEach(id=>{
+    data[id]=$('#'+id)?.value??'';
+  });
+
+  // 다단히트 값 확실히 저장
+  data.sp_multihit=$('#sp_multihit')?.value ?? '0';
+
+  return data;
 }
 
 function specSlotKey(slot){return SPEC_SLOT_PREFIX+slot}
@@ -5583,6 +5590,7 @@ function loadSpecSlot(slot){
  }
 
  Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+  if($('#sp_multihit')) $('#sp_multihit').value = d.sp_multihit ?? '0';
  if(d.sp_break!=null && !d.sp_break5 && $('#sp_break5'))$('#sp_break5').value=d.sp_break;
 
  $('#sp_saved').textContent='저장 '+slot+' · "'+name+'" 스펙을 불러왔습니다.';
