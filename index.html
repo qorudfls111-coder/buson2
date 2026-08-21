@@ -6598,50 +6598,52 @@ const lookupDb = window.supabase.createClient(
 );
 
 let lookupCurrentDriver = null;
-  const LOOKUP_SERVERS = [
-  { race: 1, name: "시엘" },
-  { race: 1, name: "네자칸" },
-  { race: 1, name: "바이젤" },
-  { race: 1, name: "카이시넬" },
-  { race: 1, name: "유스티엘" },
-  { race: 1, name: "아리엘" },
-  { race: 1, name: "프레기온" },
-  { race: 1, name: "메스람타에다" },
-  { race: 1, name: "히타니에" },
-  { race: 1, name: "나니아" },
-  { race: 1, name: "타하바타" },
-  { race: 1, name: "루터스" },
-  { race: 1, name: "페르노스" },
-  { race: 1, name: "다미누" },
-  { race: 1, name: "카사카" },
-  { race: 1, name: "바카르마" },
-  { race: 1, name: "챈가룽" },
-  { race: 1, name: "코치룽" },
-  { race: 1, name: "이슈타르" },
-  { race: 1, name: "티아마트" },
-  { race: 1, name: "포에타" },
+ const LOOKUP_SERVERS = [
+  // 천족
+  { race: 1, name: "시엘", serverId: 1001 },
+  { race: 1, name: "네자칸", serverId: 1002 },
+  { race: 1, name: "바이젤", serverId: 1003 },
+  { race: 1, name: "카이시넬", serverId: 1004 },
+  { race: 1, name: "유스티엘", serverId: 1005 },
+  { race: 1, name: "아리엘", serverId: 1006 },
+  { race: 1, name: "프레기온", serverId: 1007 },
+  { race: 1, name: "메스람타에다", serverId: 1008 },
+  { race: 1, name: "히타니에", serverId: 1009 },
+  { race: 1, name: "나니아", serverId: 1010 },
+  { race: 1, name: "타하바타", serverId: 1011 },
+  { race: 1, name: "루터스", serverId: 1012 },
+  { race: 1, name: "페르노스", serverId: 1013 },
+  { race: 1, name: "다미누", serverId: 1014 },
+  { race: 1, name: "카사카", serverId: 1015 },
+  { race: 1, name: "바카르마", serverId: 1016 },
+  { race: 1, name: "챈가룽", serverId: 1017 },
+  { race: 1, name: "코치룽", serverId: 1018 },
+  { race: 1, name: "이슈타르", serverId: 1019 },
+  { race: 1, name: "티아마트", serverId: 1020 },
+  { race: 1, name: "포에타", serverId: 1021 },
 
-  { race: 2, name: "이스라펠" },
-  { race: 2, name: "지켈" },
-  { race: 2, name: "트리니엘" },
-  { race: 2, name: "루미엘" },
-  { race: 2, name: "마르쿠탄" },
-  { race: 2, name: "아스펠" },
-  { race: 2, name: "에레슈키갈" },
-  { race: 2, name: "브리트라" },
-  { race: 2, name: "네몬" },
-  { race: 2, name: "하달" },
-  { race: 2, name: "루드라" },
-  { race: 2, name: "울고른" },
-  { race: 2, name: "무닌" },
-  { race: 2, name: "오다르" },
-  { race: 2, name: "젠카카" },
-  { race: 2, name: "크로메데" },
-  { race: 2, name: "콰이링" },
-  { race: 2, name: "바바룽" },
-  { race: 2, name: "파프니르" },
-  { race: 2, name: "인드나흐" },
-  { race: 2, name: "이스할겐" }
+  // 마족
+  { race: 2, name: "이스라펠", serverId: 2001 },
+  { race: 2, name: "지켈", serverId: 2002 },
+  { race: 2, name: "트리니엘", serverId: 2003 },
+  { race: 2, name: "루미엘", serverId: 2004 },
+  { race: 2, name: "마르쿠탄", serverId: 2005 },
+  { race: 2, name: "아스펠", serverId: 2006 },
+  { race: 2, name: "에레슈키갈", serverId: 2007 },
+  { race: 2, name: "브리트라", serverId: 2008 },
+  { race: 2, name: "네몬", serverId: 2009 },
+  { race: 2, name: "하달", serverId: 2010 },
+  { race: 2, name: "루드라", serverId: 2011 },
+  { race: 2, name: "울고른", serverId: 2012 },
+  { race: 2, name: "무닌", serverId: 2013 },
+  { race: 2, name: "오다르", serverId: 2014 },
+  { race: 2, name: "젠카카", serverId: 2015 },
+  { race: 2, name: "크로메데", serverId: 2016 },
+  { race: 2, name: "콰이링", serverId: 2017 },
+  { race: 2, name: "바바룽", serverId: 2018 },
+  { race: 2, name: "파프니르", serverId: 2019 },
+  { race: 2, name: "인드나흐", serverId: 2020 },
+  { race: 2, name: "이스할겐", serverId: 2021 }
 ];
 
 function updateLookupServerOptions() {
@@ -6954,29 +6956,77 @@ function lookupShowDriver(server, name, driver) {
       "아직 등록된 평가가 없습니다.";
   }
 }
+async function lookupCheckOfficialCharacter(race, server, name) {
+  const serverInfo = LOOKUP_SERVERS.find(
+    x => x.race === Number(race) && x.name === server
+  );
 
+  if (!serverInfo) {
+    throw new Error("서버 정보를 찾을 수 없습니다.");
+  }
+
+  const url =
+    "https://gdunbidwaksdddgfkbcw.supabase.co/functions/v1/smooth-api" +
+    `?keyword=${encodeURIComponent(name)}` +
+    `&race=${encodeURIComponent(race)}` +
+    `&serverId=${encodeURIComponent(serverInfo.serverId)}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("공식 캐릭터 조회에 실패했습니다.");
+  }
+
+  const json = await response.json();
+
+  if (!json.success) {
+    throw new Error("공식 캐릭터 조회에 실패했습니다.");
+  }
+
+  const list = json.data?.list || [];
+
+return list.some(character => {
+  const characterName = String(character.name || "")
+    .replace(/<[^>]*>/g, "")
+    .trim();
+
+  return (
+    characterName === name &&
+    Number(character.race) === Number(race) &&
+    Number(character.serverId) === Number(serverInfo.serverId)
+  );
+});
+}
 async function lookupSearch() {
   const server = lookupValue("lookup-server");
   const name = lookupValue("lookup-name");
+  const race = lookupValue("lookup-race");
 
   if (!server || !name) {
     alert("서버와 기사 아이디를 모두 입력해주세요.");
     return;
   }
 
-  try {
-    const driver = await lookupFindDriver(server, name);
+try {
+  const exists = await lookupCheckOfficialCharacter(race, server, name);
 
-    lookupShowDriver(server, name, driver);
-
-    if (driver) {
-      await lookupLoadCounts(driver);
-    }
-
-  } catch (error) {
-    console.error(error);
-    alert("기사 정보를 불러오지 못했습니다.");
+  if (!exists) {
+    alert("해당 서버에 존재하지 않는 캐릭터입니다.");
+    return;
   }
+
+  const driver = await lookupFindDriver(server, name);
+
+  lookupShowDriver(server, name, driver);
+
+  if (driver) {
+    await lookupLoadCounts(driver);
+  }
+
+} catch (error) {
+  console.error(error);
+  alert("기사 정보를 불러오지 못했습니다.");
+}
 }
 
 async function lookupEnsureDriver() {
