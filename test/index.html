@@ -6985,11 +6985,17 @@ async function lookupCheckOfficialCharacter(race, server, name) {
 
   const list = json.data?.list || [];
 
-  return list.some(character =>
-    character.name === name &&
+return list.some(character => {
+  const characterName = String(character.name || "")
+    .replace(/<[^>]*>/g, "")
+    .trim();
+
+  return (
+    characterName === name &&
     Number(character.race) === Number(race) &&
     Number(character.serverId) === Number(serverInfo.serverId)
   );
+});
 }
 async function lookupSearch() {
   const server = lookupValue("lookup-server");
