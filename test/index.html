@@ -6025,26 +6025,8 @@ function getProfileImage(url) {
     return url;
   }
 
-  // AION2 공식 API 프로필 이미지 경로 처리
-  const fileName = String(url)
-    .split(':')
-    .pop()
-    .split('/')
-    .pop();
-
-  if (!fileName) return '';
-
-  const bucketMatch = fileName.match(/^(s\d+)-/);
-  const bucket = bucketMatch ? bucketMatch[1] : 's00';
-
-  return (
-    'https://fizz-download.playncdn.com/download/v2/buckets/profileimage-' +
-    bucket +
-    '/files/' +
-    fileName
-  );
+  return 'https://aion2.plaync.com' + url;
 }
-
   function raceName(race) {
     if (Number(race) === 1) return '천족';
     if (Number(race) === 2) return '마족';
