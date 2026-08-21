@@ -226,11 +226,7 @@ table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;bor
   font-size:15px;
   font-weight:900;
 }
-.spec-action-buttons #sp_calc{
-  background:linear-gradient(135deg,#6f8cff,#7a6bff);
-  border-color:transparent;
-  color:#fff;
-}
+
 .spec-action-buttons #sp_save{
   background:#121a27;
   border:1px solid #33415a;
@@ -539,8 +535,21 @@ main.wrap{
           <div><label>전방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_front" value="0"></div>
           <div><label>후방 피해 증폭 % <span class="max-roll">펫 맥옵 3.0%</span></label><input id="sp_back" value="0"></div>
           <div><label>강타 % <span class="max-roll smash">펫 맥옵 2.4%</span></label><input id="sp_smash" value="0"></div>
-          <div><label>완벽 % <span class="muted">최대공격력 기반 스킬데미지 + 추가피해 5%</span></label><input id="sp_perfect" value="0"></div>
-          <div><label>다단히트 % <span class="muted">현재 수치</span></label><input id="sp_multihit" value="0"></div>
+<div>
+  <label style="min-height:42px;display:flex;flex-direction:column;justify-content:flex-end;">
+    완벽 %
+    <span class="muted">최대공격력 기반 스킬데미지 + 추가피해 5%</span>
+  </label>
+  <input id="sp_perfect" value="0">
+</div>
+
+<div>
+  <label style="min-height:42px;display:flex;flex-direction:column;justify-content:flex-end;">
+    다단히트 %
+    <span class="muted">현재 수치 · +1% 효율 비교</span>
+  </label>
+  <input id="sp_multihit" value="0">
+</div>
           <div><label>PVE 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_pve" value="0"></div>
           <div><label>보스 피해 증폭 % <span class="max-roll">펫 맥옵 3.0% · 상한 200%</span></label><input id="sp_boss" value="0"></div>
         </div>
@@ -590,7 +599,6 @@ main.wrap{
         </div>
 
         <div class="actions spec-action-buttons" style="margin-top:14px">
-          <button class="primary" id="sp_calc">계산하기</button>
         </div>
 
 
@@ -5957,7 +5965,6 @@ Object.keys(TAB_SLOT_LABELS).forEach(tab=>{
  }
 });
 
-$('#sp_calc')?.addEventListener('click',calcSpec);
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
 SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('change',calcSpec));
 SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
