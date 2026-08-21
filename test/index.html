@@ -6297,35 +6297,84 @@ function renderCharacters(list) {
     });
   }
 
-  function searchCharacter() {
-    const keyword = keywordEl.value.trim();
+async function searchCharacter() {
+  const keyword = keywordEl.value.trim();
+  const race = Number(raceEl.value);
+  const serverId = serverEl.value;
 
-    if (!keyword) {
-      statusEl.textContent = '캐릭터 닉네임을 입력해주세요.';
-      keywordEl.focus();
-      return;
+  if (!keyword) {
+    statusEl.textContent = '캐릭터 닉네임을 입력해주세요.';
+    keywordEl.focus();
+    return;
+  }
+
+  if (!serverId) {
+    statusEl.textContent = '서버를 선택해주세요.';
+    return;
+  }
+
+  statusEl.textContent = 'AION2 공식 캐릭터 정보를 검색하고 있습니다...';
+  resultsEl.innerHTML = '';
+
+  searchBtn.disabled = true;
+  searchBtn.textContent = '검색 중...';
+
+  try {
+    const url =
+      'https://gdunbidwaksdddgfkbcw.supabase.co/functions/v1/smooth-api' +
+      '?keyword=' + encodeURIComponent(keyword) +
+      '&race=' + encodeURIComponent(race) +
+      '&serverId=' + encodeURIComponent(serverId);
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error('캐릭터 조회 실패');
     }
 
-    const item = {
-      keyword,
-      race: Number(raceEl.value),
-      serverId: serverEl.value,
-      serverName: getSelectedServerName(),
-      searchedAt: Date.now()
-    };
+    const json = await response.json();
 
-    saveRecentCharacter(item);
-    renderRecentCharacters();
+    if (!json.success) {
+      throw new Error('캐릭터 조회 실패');
+    }
 
+    const list = Array.isArray(json.data?.list)
+      ? json.data.list
+      : [];
+
+    renderCharacters(list);
+
+    if (list.length > 0) {
+      const item = {
+        keyword,
+        race,
+        serverId,
+        serverName: getSelectedServerName(),
+        searchedAt: Date.now()
+      };
+
+      saveRecentCharacter(item);
+      renderRecentCharacters();
+
+      statusEl.textContent =
+        '검색 결과 ' + list.length + '명을 찾았습니다.';
+    } else {
+      statusEl.textContent =
+        '해당 서버에서 "' + keyword + '" 검색 결과가 없습니다.';
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    resultsEl.innerHTML = '';
     statusEl.textContent =
-      'AION2 공식 캐릭터정보실에서 "' + keyword + '" 검색 결과를 엽니다.';
+      '캐릭터 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.';
 
-    window.open(
-      buildOfficialCharacterSearchUrl(item),
-      '_blank',
-      'noopener,noreferrer'
-    );
+  } finally {
+    searchBtn.disabled = false;
+    searchBtn.textContent = '검색';
   }
+}
 
 const AION2_SERVERS = [
   { race: 1, id: 1001, name: '시엘' },
