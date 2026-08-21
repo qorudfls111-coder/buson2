@@ -6037,9 +6037,20 @@ function getProfileImage(url) {
     return '알 수 없음';
   }
 function className(pcId) {
-  const classes = {
-    11: '수호성'
-  };
+  const id = Number(pcId);
+
+  if (id >= 5 && id <= 8) return '검성';
+  if (id >= 9 && id <= 12) return '수호성';
+  if (id >= 13 && id <= 16) return '궁성';
+  if (id >= 17 && id <= 20) return '살성';
+  if (id >= 21 && id <= 24) return '정령성';
+  if (id >= 25 && id <= 28) return '마도성';
+  if (id >= 29 && id <= 32) return '치유성';
+  if (id >= 33 && id <= 36) return '호법성';
+  if (id >= 45 && id <= 48) return '권성';
+
+  return '직업 정보 없음';
+}
 
   return classes[Number(pcId)] || ('직업 ID ' + (pcId ?? '-'));
 }
