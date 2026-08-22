@@ -6398,11 +6398,49 @@ card.addEventListener('click', async function () {
         equipmentData.equipment?.equipmentList || [];
 
       // 아르카나(41~50)는 다음 단계에서 따로 표시
-      const normalEquipment = equipmentList.filter(
-        item => Number(item.slotPos) < 40
-      );
+const normalEquipment = equipmentList.filter(
+  item => Number(item.slotPos) < 40
+);
 
-      const equipmentHtml = normalEquipment.map(item => {
+const armorSlots = [
+  'MainHand',
+  'SubHand',
+  'Helmet',
+  'Shoulder',
+  'Torso',
+  'Pants',
+  'Gloves',
+  'Boots',
+  'Cape'
+];
+
+const accessorySlots = [
+  'Necklace',
+  'Earring1',
+  'Earring2',
+  'Ring1',
+  'Ring2',
+  'Bracelet1',
+  'Bracelet2',
+  'Brooch1',
+  'Brooch2',
+  'Belt',
+  'Rune1',
+  'Rune2',
+  'Amulet',
+  'Pendant'
+];
+
+const armorEquipment = normalEquipment.filter(
+  item => armorSlots.includes(item.slotPosName)
+);
+
+const accessoryEquipment = normalEquipment.filter(
+  item => accessorySlots.includes(item.slotPosName)
+);
+
+function buildEquipmentHtml(list) {
+  return list.map(item => {
         const enchant =
           Number(item.enchantLevel) > 0
             ? `+${item.enchantLevel}`
@@ -6469,8 +6507,11 @@ card.addEventListener('click', async function () {
             </div>
           </div>
         `;
-      }).join('');
+        }).join('');
+}
 
+const armorHtml = buildEquipmentHtml(armorEquipment);
+const accessoryHtml = buildEquipmentHtml(accessoryEquipment);
       dataEl.insertAdjacentHTML(
         'beforeend',
         `
@@ -6479,22 +6520,40 @@ card.addEventListener('click', async function () {
             padding-top:18px;
             border-top:1px solid #263043;
           ">
-            <div style="
-              font-size:15px;
-              font-weight:800;
-              color:#fff;
-              margin-bottom:12px;
-            ">
-              장비
-            </div>
+           <div style="
+  font-size:16px;
+  font-weight:800;
+  color:#fff;
+  margin-bottom:12px;
+">
+  무기 / 방어구
+</div>
 
-            <div style="
-              display:grid;
-              grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-              gap:8px;
-            ">
-              ${equipmentHtml}
-            </div>
+<div style="
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:8px;
+">
+  ${armorHtml}
+</div>
+
+<div style="
+  font-size:16px;
+  font-weight:800;
+  color:#fff;
+  margin-top:22px;
+  margin-bottom:12px;
+">
+  악세서리
+</div>
+
+<div style="
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:8px;
+">
+  ${accessoryHtml}
+</div>
           </div>
         `
       );
