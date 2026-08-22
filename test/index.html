@@ -7208,13 +7208,6 @@ resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
 });
 
 card.style.display = 'flex';
-      card.addEventListener('click', function () {
-        window.open(
-          buildOfficialCharacterSearchUrl(item),
-          '_blank',
-          'noopener,noreferrer'
-        );
-      });
 
       resultsEl.appendChild(card);
     });
