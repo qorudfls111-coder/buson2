@@ -7118,7 +7118,14 @@ ${
       card.appendChild(name);
       card.appendChild(meta);
       card.appendChild(badge);
+// 선택한 캐릭터만 남기기
+resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
+  if (otherCard !== card) {
+    otherCard.style.display = 'none';
+  }
+});
 
+card.style.display = 'flex';
       card.addEventListener('click', function () {
         window.open(
           buildOfficialCharacterSearchUrl(item),
