@@ -3541,17 +3541,25 @@ min-height:56px;
     flex-direction:column !important;
 }
 
-.tooltip-columns{
-    flex-direction:column !important;
-}
-
 #buson2-equipment-tooltip{
     left:50% !important;
     width:calc(100vw - 24px) !important;
     max-width:none !important;
     transform:translateX(-50%) !important;
 }
+@media(max-width:768px){
+    .tooltip-columns{
+        gap:8px !important;
+    }
 
+    .tooltip-columns > div{
+        padding:8px !important;
+    }
+
+    .tooltip-columns span{
+        font-size:11px !important;
+    }
+}
 }
 
 </style>
