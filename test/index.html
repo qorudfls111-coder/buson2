@@ -3524,6 +3524,30 @@ min-height:56px;
     padding:0 8px;
   }
 }
+  /* 모바일 장비 툴팁 세로 배치 */
+@media (max-width: 768px) {
+
+  #buson2-equipment-tooltip {
+    width: calc(100vw - 30px) !important;
+    max-width: 360px !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+  }
+
+  #buson2-equipment-tooltip .equipment-tooltip-body {
+    display: block !important;
+  }
+
+  #buson2-equipment-tooltip .equipment-tooltip-body > div {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+
+  #buson2-equipment-tooltip img {
+    width: 45px !important;
+    height: 45px !important;
+  }
+}
 </style>
 </main>
 
@@ -6221,7 +6245,7 @@ card.style.display = 'flex';
   }
 
   detailEl.innerHTML = `
-    <div style="display:flex;gap:18px;align-items:center;">
+    <div class="equipment-tooltip-body" style="display:flex;gap:18px;align-items:center;">
       <img
         src="${getProfileImage(character.profileImageUrl)}"
         alt="${cleanCharacterName(character.name)}"
@@ -7009,7 +7033,28 @@ ${
     isHovering = false;
     document.getElementById('buson2-equipment-tooltip')?.remove();
   });
+  card.addEventListener('click', function (event) {
+  if (!window.matchMedia('(hover: none)').matches) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  // 모바일에서는 터치 시 mouseenter 로직을 강제로 실행
+  const mouseEnterEvent = new Event('mouseenter');
+  card.dispatchEvent(mouseEnterEvent);
+});
 }); 
+      // 모바일: 장비 밖을 터치하면 툴팁 닫기
+document.addEventListener('click', function (event) {
+  if (!window.matchMedia('(hover: none)').matches) return;
+
+  if (
+    !event.target.closest('.buson2-equipment-item') &&
+    !event.target.closest('#buson2-equipment-tooltip')
+  ) {
+    document.getElementById('buson2-equipment-tooltip')?.remove();
+  }
+});
     }
   } catch (error) {
     console.error(error);
