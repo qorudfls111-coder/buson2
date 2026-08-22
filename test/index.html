@@ -7087,7 +7087,6 @@ document.addEventListener('click', function (event) {
 });
     
    resultsEl.appendChild(card);
-    card.click();
   });
 }
 
@@ -7249,7 +7248,7 @@ async function searchCharacter() {
       ? json.data.list
       : [];
 
-    renderCharacters(list);
+   // renderCharacters(list);
 
     if (list.length > 0) {
       const item = {
