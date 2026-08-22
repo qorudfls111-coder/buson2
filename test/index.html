@@ -6233,10 +6233,7 @@ card.addEventListener('click', () => {
     card.appendChild(info);
 
 card.addEventListener('click', async function () {
-      window.scrollTo({
-        top: document.getElementById('char-detail-panel').offsetTop - 80,
-        behavior: 'smooth'
-    });
+
   // 선택한 캐릭터만 남기기
 resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
   if (otherCard !== card) {
