@@ -3524,29 +3524,15 @@ min-height:56px;
     padding:0 8px;
   }
 }
-  /* 모바일 장비 툴팁 세로 배치 */
-@media (max-width: 768px) {
+@media (max-width:768px){
 
-  #buson2-equipment-tooltip {
-    width: calc(100vw - 30px) !important;
-    max-width: 360px !important;
-    left: 50% !important;
-    transform: translateX(-50%);
-  }
+.tooltip-columns{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:10px !important;
+}
 
-  #buson2-equipment-tooltip .equipment-tooltip-body {
-    display: block !important;
-  }
-
-  #buson2-equipment-tooltip .equipment-tooltip-body > div {
-    width: 100% !important;
-    margin-bottom: 10px;
-  }
-
-  #buson2-equipment-tooltip img {
-    width: 45px !important;
-    height: 45px !important;
-  }
 }
 </style>
 </main>
@@ -6267,7 +6253,7 @@ card.style.display = 'flex';
           ${character.serverName} · ${raceName(character.race)}
         </div>
 
-        <div style="display:flex;gap:8px;align-items:center;">
+        <div class="tooltip-columns" style="display:flex;gap:18px;align-items:center;">
           <span style="
             background:#15315a;
             color:#9ec5ff;
