@@ -6242,7 +6242,6 @@ resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
 });
 
 card.style.display = 'flex';
-  card.style.display = 'none';
   statusEl.textContent =
     cleanCharacterName(character.name) +
     ' · ' +
@@ -6265,12 +6264,6 @@ card.style.display = 'flex';
   }
 
   detailEl.innerHTML = `
-<button 
-id="char-back-btn"
-class="btn secondary"
-type="button">
-← 검색 결과 돌아가기
-</button>
     <div class="equipment-tooltip-body tooltip-mobile-fix" style="display:flex;gap:18px;align-items:center;">
       <img
         src="${getProfileImage(character.profileImageUrl)}"
@@ -6321,25 +6314,6 @@ type="button">
       캐릭터 상세 정보를 불러오는 중...
     </div>
   `;
-  const backBtn = document.getElementById('char-back-btn');
-
-if (backBtn) {
-  backBtn.onclick = () => {
-
-    // 상세창 제거
-    detailEl.remove();
-
-    // 숨겨진 검색 카드 다시 표시
-    resultsEl.querySelectorAll('.char-result-card')
-      .forEach(card => {
-        card.style.display = 'block';
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-
-  };
-}
 
   const dataEl = document.getElementById('char-detail-data');
 
@@ -7354,7 +7328,6 @@ const AION2_SERVERS = [
 ];
 
 function updateServerOptions() {
-  raceEl.value = "2";
   const selectedRace = Number(raceEl.value);
 
   serverEl.innerHTML = '<option value="">전체 서버</option>';
