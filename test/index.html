@@ -6746,25 +6746,67 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
           </span>
         </div>
       `).join('');
+function getMagicStoneStyle(grade) {
+  switch (grade) {
+    case 'Rare':
+      return {
+        border: '#3b82f6',
+        color: '#93c5fd'
+      };
 
-      const magicStats = (item.magicStoneStat || []).map(stat => `
-        <div style="
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap:10px;
-          padding:6px 8px;
-          margin-bottom:6px;
-          background:#122438;
-          border:1px solid #294868;
-          border-radius:6px;
-        ">
-          <span>${stat.name}</span>
-          <span style="font-weight:800;">
-            ${stat.value}
-          </span>
-        </div>
-      `).join('');
+    case 'Legend':
+      return {
+        border: '#f59e0b',
+        color: '#fcd34d'
+      };
+
+    case 'Unique':
+      return {
+        border: '#22c55e',
+        color: '#86efac'
+      };
+
+    case 'Epic':
+      return {
+        border: '#a855f7',
+        color: '#d8b4fe'
+      };
+
+    default:
+      return {
+        border: '#294868',
+        color: '#ffffff'
+      };
+  }
+}
+const magicStats = (item.magicStoneStat || []).map(stat => {
+  const stoneStyle = getMagicStoneStyle(stat.grade);
+
+  return `
+    <div style="
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:6px 8px;
+      margin-bottom:6px;
+      background:#122438;
+      border:1px solid ${stoneStyle.border};
+      border-radius:6px;
+    ">
+      <span style="color:${stoneStyle.color};">
+        ${stat.name}
+      </span>
+
+      <span style="
+        color:${stoneStyle.color};
+        font-weight:800;
+      ">
+        ${stat.value}
+      </span>
+    </div>
+  `;
+}).join('');
 
       const godStone = (item.godStoneStat || []).map(stat => `
         <div style="
