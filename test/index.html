@@ -6118,6 +6118,20 @@ function renderCharacters(list) {
     const card = document.createElement('div');
     card.className = 'char-result-card';
 
+card.addEventListener('click', () => {
+
+    const detail = document.querySelector('#char-detail-panel');
+
+    if(detail){
+        detail.scrollIntoView({
+            behavior:'smooth',
+            block:'start'
+        });
+    }
+
+});
+    
+
     card.style.display = 'flex';
     card.style.alignItems = 'center';
     card.style.gap = '14px';
