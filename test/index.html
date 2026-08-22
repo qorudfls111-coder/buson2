@@ -332,25 +332,6 @@ main.wrap{
     grid-template-columns:1fr !important;
   }
 }
-  .side-ad{
-  position:fixed;
-  right:20px;
-  top:220px;
-  width:160px;
-  height:600px;
-  border:1px dashed #304762;
-  color:#718096;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-}
-
-@media(max-width:1400px){
-  .side-ad{
-    display:none;
-  }
-}
 </style>
 
 </head>
@@ -371,9 +352,6 @@ main.wrap{
 </div></header>
 
 <main class="wrap">
-  <div class="side-ad">
-  광고 영역
-</div>
   <!-- ===== BUSON2 홈 시작 ===== -->
 <section id="page-home">
 
@@ -395,35 +373,28 @@ main.wrap{
   <div class="body" style="padding:10px 26px 26px;">
 
     <div style="
-      display:grid;
-      grid-template-columns:140px 180px minmax(220px,1fr) 110px;
-      gap:10px;
-      align-items:center;
-    ">
-      <select id="char-race">
-        <option value="1">천족</option>
-        <option value="2" selected>마족</option>
-      </select>
+display:grid;
+grid-template-columns:minmax(220px,1fr) 110px;
+gap:10px;
+align-items:center;
+">
 
-      <select id="char-server">
-        <option value="">전체 서버</option>
-      </select>
+<input
+ id="char-keyword"
+ type="text"
+ placeholder="캐릭터 닉네임 입력"
+ autocomplete="off"
+>
 
-      <input
-        id="char-keyword"
-        type="text"
-        placeholder="캐릭터 닉네임 입력"
-        autocomplete="off"
-      >
+<button
+ class="btn primary"
+ id="char-search-btn"
+ type="button"
+>
+🔍 검색
+</button>
 
-      <button
-        class="btn primary"
-        id="char-search-btn"
-        type="button"
-      >
-        검색
-      </button>
-    </div>
+</div>
 
     <div
       id="char-search-status"
@@ -6060,14 +6031,14 @@ window.addEventListener('load', function () {
 
 (function () {
 
-  const raceEl = document.getElementById('char-race');
-  const serverEl = document.getElementById('char-server');
-  const keywordEl = document.getElementById('char-keyword');
-  const searchBtn = document.getElementById('char-search-btn');
+const keywordEl = document.getElementById('char-keyword');
+const searchBtn = document.getElementById('char-search-btn');
+const statusEl = document.getElementById('char-search-status');
+const resultsEl = document.getElementById('char-search-results');
   const statusEl = document.getElementById('char-search-status');
   const resultsEl = document.getElementById('char-search-results');
 
-  if (!raceEl || !serverEl || !keywordEl || !searchBtn || !statusEl || !resultsEl) {
+  if (!keywordEl || !searchBtn || !statusEl || !resultsEl) {
     console.warn('캐릭터 검색 UI를 찾지 못했습니다.');
     return;
   }
@@ -7228,18 +7199,11 @@ card.style.display = 'flex';
   }
 
 async function searchCharacter() {
-  const keyword = keywordEl.value.trim();
-  const race = Number(raceEl.value);
-  const serverId = serverEl.value;
+ const keyword = keywordEl.value.trim();
 
   if (!keyword) {
     statusEl.textContent = '캐릭터 닉네임을 입력해주세요.';
     keywordEl.focus();
-    return;
-  }
-
-  if (!serverId) {
-    statusEl.textContent = '서버를 선택해주세요.';
     return;
   }
 
@@ -7253,8 +7217,6 @@ async function searchCharacter() {
     const url =
       'https://gdunbidwaksdddgfkbcw.supabase.co/functions/v1/smooth-api' +
       '?keyword=' + encodeURIComponent(keyword) +
-      '&race=' + encodeURIComponent(race) +
-      '&serverId=' + encodeURIComponent(serverId);
 
     const response = await fetch(url);
 
@@ -7366,10 +7328,7 @@ function updateServerOptions() {
     });
 }
 
-raceEl.addEventListener('change', updateServerOptions);
-
 /* 처음 페이지 열었을 때 현재 종족 기준 서버 목록 생성 */
-updateServerOptions();
   searchBtn.addEventListener('click', searchCharacter);
 
   keywordEl.addEventListener('keydown', function (event) {
@@ -7380,7 +7339,17 @@ updateServerOptions();
     }
 
   });
+keywordEl.addEventListener('input', function(){
 
+ const value = keywordEl.value.trim();
+
+ if(value.length >= 2){
+   statusEl.textContent = "검색 가능한 캐릭터명입니다.";
+ }else{
+   statusEl.textContent = "캐릭터명을 입력한 뒤 검색해주세요.";
+ }
+
+});
 })();
 
 setGearCompareType('gear');
