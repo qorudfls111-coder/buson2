@@ -6190,13 +6190,80 @@ function renderCharacters(list) {
     card.appendChild(imageWrap);
     card.appendChild(info);
 
-    card.addEventListener('click', function () {
-      statusEl.textContent =
-        cleanCharacterName(character.name) +
-        ' · ' +
-        character.serverName +
-        ' 캐릭터를 선택했습니다.';
-    });
+card.addEventListener('click', function () {
+  statusEl.textContent =
+    cleanCharacterName(character.name) +
+    ' · ' +
+    character.serverName +
+    ' 캐릭터를 선택했습니다.';
+
+  let detailEl = document.getElementById('char-detail-panel');
+
+  if (!detailEl) {
+    detailEl = document.createElement('div');
+    detailEl.id = 'char-detail-panel';
+
+    detailEl.style.marginTop = '16px';
+    detailEl.style.padding = '20px';
+    detailEl.style.border = '1px solid #263043';
+    detailEl.style.borderRadius = '14px';
+    detailEl.style.background = '#0b1421';
+
+    resultsEl.insertAdjacentElement('afterend', detailEl);
+  }
+
+  detailEl.innerHTML = `
+    <div style="display:flex;gap:18px;align-items:center;">
+      <img
+        src="${getProfileImage(character.profileImageUrl)}"
+        alt="${cleanCharacterName(character.name)}"
+        style="
+          width:88px;
+          height:88px;
+          object-fit:cover;
+          border-radius:14px;
+          border:1px solid #304762;
+        "
+      >
+
+      <div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:6px;">
+          ${cleanCharacterName(character.name)}
+        </div>
+
+        <div style="color:#9fb0c7;margin-bottom:5px;">
+          ${character.serverName} · ${raceName(character.race)}
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span style="
+            background:#15315a;
+            color:#9ec5ff;
+            border:1px solid #315687;
+            padding:3px 8px;
+            border-radius:999px;
+            font-size:12px;
+          ">
+            Lv.${character.level ?? '-'}
+          </span>
+
+          <span style="color:#c8d3e1;">
+            ${className(character.pcId)}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div style="
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid #263043;
+      color:#9fb0c7;
+    ">
+      캐릭터 상세 정보를 불러올 준비가 되었습니다.
+    </div>
+  `;
+});
 
     resultsEl.appendChild(card);
   });
