@@ -6379,7 +6379,126 @@ card.addEventListener('click', async function () {
         `).join('')}
       </div>
     `;
+    // ===== 캐릭터 장비 정보 =====
+    const equipmentParams = new URLSearchParams({
+      mode: 'equipment',
+      characterId: characterId,
+      serverId: String(character.serverId)
+    });
 
+    const equipmentResponse = await fetch(
+      'https://gdunbidwaksdddgfkbcw.supabase.co/functions/v1/smooth-api?' +
+      equipmentParams.toString()
+    );
+
+    if (equipmentResponse.ok) {
+      const equipmentData = await equipmentResponse.json();
+
+      const equipmentList =
+        equipmentData.equipment?.equipmentList || [];
+
+      // 아르카나(41~50)는 다음 단계에서 따로 표시
+      const normalEquipment = equipmentList.filter(
+        item => Number(item.slotPos) < 40
+      );
+
+      const equipmentHtml = normalEquipment.map(item => {
+        const enchant =
+          Number(item.enchantLevel) > 0
+            ? `+${item.enchantLevel}`
+            : '';
+
+        const exceed =
+          Number(item.exceedLevel) > 0
+            ? `<span style="
+                font-size:11px;
+                color:#68b5ff;
+                margin-left:5px;
+              ">
+                초월 ${item.exceedLevel}
+              </span>`
+            : '';
+
+        return `
+          <div style="
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:10px;
+            background:#101d2d;
+            border:1px solid #263d59;
+            border-radius:10px;
+            min-width:0;
+          ">
+            <img
+              src="${item.icon || ''}"
+              alt="${item.name || ''}"
+              style="
+                width:46px;
+                height:46px;
+                object-fit:cover;
+                border-radius:7px;
+                flex-shrink:0;
+              "
+            >
+
+            <div style="min-width:0;">
+              <div style="
+                font-size:13px;
+                font-weight:700;
+                color:#fff;
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space:nowrap;
+              ">
+                ${
+                  enchant
+                    ? `<span style="color:#ff9b5c;">${enchant}</span> `
+                    : ''
+                }${item.name || '장비'}
+              </div>
+
+              <div style="
+                margin-top:4px;
+                font-size:11px;
+                color:#8094ad;
+              ">
+                ${item.slotPosName || ''}
+                ${exceed}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      dataEl.insertAdjacentHTML(
+        'beforeend',
+        `
+          <div style="
+            margin-top:22px;
+            padding-top:18px;
+            border-top:1px solid #263043;
+          ">
+            <div style="
+              font-size:15px;
+              font-weight:800;
+              color:#fff;
+              margin-bottom:12px;
+            ">
+              장비
+            </div>
+
+            <div style="
+              display:grid;
+              grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+              gap:8px;
+            ">
+              ${equipmentHtml}
+            </div>
+          </div>
+        `
+      );
+    }
   } catch (error) {
     console.error(error);
 
