@@ -6092,7 +6092,6 @@ function className(pcId) {
 
 function renderCharacters(list) {
   resultsEl.innerHTML = '';
-  window.savedCharacterList = list;
 
   resultsEl.style.display = 'grid';
   resultsEl.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
@@ -6225,11 +6224,24 @@ function renderCharacters(list) {
     info.appendChild(name);
     info.appendChild(serverLine);
     info.appendChild(bottom);
+card.addEventListener('click', () => {
 
+    const detail = document.querySelector('#character-detail');
+
+});
     card.appendChild(imageWrap);
     card.appendChild(info);
 
-card.style.display = 'none';
+card.addEventListener('click', async function () {
+
+  // 선택한 캐릭터만 남기기
+resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
+  if (otherCard !== card) {
+    otherCard.style.display = 'none';
+  }
+});
+
+card.style.display = 'flex';
   statusEl.textContent =
     cleanCharacterName(character.name) +
     ' · ' +
@@ -6302,6 +6314,7 @@ card.style.display = 'none';
       캐릭터 상세 정보를 불러오는 중...
     </div>
   `;
+
   const dataEl = document.getElementById('char-detail-data');
 
   try {
