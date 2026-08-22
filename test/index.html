@@ -6191,6 +6191,14 @@ function renderCharacters(list) {
     card.appendChild(info);
 
 card.addEventListener('click', async function () {
+  // 선택한 캐릭터만 남기기
+resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
+  if (otherCard !== card) {
+    otherCard.style.display = 'none';
+  }
+});
+
+card.style.display = 'flex';
   statusEl.textContent =
     cleanCharacterName(character.name) +
     ' · ' +
