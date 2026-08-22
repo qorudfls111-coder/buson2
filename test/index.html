@@ -6118,7 +6118,7 @@ function renderCharacters(list) {
     const card = document.createElement('div');
     card.className = 'char-result-card';
 
-    card.style.display = 'none';
+    card.style.display = 'flex';
     card.style.alignItems = 'center';
     card.style.gap = '14px';
     card.style.padding = '15px';
@@ -7085,8 +7085,8 @@ document.addEventListener('click', function (event) {
     `;
   }
 });
-    
-   resultsEl.appendChild(card);
+
+    resultsEl.appendChild(card);
   });
 }
 
@@ -7248,7 +7248,7 @@ async function searchCharacter() {
       ? json.data.list
       : [];
 
-   renderCharacters(list);
+    renderCharacters(list);
 
     if (list.length > 0) {
       const item = {
