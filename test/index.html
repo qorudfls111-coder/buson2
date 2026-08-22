@@ -6247,18 +6247,6 @@ card.style.display = 'none';
   if (!detailEl) {
     detailEl = document.createElement('div');
     detailEl.id = 'char-detail-panel';
-    const backBtn = document.createElement('button');
-
-backBtn.textContent = '← 검색 결과로 돌아가기';
-
-backBtn.className = 'btn secondary';
-
-backBtn.style.marginBottom = '15px';
-
-backBtn.onclick = function(){
-  detailEl.remove();
-  renderCharacters(window.savedCharacterList);
-};
 
     detailEl.style.marginTop = '16px';
     detailEl.style.padding = '20px';
@@ -6320,7 +6308,6 @@ backBtn.onclick = function(){
       캐릭터 상세 정보를 불러오는 중...
     </div>
   `;
-detailEl.appendChild(backBtn);
   const dataEl = document.getElementById('char-detail-data');
 
   try {
