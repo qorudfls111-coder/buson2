@@ -6167,7 +6167,9 @@ function renderCharacters(list) {
     card.className = 'char-result-card';
 
 card.style.display = 'block';
-card.style.padding = '18px';
+card.style.display = 'flex';
+card.style.flexDirection = 'column';
+card.style.padding = '14px';
 card.style.minHeight = '140px';
 card.style.border = '1px solid #2b3950';
 card.style.borderRadius = '16px';
@@ -6191,6 +6193,7 @@ card.style.transition = '0.2s';
 
     imageWrap.style.width = '90px';
     imageWrap.style.height = '90px';
+    imageWrap.style.marginBottom = '10px';
     imageWrap.style.flex = '0 0 68px';
     imageWrap.style.borderRadius = '16px';
     imageWrap.style.overflow = 'hidden';
