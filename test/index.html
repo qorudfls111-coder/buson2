@@ -6117,6 +6117,7 @@ function renderCharacters(list) {
   list.forEach(character => {
     const card = document.createElement('div');
     card.className = 'char-result-card';
+    card.style.display = 'none';
 
     card.style.display = 'flex';
     card.style.alignItems = 'center';
@@ -7086,6 +7087,7 @@ document.addEventListener('click', function (event) {
   }
 });
 
+    resultsEl.appendChild(card);
   });
 }
 
