@@ -6265,13 +6265,12 @@ card.style.display = 'flex';
   }
 
   detailEl.innerHTML = `
-      <button 
-      id="char-back-btn"
-      class="btn secondary"
-      style="margin-bottom:15px;"
-      type="button">
-      ← 검색 결과 돌아가기
-    </button>
+<button 
+id="char-back-btn"
+class="btn secondary"
+type="button">
+← 검색 결과 돌아가기
+</button>
     <div class="equipment-tooltip-body tooltip-mobile-fix" style="display:flex;gap:18px;align-items:center;">
       <img
         src="${getProfileImage(character.profileImageUrl)}"
@@ -6339,11 +6338,6 @@ if (backBtn) {
         behavior: 'smooth'
       });
 
-    // 검색 결과 위치로 이동
-    resultsEl.scrollIntoView({
-      behavior:'smooth',
-      block:'start'
-    });
   };
 }
 
