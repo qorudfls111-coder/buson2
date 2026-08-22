@@ -6278,6 +6278,14 @@ card.style.transition = '0.2s';
     card.appendChild(info);
 
 card.addEventListener('click', async function () {
+  // 선택 카드 강조
+document.querySelectorAll('.char-result-card').forEach(otherCard => {
+    otherCard.style.borderColor = '#2b3950';
+    otherCard.style.boxShadow = 'none';
+});
+
+card.style.borderColor = '#3b82f6';
+card.style.boxShadow = '0 0 12px rgba(59,130,246,0.6)';
   // 선택한 캐릭터만 남기기
 resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
   if (otherCard !== card) {
@@ -6307,7 +6315,11 @@ card.style.display = 'flex';
     resultsEl.insertAdjacentElement('afterend', detailEl);
   }
 
-  detailEl.innerHTML = `
+detail1.innerHTML = `
+    <button id="back-search-btn">
+    ← 검색 결과로 돌아가기
+    </button>
+
     <div class="equipment-tooltip-body tooltip-mobile-fix" style="display:flex;gap:18px;align-items:center;">
       <img
         src="${getProfileImage(character.profileImageUrl)}"
@@ -6358,6 +6370,19 @@ card.style.display = 'flex';
       캐릭터 상세 정보를 불러오는 중...
     </div>
   `;
+  const backBtn = detail1.querySelector('#back-search-btn');
+
+if(backBtn){
+    backBtn.onclick = function(){
+        detail1.style.display = 'none';
+
+        document.querySelectorAll('.char-result-card').forEach(card=>{
+            card.style.display = 'flex';
+            card.style.borderColor = '#2b3950';
+            card.style.boxShadow = 'none';
+        });
+    };
+}
 
   const dataEl = document.getElementById('char-detail-data');
 
