@@ -6795,7 +6795,28 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
               font-weight:900;
               color:#ff9857;
             ">
-              +${item.enchantLevel || 0} ${item.name || ''}
+              +${
+  Math.min(
+    Number(item.enchantLevel || 0),
+    Number(item.maxEnchantLevel || item.enchantLevel || 0)
+  )
+} ${item.name || ''}
+
+${
+  Number(item.enchantLevel || 0) > Number(item.maxEnchantLevel || 0)
+    ? `<span style="
+        margin-left:6px;
+        color:#68b5ff;
+        font-size:12px;
+        font-weight:700;
+      ">
+        초월 ${
+          Number(item.enchantLevel || 0) -
+          Number(item.maxEnchantLevel || 0)
+        }
+      </span>`
+    : ''
+}
             </div>
 
             <div style="
