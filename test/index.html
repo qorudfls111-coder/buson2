@@ -6264,6 +6264,13 @@ card.style.display = 'flex';
   }
 
   detailEl.innerHTML = `
+      <button 
+      id="char-back-btn"
+      class="btn secondary"
+      style="margin-bottom:15px;"
+      type="button">
+      ← 검색 결과 돌아가기
+    </button>
     <div class="equipment-tooltip-body tooltip-mobile-fix" style="display:flex;gap:18px;align-items:center;">
       <img
         src="${getProfileImage(character.profileImageUrl)}"
@@ -6314,6 +6321,27 @@ card.style.display = 'flex';
       캐릭터 상세 정보를 불러오는 중...
     </div>
   `;
+  const backBtn = document.getElementById('char-back-btn');
+
+if (backBtn) {
+  backBtn.onclick = () => {
+
+    // 상세창 제거
+    detailEl.remove();
+
+    // 숨겨진 검색 카드 다시 표시
+    resultsEl.querySelectorAll('.char-result-card')
+      .forEach(card => {
+        card.style.display = 'block';
+      });
+
+    // 검색 결과 위치로 이동
+    resultsEl.scrollIntoView({
+      behavior:'smooth',
+      block:'start'
+    });
+  };
+}
 
   const dataEl = document.getElementById('char-detail-data');
 
