@@ -6438,7 +6438,36 @@ const armorEquipment = normalEquipment.filter(
 const accessoryEquipment = normalEquipment.filter(
   item => accessorySlots.includes(item.slotPosName)
 );
+function getEquipmentSlotName(slotPosName) {
+  const map = {
+    MainHand: '주무기',
+    SubHand: '보조무기',
+    Helmet: '투구',
+    Shoulder: '견갑',
+    Torso: '흉갑',
+    Pants: '각반',
+    Gloves: '장갑',
+    Boots: '장화',
+    Cape: '망토',
 
+    Necklace: '목걸이',
+    Earring1: '귀걸이',
+    Earring2: '귀걸이',
+    Ring1: '반지',
+    Ring2: '반지',
+    Bracelet1: '팔찌',
+    Bracelet2: '팔찌',
+    Brooch1: '브로치',
+    Brooch2: '브로치',
+    Belt: '허리띠',
+    Rune1: '룬',
+    Rune2: '룬',
+    Amulet: '아뮬렛',
+    Pendant: '펜던트'
+  };
+
+  return map[slotPosName] || slotPosName || '';
+}
 function buildEquipmentHtml(list) {
   return list.map(item => {
     const enchant =
