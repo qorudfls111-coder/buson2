@@ -6224,11 +6224,26 @@ function renderCharacters(list) {
     info.appendChild(name);
     info.appendChild(serverLine);
     info.appendChild(bottom);
+card.addEventListener('click', () => {
 
+    const detail = document.querySelector('#character-detail');
+
+    if(detail){
+        detail.scrollIntoView({
+            behavior:'smooth',
+            block:'start'
+        });
+    }
+
+});
     card.appendChild(imageWrap);
     card.appendChild(info);
 
 card.addEventListener('click', async function () {
+      window.scrollTo({
+        top: document.getElementById('char-detail-panel').offsetTop - 80,
+        behavior: 'smooth'
+    });
   // 선택한 캐릭터만 남기기
 resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
   if (otherCard !== card) {
