@@ -6334,6 +6334,9 @@ if (backBtn) {
     resultsEl.querySelectorAll('.char-result-card')
       .forEach(card => {
         card.style.display = 'block';
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
       });
 
     // 검색 결과 위치로 이동
