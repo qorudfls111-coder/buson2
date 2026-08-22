@@ -62,7 +62,55 @@ input:focus,select:focus{border-color:#5787d3;box-shadow:0 0 0 3px rgba(87,135,2
 .note{margin-top:14px;padding:13px 14px;border:1px solid #283449;background:#0b1018;border-radius:12px;color:#96a5bb;font-size:12px;line-height:1.65}
 table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;border-bottom:1px solid #252e3e;text-align:left;font-size:13px}th{color:#8fa0b8}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;background:#182943;color:#a9c8ff}
 .hidden{display:none!important}.coming{padding:48px;text-align:center;color:var(--muted)}.coming b{display:block;color:#fff;font-size:24px;margin-bottom:8px}footer{border-top:1px solid #1e2632;padding:24px 0 40px;color:#728097;font-size:12px}
+/* ===== 캐릭터 검색 결과 카드 ===== */
 
+.char-result-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.char-card{
+  padding:18px;
+  border:1px solid #293347;
+  background:#0d131c;
+  border-radius:16px;
+  transition:.15s;
+}
+
+.char-card:hover{
+  transform:translateY(-2px);
+  border-color:#5574a7;
+  background:#111a28;
+}
+
+.char-name{
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.char-info{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.char-badge{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:12px;
+  background:#182943;
+  color:#a9c8ff;
+}
+
+
+@media(max-width:860px){
+  .char-result-grid{
+    grid-template-columns:1fr;
+  }
+}
 
 .subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .subtab{border:1px solid var(--line);background:#101722;color:#aab5c7;border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:800}
@@ -6118,16 +6166,14 @@ function renderCharacters(list) {
     const card = document.createElement('div');
     card.className = 'char-result-card';
 
-    card.style.display = 'flex';
-    card.style.alignItems = 'center';
-    card.style.gap = '14px';
-    card.style.padding = '15px';
-    card.style.minHeight = '96px';
-    card.style.border = '1px solid #2b3950';
-    card.style.borderRadius = '14px';
-    card.style.background = 'linear-gradient(145deg, #101b2b, #0b1420)';
-    card.style.cursor = 'pointer';
-    card.style.transition = 'transform .15s ease, border-color .15s ease, background .15s ease';
+card.style.display = 'block';
+card.style.padding = '18px';
+card.style.minHeight = '140px';
+card.style.border = '1px solid #2b3950';
+card.style.borderRadius = '16px';
+card.style.background = '#0d131c';
+card.style.cursor = 'pointer';
+card.style.transition = '0.2s';
 
     card.addEventListener('mouseenter', () => {
       card.style.transform = 'translateY(-2px)';
