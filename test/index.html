@@ -6092,6 +6092,7 @@ function className(pcId) {
 
 function renderCharacters(list) {
   resultsEl.innerHTML = '';
+  window.savedCharacterList = list;
 
   resultsEl.style.display = 'grid';
   resultsEl.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
@@ -6232,16 +6233,9 @@ card.addEventListener('click', () => {
     card.appendChild(imageWrap);
     card.appendChild(info);
 
-card.addEventListener('click', async function () {
-
-  // 선택한 캐릭터만 남기기
-resultsEl.querySelectorAll('.char-result-card').forEach(otherCard => {
-  if (otherCard !== card) {
-    otherCard.style.display = 'none';
-  }
 });
 
-card.style.display = 'flex';
+card.style.display = 'none';
   statusEl.textContent =
     cleanCharacterName(character.name) +
     ' · ' +
@@ -6253,6 +6247,18 @@ card.style.display = 'flex';
   if (!detailEl) {
     detailEl = document.createElement('div');
     detailEl.id = 'char-detail-panel';
+    const backBtn = document.createElement('button');
+
+backBtn.textContent = '← 검색 결과로 돌아가기';
+
+backBtn.className = 'btn secondary';
+
+backBtn.style.marginBottom = '15px';
+
+backBtn.onclick = function(){
+  detailEl.remove();
+  renderCharacters(window.savedCharacterList);
+};
 
     detailEl.style.marginTop = '16px';
     detailEl.style.padding = '20px';
@@ -6314,7 +6320,7 @@ card.style.display = 'flex';
       캐릭터 상세 정보를 불러오는 중...
     </div>
   `;
-
+detailEl.appendChild(backBtn);
   const dataEl = document.getElementById('char-detail-data');
 
   try {
