@@ -7218,14 +7218,31 @@ margin-bottom:10px;
 
 ${item.subSkills.map(skill => `
 <div style="
+display:flex;
+align-items:center;
+gap:8px;
 color:#d9e5ff;
 font-size:13px;
-margin-bottom:5px;
+margin-bottom:8px;
 ">
-${skill.name} +${skill.level}
+
+<img src="${skill.icon}"
+style="
+width:28px;
+height:28px;
+border-radius:6px;
+border:1px solid #263d59;
+">
+
+<span>
+${skill.name}
+<span style="color:#ff8a3d;">
++${skill.level}
+</span>
+</span>
+
 </div>
 `).join('')}
-
 </div>
 ` : ''}
 
