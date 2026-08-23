@@ -6480,14 +6480,23 @@ card.style.display = 'flex';
             border-radius:10px;
             min-height:75px;
           ">
-            <div style="
-            font-size:14px;
-            color:#b8c8dd;
-            margin-bottom:6px;
-            font-weight:700;
-            ">
-            ${getStatIcon(stat.name)} ${stat.name}
-            </div>
+<div style="
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+font-size:15px;
+color:#a9bdd8;
+margin-bottom:6px;
+font-weight:800;
+">
+<span style="
+font-size:18px;
+">
+${getStatIcon(stat.name)}
+</span>
+${stat.name}
+</div>
 
             <div style="
               font-size:18px;
