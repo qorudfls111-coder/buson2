@@ -6616,6 +6616,9 @@ ${stat.value}
 const normalEquipment = equipmentList.filter(
   item => Number(item.slotPos) < 40
 );
+      const arcanaEquipment = equipmentList.filter(
+    item => item.slotPosName?.startsWith("Arcana")
+);
 
 const armorSlots = [
   'MainHand',
@@ -6678,7 +6681,17 @@ function getEquipmentSlotName(slotPosName) {
     Rune1: '룬',
     Rune2: '룬',
     Amulet: '아뮬렛',
-    Pendant: '펜던트'
+    Pendant: '펜던트',
+    Arcana1: '아르카나',
+Arcana2: '아르카나',
+Arcana3: '아르카나',
+Arcana4: '아르카나',
+Arcana5: '아르카나',
+Arcana6: '아르카나',
+Arcana7: '아르카나',
+Arcana8: '아르카나',
+Arcana9: '아르카나',
+Arcana10: '아르카나'
   };
 
   return map[slotPosName] || slotPosName || '';
@@ -6827,14 +6840,19 @@ const accessoryHtml = buildEquipmentHtml(accessoryEquipment);
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:8px;
 ">
-  <div style="
-    padding:16px;
-    border:1px solid #263043;
-    border-radius:12px;
-    background:#0d131c;
-  ">
-    아르카나 정보 없음
-  </div>
+${arcanaEquipment.length
+? buildEquipmentHtml(arcanaEquipment)
+: `
+<div style="
+padding:16px;
+border:1px solid #263d59;
+border-radius:12px;
+background:#0d131c;
+">
+아르카나 정보 없음
+</div>
+`
+}
 </div>
           </div>
         `
