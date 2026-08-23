@@ -6352,7 +6352,7 @@ card.style.display = 'flex';
     const mainStats = mainStatTypes
       .map(type => statList.find(stat => stat.type === type))
       .filter(Boolean);
-    const arcanaStats = statList.filter(stat =>
+    const godStats = statList.filter(stat =>
   [
     'Justice',
     'Freedom',
@@ -6458,43 +6458,50 @@ grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
 gap:8px;
 ">
 
-${arcanaStats.map(stat => `
-<div style="
-padding:12px;
-text-align:center;
-background:#101d2d;
-border:1px solid #263d59;
-border-radius:10px;
-">
+${godStats.map(stat => `
+  <div style="
+    padding:14px;
+    background:#101d2d;
+    border:1px solid #263d59;
+    border-radius:12px;
+    text-align:center;
+  ">
 
-<div style="
-font-size:12px;
-color:#8fa8ba;
-margin-bottom:4px;
-">
-${stat.name}
-</div>
+    <div style="
+      font-size:13px;
+      color:#8fa6c5;
+      margin-bottom:6px;
+      font-weight:700;
+    ">
+      ${stat.name}
+    </div>
 
-<div style="
-font-size:18px;
-font-weight:800;
-color:#fff;
-">
-${stat.value}
-</div>
+    <div style="
+      font-size:22px;
+      font-weight:900;
+      color:#ffffff;
+    ">
+      ${stat.value}
+    </div>
 
-<div style="
-font-size:12px;
-color:#9fb1ca;
-margin-top:6px;
-">
-${stat.statSecondList ? stat.statSecondList.join('<br>') : ''}
-</div>
+    ${
+      stat.statSecondList
+        ? `
+          <div style="
+            margin-top:8px;
+            font-size:12px;
+            color:#9fb1ca;
+            line-height:1.5;
+          ">
+            ${stat.statSecondList.join('<br>')}
+          </div>
+        `
+        : ''
+    }
 
-</div>
+  </div>
 `).join('')}
 
-</div>
       </div>
     `;
     // ===== 캐릭터 장비 정보 =====
