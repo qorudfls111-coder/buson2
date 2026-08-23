@@ -6393,6 +6393,7 @@ card.style.display = 'flex';
     }
 
     const data = await response.json();
+    console.log(data);
 
     const profile = data.profile || {};
     const statList = data.stat?.statList || [];
@@ -6810,6 +6811,30 @@ const accessoryHtml = buildEquipmentHtml(accessoryEquipment);
   gap:8px;
 ">
   ${accessoryHtml}
+</div>
+<div style="
+  font-size:16px;
+  font-weight:800;
+  color:#fff;
+  margin-top:22px;
+  margin-bottom:12px;
+">
+  🔮 아르카나
+</div>
+
+<div style="
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:8px;
+">
+  <div style="
+    padding:16px;
+    border:1px solid #263043;
+    border-radius:12px;
+    background:#0d131c;
+  ">
+    아르카나 정보 없음
+  </div>
 </div>
           </div>
         `
