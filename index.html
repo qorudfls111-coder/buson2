@@ -6074,6 +6074,59 @@ function getProfileImage(url) {
     if (Number(race) === 2) return '마족';
     return '알 수 없음';
   }
+  function getStatIcon(name) {
+
+  const icons = {
+    "위력": "👊",
+    "민첩": "🪽",
+    "정확": "◉",
+    "의지": "✦",
+    "지식": "📖",
+    "체력": "♥"
+  };
+
+  return icons[name] || "◆";
+}
+ function getStatEffect(name, value) {
+
+  const percent = (value / 10).toFixed(1);
+
+  const effects = {
+
+    "위력": [
+      `공격력 증가 +${percent}%`
+    ],
+
+    "민첩": [
+      `회피 증가 +${percent}%`,
+      `막기 증가 +${percent}%`,
+      `치명타 저항 증가 +${percent}%`
+    ],
+
+    "정확": [
+      `명중 증가 +${percent}%`,
+      `치명타 증가 +${percent}%`
+    ],
+
+    "의지": [
+      `상태이상 저항 +${percent}%`
+    ],
+
+    "지식": [
+      `상태이상 적중 +${percent}%`
+    ],
+
+    "체력": [
+      `생명력 증가 +${percent}%`
+    ]
+
+  };
+
+
+  if (!effects[name]) return '';
+
+  return effects[name].join('<br>');
+}
 function className(pcId) {
   const id = Number(pcId);
 
@@ -6352,11 +6405,25 @@ card.style.display = 'flex';
     const mainStats = mainStatTypes
       .map(type => statList.find(stat => stat.type === type))
       .filter(Boolean);
+    const godStats = statList.filter(stat =>
+  [
+    'Justice',
+    'Freedom',
+    'Illusion',
+    'Life',
+    'Time',
+    'Destruction',
+    'Death',
+    'Wisdom',
+    'Destiny',
+    'Space'
+  ].includes(stat.type)
+);
 
     dataEl.innerHTML = `
       <div style="
         display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+        grid-template-columns:repeat(6,1fr);
         gap:10px;
         margin-bottom:18px;
       ">
@@ -6389,45 +6456,141 @@ card.style.display = 'flex';
         </div>
       </div>
 
-      <div style="
-        font-size:15px;
-        font-weight:800;
-        color:#fff;
-        margin-bottom:10px;
-      ">
-        주요 스탯
-      </div>
+<div style="
+font-size:18px;
+font-weight:900;
+color:#ffffff;
+margin-top:25px;
+margin-bottom:15px;
+text-align:left;
+">
+주요 스탯
+</div>
 
-      <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
-        gap:8px;
-      ">
+<div style="
+display:grid;
+grid-template-columns:repeat(3, minmax(150px,1fr));
+justify-content:center;
+gap:12px;
+">
         ${mainStats.map(stat => `
           <div style="
-            padding:12px;
+            padding:20px 12px;
             text-align:center;
             background:#101d2d;
             border:1px solid #263d59;
             border-radius:10px;
+            min-height:75px;
           ">
-            <div style="
-              font-size:12px;
-              color:#8fa1ba;
-              margin-bottom:4px;
-            ">
-              ${stat.name}
-            </div>
+<div style="
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+font-size:15px;
+color:#a9bdd8;
+margin-bottom:6px;
+font-weight:800;
+">
+<span style="
+font-size:18px;
+">
+${getStatIcon(stat.name)}
+</span>
+${stat.name}
+</div>
 
             <div style="
-              font-size:18px;
+              font-size:26px;
               font-weight:800;
               color:#fff;
             ">
               ${stat.value}
+              <div style="
+              font-size:15px;
+              color:#b8d4ff;
+              margin-top:10px;
+              ">
+              ${getStatEffect(stat.name, stat.value)}
+              </div>
             </div>
           </div>
         `).join('')}
+<div style="
+font-size:18px;
+font-weight:900;
+color:#fff;
+margin-top:25px;
+margin-bottom:15px;
+text-align:left;
+grid-column:1/-1;
+">
+주신 스탯
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(5,165px);
+gap:12px;
+margin-top:15px;
+width:100%;
+margin-left:0;
+">
+
+${godStats.map(stat => `
+<div style="
+padding:20px 12px;
+min-height:170px;
+background:
+linear-gradient(145deg, #162840, #0b1525);
+border:1px solid #38547a;
+border-radius:14px;
+text-align:center;
+box-shadow:
+0 4px 12px rgba(0,0,0,0.25),
+inset 0 0 20px rgba(80,140,255,0.05);
+transition:all .2s ease;
+">
+
+<div style="
+font-size:12px;
+color:#a9bdd8;
+margin-bottom:8px;
+font-weight:800;
+letter-spacing:-0.3px;
+white-space:nowrap;
+">
+${stat.name}
+</div>
+
+<div style="
+font-size:22px;
+font-weight:900;
+color:#ffffff;
+text-shadow:
+0 0 10px rgba(90,160,255,0.35);
+">
+${stat.value}
+</div>
+
+    ${
+      stat.statSecondList
+        ? `
+          <div style="
+            margin-top:8px;
+            font-size:12px;
+            color:#9fb1ca;
+            line-height:1.5;
+          ">
+            ${stat.statSecondList.join('<br>')}
+          </div>
+        `
+        : ''
+    }
+
+  </div>
+`).join('')}
+
       </div>
     `;
     // ===== 캐릭터 장비 정보 =====
@@ -6448,7 +6611,7 @@ card.style.display = 'flex';
       const equipmentList =
         equipmentData.equipment?.equipmentList || [];
 
-      // 아르카나(41~50)는 다음 단계에서 따로 표시
+      // 주신 스탯(41~50)는 다음 단계에서 따로 표시
 const normalEquipment = equipmentList.filter(
   item => Number(item.slotPos) < 40
 );
