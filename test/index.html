@@ -7245,7 +7245,52 @@ ${skill.name}
 `).join('')}
 </div>
 ` : ''}
+${item.set?.bonuses?.length ? `
+<div style="
+padding:11px;
+background:#101c2d;
+border:1px solid #263d59;
+border-radius:8px;
+margin-top:10px;
+">
 
+<div style="
+color:#ffb86b;
+font-weight:800;
+margin-bottom:10px;
+">
+세트 효과 - ${item.set.name}
+</div>
+
+${item.set.bonuses.map(set => `
+<div style="
+margin-bottom:10px;
+">
+
+<div style="
+color:#7fb4ff;
+font-weight:700;
+font-size:13px;
+margin-bottom:4px;
+">
+${set.degree} 세트 효과
+</div>
+
+${set.descriptions.map(desc => `
+<div style="
+color:#d9e5ff;
+font-size:13px;
+line-height:1.5;
+">
+${desc}
+</div>
+`).join('')}
+
+</div>
+`).join('')}
+
+</div>
+` : ''}
           <div style="
             padding:11px;
             background:#101c2d;
