@@ -6447,6 +6447,7 @@ card.style.display = 'flex';
 font-size:15px;
 font-weight:800;
 color:#fff;
+margin-top:25px;
 margin-top:40px;
 margin-bottom:10px;
 ">
@@ -6455,15 +6456,16 @@ margin-bottom:10px;
 
 <div style="
 display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:10px;
-margin-top:10px;
+grid-template-columns:repeat(5, minmax(110px, 1fr));
+gap:12px;
+margin-top:15px;
 width:100%;
 ">
 
 ${godStats.map(stat => `
 <div style="
-padding:14px 10px;
+padding:16px 12px;
+min-height:130px;
 background:
 linear-gradient(145deg, #162840, #0b1525);
 border:1px solid #38547a;
@@ -6481,12 +6483,13 @@ color:#a9bdd8;
 margin-bottom:8px;
 font-weight:800;
 letter-spacing:-0.3px;
+white-space:nowrap;
 ">
 ${stat.name}
 </div>
 
 <div style="
-font-size:24px;
+font-size:22px;
 font-weight:900;
 color:#ffffff;
 text-shadow:
