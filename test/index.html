@@ -6074,6 +6074,46 @@ function getProfileImage(url) {
     if (Number(race) === 2) return '마족';
     return '알 수 없음';
   }
+ function getStatEffect(name, value) {
+
+  const percent = (value / 10).toFixed(1);
+
+  const effects = {
+
+    "위력": [
+      `공격력 증가 +${percent}%`
+    ],
+
+    "민첩": [
+      `회피 증가 +${percent}%`,
+      `막기 증가 +${percent}%`,
+      `치명타 저항 증가 +${percent}%`
+    ],
+
+    "정확": [
+      `명중 증가 +${percent}%`,
+      `치명타 증가 +${percent}%`
+    ],
+
+    "의지": [
+      `상태이상 저항 +${percent}%`
+    ],
+
+    "지식": [
+      `상태이상 적중 +${percent}%`
+    ],
+
+    "체력": [
+      `생명력 증가 +${percent}%`
+    ]
+
+  };
+
+
+  if (!effects[name]) return '';
+
+  return effects[name].join('<br>');
+}
 function className(pcId) {
   const id = Number(pcId);
 
@@ -6414,7 +6454,8 @@ card.style.display = 'flex';
 
       <div style="
         display:grid;
-        grid-template-columns:repeat(3,minmax(0,1fr));
+        grid-template-columns:repeat(3, minmax(120px, 1fr));
+        justify-content:center;
         gap:8px;
       ">
         ${mainStats.map(stat => `
@@ -6440,6 +6481,13 @@ card.style.display = 'flex';
               color:#fff;
             ">
               ${stat.value}
+              <div style="
+              font-size:12px;
+              color:#8fa8c8;
+              margin-top:8px;
+              ">
+              ${getStatEffect(stat.name, stat.value)}
+              </div>
             </div>
           </div>
         `).join('')}
