@@ -6074,6 +6074,19 @@ function getProfileImage(url) {
     if (Number(race) === 2) return '마족';
     return '알 수 없음';
   }
+  function getStatIcon(name) {
+
+  const icons = {
+    "위력": "👊",
+    "민첩": "🪽",
+    "정확": "◉",
+    "의지": "✦",
+    "지식": "📖",
+    "체력": "♥"
+  };
+
+  return icons[name] || "◆";
+}
  function getStatEffect(name, value) {
 
   const percent = (value / 10).toFixed(1);
@@ -6468,11 +6481,12 @@ card.style.display = 'flex';
             min-height:75px;
           ">
             <div style="
-              font-size:10px;
-              color:#8fa1ba;
-              margin-bottom:4px;
+            font-size:14px;
+            color:#b8c8dd;
+            margin-bottom:6px;
+            font-weight:700;
             ">
-              ${stat.name}
+            ${getStatIcon(stat.name)} ${stat.name}
             </div>
 
             <div style="
