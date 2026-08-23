@@ -6352,6 +6352,20 @@ card.style.display = 'flex';
     const mainStats = mainStatTypes
       .map(type => statList.find(stat => stat.type === type))
       .filter(Boolean);
+    const arcanaStats = statList.filter(stat =>
+  [
+    'Justice',
+    'Freedom',
+    'Illusion',
+    'Life',
+    'Time',
+    'Destruction',
+    'Death',
+    'Wisdom',
+    'Destiny',
+    'Space'
+  ].includes(stat.type)
+);
 
     dataEl.innerHTML = `
       <div style="
@@ -6428,6 +6442,59 @@ card.style.display = 'flex';
             </div>
           </div>
         `).join('')}
+        <div style="
+font-size:15px;
+font-weight:800;
+color:#fff;
+margin-top:20px;
+margin-bottom:10px;
+">
+아르카나
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:8px;
+">
+
+${arcanaStats.map(stat => `
+<div style="
+padding:12px;
+text-align:center;
+background:#101d2d;
+border:1px solid #263d59;
+border-radius:10px;
+">
+
+<div style="
+font-size:12px;
+color:#8fa8ba;
+margin-bottom:4px;
+">
+${stat.name}
+</div>
+
+<div style="
+font-size:18px;
+font-weight:800;
+color:#fff;
+">
+${stat.value}
+</div>
+
+<div style="
+font-size:12px;
+color:#9fb1ca;
+margin-top:6px;
+">
+${stat.statSecondList ? stat.statSecondList.join('<br>') : ''}
+</div>
+
+</div>
+`).join('')}
+
+</div>
       </div>
     `;
     // ===== 캐릭터 장비 정보 =====
