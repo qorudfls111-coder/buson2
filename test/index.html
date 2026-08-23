@@ -7199,6 +7199,35 @@ ${
 
             ${mainStats || '<div style="color:#71849c;">없음</div>'}
           </div>
+          ${item.subSkills?.length ? `
+<div style="
+padding:11px;
+background:#101c2d;
+border:1px solid #263d59;
+border-radius:8px;
+margin-top:10px;
+">
+
+<div style="
+color:#b997ff;
+font-weight:800;
+margin-bottom:10px;
+">
+스킬 옵션
+</div>
+
+${item.subSkills.map(skill => `
+<div style="
+color:#d9e5ff;
+font-size:13px;
+margin-bottom:5px;
+">
+${skill.name} +${skill.level}
+</div>
+`).join('')}
+
+</div>
+` : ''}
 
           <div style="
             padding:11px;
