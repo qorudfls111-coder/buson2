@@ -7261,7 +7261,49 @@ margin-bottom:10px;
 ">
 세트 효과 - ${item.set.name}
 </div>
+${item.set.items?.length ? `
+<div style="
+padding:11px;
+background:#101c2d;
+border:1px solid #263d59;
+border-radius:8px;
+margin-top:10px;
+">
 
+<div style="
+color:#b997ff;
+font-weight:800;
+margin-bottom:10px;
+">
+세트 아이템
+</div>
+
+${item.set.items.map(setItem => `
+<div style="
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:5px 0;
+color:#d9e5ff;
+font-size:13px;
+">
+
+<span>
+${setItem.name}
+</span>
+
+<span style="
+color:${setItem.equipped ? '#ffb84d':'#778899'};
+font-size:12px;
+">
+${setItem.equipped ? '착용중':'미착용'}
+</span>
+
+</div>
+`).join('')}
+
+</div>
+` : ''}
 ${item.set.bonuses.map(set => `
 <div style="
 margin-bottom:10px;
