@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>아이온2 버스 수익 계산 가이드 | BUS ON2</title>
+
+  <meta
+    name="description"
+    content="아이온2 버스 수익을 계산하는 방법을 초보자도 이해하기 쉽게 설명합니다. 기사 수익, 손님 수, 판수, 키나 수입과 비용을 비교하고 BUS ON2 계산기를 활용하는 방법을 확인하세요."
+  >
+
+  <link rel="canonical" href="https://buson2.com/guide/bus-profit/">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #08111f;
+      color: #d9e5ff;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      line-height: 1.8;
+    }
+
+    a {
+      color: #78b7ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: #080d14;
+      border-bottom: 1px solid #263d59;
+    }
+
+    .nav {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 42px 20px 80px;
+    }
+
+    .breadcrumb {
+      color: #8fa9c7;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 34px;
+      line-height: 1.35;
+      margin: 0 0 18px;
+    }
+
+    h2 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-top: 48px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      color: #c5ddff;
+      font-size: 18px;
+      margin-top: 28px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    .intro {
+      font-size: 17px;
+      color: #b8cbe5;
+    }
+
+    .box {
+      margin: 24px 0;
+      padding: 20px;
+      background: #101c2d;
+      border: 1px solid #263d59;
+      border-radius: 12px;
+    }
+
+    .formula {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .example {
+      border-left: 4px solid #4d8cff;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    .cta {
+      margin-top: 42px;
+      padding: 24px;
+      text-align: center;
+      background: #122238;
+      border: 1px solid #34577c;
+      border-radius: 14px;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 11px 20px;
+      background: #347cf0;
+      color: #ffffff;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    footer {
+      border-top: 1px solid #263d59;
+      color: #7f96b2;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 27px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="/">BUS ON2</a>
+
+    <div class="nav-links">
+      <a href="/">홈</a>
+      <a href="/spec/">스펙 계산기</a>
+      <a href="/driver/">버스 기사</a>
+      <a href="/sub/">부캐 버스</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="breadcrumb">
+    <a href="/">BUS ON2</a> › 가이드 › 버스 수익 계산
+  </div>
+
+  <h1>아이온2 버스 수익 계산 가이드</h1>
+
+  <p class="intro">
+    아이온2에서 버스를 운영할 때 단순히 받은 키나만 보고 수익을 판단하면
+    실제 효율과 차이가 생길 수 있습니다. 기사 수, 손님 수, 진행 판수,
+    각종 비용과 캐릭터별 수금 방식을 함께 고려해야 실제로 얼마나 남는지
+    비교할 수 있습니다.
+  </p>
+
+  <p>
+    이 페이지에서는 BUS ON2의 버스 수익 계산기를 처음 사용하는 사람도
+    이해할 수 있도록 기본 개념부터 계산 방법, 비교할 때 주의할 점까지
+    순서대로 설명합니다.
+  </p>
+
+
+  <h2>1. 버스 수익을 계산해야 하는 이유</h2>
+
+  <p>
+    같은 던전을 돌더라도 파티 구성과 수금 방식에 따라 기사 한 명이
+    실제로 가져가는 금액은 달라질 수 있습니다.
+  </p>
+
+  <p>
+    특히 여러 명의 기사가 번갈아 수금을 하거나, 본캐와 부캐를 교대로
+    사용하는 경우에는 단순한 '한 판 수입 × 판수' 계산만으로는 정확한
+    비교가 어렵습니다.
+  </p>
+
+  <div class="box">
+    <strong>버스 수익을 비교할 때 확인할 항목</strong>
+
+    <ul>
+      <li>한 판에 참여하는 기사 수</li>
+      <li>한 판에 참여하는 손님 수</li>
+      <li>손님 한 명이 지불하는 금액</li>
+      <li>전체 진행 판수</li>
+      <li>기사별 실제 수금 횟수</li>
+      <li>추가로 지출되는 키나가 있는지</li>
+      <li>같은 시간에 다른 파밍을 했을 때 얻을 수 있는 수익</li>
+    </ul>
+  </div>
+
+
+  <h2>2. 가장 기본적인 수익 계산식</h2>
+
+  <p>
+    가장 단순한 형태에서는 받은 총 키나에서 버스를 진행하면서 사용한
+    비용을 빼면 순수익을 계산할 수 있습니다.
+  </p>
+
+  <div class="box formula">
+    순수익 = 총 수입 - 총 비용
+  </div>
+
+  <p>
+    하지만 여러 기사가 함께 버스를 운영한다면 총 수입을 기사 수로
+    단순하게 나누는 것보다 실제 수금 순서를 기준으로 계산하는 것이
+    더 정확합니다.
+  </p>
+
+
+  <h2>3. 기사 여러 명이 함께 운영하는 경우</h2>
+
+  <p>
+    버스 기사 수가 두 명 이상이라면 각 기사가 실제로 몇 판에서
+    수금을 담당했는지 확인하는 것이 중요합니다.
+  </p>
+
+  <p>
+    예를 들어 두 명의 기사가 번갈아 손님의 버스비를 받는 구조라면
+    전체 수익은 같더라도 각 기사에게 들어가는 금액은 수금 횟수에 따라
+    달라질 수 있습니다.
+  </p>
+
+  <div class="box example">
+    <strong>예시</strong>
+
+    <p>
+      기사 A와 기사 B가 함께 버스를 운영하고 여러 판을 진행한다고
+      가정합니다.
+    </p>
+
+    <p>
+      A가 3번 수금하고 B가 2번 수금했다면 단순히 전체 수익을
+      50:50으로 나누는 것보다 각각의 실제 수금 횟수를 반영해야
+      현실적인 결과를 확인할 수 있습니다.
+    </p>
+  </div>
+
+
+  <h2>4. 한 판 수입만 보면 안 되는 이유</h2>
+
+  <p>
+    버스 효율을 판단할 때는 한 판에서 들어오는 키나뿐 아니라
+    그 판을 진행하기 위해 포기한 다른 파밍의 가치도 함께 생각할
+    필요가 있습니다.
+  </p>
+
+  <p>
+    예를 들어 같은 시간과 오드를 사용해 다른 던전을 돌았을 때
+    더 많은 키나를 얻을 수 있다면, 표면적인 버스 수입은 높아 보여도
+    실제 효율은 낮을 수 있습니다.
+  </p>
+
+  <p>
+    BUS ON2에서 버스 계산과 파밍 비교 기능을 따로 제공하는 이유도
+    이런 차이를 쉽게 비교하기 위해서입니다.
+  </p>
+
+
+  <h2>5. 부캐 버스와 직접 파밍 비교</h2>
+
+  <p>
+    부캐로 버스를 탑승하는 경우에는 버스를 통해 얻는 보상과
+    기사에게 지불하는 비용을 함께 계산해야 합니다.
+  </p>
+
+  <div class="box formula">
+    부캐 버스 실질 가치 = 획득 가치 - 버스 이용 비용
+  </div>
+
+  <p>
+    여기서 중요한 점은 단순히 버스비가 얼마인지가 아니라,
+    같은 캐릭터로 직접 파밍했을 때와 비교해서 얼마나 차이가 나는지를
+    보는 것입니다.
+  </p>
+
+  <p>
+    따라서 버스 탑승 여부를 결정할 때는 편의성뿐 아니라 직접 파밍,
+    본부 방식, 다른 던전 파밍까지 함께 비교하는 것이 좋습니다.
+  </p>
+
+
+  <h2>6. BUS ON2 버스 계산기 사용 방법</h2>
+
+  <h3>① 버스 유형 선택</h3>
+
+  <p>
+    먼저 버스 기사, 부캐 버스 등 현재 계산하려는 방식을 선택합니다.
+  </p>
+
+  <h3>② 기사 수와 판수 입력</h3>
+
+  <p>
+    실제로 함께 진행하는 기사 수와 전체 진행 판수를 입력합니다.
+    기사 수가 여러 명이라면 수금 방식도 함께 확인합니다.
+  </p>
+
+  <h3>③ 금액 입력</h3>
+
+  <p>
+    실제로 받거나 지불하는 금액을 입력합니다. 금액은 가능한 한
+    게임 내 실제 거래 기준으로 입력해야 결과가 의미가 있습니다.
+  </p>
+
+  <h3>④ 결과 비교</h3>
+
+  <p>
+    총수입만 보지 말고 기사 한 명당 수익, 판당 수익,
+    다른 방식과 비교했을 때의 차이를 함께 확인합니다.
+  </p>
+
+
+  <h2>7. 계산할 때 자주 하는 실수</h2>
+
+  <div class="box">
+    <ul>
+      <li>전체 수입만 보고 기사 개인 수익으로 착각하는 경우</li>
+      <li>버스비 지출을 빼지 않고 보상만 계산하는 경우</li>
+      <li>판수를 잘못 입력하는 경우</li>
+      <li>기사별 수금 횟수를 고려하지 않는 경우</li>
+      <li>다른 파밍 방법과의 기회비용을 비교하지 않는 경우</li>
+      <li>게임 업데이트 이후 변경된 보상 값을 그대로 사용하는 경우</li>
+    </ul>
+  </div>
+
+
+  <h2>8. 어떤 방식이 가장 이득일까?</h2>
+
+  <p>
+    모든 상황에서 하나의 방식이 항상 가장 높은 수익을 내는 것은
+    아닙니다. 캐릭터 스펙, 기사 구성, 현재 버스비, 던전 보상,
+    사용할 수 있는 시간 등에 따라 결과가 달라집니다.
+  </p>
+
+  <p>
+    따라서 특정 방식이 무조건 좋다고 판단하기보다 동일한 조건을
+    입력한 뒤 여러 방식을 직접 비교하는 것이 가장 정확합니다.
+  </p>
+
+
+  <h2>9. 자주 묻는 질문</h2>
+
+  <h3>버스비가 바뀌면 어떻게 하나요?</h3>
+
+  <p>
+    계산기에 현재 실제로 사용되는 금액을 직접 입력해서 계산하는 것이
+    가장 좋습니다. 게임 내 시세나 파티 모집 상황에 따라 금액은
+    달라질 수 있습니다.
+  </p>
+
+  <h3>계산 결과가 실제 수익과 완전히 같나요?</h3>
+
+  <p>
+    계산 결과는 입력한 조건을 기준으로 한 비교값입니다.
+    실제 플레이에서는 진행 시간, 파티 구성, 실패 여부 등 다양한
+    변수가 발생할 수 있습니다.
+  </p>
+
+  <h3>버스와 직접 파밍 중 무엇이 더 좋은가요?</h3>
+
+  <p>
+    캐릭터와 던전 상황에 따라 다릅니다. 같은 조건에서 버스 비용,
+    직접 파밍 수익, 오드 소비량 등을 함께 비교하는 것을 권장합니다.
+  </p>
+
+
+  <div class="cta">
+    <strong>직접 수익을 계산해보세요.</strong>
+
+    <p>
+      BUS ON2의 버스 계산기에 실제 조건을 입력하면 여러 방식의
+      수익 차이를 빠르게 비교할 수 있습니다.
+    </p>
+
+    <a href="/driver/">버스 수익 계산하기</a>
+  </div>
+
+</main>
+
+<footer>
+  BUS ON2 · 아이온2 효율 계산 및 파밍 비교 도구
+</footer>
+
+</body>
+</html>
