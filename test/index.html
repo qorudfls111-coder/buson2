@@ -7465,7 +7465,7 @@ ${
 
         <div style="
           display:grid;
-          grid-template-columns:repeat(3,1fr);
+          grid-template-columns:0.9fr 1fr 1.45fr;
           gap:10px;
         ">
 
@@ -7621,6 +7621,7 @@ ${desc}
 
 </div>
 ` : ''}
+${!String(item.slotPosName || '').startsWith('Arcana') ? `
           <div style="
             padding:11px;
             background:#101c2d;
@@ -7654,7 +7655,7 @@ ${desc}
 
             ${magicStats || '<div style="color:#71849c;">없음</div>'}
           </div>
-
+` : ''}
         </div>
 
         ${godStone}
