@@ -7621,7 +7621,7 @@ ${desc}
 
 </div>
 ` : ''}
-${!String(item.slotPosName || '').startsWith('Arcana') ? `
+${!(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? `
           <div style="
             padding:11px;
             background:#101c2d;
