@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>아이온2 스펙 효율 계산 가이드 | BUS ON2</title>
+
+  <meta
+    name="description"
+    content="아이온2 캐릭터의 강타, 피해 증가 계열 등 주요 스탯 효율을 비교하는 방법을 설명합니다. 스탯 수치만 보는 것이 아니라 현재 보유 능력치와 파티 버프를 고려해 BUS ON2 스펙 계산기를 활용하는 방법을 확인하세요."
+  >
+
+  <link rel="canonical" href="https://buson2.com/guide/spec-efficiency/">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #08111f;
+      color: #d9e5ff;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      line-height: 1.8;
+    }
+
+    a {
+      color: #78b7ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: #080d14;
+      border-bottom: 1px solid #263d59;
+    }
+
+    .nav {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 42px 20px 80px;
+    }
+
+    .breadcrumb {
+      color: #8fa9c7;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 34px;
+      line-height: 1.35;
+      margin: 0 0 18px;
+    }
+
+    h2 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-top: 48px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      color: #c5ddff;
+      font-size: 18px;
+      margin-top: 28px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    .intro {
+      font-size: 17px;
+      color: #b8cbe5;
+    }
+
+    .box {
+      margin: 24px 0;
+      padding: 20px;
+      background: #101c2d;
+      border: 1px solid #263d59;
+      border-radius: 12px;
+    }
+
+    .formula {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .example {
+      border-left: 4px solid #4d8cff;
+    }
+
+    .warning {
+      border-left: 4px solid #ffb84d;
+    }
+
+    .good {
+      border-left: 4px solid #42d392;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #101c2d;
+      border: 1px solid #263d59;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #263d59;
+      text-align: center;
+    }
+
+    th {
+      color: #ffffff;
+      background: #14243a;
+    }
+
+    .cta {
+      margin-top: 42px;
+      padding: 24px;
+      text-align: center;
+      background: #122238;
+      border: 1px solid #34577c;
+      border-radius: 14px;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 11px 20px;
+      background: #347cf0;
+      color: #ffffff;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .related {
+      margin-top: 42px;
+      padding: 20px;
+      border-top: 1px solid #263d59;
+    }
+
+    .related strong {
+      color: #ffffff;
+    }
+
+    footer {
+      border-top: 1px solid #263d59;
+      color: #7f96b2;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 27px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      table {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="/">BUS ON2</a>
+
+    <div class="nav-links">
+      <a href="/">홈</a>
+      <a href="/spec/">스펙 계산기</a>
+      <a href="/driver/">버스 기사</a>
+      <a href="/sub/">부캐 버스</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="breadcrumb">
+    <a href="/">BUS ON2</a> › 가이드 › 스펙 효율 계산
+  </div>
+
+  <h1>아이온2 스펙 효율 계산 가이드</h1>
+
+  <p class="intro">
+    아이온2에서 장비나 옵션을 비교할 때 숫자가 더 높은 스탯을
+    무조건 선택하는 것이 항상 가장 좋은 결과로 이어지는 것은 아닙니다.
+    이미 보유하고 있는 능력치, 상대의 저항, 실제 적용 조건,
+    파티 버프 등에 따라 추가 스탯의 효율이 달라질 수 있기 때문입니다.
+  </p>
+
+  <p>
+    이 페이지에서는 강타와 피해 증가 계열처럼 자주 비교되는 능력치를
+    어떤 기준으로 판단해야 하는지, 그리고 BUS ON2 스펙 계산기를
+    어떻게 활용하면 되는지 순서대로 설명합니다.
+  </p>
+
+
+  <h2>1. 스탯 효율이란?</h2>
+
+  <p>
+    스탯 효율은 특정 능력치를 추가했을 때 실제 전투 성능이
+    얼마나 증가하는지를 비교하는 개념입니다.
+  </p>
+
+  <p>
+    예를 들어 옵션 A의 수치가 3%이고 옵션 B가 2%라고 해서
+    반드시 A가 더 좋은 것은 아닙니다. 현재 캐릭터가 이미 어느 정도의
+    능력치를 보유하고 있는지와 실제 적용 조건을 함께 확인해야 합니다.
+  </p>
+
+  <div class="box">
+    <strong>스탯을 비교할 때 함께 확인해야 할 항목</strong>
+
+    <ul>
+      <li>현재 캐릭터가 보유한 능력치</li>
+      <li>새 장비나 옵션으로 증가하는 수치</li>
+      <li>상대 몬스터나 보스의 저항 수치</li>
+      <li>해당 효과가 실제 전투에서 적용되는 시간</li>
+      <li>파티 버프로 추가되는 능력치</li>
+      <li>다른 스탯과 중복되거나 영향을 주는 요소</li>
+    </ul>
+  </div>
+
+
+  <h2>2. 표시 수치와 실제 효율은 다를 수 있습니다</h2>
+
+  <p>
+    장비에 표시되는 옵션 수치는 비교의 출발점입니다.
+    하지만 실제 전투에서는 현재 스탯과 상대 저항 등 여러 조건이
+    함께 적용됩니다.
+  </p>
+
+  <div class="box warning">
+    같은 옵션이라도 캐릭터의 현재 스펙이 달라지면
+    추가 1%가 만들어내는 실제 효율도 달라질 수 있습니다.
+  </div>
+
+  <p>
+    따라서 다른 캐릭터가 사용하는 옵션을 그대로 따라가기보다
+    자신의 현재 스탯을 기준으로 비교하는 것이 중요합니다.
+  </p>
+
+
+  <h2>3. 강타를 비교할 때 확인할 점</h2>
+
+  <p>
+    강타 계열 능력치는 자신의 강타 수치만 보는 것보다
+    상대가 가진 강타 저항까지 함께 고려하는 것이 좋습니다.
+  </p>
+
+  <p>
+    자신의 강타가 높아지더라도 상대의 저항이 높다면
+    실제로 적용되는 값에는 차이가 생길 수 있습니다.
+  </p>
+
+  <div class="box formula">
+    실제 비교 기준 = 자신의 강타 수치와 상대 강타 저항을 함께 고려
+  </div>
+
+  <p>
+    특히 보스나 콘텐츠에 따라 상대 조건이 달라질 수 있으므로
+    하나의 고정된 수치만 보고 모든 상황을 판단하지 않는 것이 좋습니다.
+  </p>
+
+
+  <h2>4. 피해 증가 계열을 비교할 때 확인할 점</h2>
+
+  <p>
+    전방이나 후방 등 특정 조건에서 적용되는 피해 증가 효과는
+    효과 자체의 수치뿐 아니라 실제 전투에서 그 조건을
+    얼마나 자주 유지할 수 있는지가 중요합니다.
+  </p>
+
+  <div class="box example">
+    <strong>예시</strong>
+
+    <p>
+      어떤 옵션이 높은 피해 증가 수치를 제공하더라도
+      실제 전투 중 해당 조건을 절반 정도만 유지할 수 있다면
+      항상 적용되는 옵션과 단순 수치만 비교해서는 정확하지 않을 수 있습니다.
+    </p>
+  </div>
+
+  <p>
+    따라서 조건부 피해 증가 옵션은
+    실제 유지율까지 함께 고려해 비교하는 것이 좋습니다.
+  </p>
+
+
+  <h2>5. 수치가 더 높은 옵션이 항상 좋은 것은 아닙니다</h2>
+
+  <p>
+    서로 다른 종류의 능력치는 적용 방식이 다르기 때문에
+    옵션에 표시된 숫자를 그대로 비교하는 것은 적절하지 않을 수 있습니다.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>비교 항목</th>
+        <th>확인해야 할 조건</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>강타</td>
+        <td>현재 강타와 상대 강타 저항</td>
+      </tr>
+
+      <tr>
+        <td>조건부 피해 증가</td>
+        <td>현재 수치와 실제 유지율</td>
+      </tr>
+
+      <tr>
+        <td>파티 버프</td>
+        <td>버프 적용 여부와 추가 수치</td>
+      </tr>
+
+      <tr>
+        <td>장비 옵션</td>
+        <td>기존 스탯과 교체 후 변화량</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    이런 조건을 함께 계산해야 서로 다른 종류의 옵션을
+    같은 기준에서 비교하기 쉬워집니다.
+  </p>
+
+
+  <h2>6. 추가 1%의 가치가 달라지는 이유</h2>
+
+  <p>
+    이미 특정 능력치를 많이 확보한 상태에서는
+    같은 능력치를 추가했을 때 전체 성능에서 차지하는 비중이
+    달라질 수 있습니다.
+  </p>
+
+  <p>
+    반대로 현재 부족한 능력치를 보완하는 경우에는
+    동일한 수치의 옵션이라도 상대적으로 더 높은 효율을
+    보여줄 수 있습니다.
+  </p>
+
+  <div class="box good">
+    장비 옵션을 비교할 때는 옵션 하나의 최대 수치보다
+    자신의 현재 스펙에서 그 옵션을 추가했을 때 얼마나 달라지는지를
+    확인하는 것이 더 중요합니다.
+  </div>
+
+
+  <h2>7. 파티 버프도 함께 계산해야 합니다</h2>
+
+  <p>
+    솔로 플레이와 파티 플레이에서는 캐릭터의 실제 능력치가
+    달라질 수 있습니다.
+  </p>
+
+  <p>
+    파티원이 제공하는 버프로 특정 능력치가 올라간다면
+    장비만 기준으로 계산한 결과와 실제 파티 전투에서의 결과에
+    차이가 생길 수 있습니다.
+  </p>
+
+  <p>
+    따라서 자주 플레이하는 파티 구성이나 주요 콘텐츠가 있다면
+    파티 버프를 포함한 상태와 포함하지 않은 상태를 각각 비교해보는 것이 좋습니다.
+  </p>
+
+
+  <h2>8. 장비 두 개를 비교하는 방법</h2>
+
+  <p>
+    장비를 비교할 때는 기존 장비와 새 장비의 옵션을
+    한꺼번에 보는 것보다 변경되는 능력치를 나누어 확인하면
+    판단하기 쉬워집니다.
+  </p>
+
+  <div class="box">
+    <strong>예를 들어 다음과 같이 비교할 수 있습니다.</strong>
+
+    <p>
+      기존 장비에서는 강타 계열 옵션을 얻고,
+      새 장비에서는 피해 증가 계열 옵션을 얻는다고 가정합니다.
+    </p>
+
+    <p>
+      이 경우 단순히 각 옵션의 퍼센트만 비교하지 말고
+      현재 스탯, 저항, 적용 조건과 유지율을 각각 입력해
+      예상 효율을 비교하는 방식이 좋습니다.
+    </p>
+  </div>
+
+
+  <h2>9. 최대 옵션만 보고 선택할 때 생기는 문제</h2>
+
+  <p>
+    장비 옵션에는 각각 얻을 수 있는 범위가 있을 수 있지만
+    최고 수치를 얻었다는 이유만으로 그 옵션이 현재 캐릭터에게
+    가장 좋은 옵션이라고 단정할 수는 없습니다.
+  </p>
+
+  <p>
+    비교하려는 두 옵션이 모두 높은 수치라면
+    오히려 현재 보유 스탯과 적용 조건의 차이가
+    선택에 더 큰 영향을 줄 수 있습니다.
+  </p>
+
+  <div class="box warning">
+    "최대 수치가 더 높은 옵션 = 무조건 더 좋은 옵션"으로
+    판단하지 않는 것이 중요합니다.
+  </div>
+
+
+  <h2>10. 실전에서는 유지율도 중요합니다</h2>
+
+  <p>
+    특정 방향, 위치 또는 상황에서만 적용되는 능력치는
+    실제 전투에서 해당 조건을 얼마나 유지할 수 있는지에 따라
+    체감 효율이 크게 달라질 수 있습니다.
+  </p>
+
+  <p>
+    연습 환경에서는 높은 유지율이 가능해도
+    보스 패턴이나 이동이 많은 전투에서는 유지율이 떨어질 수 있습니다.
+  </p>
+
+  <div class="box formula">
+    조건부 옵션의 실전 가치 = 옵션 수치와 실제 적용 시간을 함께 고려
+  </div>
+
+
+  <h2>11. BUS ON2 스펙 계산기 사용 방법</h2>
+
+  <h3>① 현재 스탯 입력</h3>
+
+  <p>
+    먼저 현재 캐릭터가 보유하고 있는 능력치를 입력합니다.
+    장비 교체 전 실제 캐릭터 수치를 기준으로 입력하는 것이 좋습니다.
+  </p>
+
+  <h3>② 비교할 옵션 입력</h3>
+
+  <p>
+    새 장비나 변경하려는 옵션의 증가 수치를 입력합니다.
+  </p>
+
+  <h3>③ 상대 조건 설정</h3>
+
+  <p>
+    필요한 경우 상대의 저항이나 전투 조건을 입력해
+    실제 콘텐츠에 가까운 조건을 만듭니다.
+  </p>
+
+  <h3>④ 파티 버프 확인</h3>
+
+  <p>
+    파티 플레이를 기준으로 비교한다면
+    실제로 적용되는 버프를 포함해서 계산합니다.
+  </p>
+
+  <h3>⑤ 결과 비교</h3>
+
+  <p>
+    단순한 옵션 수치보다 계산 결과에서 나타나는
+    예상 효율 차이를 기준으로 장비를 비교합니다.
+  </p>
+
+
+  <h2>12. 스펙 계산에서 자주 하는 실수</h2>
+
+  <div class="box">
+    <ul>
+      <li>장비에 적힌 퍼센트만 직접 비교하는 경우</li>
+      <li>현재 보유 중인 능력치를 제외하고 계산하는 경우</li>
+      <li>상대의 저항을 고려하지 않는 경우</li>
+      <li>조건부 효과를 항상 적용되는 것으로 계산하는 경우</li>
+      <li>파티 버프를 중복해서 계산하는 경우</li>
+      <li>실제 전투에서 유지하기 어려운 조건을 100%로 가정하는 경우</li>
+    </ul>
+  </div>
+
+
+  <h2>13. 어떤 스탯을 우선해야 할까?</h2>
+
+  <p>
+    모든 캐릭터에게 동일하게 적용되는 하나의 정답은 없습니다.
+  </p>
+
+  <p>
+    현재 장비 구성과 캐릭터 스펙, 주로 플레이하는 콘텐츠,
+    파티 구성에 따라 효율이 높은 옵션이 달라질 수 있기 때문입니다.
+  </p>
+
+  <p>
+    따라서 다른 캐릭터의 세팅을 그대로 따라가기보다
+    자신의 현재 수치를 기준으로 여러 옵션을 직접 비교하는 것이 좋습니다.
+  </p>
+
+
+  <h2>14. 자주 묻는 질문</h2>
+
+  <h3>옵션 수치가 더 높으면 무조건 좋은가요?</h3>
+
+  <p>
+    그렇지 않을 수 있습니다. 서로 다른 종류의 옵션은
+    적용 방식과 조건이 다르므로 현재 캐릭터 스펙을 기준으로
+    비교해야 합니다.
+  </p>
+
+  <h3>강타만 높이면 되나요?</h3>
+
+  <p>
+    특정 능력치 하나만으로 전체 효율을 판단하기는 어렵습니다.
+    상대 저항과 다른 피해 관련 능력치, 실제 콘텐츠 조건까지
+    함께 확인하는 것이 좋습니다.
+  </p>
+
+  <h3>파티 버프를 포함해서 계산해야 하나요?</h3>
+
+  <p>
+    파티 플레이를 주로 한다면 포함해서 비교하는 것이 좋습니다.
+    솔로와 파티 상황을 각각 계산해보면 세팅 차이를 확인하기 쉽습니다.
+  </p>
+
+  <h3>계산 결과가 실제 전투 결과와 완전히 같나요?</h3>
+
+  <p>
+    계산기는 입력한 조건을 기준으로 옵션 간 효율을 비교하는 도구입니다.
+    실제 전투에서는 보스 패턴, 이동, 스킬 사용과 조건 유지율 등
+    추가 변수가 발생할 수 있습니다.
+  </p>
+
+  <h3>새 장비를 얻을 때마다 계산해야 하나요?</h3>
+
+  <p>
+    기존 장비와 옵션 구성이 크게 달라진다면 다시 비교하는 것이 좋습니다.
+    현재 스탯이 변하면 같은 옵션의 상대적 가치도 달라질 수 있습니다.
+  </p>
+
+
+  <div class="cta">
+    <strong>내 캐릭터 기준으로 직접 비교해보세요.</strong>
+
+    <p>
+      BUS ON2 스펙 계산기에 현재 능력치와 비교하려는 옵션을 입력하면
+      단순 표시 수치가 아니라 현재 조건에서 어떤 선택이 더 효율적인지
+      확인하는 데 도움이 됩니다.
+    </p>
+
+    <a href="/spec/">스펙 계산기 열기</a>
+  </div>
+
+
+  <div class="related">
+    <strong>관련 가이드</strong>
+
+    <p>
+      <a href="/guide/bus-profit/">
+        아이온2 버스 수익 계산 가이드 →
+      </a>
+    </p>
+
+    <p>
+      <a href="/guide/od-efficiency/">
+        아이온2 오드 효율 계산 가이드 →
+      </a>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  BUS ON2 · 아이온2 효율 계산 및 파밍 비교 도구
+</footer>
+
+</body>
+</html>
