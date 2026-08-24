@@ -7246,35 +7246,55 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
         return;
       }
 
-      const mainStats = (item.mainStats || []).map(stat => {
-        let value = '';
+const isArcanaStatType =
+  Number(slotPos) >= 41 &&
+  Number(slotPos) <= 50 &&
+  Number(item.subStatCount) > 0 &&
+  Number(item.subSkillCountMax) === 0;
 
-        if (stat.minValue) {
-          value = `${stat.minValue} ~ ${stat.value}`;
-        } else {
-          value = stat.value || '';
-        }
+function buildMainStatHtml(stats) {
+  return stats.map(stat => {
+    let value = '';
 
-        if (
-          stat.extra &&
-          stat.extra !== '0' &&
-          stat.extra !== '0%'
-        ) {
-          value += ` <span style="color:#53a7ff;">(+${String(stat.extra).replace(/^\+/, '')})</span>`;
-        }
+    if (stat.minValue) {
+      value = `${stat.minValue} ~ ${stat.value}`;
+    } else {
+      value = stat.value || '';
+    }
 
-        return `
-          <div style="
-            display:flex;
-            justify-content:space-between;
-            gap:14px;
-            margin-bottom:7px;
-          ">
-            <span style="color:#aebed1;">${stat.name}</span>
-            <span style="font-weight:700;">${value}</span>
-          </div>
-        `;
-      }).join('');
+    if (
+      stat.extra &&
+      stat.extra !== '0' &&
+      stat.extra !== '0%'
+    ) {
+      value += ` <span style="color:#53a7ff;">(+${String(stat.extra).replace(/^\+/, '')})</span>`;
+    }
+
+    return `
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        gap:14px;
+        margin-bottom:7px;
+      ">
+        <span style="color:#aebed1;">${stat.name}</span>
+        <span style="font-weight:700;">${value}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+const itemMainStats = item.mainStats || [];
+
+const mainStats = buildMainStatHtml(
+  isArcanaStatType
+    ? itemMainStats.slice(0, 1)
+    : itemMainStats
+);
+
+const arcanaStats = isArcanaStatType
+  ? buildMainStatHtml(itemMainStats.slice(1))
+  : '';
 
       const subStats = (item.subStats || []).map(stat => `
         <div style="
@@ -7485,51 +7505,75 @@ ${
 
             ${mainStats || '<div style="color:#71849c;">없음</div>'}
           </div>
-          ${item.subSkills?.length ? `
-<div style="
-padding:11px;
-background:#101c2d;
-border:1px solid #263d59;
-border-radius:8px;
-margin-top:10px;
-">
+${item.subSkills?.length ? `
+  <div style="
+    padding:11px;
+    background:#101c2d;
+    border:1px solid #263d59;
+    border-radius:8px;
+    margin-top:10px;
+  ">
 
-<div style="
-color:#b997ff;
-font-weight:800;
-margin-bottom:10px;
-">
-스킬 옵션
-</div>
+    <div style="
+      color:#b997ff;
+      font-weight:800;
+      margin-bottom:10px;
+    ">
+      스킬 옵션
+    </div>
 
-${item.subSkills.map(skill => `
-<div style="
-display:flex;
-align-items:center;
-gap:8px;
-color:#d9e5ff;
-font-size:13px;
-margin-bottom:8px;
-">
+    ${item.subSkills.map(skill => `
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        color:#d9e5ff;
+        font-size:13px;
+        margin-bottom:8px;
+      ">
 
-<img src="${skill.icon}"
-style="
-width:28px;
-height:28px;
-border-radius:6px;
-border:1px solid #263d59;
-">
+        <img src="${skill.icon}"
+          style="
+            width:28px;
+            height:28px;
+            border-radius:6px;
+            border:1px solid #263d59;
+          ">
 
-<span>
-${skill.name}
-<span style="color:#ff8a3d;">
-+${skill.level}
-</span>
-</span>
+        <span>
+          ${skill.name}
+          <span style="color:#ff8a3d;">
+            +${skill.level}
+          </span>
+        </span>
 
-</div>
-`).join('')}
-</div>
+      </div>
+    `).join('')}
+
+  </div>
+
+` : arcanaStats ? `
+
+  <div style="
+    padding:11px;
+    background:#101c2d;
+    border:1px solid #263d59;
+    border-radius:8px;
+    margin-top:10px;
+  ">
+
+    <div style="
+      color:#b997ff;
+      font-weight:800;
+      margin-bottom:10px;
+    ">
+      스탯 옵션
+    </div>
+
+    ${arcanaStats}
+
+  </div>
+
 ` : ''}
 ${item.set?.bonuses?.length ? `
 <div style="
