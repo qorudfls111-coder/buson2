@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>아이온2 오드 효율 계산 가이드 | BUS ON2</title>
+
+  <meta
+    name="description"
+    content="아이온2에서 오드 대비 키나 효율을 계산하고 던전별 파밍 효율을 비교하는 방법을 설명합니다. 오드 1당 키나 계산식, 비교 예시와 BUS ON2 활용 방법을 확인하세요."
+  >
+
+  <link rel="canonical" href="https://buson2.com/guide/od-efficiency/">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #08111f;
+      color: #d9e5ff;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      line-height: 1.8;
+    }
+
+    a {
+      color: #78b7ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: #080d14;
+      border-bottom: 1px solid #263d59;
+    }
+
+    .nav {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 42px 20px 80px;
+    }
+
+    .breadcrumb {
+      color: #8fa9c7;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 34px;
+      line-height: 1.35;
+      margin: 0 0 18px;
+    }
+
+    h2 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-top: 48px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      color: #c5ddff;
+      font-size: 18px;
+      margin-top: 28px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    .intro {
+      font-size: 17px;
+      color: #b8cbe5;
+    }
+
+    .box {
+      margin: 24px 0;
+      padding: 20px;
+      background: #101c2d;
+      border: 1px solid #263d59;
+      border-radius: 12px;
+    }
+
+    .formula {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .example {
+      border-left: 4px solid #4d8cff;
+    }
+
+    .good {
+      border-left: 4px solid #42d392;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #101c2d;
+      border: 1px solid #263d59;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #263d59;
+      text-align: center;
+    }
+
+    th {
+      color: #ffffff;
+      background: #14243a;
+    }
+
+    .cta {
+      margin-top: 42px;
+      padding: 24px;
+      text-align: center;
+      background: #122238;
+      border: 1px solid #34577c;
+      border-radius: 14px;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 11px 20px;
+      background: #347cf0;
+      color: #ffffff;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .related {
+      margin-top: 42px;
+      padding: 20px;
+      border-top: 1px solid #263d59;
+    }
+
+    .related strong {
+      color: #ffffff;
+    }
+
+    footer {
+      border-top: 1px solid #263d59;
+      color: #7f96b2;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 27px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      table {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="/">BUS ON2</a>
+
+    <div class="nav-links">
+      <a href="/">홈</a>
+      <a href="/spec/">스펙 계산기</a>
+      <a href="/driver/">버스 기사</a>
+      <a href="/sub/">부캐 버스</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="breadcrumb">
+    <a href="/">BUS ON2</a> › 가이드 › 오드 효율 계산
+  </div>
+
+  <h1>아이온2 오드 효율 계산 가이드</h1>
+
+  <p class="intro">
+    아이온2에서 던전 파밍 효율을 비교할 때 획득 키나만 보는 것보다
+    소비되는 오드까지 함께 계산하는 것이 중요합니다.
+    같은 키나를 얻더라도 필요한 오드가 적다면 한정된 오드를
+    더 효율적으로 사용할 수 있기 때문입니다.
+  </p>
+
+  <p>
+    이 페이지에서는 오드 1개당 획득할 수 있는 키나를 계산하는 방법과
+    서로 다른 던전의 효율을 비교하는 방법을 초보자도 이해하기 쉽게
+    설명합니다.
+  </p>
+
+
+  <h2>1. 오드 효율이란?</h2>
+
+  <p>
+    오드 효율은 던전을 한 번 진행했을 때 사용하는 오드와
+    그 결과로 얻는 키나의 비율을 의미합니다.
+  </p>
+
+  <p>
+    단순히 획득 키나가 가장 높은 던전이 항상 가장 효율적인 것은 아닙니다.
+    더 많은 키나를 지급하는 던전이라도 필요한 오드가 크게 증가한다면
+    오드 1개당 효율은 오히려 낮아질 수 있습니다.
+  </p>
+
+  <div class="box">
+    <strong>오드 효율을 비교할 때 확인할 항목</strong>
+
+    <ul>
+      <li>던전 1회 진행에 필요한 오드</li>
+      <li>던전 1회 완료 시 획득하는 키나</li>
+      <li>오드 1개당 획득 키나</li>
+      <li>캐릭터가 실제로 해당 던전을 클리어할 수 있는지</li>
+      <li>던전 한 판에 필요한 시간</li>
+      <li>동일한 오드로 다른 던전을 돌았을 때의 결과</li>
+    </ul>
+  </div>
+
+
+  <h2>2. 가장 기본적인 오드 효율 계산식</h2>
+
+  <p>
+    오드 효율을 계산하는 가장 간단한 방법은
+    획득 키나를 소비 오드로 나누는 것입니다.
+  </p>
+
+  <div class="box formula">
+    오드 1개당 키나 = 획득 키나 ÷ 소비 오드
+  </div>
+
+  <p>
+    이 값이 높을수록 같은 양의 오드로 더 많은 키나를
+    얻을 수 있다는 의미입니다.
+  </p>
+
+
+  <h2>3. 실제 계산 예시</h2>
+
+  <div class="box example">
+    <strong>예시 A</strong>
+
+    <p>
+      어떤 던전이 한 판에 오드 40을 소비하고
+      1,000,000 키나를 획득한다고 가정해보겠습니다.
+    </p>
+
+    <div class="formula">
+      1,000,000 ÷ 40 = 오드 1당 25,000 키나
+    </div>
+  </div>
+
+  <div class="box example">
+    <strong>예시 B</strong>
+
+    <p>
+      다른 던전이 오드 60을 소비하고
+      1,800,000 키나를 획득한다고 가정하면 다음과 같습니다.
+    </p>
+
+    <div class="formula">
+      1,800,000 ÷ 60 = 오드 1당 30,000 키나
+    </div>
+  </div>
+
+  <p>
+    획득하는 총 키나만 보면 두 번째 던전이 더 높지만,
+    오드 효율까지 계산해보면 두 번째 던전은
+    오드 1개당 30,000 키나로 첫 번째 던전보다 효율이 높습니다.
+  </p>
+
+
+  <h2>4. 두 던전을 비교하는 방법</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>구분</th>
+        <th>소비 오드</th>
+        <th>획득 키나</th>
+        <th>오드 1당 키나</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>던전 A</td>
+        <td>40</td>
+        <td>1,000,000</td>
+        <td>25,000</td>
+      </tr>
+
+      <tr>
+        <td>던전 B</td>
+        <td>60</td>
+        <td>1,800,000</td>
+        <td>30,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    이런 방식으로 비교하면 단순히 보상 금액이 높은 곳이 아니라
+    가지고 있는 오드를 어디에 사용하는 것이 더 효율적인지
+    쉽게 판단할 수 있습니다.
+  </p>
+
+
+  <h2>5. 오드 효율만 보고 결정하면 안 되는 이유</h2>
+
+  <p>
+    오드 1개당 키나는 중요한 기준이지만
+    실제 파밍에서는 다른 조건도 함께 고려해야 합니다.
+  </p>
+
+  <div class="box">
+    <ul>
+      <li>현재 캐릭터의 전투력과 스펙</li>
+      <li>한 판을 완료하는 데 필요한 시간</li>
+      <li>파티 모집에 걸리는 시간</li>
+      <li>실패할 가능성</li>
+      <li>추가 드롭 아이템의 가치</li>
+      <li>해당 던전을 실제로 반복해서 진행할 수 있는지</li>
+    </ul>
+  </div>
+
+  <p>
+    예를 들어 오드 효율이 높은 던전이라도 한 판을 완료하는 데
+    매우 오랜 시간이 필요하거나 클리어 실패 가능성이 높다면
+    실제 플레이 효율은 낮아질 수 있습니다.
+  </p>
+
+
+  <h2>6. 오드 효율과 시간 효율의 차이</h2>
+
+  <p>
+    오드 효율과 시간 효율은 서로 다른 개념입니다.
+  </p>
+
+  <h3>오드 효율</h3>
+
+  <p>
+    가지고 있는 오드를 얼마나 효율적으로 키나로 바꿀 수 있는지를
+    확인하는 기준입니다.
+  </p>
+
+  <h3>시간 효율</h3>
+
+  <p>
+    같은 플레이 시간 동안 얼마나 많은 키나와 보상을 얻을 수 있는지를
+    확인하는 기준입니다.
+  </p>
+
+  <div class="box good">
+    오드가 부족한 플레이어라면 오드 효율을 우선해서 보고,
+    플레이 시간이 부족한 경우에는 시간 효율까지 함께 비교하는 것이 좋습니다.
+  </div>
+
+
+  <h2>7. 같은 던전의 난이도도 비교해야 합니다</h2>
+
+  <p>
+    동일한 던전이라도 보통과 어려움 등 난이도에 따라
+    필요한 오드와 획득 키나가 달라질 수 있습니다.
+  </p>
+
+  <p>
+    어려움 난이도가 더 많은 키나를 지급한다고 해서
+    반드시 오드 효율까지 높은 것은 아닙니다.
+    각각의 소비 오드와 보상을 같은 기준으로 나누어
+    비교해야 정확한 결과를 확인할 수 있습니다.
+  </p>
+
+  <div class="box formula">
+    난이도별 효율 = 해당 난이도 획득 키나 ÷ 해당 난이도 소비 오드
+  </div>
+
+
+  <h2>8. 여러 판을 돌 때 계산하는 방법</h2>
+
+  <p>
+    동일한 던전을 여러 판 반복한다면 전체 소비 오드와
+    총 획득 키나도 계산할 수 있습니다.
+  </p>
+
+  <div class="box formula">
+    총 소비 오드 = 판당 소비 오드 × 진행 판수
+  </div>
+
+  <div class="box formula">
+    총 획득 키나 = 판당 획득 키나 × 진행 판수
+  </div>
+
+  <p>
+    다만 같은 던전을 반복하는 경우에는 판수가 증가해도
+    오드 1개당 효율 자체는 동일합니다.
+  </p>
+
+
+  <h2>9. BUS ON2에서 오드 효율 비교하기</h2>
+
+  <p>
+    BUS ON2에서는 각각의 던전과 파밍 방식에서 필요한 오드와
+    획득 키나를 기준으로 효율을 비교할 수 있습니다.
+  </p>
+
+  <h3>① 비교할 던전 선택</h3>
+
+  <p>
+    현재 캐릭터가 실제로 진행할 수 있는 던전을 선택합니다.
+  </p>
+
+  <h3>② 소비 오드 확인</h3>
+
+  <p>
+    선택한 던전이나 난이도에서 한 판에 필요한 오드가
+    얼마인지 확인합니다.
+  </p>
+
+  <h3>③ 획득 키나 확인</h3>
+
+  <p>
+    동일한 조건에서 획득할 수 있는 키나를 확인합니다.
+  </p>
+
+  <h3>④ 오드 대비 효율 비교</h3>
+
+  <p>
+    결과값을 비교해 같은 오드를 사용했을 때
+    어떤 파밍 방식이 더 많은 키나를 얻을 수 있는지 확인합니다.
+  </p>
+
+
+  <h2>10. 파밍 비교에서 자주 하는 실수</h2>
+
+  <div class="box">
+    <ul>
+      <li>획득 키나만 보고 던전을 선택하는 경우</li>
+      <li>소비 오드가 다른 던전을 단순 금액으로 비교하는 경우</li>
+      <li>보통과 어려움 난이도의 오드 소비량 차이를 무시하는 경우</li>
+      <li>클리어 시간 차이를 고려하지 않는 경우</li>
+      <li>현재 캐릭터가 안정적으로 클리어 가능한지 확인하지 않는 경우</li>
+      <li>게임 업데이트 이후 변경된 보상을 이전 값으로 계산하는 경우</li>
+    </ul>
+  </div>
+
+
+  <h2>11. 어떤 던전부터 돌아야 할까?</h2>
+
+  <p>
+    모든 플레이어에게 동일한 던전 순서가 정답인 것은 아닙니다.
+  </p>
+
+  <p>
+    캐릭터의 전투력, 보유 오드, 플레이 가능한 시간,
+    파티 구성과 클리어 속도에 따라 가장 효율적인 선택은 달라질 수 있습니다.
+  </p>
+
+  <p>
+    따라서 총 보상만 보고 결정하기보다 오드 1개당 키나를 먼저 확인하고,
+    실제 클리어 시간과 난이도를 함께 비교하는 것이 좋습니다.
+  </p>
+
+
+  <h2>12. 자주 묻는 질문</h2>
+
+  <h3>오드 1당 키나가 가장 높은 던전만 돌면 되나요?</h3>
+
+  <p>
+    반드시 그렇지는 않습니다. 오드 효율이 높더라도 클리어 시간이 길거나
+    현재 캐릭터가 안정적으로 진행하기 어려운 경우에는 다른 던전이
+    실제 플레이에서 더 효율적일 수 있습니다.
+  </p>
+
+  <h3>보상이 두 배면 오드 효율도 두 배인가요?</h3>
+
+  <p>
+    소비 오드까지 함께 확인해야 합니다. 보상이 두 배 증가하면서
+    오드 소비량도 두 배가 된다면 오드 1개당 효율은 동일합니다.
+  </p>
+
+  <h3>오드가 많이 남아 있다면 효율을 신경 쓰지 않아도 되나요?</h3>
+
+  <p>
+    오드가 충분하다면 시간 효율을 더 중요하게 볼 수도 있습니다.
+    하지만 여러 던전 중 어떤 곳에 오드를 먼저 사용할지 결정할 때는
+    오드 효율을 알아두면 비교하기 편합니다.
+  </p>
+
+  <h3>게임 업데이트 이후에도 계산값은 같은가요?</h3>
+
+  <p>
+    던전 보상이나 오드 소비량이 변경되면 효율도 달라집니다.
+    업데이트 이후에는 최신 보상과 소비량을 기준으로 다시 비교하는 것이 좋습니다.
+  </p>
+
+
+  <div class="cta">
+    <strong>BUS ON2에서 직접 비교해보세요.</strong>
+
+    <p>
+      실제 던전 조건을 기준으로 키나와 오드 효율을 비교하면
+      어떤 파밍 방식이 자신에게 더 유리한지 빠르게 확인할 수 있습니다.
+    </p>
+
+    <a href="/">BUS ON2 계산기 열기</a>
+  </div>
+
+
+  <div class="related">
+    <strong>관련 가이드</strong>
+
+    <p>
+      <a href="/guide/bus-profit/">
+        아이온2 버스 수익 계산 가이드 →
+      </a>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  BUS ON2 · 아이온2 효율 계산 및 파밍 비교 도구
+</footer>
+
+</body>
+</html>
