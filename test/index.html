@@ -7748,21 +7748,19 @@ card.addEventListener('mouseleave', function (event) {
 
   if (!tooltip) return;
 
-  // 아이템 → 옵션창으로 이동한 경우 절대 닫지 않음
+  // 아이템 → 현재 옵션창으로 이동하면 유지
   if (next && tooltip.contains(next)) return;
 
   setTimeout(() => {
-    const currentTooltip =
-      document.getElementById('buson2-equipment-tooltip');
-
-    if (!currentTooltip) return;
+    // 이 아이템에서 열었던 옵션창이 이미 교체됐으면 아무것도 하지 않음
+    if (!tooltip.isConnected) return;
 
     if (
       card.matches(':hover') ||
-      currentTooltip.matches(':hover')
+      tooltip.matches(':hover')
     ) return;
 
-    currentTooltip.remove();
+    tooltip.remove();
   }, 300);
 });
   card.addEventListener('click', function (event) {
