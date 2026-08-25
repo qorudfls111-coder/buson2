@@ -7185,6 +7185,12 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
     `;
 
     document.body.appendChild(tooltip);
+    tooltip.addEventListener('mouseleave', function () {
+  setTimeout(() => {
+    if (tooltip.matches(':hover') || card.matches(':hover')) return;
+    tooltip.remove();
+  }, 150);
+});
 
     const positionTooltip = () => {
       const rect = card.getBoundingClientRect();
@@ -7729,10 +7735,20 @@ ${!(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? `
     }
   });
 
-  card.addEventListener('mouseleave', function () {
-    isHovering = false;
-    document.getElementById('buson2-equipment-tooltip')?.remove();
-  });
+card.addEventListener('mouseleave', function () {
+  isHovering = false;
+
+  setTimeout(() => {
+    const tooltip = document.getElementById('buson2-equipment-tooltip');
+
+    if (!tooltip) return;
+
+    // 다시 아이템 위로 갔거나 옵션창 위에 있으면 유지
+    if (card.matches(':hover') || tooltip.matches(':hover')) return;
+
+    tooltip.remove();
+  }, 250);
+});
   card.addEventListener('click', function (event) {
   if (!window.matchMedia('(hover: none)').matches) return;
 
