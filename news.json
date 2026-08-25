@@ -1,6 +1,13 @@
 {
-  "updated_at": "2026-08-26 03:01 KST",
+  "updated_at": "2026-08-26 04:49 KST",
   "update": [
+    {
+      "title": "[안내] 8/26(수) 업데이트 노트",
+      "date": "2026-08-25",
+      "time": "19:30",
+      "datetime": "2026-08-25 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a8ded386b722c561dc6a241"
+    },
     {
       "title": "[안내] 8/19(수) 업데이트 노트 (수정 8/19 15:00)",
       "date": "2026-08-18",
@@ -119,13 +126,6 @@
       "time": "19:30",
       "datetime": "2026-04-28 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69f10ab84b054450af1111e9"
-    },
-    {
-      "title": "[안내] 4/22(수) 업데이트 노트 (수정 4/23 13:35)",
-      "date": "2026-04-21",
-      "time": "19:30",
-      "datetime": "2026-04-21 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=69e7d0384b054450af1110c4"
     }
   ],
   "notice": [
@@ -149,6 +149,13 @@
       "time": "10:00",
       "datetime": "2025-11-16 10:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
+    },
+    {
+      "title": "[안내] 8/26(수) 신규 구독 상품 안내",
+      "date": "2026-08-25",
+      "time": "19:30",
+      "datetime": "2026-08-25 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ded386b722c561dc6a220"
     },
     {
       "title": "[안내] 8/26(수) 서버 이전 상품 안내",
@@ -261,13 +268,6 @@
       "time": "22:40",
       "datetime": "2026-08-18 22:40",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a838dc0fa34c1011d627392"
-    },
-    {
-      "title": "[안내] RTX 50 시리즈 Laptop GPU 환경 DLSS Frame Generation 이용 관련 안내 (내용 추가 8/19 13:37)",
-      "date": "2026-08-18",
-      "time": "19:30",
-      "datetime": "2026-08-18 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a84dce8d97eae18cc40da9f"
     }
   ],
   "cm": [
