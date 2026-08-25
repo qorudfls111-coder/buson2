@@ -7485,7 +7485,7 @@ ${
 
         <div style="
           display:grid;
-          grid-template-columns:0.9fr 1fr 1.45fr;
+          grid-template-columns:${(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? '0.9fr 1fr 1.45fr' : (item.subSkills?.length ? '1fr 1fr' : '1fr')};
           gap:10px;
         ">
 
@@ -7577,11 +7577,13 @@ ${item.subSkills?.length ? `
 ` : ''}
 ${item.set?.bonuses?.length ? `
 <div style="
-padding:11px;
-background:#101c2d;
-border:1px solid #263d59;
-border-radius:8px;
-margin-top:10px;
+  padding:11px;
+  background:#101c2d;
+  border:1px solid #263d59;
+  border-radius:8px;
+  margin-top:10px;
+  grid-column:${(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? 'auto' : '1 / -1'};
+  ${(Number(slotPos) < 41 || Number(slotPos) > 50) ? 'max-height:320px; overflow-y:auto;' : ''}
 ">
 
 <div style="
@@ -7666,6 +7668,12 @@ ${desc}
 </div>
 ` : ''}
 ${!(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? `
+<div style="
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+">
           <div style="
             padding:11px;
             background:#101c2d;
@@ -7698,6 +7706,7 @@ ${!(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? `
             </div>
 
             ${magicStats || '<div style="color:#71849c;">없음</div>'}
+          </div>
           </div>
 ` : ''}
         </div>
