@@ -2145,6 +2145,7 @@ main.wrap{
   </div>
 
 </section>
+</section>
 
 <style>
 .buson-info-section{
@@ -6678,6 +6679,7 @@ card.style.display = 'flex';
     }
 
     const data = await response.json();
+    console.log(data);
 
     const profile = data.profile || {};
     const statList = data.stat?.statList || [];
@@ -6900,6 +6902,9 @@ ${stat.value}
 const normalEquipment = equipmentList.filter(
   item => Number(item.slotPos) < 40
 );
+      const arcanaEquipment = equipmentList.filter(
+    item => item.slotPosName?.startsWith("Arcana")
+);
 
 const armorSlots = [
   'MainHand',
@@ -6962,7 +6967,17 @@ function getEquipmentSlotName(slotPosName) {
     Rune1: '룬',
     Rune2: '룬',
     Amulet: '아뮬렛',
-    Pendant: '펜던트'
+    Pendant: '펜던트',
+    Arcana1: '아르카나',
+Arcana2: '아르카나',
+Arcana3: '아르카나',
+Arcana4: '아르카나',
+Arcana5: '아르카나',
+Arcana6: '아르카나',
+Arcana7: '아르카나',
+Arcana8: '아르카나',
+Arcana9: '아르카나',
+Arcana10: '아르카나'
   };
 
   return map[slotPosName] || slotPosName || '';
@@ -7096,6 +7111,35 @@ const accessoryHtml = buildEquipmentHtml(accessoryEquipment);
 ">
   ${accessoryHtml}
 </div>
+<div style="
+  font-size:16px;
+  font-weight:800;
+  color:#fff;
+  margin-top:22px;
+  margin-bottom:12px;
+">
+  🔮 아르카나
+</div>
+
+<div style="
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:8px;
+">
+${arcanaEquipment.length
+? buildEquipmentHtml(arcanaEquipment)
+: `
+<div style="
+padding:16px;
+border:1px solid #263d59;
+border-radius:12px;
+background:#0d131c;
+">
+아르카나 정보 없음
+</div>
+`
+}
+</div>
           </div>
         `
       );
@@ -7131,7 +7175,7 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
       box-shadow:0 18px 50px rgba(0,0,0,.55);
       color:#fff;
       font-size:13px;
-      pointer-events:none;
+      pointer-events:auto;
     `;
 
     tooltip.innerHTML = `
@@ -7141,6 +7185,17 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
     `;
 
     document.body.appendChild(tooltip);
+tooltip.addEventListener('mouseleave', function (event) {
+  const next = event.relatedTarget;
+
+  // 옵션창 → 원래 아이템으로 이동하면 유지
+  if (next && card.contains(next)) return;
+
+  setTimeout(() => {
+    if (tooltip.matches(':hover') || card.matches(':hover')) return;
+    tooltip.remove();
+  }, 300);
+});
 
     const positionTooltip = () => {
       const rect = card.getBoundingClientRect();
@@ -7202,35 +7257,55 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
         return;
       }
 
-      const mainStats = (item.mainStats || []).map(stat => {
-        let value = '';
+const isArcanaStatType =
+  Number(slotPos) >= 41 &&
+  Number(slotPos) <= 50 &&
+  Number(item.subStatCount) > 0 &&
+  Number(item.subSkillCountMax) === 0;
 
-        if (stat.minValue) {
-          value = `${stat.minValue} ~ ${stat.value}`;
-        } else {
-          value = stat.value || '';
-        }
+function buildMainStatHtml(stats) {
+  return stats.map(stat => {
+    let value = '';
 
-        if (
-          stat.extra &&
-          stat.extra !== '0' &&
-          stat.extra !== '0%'
-        ) {
-          value += ` <span style="color:#53a7ff;">(+${String(stat.extra).replace(/^\+/, '')})</span>`;
-        }
+    if (stat.minValue) {
+      value = `${stat.minValue} ~ ${stat.value}`;
+    } else {
+      value = stat.value || '';
+    }
 
-        return `
-          <div style="
-            display:flex;
-            justify-content:space-between;
-            gap:14px;
-            margin-bottom:7px;
-          ">
-            <span style="color:#aebed1;">${stat.name}</span>
-            <span style="font-weight:700;">${value}</span>
-          </div>
-        `;
-      }).join('');
+    if (
+      stat.extra &&
+      stat.extra !== '0' &&
+      stat.extra !== '0%'
+    ) {
+      value += ` <span style="color:#53a7ff;">(+${String(stat.extra).replace(/^\+/, '')})</span>`;
+    }
+
+    return `
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        gap:14px;
+        margin-bottom:7px;
+      ">
+        <span style="color:#aebed1;">${stat.name}</span>
+        <span style="font-weight:700;">${value}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+const itemMainStats = item.mainStats || [];
+
+const mainStats = buildMainStatHtml(
+  isArcanaStatType
+    ? itemMainStats.slice(0, 1)
+    : itemMainStats
+);
+
+const arcanaStats = isArcanaStatType
+  ? buildMainStatHtml(itemMainStats.slice(1))
+  : '';
 
       const subStats = (item.subStats || []).map(stat => `
         <div style="
@@ -7421,7 +7496,7 @@ ${
 
         <div style="
           display:grid;
-          grid-template-columns:repeat(3,1fr);
+          grid-template-columns:${(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? '0.9fr 1fr 1.45fr' : (item.subSkills?.length ? '1fr 1fr' : '1fr')};
           gap:10px;
         ">
 
@@ -7441,7 +7516,175 @@ ${
 
             ${mainStats || '<div style="color:#71849c;">없음</div>'}
           </div>
+${item.subSkills?.length ? `
+  <div style="
+    padding:11px;
+    background:#101c2d;
+    border:1px solid #263d59;
+    border-radius:8px;
+    margin-top:10px;
+  ">
 
+    <div style="
+      color:#b997ff;
+      font-weight:800;
+      margin-bottom:10px;
+    ">
+      스킬 옵션
+    </div>
+
+    ${item.subSkills.map(skill => `
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:8px;
+        color:#d9e5ff;
+        font-size:13px;
+        margin-bottom:8px;
+      ">
+
+        <img src="${skill.icon}"
+          style="
+            width:28px;
+            height:28px;
+            border-radius:6px;
+            border:1px solid #263d59;
+          ">
+
+        <span>
+          ${skill.name}
+          <span style="color:#ff8a3d;">
+            +${skill.level}
+          </span>
+        </span>
+
+      </div>
+    `).join('')}
+
+  </div>
+
+` : arcanaStats ? `
+
+  <div style="
+    padding:11px;
+    background:#101c2d;
+    border:1px solid #263d59;
+    border-radius:8px;
+    margin-top:10px;
+  ">
+
+    <div style="
+      color:#b997ff;
+      font-weight:800;
+      margin-bottom:10px;
+    ">
+      스탯 옵션
+    </div>
+
+    ${arcanaStats}
+
+  </div>
+
+` : ''}
+${item.set?.bonuses?.length ? `
+<div style="
+  padding:11px;
+  background:#101c2d;
+  border:1px solid #263d59;
+  border-radius:8px;
+  margin-top:10px;
+  grid-column:${(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? 'auto' : '1 / -1'};
+  ${(Number(slotPos) < 41 || Number(slotPos) > 50) ? 'max-height:320px; overflow-y:auto;' : ''}
+">
+
+<div style="
+color:#ffb86b;
+font-weight:800;
+margin-bottom:10px;
+">
+세트 효과 - ${item.set.name}
+</div>
+${item.set.items?.length ? `
+<div style="
+padding:11px;
+background:#101c2d;
+border:1px solid #263d59;
+border-radius:8px;
+margin-top:10px;
+">
+
+<div style="
+color:#b997ff;
+font-weight:800;
+margin-bottom:10px;
+">
+세트 아이템
+</div>
+
+${item.set.items.map(setItem => `
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:center;
+padding:4px 6px;
+background:#101c2d;
+border-radius:6px;
+">
+
+<span>
+${setItem.name}
+</span>
+
+<span style="
+color:${setItem.equipped ? '#ffb84d':'#778899'};
+font-size:12px;
+">
+${setItem.equipped ? '착용중':'미착용'}
+</span>
+
+</div>
+`).join('')}
+${item.set.bonuses.map(set => `
+<div style="
+margin-bottom:10px;
+">
+
+<div style="
+color:#7fb4ff;
+font-weight:700;
+font-size:13px;
+margin-bottom:4px;
+">
+${set.degree} 세트 효과
+</div>
+
+${set.descriptions.map(desc => `
+<div style="
+color:#d9e5ff;
+font-size:13px;
+line-height:1.5;
+">
+${desc}
+</div>
+`).join('')}
+
+</div>
+`).join('')}
+
+</div>
+
+</div>
+` : ''}
+
+</div>
+` : ''}
+${!(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? `
+<div style="
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+">
           <div style="
             padding:11px;
             background:#101c2d;
@@ -7475,7 +7718,8 @@ ${
 
             ${magicStats || '<div style="color:#71849c;">없음</div>'}
           </div>
-
+          </div>
+` : ''}
         </div>
 
         ${godStone}
@@ -7496,10 +7740,29 @@ ${
     }
   });
 
-  card.addEventListener('mouseleave', function () {
-    isHovering = false;
-    document.getElementById('buson2-equipment-tooltip')?.remove();
-  });
+card.addEventListener('mouseleave', function (event) {
+  isHovering = false;
+
+  const tooltip = document.getElementById('buson2-equipment-tooltip');
+  const next = event.relatedTarget;
+
+  if (!tooltip) return;
+
+  // 아이템 → 현재 옵션창으로 이동하면 유지
+  if (next && tooltip.contains(next)) return;
+
+  setTimeout(() => {
+    // 이 아이템에서 열었던 옵션창이 이미 교체됐으면 아무것도 하지 않음
+    if (!tooltip.isConnected) return;
+
+    if (
+      card.matches(':hover') ||
+      tooltip.matches(':hover')
+    ) return;
+
+    tooltip.remove();
+  }, 300);
+});
   card.addEventListener('click', function (event) {
   if (!window.matchMedia('(hover: none)').matches) return;
 
