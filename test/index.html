@@ -7322,28 +7322,29 @@ const arcanaStats = isArcanaStatType
       `).join('');
 function getMagicStoneStyle(grade) {
   switch (grade) {
+
     case 'Rare':
-      return {
-        border: '#3b82f6',
-        color: '#93c5fd'
-      };
-
-    case 'Legend':
-      return {
-        border: '#f59e0b',
-        color: '#fcd34d'
-      };
-
-    case 'Unique':
       return {
         border: '#22c55e',
         color: '#86efac'
       };
 
+    case 'Legend':
+      return {
+        border: '#3b82f6',
+        color: '#93c5fd'
+      };
+
+    case 'Unique':
+      return {
+        border: '#eab308',
+        color: '#fde047'
+      };
+
     case 'Epic':
       return {
-        border: '#a855f7',
-        color: '#d8b4fe'
+        border: '#f97316',
+        color: '#fdba74'
       };
 
     default:
