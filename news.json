@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-26 17:05 KST",
+  "updated_at": "2026-08-26 20:51 KST",
   "update": [
     {
       "title": "[안내] 8/26(수) 업데이트 노트",
@@ -151,14 +151,28 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 8/26(수) 무점검 패치 안내",
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [284차]",
+      "date": "2026-08-26",
+      "time": "11:10",
+      "datetime": "2026-08-26 11:10",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ec99602862d665fca1689"
+    },
+    {
+      "title": "[안내] 서버 이전 가능 서버 안내",
+      "date": "2026-08-26",
+      "time": "10:00",
+      "datetime": "2026-08-26 10:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ded386b722c561dc6a222"
+    },
+    {
+      "title": "[안내] 8/26(수) 무점검 패치 안내 (아이템 복구 방법 추가 8/26 17:22)",
       "date": "2026-08-26",
       "time": "06:05",
       "datetime": "2026-08-26 06:05",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8e80e0a279104f7d9d5905"
     },
     {
-      "title": "[안내] 8월 4주차 알려진 이슈 및 조치 안내 (수정 8/26 13:17)",
+      "title": "[안내] 8월 4주차 알려진 이슈 및 조치 안내 (수정 8/26 18:30)",
       "date": "2026-08-26",
       "time": "01:40",
       "datetime": "2026-08-26 01:40",
@@ -254,20 +268,6 @@
       "time": "05:59",
       "datetime": "2026-08-20 05:59",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8697cfd8339a6f921094df"
-    },
-    {
-      "title": "[안내] 8/20(목) AION2 임시점검 안내 (완료)",
-      "date": "2026-08-19",
-      "time": "11:30",
-      "datetime": "2026-08-19 11:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a84f200fa34c1011d6273a9"
-    },
-    {
-      "title": "[안내] 8/19(수) 무점검 패치 안내",
-      "date": "2026-08-19",
-      "time": "10:12",
-      "datetime": "2026-08-19 10:12",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8577b0d97eae18cc40db38"
     }
   ],
   "cm": [
