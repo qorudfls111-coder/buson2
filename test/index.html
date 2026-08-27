@@ -7176,6 +7176,7 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
       color:#fff;
       font-size:13px;
       pointer-events:auto;
+      position:relative;
     `;
 
     tooltip.innerHTML = `
@@ -7192,6 +7193,7 @@ tooltip.addEventListener('mouseleave', function (event) {
   if (next && card.contains(next)) return;
 
   setTimeout(() => {
+    if (tooltip.dataset.pinned === 'true') return;
     if (tooltip.matches(':hover') || card.matches(':hover')) return;
     tooltip.remove();
   }, 300);
@@ -7726,6 +7728,42 @@ ${!(Number(slotPos) >= 41 && Number(slotPos) <= 50) ? `
 
         ${godStone}
       `;
+      // 옵션창 고정 버튼
+tooltip.dataset.pinned = 'false';
+
+const pinButton = document.createElement('button');
+pinButton.type = 'button';
+pinButton.textContent = '📌 고정';
+
+pinButton.style.cssText = `
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:10;
+  padding:5px 9px;
+  border:1px solid #365272;
+  border-radius:7px;
+  background:#16263a;
+  color:#b9d7ff;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+`;
+
+pinButton.addEventListener('click', function (event) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const pinned = tooltip.dataset.pinned === 'true';
+
+  tooltip.dataset.pinned = pinned ? 'false' : 'true';
+  pinButton.textContent = pinned ? '📌 고정' : '📍 고정 해제';
+
+  pinButton.style.color = pinned ? '#b9d7ff' : '#ffd166';
+  pinButton.style.borderColor = pinned ? '#365272' : '#d6a936';
+});
+
+tooltip.appendChild(pinButton);
 
       positionTooltip();
 
@@ -7753,17 +7791,20 @@ card.addEventListener('mouseleave', function (event) {
   // 아이템 → 현재 옵션창으로 이동하면 유지
   if (next && tooltip.contains(next)) return;
 
-  setTimeout(() => {
-    // 이 아이템에서 열었던 옵션창이 이미 교체됐으면 아무것도 하지 않음
-    if (!tooltip.isConnected) return;
+setTimeout(() => {
+  // 이 아이템에서 열었던 툴팁이 이미 교체됐으면 아무것도 하지 않음
+  if (!tooltip.isConnected) return;
 
-    if (
-      card.matches(':hover') ||
-      tooltip.matches(':hover')
-    ) return;
+  // 고정 상태면 닫지 않음
+  if (tooltip.dataset.pinned === 'true') return;
 
-    tooltip.remove();
-  }, 300);
+  if (
+    card.matches(':hover') ||
+    tooltip.matches(':hover')
+  ) return;
+
+  tooltip.remove();
+}, 300);
 });
   card.addEventListener('click', function (event) {
   if (!window.matchMedia('(hover: none)').matches) return;
