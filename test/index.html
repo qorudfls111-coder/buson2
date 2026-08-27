@@ -8859,10 +8859,10 @@ async function lookupSubmitRating(type) {
   const server = lookupCurrentDriver.server;
   const name = lookupCurrentDriver.character_name;
 
-  if (lookupAlreadyRated(server, name)) {
-    alert("이 브라우저에서는 해당 기사에게 이미 평가를 남겼습니다.");
-    return;
-  }
+if (lookupAlreadyRated(server, name)) {
+  alert("같은 기사에게는 24시간에 한 번만 평가할 수 있습니다.");
+  return;
+}
 
   try {
     const driver = await lookupEnsureDriver();
