@@ -8466,11 +8466,30 @@ function lookupRatingKey(server, name) {
 }
 
 function lookupAlreadyRated(server, name) {
-  return localStorage.getItem(lookupRatingKey(server, name)) === "1";
+  const key = lookupRatingKey(server, name);
+  const saved = localStorage.getItem(key);
+
+  if (!saved) return false;
+
+  const ratedAt = Number(saved);
+
+  // 예전 방식("1")으로 저장된 기록은 초기화
+  if (!Number.isFinite(ratedAt) || ratedAt < 1000000000000) {
+    localStorage.removeItem(key);
+    return false;
+  }
+
+  const ONE_DAY = 24 * 60 * 60 * 1000;
+
+  // 마지막 평가 후 24시간이 지나지 않았으면 차단
+  return Date.now() - ratedAt < ONE_DAY;
 }
 
 function lookupSaveRated(server, name) {
-  localStorage.setItem(lookupRatingKey(server, name), "1");
+  localStorage.setItem(
+    lookupRatingKey(server, name),
+    String(Date.now())
+  );
 }
 
 async function lookupFindDriver(server, name) {
@@ -8840,10 +8859,10 @@ async function lookupSubmitRating(type) {
   const server = lookupCurrentDriver.server;
   const name = lookupCurrentDriver.character_name;
 
-  if (lookupAlreadyRated(server, name)) {
-    alert("이 브라우저에서는 해당 기사에게 이미 평가를 남겼습니다.");
-    return;
-  }
+if (lookupAlreadyRated(server, name)) {
+  alert("같은 기사에게는 24시간에 한 번만 평가할 수 있습니다.");
+  return;
+}
 
   try {
     const driver = await lookupEnsureDriver();
