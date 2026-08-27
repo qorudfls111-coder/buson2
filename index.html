@@ -8867,14 +8867,31 @@ if (lookupAlreadyRated(server, name)) {
   try {
     const driver = await lookupEnsureDriver();
 
-    const { error } = await lookupDb
-      .from("driver_reports")
-      .insert({
-        driver_id: driver.id,
-        report_type: type
-      });
+const { data, error } = await lookupDb.functions.invoke("driver-report", {
+  body: {
+    driver_id: driver.id,
+    report_type: type
+  }
+});
 
-    if (error) throw error;
+if (error) {
+  let message = "평가 등록 중 오류가 발생했습니다.";
+
+  try {
+    const errorBody = await error.context.json();
+    if (errorBody?.message) {
+      message = errorBody.message;
+    }
+  } catch (e) {}
+
+  alert(message);
+  return;
+}
+
+if (!data?.success) {
+  alert(data?.message || "평가를 등록하지 못했습니다.");
+  return;
+}
 
     lookupSaveRated(server, name);
 
