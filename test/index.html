@@ -8728,10 +8728,42 @@ async function lookupLoadCounts(driver) {
   document.getElementById("lookup-promise-count").textContent = promise;
   document.getElementById("lookup-other-count").textContent = other;
 
-  document.getElementById("lookup-rate").textContent =
-    total > 0
-      ? `정상 거래율: ${((good / total) * 100).toFixed(1)}%`
-      : "아직 등록된 평가가 없습니다.";
+const trustRate = total > 0
+  ? ((good / total) * 100)
+  : 0;
+
+let trustColor = "#fb7185";
+
+if (trustRate >= 80) {
+  trustColor = "#6ee7b7";
+} else if (trustRate >= 50) {
+  trustColor = "#facc15";
+}
+
+document.getElementById("lookup-rate").innerHTML =
+  total > 0
+    ? `
+      <div style="display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;">
+        <span>
+          정상 거래 <strong style="color:#6ee7b7;">${good}</strong>
+        </span>
+
+        <span>
+          문제 제보 <strong style="color:#fb7185;">${problem}</strong>
+        </span>
+
+        <span>
+          총 평가 <strong style="color:#93c5fd;">${total}</strong>
+        </span>
+
+        <span>
+          신뢰도 <strong style="color:${trustColor};">
+            ${trustRate.toFixed(1)}%
+          </strong>
+        </span>
+      </div>
+    `
+    : "아직 등록된 평가가 없습니다.";
 }
 
 function lookupShowDriver(server, name, driver) {
