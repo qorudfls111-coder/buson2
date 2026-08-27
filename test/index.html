@@ -7156,8 +7156,17 @@ document.querySelectorAll('.buson2-equipment-item').forEach(card => {
     const slotPos = this.dataset.slotPos;
     const enchantLevel = this.dataset.enchantLevel;
 
-    // 기존 툴팁 제거
-    document.getElementById('buson2-equipment-tooltip')?.remove();
+// 기존 툴팁 확인
+const oldTooltip = document.getElementById('buson2-equipment-tooltip');
+
+// 고정된 툴팁이 있으면 다른 아이템 hover 무시
+if (oldTooltip?.dataset.pinned === 'true') {
+  isHovering = false;
+  return;
+}
+
+// 고정이 아니면 기존 툴팁 제거
+oldTooltip?.remove();
 
     const tooltip = document.createElement('div');
     tooltip.id = 'buson2-equipment-tooltip';
