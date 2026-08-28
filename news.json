@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-26 23:29 KST",
+  "updated_at": "2026-08-28 09:59 KST",
   "update": [
     {
       "title": "[안내] 8/26(수) 업데이트 노트",
@@ -151,7 +151,14 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 8/27(목) AION2 임시점검 안내 (수정 8/26 22:45)",
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [285차]",
+      "date": "2026-08-27",
+      "time": "10:56",
+      "datetime": "2026-08-27 10:56",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a9017c638eb0528f9001d05"
+    },
+    {
+      "title": "[안내] 8/27(목) AION2 임시점검 안내 (완료)",
       "date": "2026-08-26",
       "time": "12:10",
       "datetime": "2026-08-26 12:10",
@@ -165,7 +172,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ec99602862d665fca1689"
     },
     {
-      "title": "[안내] 서버 이전 가능 서버 안내",
+      "title": "[안내] 서버 이전 가능 서버 안내 (수정 8/27 19:00)",
       "date": "2026-08-26",
       "time": "10:00",
       "datetime": "2026-08-26 10:00",
@@ -179,7 +186,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8e80e0a279104f7d9d5905"
     },
     {
-      "title": "[안내] 8월 4주차 알려진 이슈 및 조치 안내 (수정 8/26 18:30)",
+      "title": "[안내] 8월 4주차 알려진 이슈 및 조치 안내 (수정 8/27 17:56)",
       "date": "2026-08-26",
       "time": "01:40",
       "datetime": "2026-08-26 01:40",
@@ -261,13 +268,6 @@
       "time": "08:52",
       "datetime": "2026-08-21 08:52",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8811c28af865061f6b0a27"
-    },
-    {
-      "title": "[이벤트] PC방 게릴라 이벤트 안내",
-      "date": "2026-08-21",
-      "time": "01:00",
-      "datetime": "2026-08-21 01:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a87a3106b722c561dc6a145"
     }
   ],
   "cm": [
