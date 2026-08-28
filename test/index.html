@@ -8175,26 +8175,28 @@ raceEl.addEventListener('change', updateServerOptions);
 
 /* 처음 페이지 열었을 때 현재 종족 기준 서버 목록 생성 */
 updateServerOptions();
-  const shareParams = new URLSearchParams(window.location.search);
+ window.addEventListener('load', function () {
+  const params = new URLSearchParams(window.location.search);
 
-if (shareParams.get('share') === '1') {
-  const shareRace = shareParams.get('race');
-  const shareServerId = shareParams.get('serverId');
-  const shareKeyword = shareParams.get('keyword');
+  if (params.get('share') !== '1') return;
 
-  if (shareRace && shareServerId && shareKeyword) {
-    raceEl.value = shareRace;
+  const shareRace = params.get('race');
+  const shareServerId = params.get('serverId');
+  const shareKeyword = params.get('keyword');
 
-    updateServerOptions();
+  if (!shareRace || !shareServerId || !shareKeyword) return;
 
-    serverEl.value = shareServerId;
-    keywordEl.value = shareKeyword;
+  raceEl.value = shareRace;
 
-    setTimeout(() => {
-      searchCharacter();
-    }, 200);
-  }
-}
+  updateServerOptions();
+
+  serverEl.value = shareServerId;
+  keywordEl.value = shareKeyword;
+
+  setTimeout(() => {
+    searchCharacter();
+  }, 300);
+});
   searchBtn.addEventListener('click', searchCharacter);
 
   keywordEl.addEventListener('keydown', function (event) {
