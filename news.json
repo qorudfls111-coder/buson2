@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-28 09:59 KST",
+  "updated_at": "2026-08-29 06:53 KST",
   "update": [
     {
       "title": "[안내] 8/26(수) 업데이트 노트",
@@ -130,6 +130,13 @@
   ],
   "notice": [
     {
+      "title": "[안내] 서버 이전 가능 서버 안내 (수정 8/28 19:00)",
+      "date": "2026-08-26",
+      "time": "10:00",
+      "datetime": "2026-08-26 10:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ded386b722c561dc6a222&isNotice=1"
+    },
+    {
       "title": "[안내] AION2 챕터 1 콘텐츠 운영 계획 사전 안내",
       "date": "2026-06-30",
       "time": "13:30",
@@ -149,6 +156,20 @@
       "time": "10:00",
       "datetime": "2025-11-16 10:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [286차]",
+      "date": "2026-08-28",
+      "time": "13:20",
+      "datetime": "2026-08-28 13:20",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a918b00d97eae18cc40dcba"
+    },
+    {
+      "title": "[안내] 고객지원 전화 상담 시스템 점검 안내 (정상화)",
+      "date": "2026-08-28",
+      "time": "01:15",
+      "datetime": "2026-08-28 01:15",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a90e114fa34c1011d6274cf"
     },
     {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [285차]",
@@ -172,7 +193,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ec99602862d665fca1689"
     },
     {
-      "title": "[안내] 서버 이전 가능 서버 안내 (수정 8/27 19:00)",
+      "title": "[안내] 서버 이전 가능 서버 안내 (수정 8/28 19:00)",
       "date": "2026-08-26",
       "time": "10:00",
       "datetime": "2026-08-26 10:00",
@@ -247,27 +268,6 @@
       "time": "01:00",
       "datetime": "2026-08-24 01:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8b9790eea53f5d6dbcf394"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [281차]",
-      "date": "2026-08-23",
-      "time": "04:30",
-      "datetime": "2026-08-23 04:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8a7748a279104f7d9d57ea"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [280차]",
-      "date": "2026-08-22",
-      "time": "05:19",
-      "datetime": "2026-08-22 05:19",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a89316ce6bf57144768a255"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [279차]",
-      "date": "2026-08-21",
-      "time": "08:52",
-      "datetime": "2026-08-21 08:52",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8811c28af865061f6b0a27"
     }
   ],
   "cm": [
