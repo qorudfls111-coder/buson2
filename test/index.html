@@ -6670,6 +6670,44 @@ card.style.display = 'flex';
       캐릭터 상세 정보를 불러오는 중...
     </div>
   `;
+  const shareBtn = document.getElementById('char-share-btn');
+
+if (shareBtn) {
+  shareBtn.addEventListener('click', async function () {
+    const params = new URLSearchParams();
+
+    params.set('share', '1');
+    params.set('race', String(character.race || ''));
+    params.set('serverId', String(character.serverId || ''));
+    params.set('keyword', cleanCharacterName(character.name));
+    params.set('characterId', character.characterId || '');
+
+    const shareUrl =
+      window.location.origin +
+      window.location.pathname +
+      '?' +
+      params.toString();
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+
+      const oldText = shareBtn.textContent;
+      shareBtn.textContent = '✅ 링크 복사 완료';
+
+      setTimeout(() => {
+        shareBtn.textContent = oldText;
+      }, 1800);
+
+    } catch (error) {
+      console.error(error);
+
+      prompt(
+        '아래 링크를 복사해주세요.',
+        shareUrl
+      );
+    }
+  });
+}
 
   const dataEl = document.getElementById('char-detail-data');
 
