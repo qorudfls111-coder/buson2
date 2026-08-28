@@ -7904,6 +7904,18 @@ document.addEventListener('click', function (event) {
 });
 
     resultsEl.appendChild(card);
+    const shareParams = new URLSearchParams(window.location.search);
+const shareCharacterId = shareParams.get('characterId');
+
+if (
+  shareParams.get('share') === '1' &&
+  shareCharacterId &&
+  String(character.characterId) === String(shareCharacterId)
+) {
+  setTimeout(() => {
+    card.click();
+  }, 100);
+}
   });
 }
 
