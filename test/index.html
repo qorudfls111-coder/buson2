@@ -8772,25 +8772,38 @@ function lookupRenderTop10(container, list, type) {
   container
     .querySelectorAll(".lookup-top10-row")
     .forEach(row => {
-      row.addEventListener("click", () => {
-        const server = row.dataset.server;
-        const name = row.dataset.name;
+row.addEventListener("click", async () => {
+  const server = row.dataset.server;
+  const name = row.dataset.name;
 
-        const serverEl = document.getElementById("lookup-server");
-        const nameEl = document.getElementById("lookup-name");
+  const raceEl = document.getElementById("lookup-race");
+  const serverEl = document.getElementById("lookup-server");
+  const nameEl = document.getElementById("lookup-name");
 
-        if (serverEl) serverEl.value = server;
-        if (nameEl) nameEl.value = name;
+  // TOP10 서버가 어느 종족 서버인지 자동 판별
+  const serverInfo = LOOKUP_SERVERS.find(
+    item => item.name === server
+  );
 
-        lookupSearch();
+  if (serverInfo && raceEl) {
+    raceEl.value = String(serverInfo.race);
 
-        document
-          .getElementById("lookup-result")
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-      });
+    // 종족에 맞는 서버 목록 다시 생성
+    updateLookupServerOptions();
+  }
+
+  if (serverEl) serverEl.value = server;
+  if (nameEl) nameEl.value = name;
+
+  await lookupSearch();
+
+  document
+    .getElementById("lookup-result")
+    ?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+});
     });
 }
 
