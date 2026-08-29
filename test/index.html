@@ -6681,6 +6681,12 @@ if (shareBtn) {
     params.set('serverId', String(character.serverId || ''));
     params.set('keyword', cleanCharacterName(character.name));
     params.set('characterId', character.characterId || '');
+    const shareUrl =
+  window.location.origin +
+  window.location.pathname +
+  '?' +
+  params.toString();
+    
 
         const shareText =
   `아이온2 캐릭터 세팅 공유\n` +
