@@ -6680,7 +6680,13 @@ if (shareBtn) {
     params.set('race', String(character.race || ''));
     params.set('serverId', String(character.serverId || ''));
     params.set('keyword', cleanCharacterName(character.name));
-    params.set('characterId', character.characterId || '');
+    let shareCharacterId = character.characterId || '';
+
+try {
+  shareCharacterId = decodeURIComponent(shareCharacterId);
+} catch (e) {}
+
+params.set('characterId', shareCharacterId);
     const shareUrl =
   window.location.origin +
   window.location.pathname +
