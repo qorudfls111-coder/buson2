@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-02 06:50 KST",
+  "updated_at": "2026-09-02 07:23 KST",
   "update": [
     {
       "title": "[안내] 9/2(수) 업데이트 노트",
@@ -158,7 +158,14 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 9/2(수) AION2 정기점검 안내",
+      "title": "[안내] 9월 1주차 알려진 이슈 및 조치 안내",
+      "date": "2026-09-01",
+      "time": "22:00",
+      "datetime": "2026-09-01 22:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a974d38eea53f5d6dbcf5ae"
+    },
+    {
+      "title": "[안내] 9/2(수) AION2 정기점검 안내 (완료)",
       "date": "2026-09-01",
       "time": "11:00",
       "datetime": "2026-09-01 11:00",
@@ -261,13 +268,6 @@
       "time": "01:40",
       "datetime": "2026-08-26 01:40",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8e43f0eea53f5d6dbcf47d"
-    },
-    {
-      "title": "[안내] 8/26(수) 신규 구독 상품 안내",
-      "date": "2026-08-25",
-      "time": "19:30",
-      "datetime": "2026-08-25 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ded386b722c561dc6a220"
     }
   ],
   "cm": [
