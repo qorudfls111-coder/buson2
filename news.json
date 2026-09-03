@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-03 16:52 KST",
+  "updated_at": "2026-09-03 17:28 KST",
   "update": [
     {
       "title": "[안내] 9/2(수) 업데이트 노트",
@@ -158,7 +158,14 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 9/3(목) AION2 임시점검 안내",
+      "title": "[안내] 9/4(금) AION2 임시점검 및 클래스 케어 사전 안내",
+      "date": "2026-09-03",
+      "time": "08:30",
+      "datetime": "2026-09-03 08:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a9930086b722c561dc6a3b4"
+    },
+    {
+      "title": "[안내] 9/3(목) AION2 임시점검 안내 (완료)",
       "date": "2026-09-03",
       "time": "06:30",
       "datetime": "2026-09-03 06:30",
@@ -261,13 +268,6 @@
       "time": "11:10",
       "datetime": "2026-08-26 11:10",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ec99602862d665fca1689"
-    },
-    {
-      "title": "[안내] 서버 이전 가능 서버 안내 (종료 9/2 00:00)",
-      "date": "2026-08-26",
-      "time": "10:00",
-      "datetime": "2026-08-26 10:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ded386b722c561dc6a222"
     }
   ],
   "cm": [
