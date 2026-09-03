@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-03 18:27 KST",
+  "updated_at": "2026-09-03 18:52 KST",
   "update": [
     {
       "title": "[안내] 9/2(수) 업데이트 노트",
@@ -158,6 +158,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [292차]",
+      "date": "2026-09-03",
+      "time": "09:30",
+      "datetime": "2026-09-03 09:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a993e186b722c561dc6a3b7"
+    },
+    {
       "title": "[안내] 9/4(금) AION2 임시점검 및 클래스 케어 사전 안내",
       "date": "2026-09-03",
       "time": "08:30",
@@ -261,13 +268,6 @@
       "time": "12:10",
       "datetime": "2026-08-26 12:10",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ece386b722c561dc6a29d"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [284차]",
-      "date": "2026-08-26",
-      "time": "11:10",
-      "datetime": "2026-08-26 11:10",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a8ec99602862d665fca1689"
     }
   ],
   "cm": [
