@@ -1073,6 +1073,32 @@ main.wrap{
 
     <span id="fare_copy_status"></span>
   </div>
+
+  <div style="
+    margin-top:14px;
+    padding:13px 15px;
+    border:1px solid #2b3b52;
+    border-radius:12px;
+    background:#0e1622;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  ">
+    <div style="color:#9fb1c8;font-size:12.5px;line-height:1.6;">
+      🙌 버스가 끝났다면, 기사와 손님 서로 <b style="color:#dce6f8;">정상 거래</b>로 등록해보세요.
+      다음 이용자가 거래 전에 참고할 수 있습니다.
+    </div>
+    <button
+      type="button"
+      class="btn secondary"
+      style="white-space:nowrap;"
+      onclick="document.querySelector('.tab[data-page=&quot;lookup&quot;]')?.click()"
+    >
+      기사 조회에서 등록하기 →
+    </button>
+  </div>
 </div>
 <!-- ===== 손님 수금 문구 생성기 끝 ===== -->
 <div class="saved" id="msg_driver"></div>
@@ -1507,15 +1533,16 @@ main.wrap{
     </div>
   </div>
 <!-- 기사 TOP10 -->
-<div style="
+<div id="lookup-top10-grid" style="
   margin-top:22px;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:18px;
 ">
 
-  <!-- 정상 거래 TOP10 -->
-  <div style="
+  <!-- 정상 거래 TOP10 (데이터가 충분할 때만 표시) -->
+  <div id="lookup-good-top10-card" style="
+    display:none;
     border:1px solid #315d47;
     border-radius:16px;
     background:#0d1712;
@@ -1533,16 +1560,7 @@ main.wrap{
       </div>
     </div>
 
-    <div id="lookup-good-top10" style="padding:12px;">
-      <div style="
-        padding:20px;
-        text-align:center;
-        color:#7f8fa8;
-        font-size:13px;
-      ">
-        순위를 불러오는 중입니다.
-      </div>
-    </div>
+    <div id="lookup-good-top10" style="padding:12px;"></div>
   </div>
 
 
@@ -8733,16 +8751,23 @@ async function lookupLoadTop10() {
       .sort((a, b) => b.good - a.good)
       .slice(0, 10);
 
-    lookupRenderTop10(goodBox, goodTop10, "good");
+    const LOOKUP_TOP10_MIN = 3;
+    const top10Card = document.getElementById("lookup-good-top10-card");
+    const top10Grid = document.getElementById("lookup-top10-grid");
+
+    if (goodTop10.length >= LOOKUP_TOP10_MIN) {
+      lookupRenderTop10(goodBox, goodTop10, "good");
+      if (top10Card) top10Card.style.display = "";
+      if (top10Grid) top10Grid.style.gridTemplateColumns = "1fr 1fr";
+    } else {
+      if (top10Card) top10Card.style.display = "none";
+      if (top10Grid) top10Grid.style.gridTemplateColumns = "1fr";
+    }
 
   } catch (error) {
     console.error(error);
-
-    goodBox.innerHTML = `
-      <div style="padding:20px;text-align:center;color:#ff9a9a;font-size:13px;">
-        순위를 불러오지 못했습니다.
-      </div>
-    `;
+    const top10Card = document.getElementById("lookup-good-top10-card");
+    if (top10Card) top10Card.style.display = "none";
   }
 }
 
@@ -8884,10 +8909,24 @@ if (trustRate >= 80) {
   trustColor = "#facc15";
 }
 
+const LOOKUP_BADGE_MIN = 3;
+
+let badgeHtml = "";
+
+if (total >= LOOKUP_BADGE_MIN) {
+  if (problem === 0 && trustRate >= 90) {
+    badgeHtml = `<span style="padding:3px 9px;border-radius:999px;background:#12321f;color:#6ee7b7;font-size:11px;font-weight:800;">🏅 우수 기사</span>`;
+  } else if (trustRate < 50) {
+    badgeHtml = `<span style="padding:3px 9px;border-radius:999px;background:#301418;color:#fb7185;font-size:11px;font-weight:800;">⚠️ 주의 필요</span>`;
+  }
+}
+
 document.getElementById("lookup-rate").innerHTML =
   total > 0
     ? `
       <div style="display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;">
+        ${badgeHtml}
+
         <span>
           정상 거래 <strong style="color:#6ee7b7;">${good}</strong>
         </span>
@@ -8907,7 +8946,12 @@ document.getElementById("lookup-rate").innerHTML =
         </span>
       </div>
     `
-    : "아직 등록된 평가가 없습니다.";
+    : `
+      <div style="color:#9fb1c8;">
+        아직 등록된 거래 기록이 없는 기사입니다.
+        거래 후 처음으로 정상 거래를 등록해보시면 다음 이용자에게 도움이 됩니다.
+      </div>
+    `;
 }
 
 function lookupShowDriver(server, name, driver) {
@@ -8933,7 +8977,7 @@ function lookupShowDriver(server, name, driver) {
     document.getElementById("lookup-promise-count").textContent = "0";
     document.getElementById("lookup-other-count").textContent = "0";
     document.getElementById("lookup-rate").textContent =
-      "아직 등록된 평가가 없습니다.";
+      "아직 등록된 거래 기록이 없는 기사입니다. 거래 후 처음으로 등록해보세요.";
   }
 }
 async function lookupCheckOfficialCharacter(race, server, name) {
