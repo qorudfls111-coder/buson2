@@ -2,6 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="32x32" href="https://buson2.com/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://buson2.com/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://buson2.com/assets/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <title>BUSON2 소개 | 아이온2 계산기 및 효율 비교 도구</title>
@@ -61,11 +64,17 @@
     .logo{
       width:40px;
       height:40px;
-      border-radius:12px;
+      border-radius:50%;
       display:grid;
       place-items:center;
-      background:linear-gradient(135deg,#6fa4ff,#7f6dff);
       font-weight:900;
+      overflow:hidden;
+    }
+
+    .logo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
 
     .brand b{
@@ -223,7 +232,7 @@
 <header>
   <div class="wrap top">
     <a class="brand" href="/">
-      <div class="logo">B2</div>
+      <div class="logo"><img src="https://buson2.com/assets/icon-192.png" alt="BUS ON2" width="40" height="40" loading="eager"></div>
       <b>BUSON2</b>
     </a>
 
