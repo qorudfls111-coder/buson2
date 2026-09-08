@@ -13,26 +13,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>아이온2 버스 기사 수익 계산기 | 판당 순수익·시간당 효율</title>
-<meta name="description" content="아이온2 버스 기사 수익 계산기로 던전별 키나, 소비 오드, 손님 수와 버스비를 입력해 판당 순수익과 시간당 효율을 계산하세요.">
+<title>아이온2 본부 파밍 계산기 | 던전별 오드 효율 순위</title>
+<meta name="description" content="아이온2 본부 파밍 수익 계산기로 타데바, 데우스, 노이란, 무스펠 등 던전별 오드 대비 키나 효율을 계산하고 순위를 비교하세요.">
 
   <meta name="robots" content="index, follow">
 
-  <link rel="canonical" href="https://buson2.com/driver/">
+  <link rel="canonical" href="https://buson2.com/main/">
 
   <meta property="og:type" content="website">
    <meta property="og:site_name" content="버스온2">
-  <meta property="og:url" content="https://buson2.com/driver/">
-  <meta property="og:title" content="아이온2 버스 기사 수익 계산기 | 판당 순수익·시간당 효율 - 버스온2">
-  <meta property="og:description" content="던전별 기본 키나, 소비 오드, 손님 수, 기사 수, 월드 거래소 수수료까지 반영해 버스 기사 실수령 수익을 계산합니다.">
+  <meta property="og:url" content="https://buson2.com/main/">
+  <meta property="og:title" content="아이온2 본부 파밍 계산기 | 던전별 오드 효율 순위 - 버스온2">
+  <meta property="og:description" content="원정·초월·성역 던전의 판당 키나, 소비 오드, 보유 오드 기준 총 수익을 계산하고 오드 대비 효율 순위를 확인하세요.">
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "아이온2 버스 기사 수익 계산기",
-  "url": "https://buson2.com/driver/",
-  "description": "던전별 기본 키나, 소비 오드, 손님 수, 기사 수, 월드 거래소 수수료까지 반영해 버스 기사 실수령 수익을 계산합니다.",
+  "name": "아이온2 본부 파밍 계산기",
+  "url": "https://buson2.com/main/",
+  "description": "원정·초월·성역 던전의 판당 키나, 소비 오드, 보유 오드 기준 총 수익을 계산하고 오드 대비 효율 순위를 확인하세요.",
   "inLanguage": "ko-KR",
   "isPartOf": {
     "@type": "WebSite",
@@ -160,32 +160,6 @@
       margin-top: 0;
     }
 
-    table.od-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 14px;
-      font-size: 13px;
-    }
-
-    table.od-table th,
-    table.od-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      color: var(--muted);
-    }
-
-    table.od-table th {
-      color: #dce6f8;
-      font-weight: 800;
-    }
-
-    table.od-table td.num {
-      color: #8df0bd;
-      font-weight: 700;
-      text-align: right;
-    }
-
     footer {
       margin-top: 48px;
       border-top: 1px solid var(--line);
@@ -202,12 +176,8 @@
       .grid {
         grid-template-columns: 1fr;
       }
-
-      table.od-table {
-        font-size: 12px;
-      }
     }
-     /* ===== BUSON2 DRIVER GUIDE ===== */
+     /* ===== BUSON2 MAIN GUIDE ===== */
 
 .spec-guide{
   margin-top:28px;
@@ -251,10 +221,84 @@
   line-height:1.8;
 }
 
+/* 오드 효율 순위 테이블 */
+
+.od-rank{
+  margin-top:20px;
+  border:1px solid #293b55;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.od-rank-row{
+  display:grid;
+  grid-template-columns:56px 1fr 140px;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px;
+  border-bottom:1px solid #1d283c;
+  background:#0e1725;
+}
+
+.od-rank-row:last-child{
+  border-bottom:none;
+}
+
+.od-rank-row.top1{
+  background:linear-gradient(90deg,rgba(245,158,11,.14),transparent);
+}
+
+.od-rank-badge{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#1c2740;
+  color:#9fb0c8;
+  font-size:12px;
+  font-weight:900;
+}
+
+.od-rank-row.top1 .od-rank-badge{
+  background:#f59e0b;
+  color:#1a1206;
+}
+
+.od-rank-name{
+  color:#f1f5f9;
+  font-size:14px;
+  font-weight:700;
+}
+
+.od-rank-name small{
+  display:block;
+  margin-top:3px;
+  color:#8093ac;
+  font-size:12px;
+  font-weight:400;
+}
+
+.od-rank-value{
+  text-align:right;
+  color:#8df0bd;
+  font-size:14px;
+  font-weight:800;
+}
+
+.od-rank-value small{
+  display:block;
+  color:#6f83a0;
+  font-size:11px;
+  font-weight:500;
+}
+
 .spec-guide-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:14px;
+  margin-top:20px;
 }
 
 .spec-guide-card{
@@ -451,6 +495,11 @@
     min-height:auto;
   }
 
+  .od-rank-row{
+    grid-template-columns:40px 1fr 100px;
+    padding:12px;
+  }
+
   .spec-faq{
     padding:18px 14px;
   }
@@ -477,18 +526,17 @@
 
   <section class="hero">
 
-    <h1>아이온2 버스 기사 수익 계산기</h1>
+    <h1>아이온2 본부 파밍 계산기</h1>
 
     <p class="lead">
-      던전을 선택하면 한 판 기본 키나와 소비 오드가 자동으로 채워집니다.
-      손님 수, 기사 수, 버스비와 월드 거래소 수수료까지 반영해
-      판당 순수익과 시간당 효율을 계산해보세요.
+      원정·초월·성역 콘텐츠와 던전을 선택하면 판당 획득 키나와 소비 오드가 자동으로 채워집니다.
+      보유 오드와 계산할 판수를 입력해 총 수익과 오드 대비 효율을 확인해보세요.
     </p>
 
     <div class="actions">
 
-<a class="btn primary" href="/?tab=driver">
-        버스 기사 계산기 사용하기
+<a class="btn primary" href="/?tab=main">
+        본부 계산기 사용하기
       </a>
 
       <a class="btn secondary" href="/">
@@ -503,92 +551,186 @@
   <section class="grid">
 
     <article class="card">
-      <h2>던전 자동 매칭</h2>
+      <h2>콘텐츠 유형별 던전 선택</h2>
       <p>
-        원정·초월·성역 중 콘텐츠 유형과 던전을 고르면
-        해당 던전의 기본 획득 키나와 소비 오드가 자동으로 입력됩니다.
+        원정, 초월, 성역 중 콘텐츠 유형을 고르면 타데바·데우스·노이란·무스펠 등
+        해당 던전의 난이도별 기본 키나와 소비 오드 목록이 나타납니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>손님·기사 수 반영</h2>
+      <h2>소비 키나까지 반영</h2>
       <p>
-        손님 1~4명, 기사 1~3명 구성을 선택해
-        인원수에 따라 달라지는 1인당 실제 배분 수익을 계산합니다.
+        입장이나 소모품에 드는 판당 소비 키나를 함께 입력해
+        기본 획득 키나가 아닌 실제 순수익 기준으로 계산합니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>월드 거래소 수수료 자동 차감</h2>
+      <h2>보유 오드 기준 총 수익</h2>
       <p>
-        손님이 내는 버스비를 월드 거래소 판매가로 보고,
-        판매 수수료 20%와 등록 수수료 2%를 차감한 실제 수금액을 계산합니다.
+        지금 보유한 오드를 입력하면 해당 던전을 몇 판까지 돌 수 있는지,
+        그때 얻는 총 키나가 얼마인지 한 번에 계산합니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>기사별 수금 판수 설정</h2>
+      <h2>세팅 저장 후 비교</h2>
       <p>
-        기사가 여러 명일 때 각자 몇 판씩 수금했는지 나눠 입력해
-        기사별 실수령액 차이를 따로 확인할 수 있습니다.
+        현재 설정을 저장해두면 파밍 비교 탭에서 버스 기사·부캐 버스 방식과
+        같은 오드 기준으로 나란히 비교할 수 있습니다.
       </p>
     </article>
 
   </section>
 
 
- <!-- ===== 버스 기사 계산기 가이드 영역 시작 ===== -->
+ <!-- ===== 본부 파밍 가이드 영역 시작 ===== -->
 
 <section class="spec-guide">
 
   <div class="spec-guide-head">
     <span class="spec-guide-badge">BUSON2 GUIDE</span>
-    <h2>버스 기사 수익, 기본 소득과 순수익은 다릅니다</h2>
+    <h2>던전별 오드 대비 키나 효율 순위</h2>
     <p>
-      던전에서 얻는 기본 키나는 버스 기사의 실제 수익이 아닙니다.
-      소비한 오드, 손님에게 받은 버스비에서 월드 거래소 수수료 22%(판매 20% + 등록 2%)를 뺀 실수령액,
-      여러 기사가 나눠 가지는 배분까지 계산해야 실제 손에 남는 판당 순수익이 나옵니다.
+      본부 계산기에 등록된 던전별 기본 키나와 소비 오드를 오드 1개당 획득 키나 기준으로 환산하면
+      아래와 같은 순위가 나옵니다. 판당 소요 시간이나 재료 보상은 반영되지 않은 순수 키나 효율이므로,
+      실제 파밍 순서를 정할 때는 본인의 클리어 시간과 함께 계산기에서 다시 확인하는 것을 권장합니다.
     </p>
   </div>
+
+  <div class="od-rank">
+
+    <div class="od-rank-row top1">
+      <div class="od-rank-badge">1</div>
+      <div class="od-rank-name">
+        무스펠 어려움
+        <small>160오드 소비 · 판당 1,200만 키나</small>
+      </div>
+      <div class="od-rank-value">
+        75,000
+        <small>키나 / 오드</small>
+      </div>
+    </div>
+
+    <div class="od-rank-row">
+      <div class="od-rank-badge">2</div>
+      <div class="od-rank-name">
+        무스펠 보통
+        <small>160오드 소비 · 판당 1,000만 키나</small>
+      </div>
+      <div class="od-rank-value">
+        62,500
+        <small>키나 / 오드</small>
+      </div>
+    </div>
+
+    <div class="od-rank-row">
+      <div class="od-rank-badge">3</div>
+      <div class="od-rank-name">
+        노이란 4단 · 심연의 뿔 암굴 4단
+        <small>60오드 소비 · 판당 210만 키나</small>
+      </div>
+      <div class="od-rank-value">
+        35,000
+        <small>키나 / 오드</small>
+      </div>
+    </div>
+
+    <div class="od-rank-row">
+      <div class="od-rank-badge">4</div>
+      <div class="od-rank-name">
+        타데바·데우스 어려움 · 노이란 3단 · 심연의 뿔 암굴 3단 · 붉은 연심의 거울 4단
+        <small>40~60오드 소비 · 오드당 환산 동일</small>
+      </div>
+      <div class="od-rank-value">
+        30,000
+        <small>키나 / 오드</small>
+      </div>
+    </div>
+
+    <div class="od-rank-row">
+      <div class="od-rank-badge">5</div>
+      <div class="od-rank-name">
+        타데바·데우스 보통 · 노이란 2단 · 심연의 뿔 암굴 2단 · 붉은 연심의 거울 3단
+        <small>40오드 소비 · 판당 100.5만 키나</small>
+      </div>
+      <div class="od-rank-value">
+        25,125
+        <small>키나 / 오드</small>
+      </div>
+    </div>
+
+    <div class="od-rank-row">
+      <div class="od-rank-badge">6</div>
+      <div class="od-rank-name">
+        노이란 1단 · 심연의 뿔 암굴 1단 · 붉은 연심의 거울 2단
+        <small>40오드 소비 · 판당 85.5만 키나</small>
+      </div>
+      <div class="od-rank-value">
+        21,375
+        <small>키나 / 오드</small>
+      </div>
+    </div>
+
+    <div class="od-rank-row">
+      <div class="od-rank-badge">7</div>
+      <div class="od-rank-name">
+        붉은 연심의 거울 1단
+        <small>40오드 소비 · 판당 75만 키나</small>
+      </div>
+      <div class="od-rank-value">
+        18,750
+        <small>키나 / 오드</small>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="spec-guide">
 
   <div class="spec-guide-grid">
 
     <div class="spec-guide-card purple">
       <div class="spec-guide-icon">①</div>
-      <h3>기본 키나만 보면 안 되는 이유</h3>
+      <h3>고단계 던전이 항상 유리하진 않습니다</h3>
       <p>
-        같은 던전이라도 보통·어려움 난이도에 따라 기본 키나와 소비 오드가 함께 늘어납니다.
-        오드 대비 늘어난 키나 폭이 작다면 난이도를 올려도 순수익 효율은 오히려 떨어질 수 있습니다.
+        같은 던전이라도 단계가 오를수록 소비 오드도 함께 늘어나,
+        오드당 효율은 3~4단에서야 눈에 띄게 좋아지는 구간이 많습니다.
+        1~2단은 진입 난이도가 낮은 대신 효율은 상대적으로 낮습니다.
       </p>
     </div>
 
     <div class="spec-guide-card green">
       <div class="spec-guide-icon">②</div>
-      <h3>버스비 22% 수수료를 빼먹지 마세요</h3>
+      <h3>무스펠의 오드 효율이 독보적입니다</h3>
       <p>
-        월드 거래소로 버스비를 정산하면 판매 수수료 20%와 등록 수수료 2%가 함께 빠집니다.
-        손님에게 받기로 한 금액과 기사가 실제로 손에 쥐는 금액은 최대 22% 차이가 날 수 있습니다.
+        무스펠 어려움은 오드당 75,000키나로, 2위권 던전보다도 2배 이상 높은 효율을 보입니다.
+        입장 조건을 맞출 수 있다면 오드를 우선 투입할 가치가 큽니다.
       </p>
     </div>
 
     <div class="spec-guide-card orange">
       <div class="spec-guide-icon">③</div>
-      <h3>기사 수가 늘어나면 배분도 달라집니다</h3>
+      <h3>시간당 효율은 별도로 계산하세요</h3>
       <p>
-        기사가 2~3명이면 손님 배정과 수금 판수를 균등하게 나누지 않는 경우가 많습니다.
-        기사별 수금 판수를 각각 입력해야 실제로 누가 더 가져가는지 확인할 수 있습니다.
+        이 순위는 오드 1개당 키나만 비교한 결과입니다.
+        판당 클리어 시간이 던전마다 다르므로, 시간이 부족하다면
+        본부 계산기에서 실제 소요 시간을 입력해 시간당 수익도 함께 확인하세요.
       </p>
     </div>
 
     <div class="spec-guide-card blue">
       <div class="spec-guide-icon">④</div>
-      <h3>시간당 효율로 비교하세요</h3>
+      <h3>업데이트로 수치가 바뀔 수 있습니다</h3>
       <p>
-        판당 순수익이 높아도 판당 소요 시간이 길면 시간당 효율은 낮아질 수 있습니다.
-        여러 던전을 같은 시간 기준으로 비교해야 어떤 버스가 더 효율적인지 알 수 있습니다.
+        던전 보상과 오드 소모량은 게임 업데이트에 따라 조정될 수 있습니다.
+        위 순위는 현재 본부 계산기에 등록된 값을 기준으로 하며,
+        정확한 최신 값은 계산기에서 직접 확인해보세요.
       </p>
     </div>
 
@@ -603,64 +745,61 @@
     <span>?</span>
     <div>
       <small>FAQ</small>
-      <h2>아이온2 버스 기사 계산기 자주 묻는 질문</h2>
+      <h2>아이온2 본부 계산기 자주 묻는 질문</h2>
     </div>
   </div>
 
   <details>
     <summary>
       <span class="faq-number">Q1</span>
-      던전을 선택하면 왜 키나와 오드가 자동으로 바뀌나요?
+      본부 계산기와 버스 기사 계산기는 뭐가 다른가요?
       <b>⌄</b>
     </summary>
     <div class="faq-answer">
-      던전별 기본 획득 키나와 소비 오드는 BUSON2에 미리 등록된 값입니다.
-      콘텐츠 유형과 던전, 난이도를 선택하면 해당 값이 자동으로 채워지고
-      필요하면 직접 값을 수정할 수도 있습니다.
+      본부 계산기는 손님 없이 혼자 또는 파티로 던전을 돌 때의 순수 파밍 수익을 계산합니다.
+      버스 기사 계산기는 손님에게 버스비를 받는 구조까지 포함해 계산한다는 점이 다릅니다.
     </div>
   </details>
 
   <details>
     <summary>
       <span class="faq-number">Q2</span>
-      버스비를 직접 거래한 경우에도 수수료가 빠지나요?
+      성역 콘텐츠도 계산할 수 있나요?
       <b>⌄</b>
     </summary>
     <div class="faq-answer">
-      월드 거래소를 거치지 않고 직거래했다면 수수료가 빠지지 않습니다.
-      계산기의 월드 거래소 수수료 자동 계산은 거래소로 버스비를 정산하는 경우를 기준으로 하며,
-      직거래 시에는 버스비 입력값이 곧 실수령액입니다.
+      네. 콘텐츠 유형에서 성역을 선택하면 원정·초월과 마찬가지로
+      직접 판당 키나와 소비 오드를 입력해 계산할 수 있습니다.
     </div>
   </details>
 
   <details>
     <summary>
       <span class="faq-number">Q3</span>
-      기사가 여러 명일 때 수익은 어떻게 나뉘나요?
+      오드 효율 순위표의 수치는 어떻게 계산됐나요?
       <b>⌄</b>
     </summary>
     <div class="faq-answer">
-      기사 수와 기사별 수금 판수를 입력하면, 각 기사가 실제로 수금한 판수를 기준으로
-      배분된 순수익을 따로 계산해서 보여줍니다. 균등 배분이 아니어도 정확하게 확인할 수 있습니다.
+      본부 계산기에 등록된 던전별 판당 기본 키나를 소비 오드로 나눈 값입니다.
+      추가 보상이나 재료 가치는 포함하지 않은 순수 키나 기준입니다.
     </div>
   </details>
 
   <details>
     <summary>
       <span class="faq-number">Q4</span>
-      부캐 버스와 무엇이 다른가요?
+      계산 결과를 저장해서 나중에 비교할 수 있나요?
       <b>⌄</b>
     </summary>
     <div class="faq-answer">
-      버스 기사 계산기는 손님을 받는 본캐 기준 수익을 계산하고,
-      부캐 버스 계산기는 부캐 육성 비용 대비 획득 키나를 계산합니다.
-      두 방식을 함께 비교하려면 파밍 비교 탭을 이용해보세요.
+      네. 본부 탭 하단의 세팅 저장 기능으로 현재 입력값을 저장해두면,
+      파밍 비교 탭에서 다른 방식과 같은 오드 기준으로 다시 불러와 비교할 수 있습니다.
     </div>
   </details>
 
 </section>
 
-<!-- ===== 버스 기사 계산기 가이드 영역 끝 ===== -->
+<!-- ===== 본부 파밍 가이드 영역 끝 ===== -->
 
   <footer>
     BUSON2 · 아이온2 던전·버스·파밍·스펙 효율 계산
