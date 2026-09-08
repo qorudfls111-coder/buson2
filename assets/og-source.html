@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    font-family: Inter, "Pretendard", "Malgun Gothic", -apple-system, sans-serif;
+  }
+  .wrap {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    background:
+      radial-gradient(circle at 82% 18%, rgba(111,140,255,.35), transparent 42%),
+      radial-gradient(circle at 12% 88%, rgba(125,114,255,.25), transparent 45%),
+      linear-gradient(160deg, #0b0e16 0%, #090b10 60%);
+    color: #eef4ff;
+  }
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .content {
+    position: relative;
+    height: 100%;
+    padding: 76px 84px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    padding: 10px 20px;
+    border: 1px solid #3a4a6b;
+    border-radius: 999px;
+    background: rgba(111,140,255,.08);
+    color: #9fb0ff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    margin-bottom: 34px;
+  }
+  .badge .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6f8cff, #7d72ff);
+    box-shadow: 0 0 16px rgba(111,140,255,.9);
+  }
+  h1 {
+    margin: 0 0 22px;
+    font-size: 68px;
+    line-height: 1.18;
+    font-weight: 900;
+    letter-spacing: -.01em;
+  }
+  h1 span {
+    background: linear-gradient(135deg, #91a7ff, #b9a8ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  p.lead {
+    margin: 0 0 40px;
+    max-width: 880px;
+    font-size: 28px;
+    line-height: 1.6;
+    color: #9cabc2;
+    font-weight: 500;
+  }
+  .pills {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    padding: 12px 22px;
+    border-radius: 12px;
+    border: 1px solid #263043;
+    background: #111621;
+    color: #dce6f8;
+    font-size: 21px;
+    font-weight: 700;
+  }
+  .corner {
+    position: absolute;
+    right: 84px;
+    bottom: 66px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #5b6b8c;
+    letter-spacing: .04em;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="grid-lines"></div>
+    <div class="content">
+      <div class="badge"><span class="dot"></span>BUSON2.COM</div>
+      <h1>아이온2 <span>버스·파밍 효율</span><br>계산기 모음</h1>
+      <p class="lead">스펙 계산, 버스 수익, 던전 오드 효율, 버스 기사 조회까지 한곳에서 비교하세요.</p>
+      <div class="pills">
+        <div class="pill">🗺️ 던전 DB</div>
+        <div class="pill">⚔️ 본부 계산기</div>
+        <div class="pill">🚌 버스 수익</div>
+        <div class="pill">🔎 기사 조회</div>
+      </div>
+    </div>
+    <div class="corner">BUS ON2</div>
+  </div>
+</body>
+</html>
