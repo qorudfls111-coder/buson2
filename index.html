@@ -436,6 +436,20 @@ main.wrap{
       <p>공지, 업데이트, CM아지트를 한 곳에서 확인하세요.</p>
     </div>
     <div class="body">
+      <div style="
+        margin-bottom:14px;
+        padding:13px 15px;
+        border:1px solid #263043;
+        border-radius:12px;
+        background:#0d131c;
+        color:#9cabc2;
+        font-size:12.5px;
+        line-height:1.75;
+      ">
+        여기서는 최근 공지·업데이트 제목만 모아서 보여주고, 자세한 내용은 각 항목의
+        '공식 원문' 링크에서 확인할 수 있습니다. 던전 보상이나 오드 소모량이 바뀌는
+        업데이트가 있으면, BUSON2의 던전 DB·본부 계산기 수치도 함께 갱신할 예정입니다.
+      </div>
       <div class="subtabs">
         <button class="subtab active" data-news-key="notice">공지</button>
         <button class="subtab" data-news-key="update">업데이트</button>
@@ -1398,6 +1412,8 @@ main.wrap{
               line-height:1.6;
             ">
               ※ 이용자가 직접 등록한 제보이며 사실 여부가 확인된 정보는 아닙니다.
+              조회 결과만으로 특정 이용자의 신뢰 여부를 단정하지 마세요.
+              본인에게 등록된 제보가 사실과 다르다면 <a href="/contact/" style="color:#79c7ff;">문의 페이지</a>로 소명·삭제를 요청할 수 있습니다.
             </div>
 
           </div>
@@ -1530,7 +1546,7 @@ main.wrap{
   </div>
 
 
-  <!-- 문제 제보 TOP10 -->
+  <!-- 문제 제보 안내 (공개 랭킹 미제공) -->
   <div style="
     border:1px solid #623744;
     border-radius:16px;
@@ -1542,31 +1558,30 @@ main.wrap{
       border-bottom:1px solid #56303b;
     ">
       <div style="font-size:17px;font-weight:900;color:#ff9fb0;">
-        ⚠️ 문제 제보 TOP 10
+        ⚠️ 문제 제보 확인 방법
       </div>
       <div style="margin-top:5px;font-size:12px;color:#8798b0;">
-        이용자가 등록한 문제 제보 건수 기준입니다.
+        문제 제보는 공개 순위로 제공하지 않습니다.
       </div>
     </div>
 
-    <div id="lookup-problem-top10" style="padding:12px;">
-      <div style="
-        padding:20px;
-        text-align:center;
-        color:#7f8fa8;
-        font-size:13px;
-      ">
-        순위를 불러오는 중입니다.
-      </div>
+    <div style="padding:18px;color:#c3ccdb;font-size:13px;line-height:1.85;">
+      검증되지 않은 제보를 이름 순위로 공개 노출하면 실제 사실 여부와 무관하게
+      특정 캐릭터에게 낙인이 찍힐 수 있습니다. BUSON2는 이런 문제를 막기 위해
+      문제 제보 누적 순위를 별도로 공개하지 않고, 위 검색창에서
+      <b style="color:#ff9fb0;">거래하려는 기사 아이디를 직접 조회</b>했을 때만
+      해당 기사의 정상 거래·문제 제보 건수를 확인할 수 있도록 제한합니다.
     </div>
 
     <div style="
-      padding:0 16px 14px;
+      padding:0 18px 16px;
       color:#718096;
       font-size:11px;
       line-height:1.6;
     ">
-      ※ 이용자가 직접 등록한 제보이며 사실 여부가 확인된 정보는 아닙니다.
+      ※ 문제 제보는 이용자가 직접 등록한 내용이며 사실 여부가 확인된 정보는 아닙니다.
+      본인이 등록된 제보가 사실과 다르다고 판단되면
+      <a href="/contact/" style="color:#79c7ff;">문의 페이지</a>를 통해 소명·삭제를 요청할 수 있습니다.
     </div>
   </div>
 
@@ -5019,7 +5034,7 @@ function renderNewsGroup(key, data){
    box.innerHTML='<div class="news-empty">아직 수집된 게시물이 없습니다. GitHub Actions를 한 번 실행해주세요.</div>';
    return;
  }
- box.innerHTML=items.map(item=>`
+ box.innerHTML=items.slice(0,10).map(item=>`
    <a class="news-item" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
      <div class="news-title">${escapeHtml(item.title)}</div>
      <div class="news-meta"><span>${escapeHtml(item.datetime||item.date||'날짜 확인 중')}</span><span>공식 원문 ↗</span></div>
@@ -8676,9 +8691,8 @@ async function lookupCreateDriver(server, name) {
 }
 async function lookupLoadTop10() {
   const goodBox = document.getElementById("lookup-good-top10");
-  const problemBox = document.getElementById("lookup-problem-top10");
 
-  if (!goodBox || !problemBox) return;
+  if (!goodBox) return;
 
   try {
     const { data: drivers, error: driverError } = await lookupDb
@@ -8689,7 +8703,8 @@ async function lookupLoadTop10() {
 
     const { data: reports, error: reportError } = await lookupDb
       .from("driver_reports")
-      .select("driver_id, report_type");
+      .select("driver_id, report_type")
+      .eq("report_type", "good");
 
     if (reportError) throw reportError;
 
@@ -8700,8 +8715,7 @@ async function lookupLoadTop10() {
         id: driver.id,
         server: driver.server,
         name: driver.character_name,
-        good: 0,
-        problem: 0
+        good: 0
       });
     });
 
@@ -8709,11 +8723,7 @@ async function lookupLoadTop10() {
       const driver = driverMap.get(report.driver_id);
       if (!driver) return;
 
-      if (report.report_type === "good") {
-        driver.good += 1;
-      } else {
-        driver.problem += 1;
-      }
+      driver.good += 1;
     });
 
     const rows = Array.from(driverMap.values());
@@ -8723,24 +8733,12 @@ async function lookupLoadTop10() {
       .sort((a, b) => b.good - a.good)
       .slice(0, 10);
 
-    const problemTop10 = rows
-      .filter(driver => driver.problem > 0)
-      .sort((a, b) => b.problem - a.problem)
-      .slice(0, 10);
-
     lookupRenderTop10(goodBox, goodTop10, "good");
-    lookupRenderTop10(problemBox, problemTop10, "problem");
 
   } catch (error) {
     console.error(error);
 
     goodBox.innerHTML = `
-      <div style="padding:20px;text-align:center;color:#ff9a9a;font-size:13px;">
-        순위를 불러오지 못했습니다.
-      </div>
-    `;
-
-    problemBox.innerHTML = `
       <div style="padding:20px;text-align:center;color:#ff9a9a;font-size:13px;">
         순위를 불러오지 못했습니다.
       </div>
