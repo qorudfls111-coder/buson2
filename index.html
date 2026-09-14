@@ -1128,6 +1128,7 @@ main.wrap{
 <div class="metric"><div class="k">총 순수익</div><div class="v gold" id="d_grandTotal">-</div><div class="s">월드 거래소 실수령 반영</div></div>
 </div>
 <table><thead><tr><th>판</th><th>수금 기사</th><th>내 버스비 수금</th><th>내 순수익</th></tr></thead><tbody id="d_table"></tbody></table>
+<button type="button" class="btn primary" style="width:100%;margin-top:14px;" onclick="shareTabResult('driver', this)">🔗 이 계산 결과 공유 링크 복사하기</button>
 </div></div>
 <div class="spec-save-panel tab-save-panel" data-tab-save-slots="driver"></div>
 
@@ -1234,7 +1235,9 @@ main.wrap{
 <div><label>계산할 판수</label><div class="iwrap"><input id="m_runs" value="0"><span class="unit">판</span></div></div>
 <div><label>보유 오드</label><div class="iwrap"><input id="m_ownedOde" value="0"><span class="unit">오드</span></div></div>
   </div></div></div>
-<div class="card"><div class="head"><h2>본부 결과</h2></div><div class="body"><div class="metrics" id="m_metrics"></div></div></div>
+<div class="card"><div class="head"><h2>본부 결과</h2></div><div class="body"><div class="metrics" id="m_metrics"></div>
+<button type="button" class="btn primary" style="width:100%;margin-top:14px;" onclick="shareTabResult('main', this)">🔗 이 계산 결과 공유 링크 복사하기</button>
+</div></div>
 <div class="spec-save-panel tab-save-panel" data-tab-save-slots="main"></div>
 </div></section>
 <section id="page-lookup" class="hidden">
@@ -1697,7 +1700,9 @@ main.wrap{
 <div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" value="0"><span class="unit">판</span></div></div>
 <div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" value="0"><span class="unit">오드</span></div></div>
   </div></div></div>
-<div class="card"><div class="head"><h2>부캐 버스 결과</h2><p>부캐 버스에서 선택한 같은 던전을 본부로 돌았을 때와 자동 비교합니다.</p></div><div class="body"><div class="metrics" id="s_metrics"></div></div></div>
+<div class="card"><div class="head"><h2>부캐 버스 결과</h2><p>부캐 버스에서 선택한 같은 던전을 본부로 돌았을 때와 자동 비교합니다.</p></div><div class="body"><div class="metrics" id="s_metrics"></div>
+<button type="button" class="btn primary" style="width:100%;margin-top:14px;" onclick="shareTabResult('sub', this)">🔗 이 계산 결과 공유 링크 복사하기</button>
+</div></div>
 <div class="spec-save-panel tab-save-panel" data-tab-save-slots="sub"></div>
 </div></section>
 
@@ -6424,6 +6429,95 @@ window.addEventListener('load', function () {
       specButton.click();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }
+});
+</script>
+  <script>
+/* ===== 계산 결과 공유 링크 ===== */
+
+function shareTabPrefix(tab){
+  return tab==='driver' ? 'd' : (tab==='main' ? 'm' : 's');
+}
+
+function buildShareUrl(tab){
+  const data={};
+  fieldsFor(tab).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) data[id]=el.value;
+  });
+  const payload=encodeURIComponent(JSON.stringify(data));
+  return window.location.origin + '/?s=' + payload + '#' + tab;
+}
+
+async function shareTabResult(tab, btn){
+  const url=buildShareUrl(tab);
+  const oldText=btn.textContent;
+
+  try{
+    await navigator.clipboard.writeText(url);
+    btn.textContent='✅ 링크 복사 완료 (붙여넣기 해보세요)';
+  }catch(e){
+    prompt('아래 링크를 복사해주세요.', url);
+  }
+
+  setTimeout(()=>{ btn.textContent=oldText; }, 2500);
+}
+
+function applySharedTabState(tab, data){
+  const prefix=shareTabPrefix(tab);
+  const contentTypeId=prefix+'_content_type';
+
+  if(data[contentTypeId] && document.getElementById(contentTypeId)){
+    document.getElementById(contentTypeId).value=data[contentTypeId];
+    updateIncomeOptions(prefix);
+  }
+
+  if(tab==='driver' && data.d_driverCount){
+    document.getElementById('d_driverCount').value=data.d_driverCount;
+    syncDriverPartySettings();
+    renderDrivers(Number(data.d_driverCount)===2);
+  }
+
+  Object.entries(data).forEach(([id,v])=>{
+    const el=document.getElementById(id);
+    if(el) el.value=v;
+  });
+
+  document.querySelectorAll('.money').forEach(formatMoneyInput);
+
+  if(tab==='driver'){
+    syncDriverPartySettings();
+    calcDriver();
+  }else{
+    calcSimple(prefix);
+  }
+}
+
+window.addEventListener('load', function(){
+  const params=new URLSearchParams(window.location.search);
+  const raw=params.get('s');
+  if(!raw) return;
+
+  const tab=(window.location.hash||'').replace('#','') || 'driver';
+  if(!['driver','main','sub'].includes(tab)) return;
+
+  try{
+    const data=JSON.parse(decodeURIComponent(raw));
+
+    setTimeout(()=>{
+      applySharedTabState(tab, data);
+
+      const banner=document.createElement('div');
+      banner.textContent='🔗 공유된 계산 결과를 불러왔습니다. 필요하면 값을 수정해서 다시 계산해보세요.';
+      banner.style.cssText='max-width:1000px;margin:0 auto 14px;padding:12px 16px;border:1px solid #3577d4;border-radius:12px;background:#0b1a2f;color:#9db8ff;font-size:13px;font-weight:700;text-align:center;';
+
+      const target=document.querySelector('#page-'+tab);
+      if(target) target.prepend(banner);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 60);
+  }catch(e){
+    console.error(e);
   }
 });
 </script>
