@@ -970,6 +970,12 @@ main.wrap{
 <option value="4200000" data-ode="120">노이란 4단 - 420만</option>
 <option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
 <option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
+<option value="8000000" data-ode="80">비탄의 설원 어려움 - 800만</option>
+<option value="16000000" data-ode="160">비탄의 설원 어려움 - 1600만</option>
+<option value="7000000" data-ode="80">비탄의 설원 보통 - 700만</option>
+<option value="14000000" data-ode="160">비탄의 설원 보통 - 1400만</option>
+<option value="5000000" data-ode="80">비탄의 설원 쉬움 - 500만</option>
+<option value="10000000" data-ode="160">비탄의 설원 쉬움 - 1000만</option>
 </select></div>
 <div><label>한 판 소비 오드</label><select id="d_ode">
 <option value="0" selected>0 오드</option>
@@ -1209,6 +1215,12 @@ main.wrap{
 <option value="4200000" data-ode="120">노이란 4단 - 420만</option>
 <option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
 <option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
+<option value="8000000" data-ode="80">비탄의 설원 어려움 - 800만</option>
+<option value="16000000" data-ode="160">비탄의 설원 어려움 - 1600만</option>
+<option value="7000000" data-ode="80">비탄의 설원 보통 - 700만</option>
+<option value="14000000" data-ode="160">비탄의 설원 보통 - 1400만</option>
+<option value="5000000" data-ode="80">비탄의 설원 쉬움 - 500만</option>
+<option value="10000000" data-ode="160">비탄의 설원 쉬움 - 1000만</option>
 </select></div>
 <div><label>한 판 소비 키나</label><div class="iwrap"><input id="m_cost" class="money" value="0"><span class="unit">키나</span></div></div>
 <div><label>한 판 소비 오드</label><select id="m_ode">
@@ -1653,6 +1665,12 @@ main.wrap{
 <option value="4200000" data-ode="120">노이란 4단 - 420만</option>
 <option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
 <option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
+<option value="8000000" data-ode="80">비탄의 설원 어려움 - 800만</option>
+<option value="16000000" data-ode="160">비탄의 설원 어려움 - 1600만</option>
+<option value="7000000" data-ode="80">비탄의 설원 보통 - 700만</option>
+<option value="14000000" data-ode="160">비탄의 설원 보통 - 1400만</option>
+<option value="5000000" data-ode="80">비탄의 설원 쉬움 - 500만</option>
+<option value="10000000" data-ode="160">비탄의 설원 쉬움 - 1000만</option>
 </select></div>
 <div>
   <label>총 버스비</label>
@@ -6115,7 +6133,7 @@ const DUNGEONS=[
 const CONTENT_DUNGEON_GROUPS={
   expedition:['푸섬','환영','타데바','데우스'],
 transcendence:['연심','암굴','노이란'],
-  sanctuary:['무스펠']
+  sanctuary:['무스펠','비탄의 설원']
 };
 
 const CONTENT_LABELS={
@@ -6159,7 +6177,7 @@ function incomeOptionType(label){
 if(t.includes('연심')||t.includes('암굴')||t.includes('노이란')){
   return 'transcendence';
 }
-  if(t.includes('무스펠')){
+  if(t.includes('무스펠')||t.includes('비탄')){
     return 'sanctuary';
   }
   return 'other';
