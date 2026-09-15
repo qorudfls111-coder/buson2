@@ -1,6 +1,13 @@
 {
-  "updated_at": "2026-09-16 04:12 KST",
+  "updated_at": "2026-09-16 07:13 KST",
   "update": [
+    {
+      "title": "[안내] 9/16(수) 업데이트 노트",
+      "date": "2026-09-15",
+      "time": "19:30",
+      "datetime": "2026-09-15 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6aa99cb8a279104f7d9d5c34"
+    },
     {
       "title": "[안내] 9/9(수) 업데이트 노트 (수정 9/9 12:35)",
       "date": "2026-09-08",
@@ -119,13 +126,6 @@
       "time": "19:30",
       "datetime": "2026-05-19 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a0cba385716f56bbe7ebd56"
-    },
-    {
-      "title": "[안내] 5/13(수) 업데이트 노트 (수정 5/14 08:48)",
-      "date": "2026-05-12",
-      "time": "19:30",
-      "datetime": "2026-05-12 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a037fb8d518ed36f2b2b82f"
     }
   ],
   "notice": [
@@ -149,6 +149,13 @@
       "time": "10:00",
       "datetime": "2025-11-16 10:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
+    },
+    {
+      "title": "[안내] 9/16(수) 신규 구독 상품 안내",
+      "date": "2026-09-15",
+      "time": "19:30",
+      "datetime": "2026-09-15 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aa99cb8a279104f7d9d5c14"
     },
     {
       "title": "[안내] 9/16(수) AION2 정기점검 안내",
@@ -261,13 +268,6 @@
       "time": "19:30",
       "datetime": "2026-09-08 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a9ff1b8d97eae18cc40ddaa"
-    },
-    {
-      "title": "[안내] AION2 LIVE 업데이트 프리뷰 방송 보상 안내",
-      "date": "2026-09-08",
-      "time": "19:29",
-      "datetime": "2026-09-08 19:29",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aa06238d97eae18cc40de1e"
     }
   ],
   "cm": [
