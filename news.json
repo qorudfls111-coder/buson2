@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-17 14:25 KST",
+  "updated_at": "2026-09-17 19:26 KST",
   "update": [
     {
       "title": "[안내] 9/16(수) 업데이트 노트 (수정 9/17 13:05)",
@@ -151,6 +151,20 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 접속 불가 현상 안내 (정상화 및 무점검 패치 추가 안내)",
+      "date": "2026-09-17",
+      "time": "08:55",
+      "datetime": "2026-09-17 08:55",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aabab026b722c561dc6a61e"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [305차]",
+      "date": "2026-09-17",
+      "time": "07:35",
+      "datetime": "2026-09-17 07:35",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aab98246b722c561dc6a61a"
+    },
+    {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [304차]",
       "date": "2026-09-16",
       "time": "08:05",
@@ -254,20 +268,6 @@
       "time": "09:05",
       "datetime": "2026-09-10 09:05",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aa272bca279104f7d9d5b4f"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [297차]",
-      "date": "2026-09-09",
-      "time": "07:45",
-      "datetime": "2026-09-09 07:45",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aa10d506b722c561dc6a4a9"
-    },
-    {
-      "title": "[안내] 9월 2주차 알려진 이슈 및 조치 안내 (수정 9/10 18:26)",
-      "date": "2026-09-09",
-      "time": "01:35",
-      "datetime": "2026-09-09 01:35",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aa0af90d97eae18cc40de1c"
     }
   ],
   "cm": [
