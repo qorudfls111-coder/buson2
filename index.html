@@ -6787,28 +6787,44 @@ function ptSplitRound(roundChars, n){
   const pool=roundChars.slice();
   const party1=[], party2=[];
 
-  function takeOne(predicate, target){
-    const idx=pool.findIndex(x=>predicate(x.job));
+  /* preferAlt: 2파티에 채울 때는 부캐를 우선 고른다 (본캐는 1파티로 몰아줘야 하므로,
+     같은 직업의 부캐가 있으면 부캐를 먼저 쓰고 본캐는 남겨서 1파티로 보낸다) */
+  function takeOne(predicate, target, preferAlt){
+    let idx=-1;
+    if(preferAlt) idx=pool.findIndex(x=>predicate(x.job) && x.charIndex!==0);
+    if(idx<0) idx=pool.findIndex(x=>predicate(x.job));
     if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
     return false;
   }
 
-  takeOne(ptIsTank, party1);
-  takeOne(ptIsHeal, party1);
-  takeOne(ptIsAssassin, party2);
-  takeOne(ptIsHeal, party2);
+  takeOne(ptIsTank, party1, false);
+  takeOne(ptIsHeal, party1, false);
+  takeOne(ptIsAssassin, party2, true);
+  takeOne(ptIsHeal, party2, true);
 
-  /* 호법성이 2명 이상이면 한쪽에 몰리지 않도록, 부캐 호법성을 우선으로 2파티에 하나 예약
-     (본캐는 아래에서 1파티로 몰아줄 것이므로, 부캐부터 뺀다) */
-  const guardianIdxs=[];
-  for(let i=0;i<pool.length;i++){
-    if(ptIsGuardian(pool[i].job)) guardianIdxs.push(i);
-  }
-  if(guardianIdxs.length>=2 && party2.length<party2Size){
-    let pick=guardianIdxs.find(i=>pool[i].charIndex!==0);
-    if(pick===undefined) pick=guardianIdxs[0];
-    party2.push(pool[pick]);
-    pool.splice(pick,1);
+  /* 호법성이 2명 이상이면 양쪽에 최대한 고르게 나눈다. 부캐 호법성을 2파티 몫으로 먼저 쓰고,
+     본캐 호법성은 부캐가 모자랄 때만 2파티로 보낸다 (그 외엔 1파티로). */
+  const guardianIdxs=pool.map((x,i)=>i).filter(i=>ptIsGuardian(pool[i].job));
+  if(guardianIdxs.length>=1){
+    const guardianObjs=guardianIdxs
+      .map(i=>pool[i])
+      .sort((a,b)=>(a.charIndex===0?1:0)-(b.charIndex===0?1:0));
+
+    guardianObjs.forEach(obj=>{
+      const idx=pool.indexOf(obj);
+      if(idx>=0) pool.splice(idx,1);
+    });
+
+    const total=guardianObjs.length;
+    const targetP2=total>=2 ? Math.floor(total/2) : 0;
+
+    guardianObjs.forEach((obj,i)=>{
+      const wantP2=i<targetP2;
+      if(wantP2 && party2.length<party2Size) party2.push(obj);
+      else if(party1.length<party1Size) party1.push(obj);
+      else if(party2.length<party2Size) party2.push(obj);
+      else party1.push(obj);
+    });
   }
 
   /* 본캐를 먼저 처리해서 1파티로 몰아주고, 부캐는 전투력 균형으로 나머지를 채운다 */
