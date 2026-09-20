@@ -1788,7 +1788,7 @@ main.wrap{
       <div class="spec-guide-card green">
         <div class="spec-guide-icon">②</div>
         <h3>2파티 선호 역할</h3>
-        <p>살성 1명, 치유성 1명이 2파티에 들어가도록 가능한 만큼 맞춥니다. 인원이 부족하면 생략될 수 있습니다.</p>
+        <p>2파티 1번 자리는 살성 → 검성 → 권성 순으로 우선 배치하고, 치유성 1명도 함께 넣습니다. 해당 직업이 없으면 생략될 수 있습니다.</p>
       </div>
       <div class="spec-guide-card orange">
         <div class="spec-guide-icon">③</div>
@@ -6797,9 +6797,20 @@ function ptSplitRound(roundChars, n){
     return false;
   }
 
+  /* 2파티 1번 자리: 살성 1순위, 없으면 검성, 그마저 없으면 권성 */
+  function takeOneOfJobs(jobs, target, preferAlt){
+    for(const job of jobs){
+      let idx=-1;
+      if(preferAlt) idx=pool.findIndex(x=>x.job===job && x.charIndex!==0);
+      if(idx<0) idx=pool.findIndex(x=>x.job===job);
+      if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
+    }
+    return false;
+  }
+
   takeOne(ptIsTank, party1, false);
   takeOne(ptIsHeal, party1, false);
-  takeOne(ptIsAssassin, party2, true);
+  takeOneOfJobs(['살성','검성','권성'], party2, true);
   takeOne(ptIsHeal, party2, true);
 
   /* 호법성이 2명 이상이면 양쪽에 최대한 고르게 나눈다. 부캐 호법성을 2파티 몫으로 먼저 쓰고,
@@ -6868,7 +6879,7 @@ function computePartyPlan(){
     const p2Cp=party2.reduce((s,x)=>s+x.cp,0);
     const hasTank=party1.some(x=>ptIsTank(x.job));
     const hasHeal1=party1.some(x=>ptIsHeal(x.job));
-    const hasAssassin2=party2.some(x=>ptIsAssassin(x.job));
+    const hasAssassin2=party2.some(x=>['살성','검성','권성'].includes(x.job));
     const hasHeal2=party2.some(x=>ptIsHeal(x.job));
 
     html+=`<div class="card" style="margin-top:14px;">
@@ -6880,7 +6891,7 @@ function computePartyPlan(){
             ${party1.map(ptRenderMember).join('')}
           </div>
           <div class="pt-party-col">
-            <div class="pt-party-title">2파티 · ${hasAssassin2?'✅':'ℹ️'} 살성 · ${hasHeal2?'✅':'ℹ️'} 치유<span class="pt-party-cp">전투력 합 ${p2Cp.toLocaleString()}</span></div>
+            <div class="pt-party-title">2파티 · ${hasAssassin2?'✅':'ℹ️'} 딜러(살성>검성>권성) · ${hasHeal2?'✅':'ℹ️'} 치유<span class="pt-party-cp">전투력 합 ${p2Cp.toLocaleString()}</span></div>
             ${party2.map(ptRenderMember).join('')}
           </div>
         </div>
