@@ -6797,12 +6797,18 @@ function ptSplitRound(roundChars, n){
     return false;
   }
 
-  /* 2파티 1번 자리: 살성 1순위, 없으면 검성, 그마저 없으면 권성 */
+  /* 2파티 1번 자리: 살성 1순위, 없으면 검성, 그마저 없으면 권성.
+     단, 부캐인지 여부가 직업 우선순위보다 먼저다 — 세 직업 중 부캐가 하나라도 있으면
+     그 부캐를 쓰고(직업 우선순위대로), 셋 다 부캐가 없을 때만 본캐로 채운다. */
   function takeOneOfJobs(jobs, target, preferAlt){
+    if(preferAlt){
+      for(const job of jobs){
+        const idx=pool.findIndex(x=>x.job===job && x.charIndex!==0);
+        if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
+      }
+    }
     for(const job of jobs){
-      let idx=-1;
-      if(preferAlt) idx=pool.findIndex(x=>x.job===job && x.charIndex!==0);
-      if(idx<0) idx=pool.findIndex(x=>x.job===job);
+      const idx=pool.findIndex(x=>x.job===job);
       if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
     }
     return false;
