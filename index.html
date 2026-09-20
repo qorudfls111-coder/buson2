@@ -6787,41 +6787,64 @@ function ptSplitRound(roundChars, n){
   const pool=roundChars.slice();
   const party1=[], party2=[];
 
-  /* preferAlt: 2파티에 채울 때는 부캐를 우선 고른다 (본캐는 1파티로 몰아줘야 하므로,
-     같은 직업의 부캐가 있으면 부캐를 먼저 쓰고 본캐는 남겨서 1파티로 보낸다) */
-  function takeOne(predicate, target, preferAlt){
-    let idx=-1;
-    if(preferAlt) idx=pool.findIndex(x=>predicate(x.job) && x.charIndex!==0);
-    if(idx<0) idx=pool.findIndex(x=>predicate(x.job));
-    if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
-    return false;
+  function takeAny(predicate){
+    const idx=pool.findIndex(x=>predicate(x.job));
+    if(idx>=0) return pool.splice(idx,1)[0];
+    return null;
   }
-
+  /* 본캐를 우선 고른다 (탱커 자리용): 본캐 수호성/검성이 있으면 그걸 쓰고,
+     정말 없을 때만 부캐 탱커로 채운다. */
+  function takeMainFirst(predicate){
+    let idx=pool.findIndex(x=>predicate(x.job) && x.charIndex===0);
+    if(idx<0) idx=pool.findIndex(x=>predicate(x.job));
+    if(idx>=0) return pool.splice(idx,1)[0];
+    return null;
+  }
+  /* 부캐를 우선 고른다 (2파티 채울 때용): 같은 직업의 부캐가 있으면 부캐를 먼저 쓰고
+     본캐는 남겨서 1파티로 보낸다. */
+  function takeAltFirst(predicate){
+    let idx=pool.findIndex(x=>predicate(x.job) && x.charIndex!==0);
+    if(idx<0) idx=pool.findIndex(x=>predicate(x.job));
+    if(idx>=0) return pool.splice(idx,1)[0];
+    return null;
+  }
   /* 2파티 1번 자리: 살성 1순위, 없으면 검성, 그마저 없으면 권성.
-     단, 부캐인지 여부가 직업 우선순위보다 먼저다 — 세 직업 중 부캐가 하나라도 있으면
+     부캐인지 여부가 직업 우선순위보다 먼저다 — 세 직업 중 부캐가 하나라도 있으면
      그 부캐를 쓰고(직업 우선순위대로), 셋 다 부캐가 없을 때만 본캐로 채운다. */
-  function takeOneOfJobs(jobs, target, preferAlt){
-    if(preferAlt){
-      for(const job of jobs){
-        const idx=pool.findIndex(x=>x.job===job && x.charIndex!==0);
-        if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
-      }
+  function takeAltAcrossJobs(jobs){
+    for(const job of jobs){
+      const idx=pool.findIndex(x=>x.job===job && x.charIndex!==0);
+      if(idx>=0) return pool.splice(idx,1)[0];
     }
     for(const job of jobs){
       const idx=pool.findIndex(x=>x.job===job);
-      if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
+      if(idx>=0) return pool.splice(idx,1)[0];
     }
-    return false;
+    return null;
   }
 
-  takeOne(ptIsTank, party1, false);
-  takeOne(ptIsHeal, party1, false);
-  takeOneOfJobs(['살성','검성','권성'], party2, true);
-  takeOne(ptIsHeal, party2, true);
+  /* ===== 자리 배치 순서: 1번 탱커/딜러 → 2~3번 본캐·전투력 균형 → 4번 호법성 → 5번 치유 ===== */
 
-  /* 호법성이 2명 이상이면 양쪽에 최대한 고르게 나눈다. 부캐 호법성을 2파티 몫으로 먼저 쓰고,
-     본캐 호법성은 부캐가 모자랄 때만 2파티로 보낸다 (그 외엔 1파티로). */
+  /* 1번 자리 */
+  const tank=takeMainFirst(ptIsTank);
+  if(tank) party1.push(tank);
+
+  const dealer=takeAltAcrossJobs(['살성','검성','권성']);
+  if(dealer) party2.push(dealer);
+
+  /* 본캐 수호성이 1파티 탱커로 들어갔는데 부캐 수호성이 같은 라운드에 더 있으면 2파티로 */
+  let offTank=null;
+  if(tank && tank.job==='수호성' && tank.charIndex===0){
+    const idx=pool.findIndex(x=>x.job==='수호성' && x.charIndex!==0);
+    if(idx>=0) offTank=pool.splice(idx,1)[0];
+  }
+
+  /* 5번 자리(치유)와 4번 자리(호법성)는 미리 빼서 맨 마지막에 순서대로 붙인다 */
+  const heal1=takeAny(ptIsHeal);
+  const heal2=takeAltFirst(ptIsHeal);
+
   const guardianIdxs=pool.map((x,i)=>i).filter(i=>ptIsGuardian(pool[i].job));
+  const guardianForParty1=[], guardianForParty2=[];
   if(guardianIdxs.length>=1){
     const guardianObjs=guardianIdxs
       .map(i=>pool[i])
@@ -6836,33 +6859,48 @@ function ptSplitRound(roundChars, n){
     const targetP2=total>=2 ? Math.floor(total/2) : 0;
 
     guardianObjs.forEach((obj,i)=>{
-      const wantP2=i<targetP2;
-      if(wantP2 && party2.length<party2Size) party2.push(obj);
-      else if(party1.length<party1Size) party1.push(obj);
-      else if(party2.length<party2Size) party2.push(obj);
-      else party1.push(obj);
+      if(i<targetP2) guardianForParty2.push(obj);
+      else guardianForParty1.push(obj);
     });
   }
 
-  /* 본캐를 먼저 처리해서 1파티로 몰아주고, 부캐는 전투력 균형으로 나머지를 채운다 */
+  /* 2~3번 자리: 본캐를 1파티로 몰아주고, 나머지 부캐는 전투력 균형으로 채운다
+     (치유·호법성·오프탱커 몫은 이미 빼뒀으므로 그만큼 자리를 남겨둔다) */
+  const p1Reserved=(heal1?1:0)+guardianForParty1.length;
+  const p2Reserved=(heal2?1:0)+guardianForParty2.length+(offTank?1:0);
+  let p1MidRemaining=Math.max(0, party1Size-party1.length-p1Reserved);
+  let p2MidRemaining=Math.max(0, party2Size-party2.length-p2Reserved);
+
+  const mainsInPool=[];
   for(let i=pool.length-1;i>=0;i--){
-    if(pool[i].charIndex!==0) continue;
-    const ch=pool.splice(i,1)[0];
-    if(party1.length<party1Size) party1.push(ch);
-    else party2.push(ch);
+    if(pool[i].charIndex===0) mainsInPool.push(pool.splice(i,1)[0]);
   }
+  mainsInPool.forEach(ch=>{
+    if(p1MidRemaining>0){ party1.push(ch); p1MidRemaining--; }
+    else if(p2MidRemaining>0){ party2.push(ch); p2MidRemaining--; }
+    else party1.push(ch);
+  });
 
   pool.sort((a,b)=>b.cp-a.cp);
   pool.forEach(ch=>{
-    const p1HasRoom=party1.length<party1Size;
-    const p2HasRoom=party2.length<party2Size;
+    const p1Room=p1MidRemaining>0;
+    const p2Room=p2MidRemaining>0;
     const p1Cp=party1.reduce((s,x)=>s+x.cp,0);
     const p2Cp=party2.reduce((s,x)=>s+x.cp,0);
 
-    if(p1HasRoom && (!p2HasRoom || p1Cp<=p2Cp)) party1.push(ch);
-    else if(p2HasRoom) party2.push(ch);
+    if(p1Room && (!p2Room || p1Cp<=p2Cp)){ party1.push(ch); p1MidRemaining--; }
+    else if(p2Room){ party2.push(ch); p2MidRemaining--; }
     else party1.push(ch);
   });
+
+  /* 오프탱커 → 2파티, 4번 자리(호법성) → 5번 자리(치유) 순으로 마지막에 붙인다 */
+  if(offTank) party2.push(offTank);
+
+  party1.push(...guardianForParty1);
+  party2.push(...guardianForParty2);
+
+  if(heal1) party1.push(heal1);
+  if(heal2) party2.push(heal2);
 
   return {party1, party2};
 }
