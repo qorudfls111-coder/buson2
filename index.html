@@ -6723,10 +6723,11 @@ function ptReadRoster(){
   return {n, m, roundCount, players};
 }
 
-/* 라운드 배정
-   1단계: 본캐(대표캐릭)를 라운드마다 인원 수가 최대한 고르게(예: 10명/3라운드 -> 4·3·3) 퍼지도록 우선 배정.
-          같은 라운드 안에서도 탱커·치유 직업 본캐부터 순서대로 넣어 라운드별 직업 커버리지를 노린다.
-   2단계: 아직 못 채운 라운드의 탱커·치유 부캐를 마저 퍼뜨린다.
+/* 라운드 배정 — 매 배치마다 "그 역할이 지금 가장 적게 배정된 라운드"를 실시간으로 골라서 채운다
+   (돌아가면서 채우는 방식이 아니라, 그때그때 라운드별 개수를 세서 제일 부족한 곳으로 보낸다).
+   1단계: 본캐를 라운드별 인원 수 균등(예: 10명/3라운드 -> 4·3·3) 한도 안에서, 탱커/치유 본캐부터
+          그 역할이 가장 적은 라운드에 배정.
+   2단계: 탱커·치유 부캐를 그 역할이 가장 적은, 아직 그 플레이어가 안 쓴 라운드에 배정.
    3단계: 나머지 캐릭터는 전투력 합이 가장 낮은 라운드부터 채운다. */
 function ptAssignRounds(roster){
   const {roundCount, players}=roster;
@@ -6734,21 +6735,38 @@ function ptAssignRounds(roster){
   const roundSlots=Array.from({length:roundCount}, ()=>[]);
   const playerRoundUsed=players.map(()=>new Array(roundCount).fill(false));
   const charUsed=players.map(chars=>chars.map(()=>false));
+  const roundTankCount=new Array(roundCount).fill(0);
+  const roundHealCount=new Array(roundCount).fill(0);
+  const roundMainCount=new Array(roundCount).fill(0);
 
   function place(p, c, r){
-    roundSlots[r].push(players[p][c]);
+    const ch=players[p][c];
+    roundSlots[r].push(ch);
     playerRoundUsed[p][r]=true;
     charUsed[p][c]=true;
+    if(ptIsTank(ch.job)) roundTankCount[r]++;
+    if(ptIsHeal(ch.job)) roundHealCount[r]++;
+    if(c===0) roundMainCount[r]++;
   }
 
-  /* 1단계: 본캐 라운드 배정 (인원 수 균등 + 탱커/치유 우선) */
+  function openRounds(p){
+    const list=[];
+    for(let r=0;r<roundCount;r++) if(!playerRoundUsed[p][r]) list.push(r);
+    return list;
+  }
+
+  function leastLoaded(cands, countArr){
+    let best=cands[0];
+    cands.forEach(r=>{ if(countArr[r]<countArr[best]) best=r; });
+    return best;
+  }
+
+  /* 1단계: 본캐 — 라운드별 인원 수 한도 안에서, 탱커/치유 본캐부터 그 역할이 가장 적은 라운드로 */
   const base=Math.floor(n/roundCount);
   const remainder=n%roundCount;
   const roundMainCap=Array.from({length:roundCount}, (_,r)=> base + (r<remainder?1:0));
-  const roundMainCount=new Array(roundCount).fill(0);
 
-  const mainOrder=players.map((chars,p)=>p);
-  mainOrder.sort((pa,pb)=>{
+  const mainOrder=players.map((chars,p)=>p).sort((pa,pb)=>{
     const rank=p=>{
       const job=players[p][0].job;
       return ptIsTank(job) ? 0 : (ptIsHeal(job) ? 1 : 2);
@@ -6756,36 +6774,23 @@ function ptAssignRounds(roster){
     return rank(pa)-rank(pb);
   });
 
-  let mainCursor=0;
   mainOrder.forEach(p=>{
-    let r=mainCursor, attempts=0;
-    while((roundMainCount[r]>=roundMainCap[r] || playerRoundUsed[p][r]) && attempts<roundCount){
-      r=(r+1)%roundCount;
-      attempts++;
-    }
-    if(attempts<roundCount){
-      place(p, 0, r);
-      roundMainCount[r]++;
-      mainCursor=(r+1)%roundCount;
-    }
+    const cands=openRounds(p).filter(r=>roundMainCount[r]<roundMainCap[r]);
+    if(!cands.length) return;
+
+    const job=players[p][0].job;
+    const countArr= ptIsTank(job) ? roundTankCount : (ptIsHeal(job) ? roundHealCount : roundMainCount);
+    place(p, 0, leastLoaded(cands, countArr));
   });
 
-  /* 2단계: 남은 탱커·치유 부캐를 라운드에 고르게 퍼뜨린다 */
-  [ptIsTank, ptIsHeal].forEach(test=>{
-    let roundCursor=0;
+  /* 2단계: 탱커·치유 부캐 — 그 역할이 가장 적은, 아직 안 쓴 라운드로 */
+  [{test:ptIsTank, countArr:roundTankCount}, {test:ptIsHeal, countArr:roundHealCount}].forEach(({test,countArr})=>{
     for(let p=0;p<players.length;p++){
       for(let c=1;c<players[p].length;c++){
         if(charUsed[p][c] || !test(players[p][c].job)) continue;
-
-        let r=roundCursor, attempts=0;
-        while(playerRoundUsed[p][r] && attempts<roundCount){
-          r=(r+1)%roundCount;
-          attempts++;
-        }
-        if(attempts<roundCount){
-          place(p, c, r);
-          roundCursor=(r+1)%roundCount;
-        }
+        const cands=openRounds(p);
+        if(!cands.length) continue;
+        place(p, c, leastLoaded(cands, countArr));
       }
     }
   });
@@ -6795,13 +6800,15 @@ function ptAssignRounds(roster){
     for(let c=0;c<players[p].length;c++){
       if(charUsed[p][c]) continue;
 
-      let bestR=-1, bestCp=Infinity;
-      for(let r=0;r<roundCount;r++){
-        if(playerRoundUsed[p][r]) continue;
+      const cands=openRounds(p);
+      if(!cands.length) continue;
+
+      let bestR=cands[0], bestCp=Infinity;
+      cands.forEach(r=>{
         const cur=roundSlots[r].reduce((s,x)=>s+x.cp,0);
         if(cur<bestCp){ bestCp=cur; bestR=r; }
-      }
-      if(bestR>=0) place(p, c, bestR);
+      });
+      place(p, c, bestR);
     }
   }
 
