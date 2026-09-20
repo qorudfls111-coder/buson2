@@ -4027,12 +4027,14 @@ min-height:56px;
 }
 
 /* ===== 성역 파티 배치 ===== */
-.pt-player-card{border:1px solid #263043;border-radius:12px;padding:12px;margin-bottom:10px;background:#0d131c}
-.pt-player-title{font-weight:800;margin-bottom:8px;color:#dce6f8}
-.pt-char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
-.pt-char-slot{display:flex;flex-direction:column;gap:4px}
-.pt-char-label{font-size:11px;color:#8fa3d9;font-weight:700}
-.pt-char-slot select,.pt-char-slot input{width:100%}
+.pt-roster-wrap{overflow-x:auto;border:1px solid #263043;border-radius:12px;}
+.pt-roster-table{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px}
+.pt-roster-table th,.pt-roster-table td{border:1px solid #263043;padding:5px 6px;text-align:center}
+.pt-roster-table thead th{background:#111c2e;color:#9db8ff;font-weight:800;white-space:nowrap;position:sticky;top:0}
+.pt-roster-table tbody th{background:#0d131c;color:#8fa3d9;font-weight:800;min-width:28px}
+.pt-roster-table input,.pt-roster-table select{width:100%;min-width:76px;padding:5px 6px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;box-sizing:border-box}
+.pt-roster-table input::placeholder{color:#5b6b8c}
+.pt-roster-table td:nth-child(3n+2){border-left:2px solid #324566}
 
 .pt-party-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .pt-party-title{font-weight:800;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
@@ -6632,27 +6634,31 @@ function renderPartyRoster(){
   const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount').value)||2));
   const roundCount=m+1;
 
-  let html='';
-  for(let p=0;p<n;p++){
-    html+=`<div class="pt-player-card">
-      <div class="pt-player-title">플레이어 ${p+1}</div>
-      <div class="pt-char-grid">`;
-
-    for(let c=0;c<roundCount;c++){
-      const label=c===0 ? '본캐' : ('부캐'+c);
-      const defaultJob=PARTY_JOBS[(p+c)%PARTY_JOBS.length];
-
-      html+=`<div class="pt-char-slot">
-        <div class="pt-char-label">${label}</div>
-        <select id="pt_p${p}_c${c}_job">${ptJobOptions(defaultJob)}</select>
-        <input id="pt_p${p}_c${c}_cp" placeholder="전투력" value="" inputmode="numeric">
-      </div>`;
-    }
-
-    html+='</div></div>';
+  let headRow1='<th rowspan="2">#</th>';
+  let headRow2='';
+  for(let c=0;c<roundCount;c++){
+    const label=c===0 ? '본캐' : ('부캐'+c);
+    headRow1+=`<th colspan="3">${label}</th>`;
+    headRow2+='<th>닉네임</th><th>직업</th><th>전투력</th>';
   }
 
-  box.innerHTML=html;
+  let bodyRows='';
+  for(let p=0;p<n;p++){
+    let row=`<tr><th>${p+1}</th>`;
+    for(let c=0;c<roundCount;c++){
+      const defaultJob=PARTY_JOBS[(p+c)%PARTY_JOBS.length];
+      row+=`<td><input id="pt_p${p}_c${c}_name" placeholder="닉네임"></td>`;
+      row+=`<td><select id="pt_p${p}_c${c}_job">${ptJobOptions(defaultJob)}</select></td>`;
+      row+=`<td><input id="pt_p${p}_c${c}_cp" placeholder="전투력" inputmode="numeric"></td>`;
+    }
+    row+='</tr>';
+    bodyRows+=row;
+  }
+
+  box.innerHTML=`<div class="pt-roster-wrap"><table class="pt-roster-table">
+    <thead><tr>${headRow1}</tr><tr>${headRow2}</tr></thead>
+    <tbody>${bodyRows}</tbody>
+  </table></div>`;
 }
 
 function ptReadRoster(){
@@ -6664,14 +6670,18 @@ function ptReadRoster(){
   for(let p=0;p<n;p++){
     const chars=[];
     for(let c=0;c<roundCount;c++){
+      const nameEl=document.getElementById(`pt_p${p}_c${c}_name`);
       const jobEl=document.getElementById(`pt_p${p}_c${c}_job`);
       const cpEl=document.getElementById(`pt_p${p}_c${c}_cp`);
       if(!jobEl || !cpEl) return null;
 
+      const rawName=(nameEl?.value || '').trim();
+      const fallback=(c===0 ? `P${p+1} 본캐` : `P${p+1} 부캐${c}`);
+
       chars.push({
         player:p,
         charIndex:c,
-        label:(c===0 ? `P${p+1} 본캐` : `P${p+1} 부캐${c}`),
+        label: rawName || fallback,
         job:jobEl.value,
         cp:Number(String(cpEl.value).replace(/[^0-9]/g,''))||0
       });
@@ -6790,6 +6800,8 @@ function computePartyPlan(){
 
   roundSlots.forEach((chars, r)=>{
     const {party1, party2}=ptSplitRound(chars, roster.n);
+    party1.sort((a,b)=>a.charIndex-b.charIndex);
+    party2.sort((a,b)=>a.charIndex-b.charIndex);
     const p1Cp=party1.reduce((s,x)=>s+x.cp,0);
     const p2Cp=party2.reduce((s,x)=>s+x.cp,0);
     const hasTank=party1.some(x=>ptIsTank(x.job));
