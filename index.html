@@ -4035,6 +4035,8 @@ min-height:56px;
 .pt-roster-table input,.pt-roster-table select{width:100%;min-width:76px;padding:5px 6px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;box-sizing:border-box}
 .pt-roster-table input::placeholder{color:#5b6b8c}
 .pt-roster-table td:nth-child(3n+2){border-left:2px solid #324566}
+.pt-copy-btn{min-width:44px;padding:5px 8px;font-size:12px;font-weight:800;background:#16233a;border:1px solid #2c3a55;border-radius:6px;color:#9db8ff;cursor:pointer}
+.pt-copy-btn:hover{background:#1c2e4a}
 
 .pt-party-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .pt-party-title{font-weight:800;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
@@ -6641,6 +6643,7 @@ function renderPartyRoster(){
     headRow1+=`<th colspan="3">${label}</th>`;
     headRow2+='<th>닉네임</th><th>직업</th><th>전투력</th>';
   }
+  headRow1+='<th rowspan="2">복사</th>';
 
   let bodyRows='';
   for(let p=0;p<n;p++){
@@ -6651,6 +6654,7 @@ function renderPartyRoster(){
       row+=`<td><select id="pt_p${p}_c${c}_job">${ptJobOptions(defaultJob)}</select></td>`;
       row+=`<td><input id="pt_p${p}_c${c}_cp" placeholder="전투력" inputmode="numeric"></td>`;
     }
+    row+=`<td><button type="button" class="pt-copy-btn" onclick="ptCopyPlayerRow(${p}, this)">복사</button></td>`;
     row+='</tr>';
     bodyRows+=row;
   }
@@ -6659,6 +6663,33 @@ function renderPartyRoster(){
     <thead><tr>${headRow1}</tr><tr>${headRow2}</tr></thead>
     <tbody>${bodyRows}</tbody>
   </table></div>`;
+}
+
+/* 한 플레이어(본캐·부캐1·부캐2...) 닉네임/직업을 "닉네임, 직업 / 닉네임, 직업" 한 줄로 복사 */
+async function ptCopyPlayerRow(p, btn){
+  const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount').value)||2));
+  const roundCount=m+1;
+
+  const parts=[];
+  for(let c=0;c<roundCount;c++){
+    const nameEl=document.getElementById(`pt_p${p}_c${c}_name`);
+    const jobEl=document.getElementById(`pt_p${p}_c${c}_job`);
+    if(!nameEl || !jobEl) continue;
+    const name=(nameEl.value||'').trim() || (c===0?`P${p+1}본캐`:`P${p+1}부캐${c}`);
+    parts.push(`${name}, ${jobEl.value}`);
+  }
+
+  const text=parts.join(' / ');
+  const oldText=btn.textContent;
+
+  try{
+    await navigator.clipboard.writeText(text);
+    btn.textContent='✅';
+  }catch(e){
+    prompt('아래 내용을 복사해주세요.', text);
+  }
+
+  setTimeout(()=>{ btn.textContent=oldText; }, 1500);
 }
 
 function ptReadRoster(){
