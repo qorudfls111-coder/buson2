@@ -6798,36 +6798,31 @@ function ptSplitRound(roundChars, n){
   takeOne(ptIsAssassin, party2);
   takeOne(ptIsHeal, party2);
 
-  const guardians=[];
-  for(let i=pool.length-1;i>=0;i--){
-    if(ptIsGuardian(pool[i].job)){ guardians.push(pool[i]); pool.splice(i,1); }
+  /* 호법성이 2명 이상이면 한쪽에 몰리지 않도록, 부캐 호법성을 우선으로 2파티에 하나 예약
+     (본캐는 아래에서 1파티로 몰아줄 것이므로, 부캐부터 뺀다) */
+  const guardianIdxs=[];
+  for(let i=0;i<pool.length;i++){
+    if(ptIsGuardian(pool[i].job)) guardianIdxs.push(i);
   }
-  guardians.forEach((g,i)=>{
-    const wantParty1=(i%2===0);
-    if(wantParty1 && party1.length<party1Size) party1.push(g);
-    else if(party2.length<party2Size) party2.push(g);
-    else if(party1.length<party1Size) party1.push(g);
-    else party2.push(g);
-  });
+  if(guardianIdxs.length>=2 && party2.length<party2Size){
+    let pick=guardianIdxs.find(i=>pool[i].charIndex!==0);
+    if(pick===undefined) pick=guardianIdxs[0];
+    party2.push(pool[pick]);
+    pool.splice(pick,1);
+  }
 
   /* 본캐를 먼저 처리해서 1파티로 몰아주고, 부캐는 전투력 균형으로 나머지를 채운다 */
-  pool.sort((a,b)=>{
-    if(a.charIndex===0 && b.charIndex!==0) return -1;
-    if(a.charIndex!==0 && b.charIndex===0) return 1;
-    return b.cp-a.cp;
-  });
+  for(let i=pool.length-1;i>=0;i--){
+    if(pool[i].charIndex!==0) continue;
+    const ch=pool.splice(i,1)[0];
+    if(party1.length<party1Size) party1.push(ch);
+    else party2.push(ch);
+  }
 
+  pool.sort((a,b)=>b.cp-a.cp);
   pool.forEach(ch=>{
     const p1HasRoom=party1.length<party1Size;
     const p2HasRoom=party2.length<party2Size;
-
-    if(ch.charIndex===0){
-      if(p1HasRoom) party1.push(ch);
-      else if(p2HasRoom) party2.push(ch);
-      else party1.push(ch);
-      return;
-    }
-
     const p1Cp=party1.reduce((s,x)=>s+x.cp,0);
     const p2Cp=party2.reduce((s,x)=>s+x.cp,0);
 
