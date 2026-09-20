@@ -354,6 +354,7 @@ main.wrap{
 <button class="tab" data-page="sub">부캐 버스</button>
 <button class="tab" data-page="main">본부</button>
 <button class="tab" data-page="compare">파밍 비교</button>
+<button class="tab" data-page="party">성역 파티 배치</button>
 </nav>
 </div></header>
 
@@ -1738,6 +1739,70 @@ main.wrap{
 
     </div>
   </div>
+</section>
+
+<section id="page-party" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>🛡️ 성역 파티 배치</h2>
+      <p>포스 인원의 본캐·부캐 직업과 전투력을 입력하면, 라운드마다 탱커·치유 등 필수 역할을 채우면서 두 파티의 전투력이 균형 잡히도록 자동으로 나눠줍니다.</p>
+    </div>
+    <div class="body">
+
+      <div class="fields" style="grid-template-columns:repeat(2,1fr);">
+        <div><label>포스 인원 수</label><div class="iwrap"><input id="pt_playerCount" value="10"><span class="unit">명</span></div></div>
+        <div><label>1인당 부캐 수 (본캐 제외)</label><div class="iwrap"><input id="pt_altCount" value="2"><span class="unit">개</span></div></div>
+      </div>
+
+      <div class="note">
+        본캐 1개 + 부캐 N개 기준으로 라운드 수는 자동으로 N+1이 됩니다 (예: 부캐 2개 → 3라운드).
+        같은 플레이어의 캐릭터는 라운드마다 하나씩만 배치되며, 같은 라운드에 본캐·부캐가 동시에 들어가지 않습니다.
+      </div>
+
+      <button type="button" class="btn secondary" onclick="renderPartyRoster()" style="margin-top:10px;">인원 수 적용해서 입력칸 새로고침</button>
+
+      <div id="pt_roster" style="margin-top:16px;"></div>
+
+      <button type="button" class="btn primary" style="width:100%;margin-top:16px;" onclick="computePartyPlan()">⚙️ 최적 파티 배치 계산하기</button>
+
+    </div>
+  </div>
+
+  <div id="pt_result"></div>
+
+  <section class="spec-guide" style="margin-top:20px;">
+    <div class="spec-guide-head">
+      <span class="spec-guide-badge">BUSON2 GUIDE</span>
+      <h2>파티 배치 기준</h2>
+      <p>
+        정확히 모든 조건을 동시에 만족시키는 배치가 불가능한 경우도 있어, 아래 우선순위대로 최대한 맞추는 방식으로 계산합니다.
+        결과가 마음에 안 들면 직업·전투력을 다시 확인하거나, 입력을 조금 바꿔서 다시 계산해보세요.
+      </p>
+    </div>
+    <div class="spec-guide-grid">
+      <div class="spec-guide-card purple">
+        <div class="spec-guide-icon">①</div>
+        <h3>1파티 필수 역할</h3>
+        <p>수호성·검성(탱커) 1명, 치유성(치유) 1명이 1파티에 반드시 포함되도록 우선 배치합니다.</p>
+      </div>
+      <div class="spec-guide-card green">
+        <div class="spec-guide-icon">②</div>
+        <h3>2파티 선호 역할</h3>
+        <p>살성 1명, 치유성 1명이 2파티에 들어가도록 가능한 만큼 맞춥니다. 인원이 부족하면 생략될 수 있습니다.</p>
+      </div>
+      <div class="spec-guide-card orange">
+        <div class="spec-guide-icon">③</div>
+        <h3>호법성 분산</h3>
+        <p>같은 라운드에 호법성이 2명 이상이면 한 파티에 몰리지 않도록 양쪽 파티에 나눠 배치합니다.</p>
+      </div>
+      <div class="spec-guide-card blue">
+        <div class="spec-guide-icon">④</div>
+        <h3>전투력 밸런스</h3>
+        <p>필수·선호 역할을 배치한 뒤, 남은 인원은 두 파티의 전투력 합계가 최대한 비슷해지도록 나눕니다.</p>
+      </div>
+    </div>
+  </section>
+
 </section>
 
 <!-- BUSON2 소개 / SEO 영역 -->
@@ -3959,6 +4024,26 @@ min-height:56px;
         font-size:11px !important;
     }
 }
+}
+
+/* ===== 성역 파티 배치 ===== */
+.pt-player-card{border:1px solid #263043;border-radius:12px;padding:12px;margin-bottom:10px;background:#0d131c}
+.pt-player-title{font-weight:800;margin-bottom:8px;color:#dce6f8}
+.pt-char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.pt-char-slot{display:flex;flex-direction:column;gap:4px}
+.pt-char-label{font-size:11px;color:#8fa3d9;font-weight:700}
+.pt-char-slot select,.pt-char-slot input{width:100%}
+
+.pt-party-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pt-party-title{font-weight:800;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.pt-party-cp{margin-left:auto;font-weight:900;color:#8df0bd;font-size:13px}
+.pt-member{display:flex;justify-content:space-between;gap:8px;padding:7px 9px;border:1px solid #263043;border-radius:8px;margin-bottom:6px;font-size:13px}
+.pt-member-name{color:#9fb0c8;font-weight:700}
+.pt-member-job{color:#dce6f8}
+.pt-member-cp{color:#8df0bd;font-weight:800}
+
+@media(max-width:700px){
+  .pt-party-grid{grid-template-columns:1fr}
 }
 
 </style>
@@ -6333,7 +6418,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 function openTabFromHash(){
   const page = location.hash.replace("#", "");
@@ -6520,6 +6605,218 @@ window.addEventListener('load', function(){
     console.error(e);
   }
 });
+</script>
+  <script>
+/* ===== 성역 파티 배치 ===== */
+
+const PARTY_JOBS=['수호성','검성','치유성','호법성','궁성','마도성','정령성','권성','살성'];
+const PARTY_TANK_JOBS=['수호성','검성'];
+const PARTY_HEAL_JOB='치유성';
+const PARTY_ASSASSIN_JOB='살성';
+const PARTY_GUARDIAN_JOB='호법성';
+
+function ptIsTank(job){ return PARTY_TANK_JOBS.includes(job); }
+function ptIsHeal(job){ return job===PARTY_HEAL_JOB; }
+function ptIsAssassin(job){ return job===PARTY_ASSASSIN_JOB; }
+function ptIsGuardian(job){ return job===PARTY_GUARDIAN_JOB; }
+
+function ptJobOptions(selected){
+  return PARTY_JOBS.map(j=>`<option value="${j}"${j===selected?' selected':''}>${j}</option>`).join('');
+}
+
+function renderPartyRoster(){
+  const box=document.getElementById('pt_roster');
+  if(!box) return;
+
+  const n=Math.max(2,Math.min(30, Number(document.getElementById('pt_playerCount').value)||10));
+  const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount').value)||2));
+  const roundCount=m+1;
+
+  let html='';
+  for(let p=0;p<n;p++){
+    html+=`<div class="pt-player-card">
+      <div class="pt-player-title">플레이어 ${p+1}</div>
+      <div class="pt-char-grid">`;
+
+    for(let c=0;c<roundCount;c++){
+      const label=c===0 ? '본캐' : ('부캐'+c);
+      const defaultJob=PARTY_JOBS[(p+c)%PARTY_JOBS.length];
+
+      html+=`<div class="pt-char-slot">
+        <div class="pt-char-label">${label}</div>
+        <select id="pt_p${p}_c${c}_job">${ptJobOptions(defaultJob)}</select>
+        <input id="pt_p${p}_c${c}_cp" placeholder="전투력" value="" inputmode="numeric">
+      </div>`;
+    }
+
+    html+='</div></div>';
+  }
+
+  box.innerHTML=html;
+}
+
+function ptReadRoster(){
+  const n=Math.max(2,Math.min(30, Number(document.getElementById('pt_playerCount').value)||10));
+  const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount').value)||2));
+  const roundCount=m+1;
+  const players=[];
+
+  for(let p=0;p<n;p++){
+    const chars=[];
+    for(let c=0;c<roundCount;c++){
+      const jobEl=document.getElementById(`pt_p${p}_c${c}_job`);
+      const cpEl=document.getElementById(`pt_p${p}_c${c}_cp`);
+      if(!jobEl || !cpEl) return null;
+
+      chars.push({
+        player:p,
+        charIndex:c,
+        label:(c===0 ? `P${p+1} 본캐` : `P${p+1} 부캐${c}`),
+        job:jobEl.value,
+        cp:Number(String(cpEl.value).replace(/[^0-9]/g,''))||0
+      });
+    }
+    players.push(chars);
+  }
+
+  return {n, m, roundCount, players};
+}
+
+/* 라운드 배정: 탱커·치유부터 라운드에 고르게 퍼뜨리고, 남은 캐릭터는 전투력이 낮은 라운드부터 채운다 */
+function ptAssignRounds(roster){
+  const {roundCount, players}=roster;
+  const roundSlots=Array.from({length:roundCount}, ()=>[]);
+  const playerRoundUsed=players.map(()=>new Array(roundCount).fill(false));
+  const charUsed=players.map(chars=>chars.map(()=>false));
+
+  function place(p, c, r){
+    roundSlots[r].push(players[p][c]);
+    playerRoundUsed[p][r]=true;
+    charUsed[p][c]=true;
+  }
+
+  [ptIsTank, ptIsHeal].forEach(test=>{
+    let roundCursor=0;
+    for(let p=0;p<players.length;p++){
+      for(let c=0;c<players[p].length;c++){
+        if(charUsed[p][c] || !test(players[p][c].job)) continue;
+
+        let r=roundCursor, attempts=0;
+        while(playerRoundUsed[p][r] && attempts<roundCount){
+          r=(r+1)%roundCount;
+          attempts++;
+        }
+        if(attempts<roundCount){
+          place(p, c, r);
+          roundCursor=(r+1)%roundCount;
+        }
+      }
+    }
+  });
+
+  for(let p=0;p<players.length;p++){
+    for(let c=0;c<players[p].length;c++){
+      if(charUsed[p][c]) continue;
+
+      let bestR=-1, bestCp=Infinity;
+      for(let r=0;r<roundCount;r++){
+        if(playerRoundUsed[p][r]) continue;
+        const cur=roundSlots[r].reduce((s,x)=>s+x.cp,0);
+        if(cur<bestCp){ bestCp=cur; bestR=r; }
+      }
+      if(bestR>=0) place(p, c, bestR);
+    }
+  }
+
+  return roundSlots;
+}
+
+/* 한 라운드(인원 n)를 두 파티로 분할: 1파티 탱커+치유 필수, 2파티 살성+치유 선호, 호법성 2명+ 분산, 나머지는 전투력 균형 */
+function ptSplitRound(roundChars, n){
+  const party1Size=Math.ceil(n/2);
+  const party2Size=n-party1Size;
+  const pool=roundChars.slice();
+  const party1=[], party2=[];
+
+  function takeOne(predicate, target){
+    const idx=pool.findIndex(x=>predicate(x.job));
+    if(idx>=0){ target.push(pool[idx]); pool.splice(idx,1); return true; }
+    return false;
+  }
+
+  takeOne(ptIsTank, party1);
+  takeOne(ptIsHeal, party1);
+  takeOne(ptIsAssassin, party2);
+  takeOne(ptIsHeal, party2);
+
+  const guardians=[];
+  for(let i=pool.length-1;i>=0;i--){
+    if(ptIsGuardian(pool[i].job)){ guardians.push(pool[i]); pool.splice(i,1); }
+  }
+  guardians.forEach((g,i)=>{
+    const wantParty1=(i%2===0);
+    if(wantParty1 && party1.length<party1Size) party1.push(g);
+    else if(party2.length<party2Size) party2.push(g);
+    else if(party1.length<party1Size) party1.push(g);
+    else party2.push(g);
+  });
+
+  pool.sort((a,b)=>b.cp-a.cp);
+  pool.forEach(ch=>{
+    const p1Cp=party1.reduce((s,x)=>s+x.cp,0);
+    const p2Cp=party2.reduce((s,x)=>s+x.cp,0);
+    const p1HasRoom=party1.length<party1Size;
+    const p2HasRoom=party2.length<party2Size;
+
+    if(p1HasRoom && (!p2HasRoom || p1Cp<=p2Cp)) party1.push(ch);
+    else if(p2HasRoom) party2.push(ch);
+    else party1.push(ch);
+  });
+
+  return {party1, party2};
+}
+
+function ptRenderMember(x){
+  return `<div class="pt-member"><span class="pt-member-name">${x.label}</span><span class="pt-member-job">${x.job}</span><span class="pt-member-cp">${x.cp.toLocaleString()} 전투력</span></div>`;
+}
+
+function computePartyPlan(){
+  const roster=ptReadRoster();
+  const resultBox=document.getElementById('pt_result');
+  if(!roster || !resultBox) return;
+
+  const roundSlots=ptAssignRounds(roster);
+  let html='';
+
+  roundSlots.forEach((chars, r)=>{
+    const {party1, party2}=ptSplitRound(chars, roster.n);
+    const p1Cp=party1.reduce((s,x)=>s+x.cp,0);
+    const p2Cp=party2.reduce((s,x)=>s+x.cp,0);
+    const hasTank=party1.some(x=>ptIsTank(x.job));
+    const hasHeal1=party1.some(x=>ptIsHeal(x.job));
+    const hasAssassin2=party2.some(x=>ptIsAssassin(x.job));
+    const hasHeal2=party2.some(x=>ptIsHeal(x.job));
+
+    html+=`<div class="card" style="margin-top:14px;">
+      <div class="head"><h2>라운드 ${r+1} / ${roundSlots.length}</h2></div>
+      <div class="body">
+        <div class="pt-party-grid">
+          <div class="pt-party-col">
+            <div class="pt-party-title">1파티 · ${hasTank?'✅':'⚠️'} 탱커 · ${hasHeal1?'✅':'⚠️'} 치유<span class="pt-party-cp">전투력 합 ${p1Cp.toLocaleString()}</span></div>
+            ${party1.map(ptRenderMember).join('')}
+          </div>
+          <div class="pt-party-col">
+            <div class="pt-party-title">2파티 · ${hasAssassin2?'✅':'ℹ️'} 살성 · ${hasHeal2?'✅':'ℹ️'} 치유<span class="pt-party-cp">전투력 합 ${p2Cp.toLocaleString()}</span></div>
+            ${party2.map(ptRenderMember).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  resultBox.innerHTML=html;
+  resultBox.scrollIntoView({ behavior:'smooth', block:'start' });
+}
 </script>
   <script>
 /* ===== BUSON2 공식 AION2 캐릭터 검색 ===== */
