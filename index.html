@@ -6813,6 +6813,10 @@ function ptUpdateRoleCheck(){
   </div>`;
 }
 
+/* 부캐 수를 바꾸면 "새로고침"을 누르기 전에도 필요 인원수가 바로 갱신되도록 */
+document.getElementById('pt_altCount')?.addEventListener('input', ptUpdateRoleCheck);
+document.getElementById('pt_playerCount')?.addEventListener('input', ptUpdateRoleCheck);
+
 function ptReadRoster(){
   const n=Math.max(2,Math.min(30, Number(document.getElementById('pt_playerCount').value)||10));
   const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount').value)||2));
