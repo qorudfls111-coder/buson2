@@ -1763,6 +1763,8 @@ main.wrap{
 
       <div id="pt_roster" style="margin-top:16px;"></div>
 
+      <div id="pt_role_check" style="margin-top:14px;"></div>
+
       <button type="button" class="btn primary" style="width:100%;margin-top:16px;" onclick="computePartyPlan()">⚙️ 최적 파티 배치 계산하기</button>
 
     </div>
@@ -4037,6 +4039,19 @@ min-height:56px;
 .pt-roster-table td:nth-child(3n+2){border-left:2px solid #324566}
 .pt-copy-btn{min-width:44px;padding:5px 8px;font-size:12px;font-weight:800;background:#16233a;border:1px solid #2c3a55;border-radius:6px;color:#9db8ff;cursor:pointer}
 .pt-copy-btn:hover{background:#1c2e4a}
+
+.pt-role-check{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pt-role-item{padding:12px 14px;border-radius:12px;border:1px solid #263043;background:#0d131c}
+.pt-role-item.ok{border-color:#1f4d33;background:#0d1712}
+.pt-role-item.bad{border-color:#5a2a33;background:#1a1115}
+.pt-role-label{font-size:12px;font-weight:800;color:#9fb0c8;margin-bottom:4px}
+.pt-role-item.ok .pt-role-label{color:#9ef4bd}
+.pt-role-item.bad .pt-role-label{color:#ff9fb0}
+.pt-role-count{font-size:13px;color:#c4d0e6}
+.pt-role-count b{color:#eef4ff}
+@media(max-width:700px){
+  .pt-role-check{grid-template-columns:1fr}
+}
 
 .pt-party-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .pt-party-title{font-weight:800;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
@@ -6663,6 +6678,53 @@ function renderPartyRoster(){
     <thead><tr>${headRow1}</tr><tr>${headRow2}</tr></thead>
     <tbody>${bodyRows}</tbody>
   </table></div>`;
+
+  if(!box.dataset.roleCheckBound){
+    box.addEventListener('change', e=>{
+      if(e.target && e.target.id && e.target.id.includes('_job')) ptUpdateRoleCheck();
+    });
+    box.dataset.roleCheckBound='1';
+  }
+
+  ptUpdateRoleCheck();
+}
+
+/* 라운드별 필수 조합(1파티 탱커+치유, 2파티 딜러+치유)을 기준으로 지금 입력된 직업들로
+   충분한지 인원수만 보고 확인한다 (실제 배치 가능 여부까지 보장하진 않는 참고용 확인). */
+function ptUpdateRoleCheck(){
+  const box=document.getElementById('pt_role_check');
+  if(!box) return;
+
+  const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount').value)||2));
+  const roundCount=m+1;
+
+  const jobEls=document.querySelectorAll('#pt_roster select[id$="_job"]');
+  const jobs=Array.from(jobEls).map(el=>el.value);
+
+  const tankCount=jobs.filter(j=>ptIsTank(j)).length;
+  const healCount=jobs.filter(j=>ptIsHeal(j)).length;
+  const dealerCount=jobs.filter(j=>['살성','검성','권성'].includes(j)).length;
+
+  const tankNeeded=roundCount;
+  const healNeeded=roundCount*2;
+  const dealerNeeded=roundCount;
+
+  function item(label, have, need){
+    const ok=have>=need;
+    return `<div class="pt-role-item ${ok?'ok':'bad'}">
+      <div class="pt-role-label">${ok?'✅':'⚠️'} ${label}</div>
+      <div class="pt-role-count">필요 <b>${need}</b>명 · 입력됨 <b>${have}</b>명</div>
+    </div>`;
+  }
+
+  box.innerHTML=`<div class="pt-role-check">
+    ${item('탱커 (수호성·검성)', tankCount, tankNeeded)}
+    ${item('치유 (치유성)', healCount, healNeeded)}
+    ${item('딜러 (살성·검성·권성)', dealerCount, dealerNeeded)}
+  </div>
+  <div style="margin-top:8px;font-size:11px;color:#7f8fa8;">
+    라운드 ${roundCount}개 기준 필요 인원수만 계산한 참고용 확인입니다. 검성은 탱커·딜러 어느 쪽으로도 셀 수 있어 실제 배치 결과와는 다를 수 있습니다.
+  </div>`;
 }
 
 /* 한 플레이어(본캐·부캐1·부캐2...) 닉네임/직업을 "닉네임, 직업 / 닉네임, 직업" 한 줄로 복사 */
