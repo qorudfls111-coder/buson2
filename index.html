@@ -1749,6 +1749,8 @@ main.wrap{
     </div>
     <div class="body">
 
+      <div class="subtabs" id="pt_sanctuary_tabs"></div>
+
       <div class="fields" style="grid-template-columns:repeat(2,1fr);">
         <div><label>포스 인원 수</label><div class="iwrap"><input id="pt_playerCount" value="10"><span class="unit">명</span></div></div>
         <div><label>1인당 부캐 수 (본캐 제외)</label><div class="iwrap"><input id="pt_altCount" value="2"><span class="unit">개</span></div></div>
@@ -6639,6 +6641,79 @@ function ptIsHeal(job){ return job===PARTY_HEAL_JOB; }
 function ptIsAssassin(job){ return job===PARTY_ASSASSIN_JOB; }
 function ptIsGuardian(job){ return job===PARTY_GUARDIAN_JOB; }
 
+/* 성역별로 입력값을 따로 저장 — 나중에 다른 성역 본부가 추가되면 여기에 항목만 추가하면 된다 */
+const PARTY_SANCTUARIES=[
+  {key:'muspel', label:'무스펠'},
+  {key:'bitan', label:'비탄의 설원'}
+];
+let PT_CURRENT_SANCTUARY=PARTY_SANCTUARIES[0].key;
+
+function ptStorageKey(sanctuary){
+  return 'buson2-party-roster-'+sanctuary;
+}
+
+function ptSaveCurrentRosterToStorage(){
+  const n=Math.max(2,Math.min(30, Number(document.getElementById('pt_playerCount')?.value)||10));
+  const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount')?.value)||2));
+  const roundCount=m+1;
+
+  const players=[];
+  for(let p=0;p<n;p++){
+    const chars=[];
+    for(let c=0;c<roundCount;c++){
+      chars.push({
+        name: document.getElementById(`pt_p${p}_c${c}_name`)?.value || '',
+        job: document.getElementById(`pt_p${p}_c${c}_job`)?.value || '',
+        cp: document.getElementById(`pt_p${p}_c${c}_cp`)?.value || ''
+      });
+    }
+    players.push(chars);
+  }
+
+  try{
+    localStorage.setItem(ptStorageKey(PT_CURRENT_SANCTUARY), JSON.stringify({n, m, players}));
+  }catch(e){}
+}
+
+function ptLoadRosterFromStorage(sanctuary){
+  try{
+    const raw=localStorage.getItem(ptStorageKey(sanctuary));
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){
+    return null;
+  }
+}
+
+function ptRenderSanctuaryTabs(){
+  const box=document.getElementById('pt_sanctuary_tabs');
+  if(!box) return;
+
+  box.innerHTML=PARTY_SANCTUARIES.map(s=>
+    `<button type="button" class="subtab${s.key===PT_CURRENT_SANCTUARY?' active':''}" onclick="ptSwitchSanctuary('${s.key}')">${s.label}</button>`
+  ).join('');
+}
+
+function ptSwitchSanctuary(key){
+  if(key===PT_CURRENT_SANCTUARY) return;
+
+  ptSaveCurrentRosterToStorage();
+  PT_CURRENT_SANCTUARY=key;
+
+  const saved=ptLoadRosterFromStorage(key);
+  if(saved){
+    document.getElementById('pt_playerCount').value=saved.n||10;
+    document.getElementById('pt_altCount').value=saved.m??2;
+  }else{
+    document.getElementById('pt_playerCount').value=10;
+    document.getElementById('pt_altCount').value=2;
+  }
+
+  renderPartyRoster();
+
+  const resultBox=document.getElementById('pt_result');
+  if(resultBox) resultBox.innerHTML='';
+}
+
 function ptJobOptions(selected){
   return PARTY_JOBS.map(j=>`<option value="${j}"${j===selected?' selected':''}>${j}</option>`).join('');
 }
@@ -6647,9 +6722,13 @@ function renderPartyRoster(){
   const box=document.getElementById('pt_roster');
   if(!box) return;
 
+  ptRenderSanctuaryTabs();
+
   const n=Math.max(2,Math.min(30, Number(document.getElementById('pt_playerCount').value)||10));
   const m=Math.max(0,Math.min(5, Number(document.getElementById('pt_altCount').value)||2));
   const roundCount=m+1;
+
+  const saved=ptLoadRosterFromStorage(PT_CURRENT_SANCTUARY);
 
   let headRow1='<th rowspan="2">#</th>';
   let headRow2='';
@@ -6663,10 +6742,13 @@ function renderPartyRoster(){
   for(let p=0;p<n;p++){
     let row=`<tr><th>${p+1}</th>`;
     for(let c=0;c<roundCount;c++){
-      const defaultJob=PARTY_JOBS[(p+c)%PARTY_JOBS.length];
-      row+=`<td><input id="pt_p${p}_c${c}_name" placeholder="닉네임"></td>`;
+      const savedChar=saved?.players?.[p]?.[c];
+      const defaultJob=savedChar?.job || PARTY_JOBS[(p+c)%PARTY_JOBS.length];
+      const savedName=savedChar?.name || '';
+      const savedCp=savedChar?.cp || '';
+      row+=`<td><input id="pt_p${p}_c${c}_name" placeholder="닉네임" value="${savedName.replace(/"/g,'&quot;')}"></td>`;
       row+=`<td><select id="pt_p${p}_c${c}_job">${ptJobOptions(defaultJob)}</select></td>`;
-      row+=`<td><input id="pt_p${p}_c${c}_cp" placeholder="전투력" inputmode="numeric"></td>`;
+      row+=`<td><input id="pt_p${p}_c${c}_cp" placeholder="전투력" inputmode="numeric" value="${savedCp}"></td>`;
     }
     row+='</tr>';
     bodyRows+=row;
@@ -6679,7 +6761,13 @@ function renderPartyRoster(){
 
   if(!box.dataset.roleCheckBound){
     box.addEventListener('change', e=>{
-      if(e.target && e.target.id && e.target.id.includes('_job')) ptUpdateRoleCheck();
+      if(e.target && e.target.id && e.target.id.startsWith('pt_p')){
+        if(e.target.id.includes('_job')) ptUpdateRoleCheck();
+        ptSaveCurrentRosterToStorage();
+      }
+    });
+    box.addEventListener('input', e=>{
+      if(e.target && e.target.id && e.target.id.startsWith('pt_p')) ptSaveCurrentRosterToStorage();
     });
     box.dataset.roleCheckBound='1';
   }
