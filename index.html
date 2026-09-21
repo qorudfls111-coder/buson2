@@ -7009,6 +7009,15 @@ function ptRenderMember(x){
   return `<div class="pt-member"><span class="pt-member-name">${x.label}</span><span class="pt-member-job">${x.job}</span><span class="pt-member-cp">${x.cp.toLocaleString()} 전투력</span></div>`;
 }
 
+/* 닉네임에서 [서버명] 태그를 떼고, 너무 길면 앞 2글자만 남겨 어색하지 않게 줄인다 */
+function ptShortName(rawLabel){
+  const stripped=String(rawLabel||'').replace(/\[[^\]]*\]/g,'').trim();
+  if(!stripped) return stripped;
+  return stripped.length<=3 ? stripped : stripped.slice(0,2);
+}
+
+let PT_ROUND_RESULTS=[];
+
 function computePartyPlan(){
   const roster=ptReadRoster();
   const resultBox=document.getElementById('pt_result');
@@ -7016,9 +7025,12 @@ function computePartyPlan(){
 
   const roundSlots=ptAssignRounds(roster);
   let html='';
+  PT_ROUND_RESULTS=[];
 
   roundSlots.forEach((chars, r)=>{
     const {party1, party2}=ptSplitRound(chars, roster.n);
+    PT_ROUND_RESULTS.push({party1, party2});
+
     const p1Cp=party1.reduce((s,x)=>s+x.cp,0);
     const p2Cp=party2.reduce((s,x)=>s+x.cp,0);
     const hasTank=party1.some(x=>ptIsTank(x.job));
@@ -7027,7 +7039,10 @@ function computePartyPlan(){
     const hasHeal2=party2.some(x=>ptIsHeal(x.job));
 
     html+=`<div class="card" style="margin-top:14px;">
-      <div class="head"><h2>라운드 ${r+1} / ${roundSlots.length}</h2></div>
+      <div class="head" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+        <h2>라운드 ${r+1} / ${roundSlots.length}</h2>
+        <button type="button" class="pt-copy-btn" onclick="ptCopyRound(${r}, this)">📋 라운드 전체 복사</button>
+      </div>
       <div class="body">
         <div class="pt-party-grid">
           <div class="pt-party-col">
@@ -7045,6 +7060,25 @@ function computePartyPlan(){
 
   resultBox.innerHTML=html;
   resultBox.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* 라운드 전체(1파티+2파티) 인원 닉네임을 서버 태그 없이 줄여서 " // "로 이어 붙여 복사 */
+async function ptCopyRound(r, btn){
+  const round=PT_ROUND_RESULTS[r];
+  if(!round) return;
+
+  const names=[...round.party1, ...round.party2].map(x=>ptShortName(x.label));
+  const text=names.join(' // ');
+  const oldText=btn.textContent;
+
+  try{
+    await navigator.clipboard.writeText(text);
+    btn.textContent='✅ 복사됨';
+  }catch(e){
+    prompt('아래 내용을 복사해주세요.', text);
+  }
+
+  setTimeout(()=>{ btn.textContent=oldText; }, 1800);
 }
 
 /* openTabFromHash()가 이 스크립트보다 먼저 실행돼서 #party 직행 시
