@@ -4134,7 +4134,7 @@ min-height:56px;
 .an-type-btn{border:1px solid var(--line);background:#101722;color:#aab5c7;border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:800;font-size:13px}
 .an-type-btn.active{background:#1d2940;border-color:#5574a7;color:#fff}
 .an-form{border:1px solid #263043;border-radius:14px;background:#0d131c;padding:16px;margin-bottom:16px}
-.an-form-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px}
+.an-form>input{margin-bottom:14px}
 .an-skill-row{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:10px}
 .an-skill-row select{width:100%;padding:8px 10px;background:#0b1018;border:1px solid #263043;border-radius:8px;color:#eef4ff}
 .an-form-actions{display:flex;gap:10px;margin-top:6px}
@@ -4142,16 +4142,12 @@ min-height:56px;
 .an-card-item{border:1px solid #263043;border-radius:12px;background:#0d131c;padding:12px 14px}
 .an-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .an-card-type{font-weight:900;color:#9db8ff}
-.an-card-level{font-size:12px;color:#8fa3d9;font-weight:800}
 .an-card-skill{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:#c4d0e6}
 .an-card-skill b{color:#eef4ff}
 .an-card-memo{margin-top:8px;font-size:12px;color:#8b97ab;word-break:break-all}
 .an-card-actions{display:flex;gap:8px;margin-top:10px}
 .an-card-actions .btn{padding:6px 10px;font-size:12px}
 .an-empty{padding:24px;text-align:center;color:#8b97ab;border:1px dashed #263043;border-radius:12px}
-@media(max-width:700px){
-  .an-form-row{grid-template-columns:1fr}
-}
 
 .an-equip-details{border:1px solid #263043;border-radius:12px;background:#0d131c;margin-bottom:10px;overflow:hidden}
 .an-equip-details summary{list-style:none;cursor:pointer;padding:11px 14px;font-size:13px;color:#9db8ff;font-weight:800;display:flex;align-items:center;justify-content:space-between}
@@ -7462,7 +7458,6 @@ function anRenderForm(card){
   AN_EDIT_ID = card ? card.id : null;
   const skills = card ? card.skills : [{name:'',lv:'1'},{name:'',lv:'1'},{name:'',lv:'1'},{name:'',lv:'1'}];
   const type = card ? card.type : '';
-  const level = card ? card.level : '1';
   const memo = card ? card.memo : '';
 
   wrap.innerHTML = `
@@ -7474,18 +7469,8 @@ function anRenderForm(card){
       <input type="hidden" id="an_f_type" value="${type}">
       <div class="note" style="margin-top:6px;">양피지·나침반은 액티브 스킬만, 종·거울은 패시브 스킬만 선택할 수 있습니다.</div>
 
-      <div class="an-form-row">
-        <div>
-          <label>카드 레벨</label>
-          <select id="an_f_level">
-            ${[1,2,3,4,5].map(n=>`<option value="${n}" ${String(n)===String(level)?'selected':''}>${n}강</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <label>메모 (선택)</label>
-          <input id="an_f_memo" value="${escapeHtml(memo||'')}" placeholder="카드 구분용 메모">
-        </div>
-      </div>
+      <label style="margin-top:12px;">메모 (선택)</label>
+      <input id="an_f_memo" value="${escapeHtml(memo||'')}" placeholder="카드 구분용 메모">
 
       <label>스킬 4개</label>
       ${[0,1,2,3].map(i=>`
@@ -7513,7 +7498,7 @@ function anCancelForm(){
 function anSaveCard(){
   const type = $('#an_f_type')?.value;
   if(!type){ alert('카드 종류를 선택해주세요.'); return; }
-  const level = $('#an_f_level')?.value || '1';
+  const level = '5';
   const memo = $('#an_f_memo')?.value || '';
   const skills = [0,1,2,3].map(i=>({
     name: $('#an_f_skill'+i+'_name')?.value || '',
@@ -7565,7 +7550,6 @@ function anRenderCardList(){
     <div class="an-card-item">
       <div class="an-card-head">
         <span class="an-card-type">${anTypeLabel(c.type)}</span>
-        <span class="an-card-level">${c.level}강</span>
       </div>
       ${c.skills.map(s=>`<div class="an-card-skill"><span>${escapeHtml(s.name)}</span><b>Lv ${s.lv}</b></div>`).join('')}
       ${c.memo ? `<div class="an-card-memo">${escapeHtml(c.memo)}</div>` : ''}
