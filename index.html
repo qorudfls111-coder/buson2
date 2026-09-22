@@ -4161,12 +4161,14 @@ min-height:56px;
   .an-summary-grid{grid-template-columns:1fr}
 }
 
-.an-equip-group{margin-bottom:16px}
-.an-equip-group h3{font-size:13px;color:#9db8ff;margin-bottom:8px}
-.an-equip-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-.an-equip-slot{display:flex;flex-direction:column;gap:4px}
-.an-equip-slot label{font-size:11px;color:#8fa3d9;font-weight:700}
-.an-equip-slot select{width:100%;padding:7px 8px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:8px;color:#eef4ff}
+.an-equip-group{margin-bottom:18px}
+.an-equip-group h3{font-size:13px;color:#9db8ff;margin-bottom:10px}
+.an-equip-piece{border:1px solid #263043;border-radius:10px;background:#0d131c;padding:10px 12px;margin-bottom:8px}
+.an-equip-piece-head{font-size:12.5px;font-weight:800;color:#dce6f8;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.an-equip-count{font-size:11px;font-weight:700;color:#8fa3d9}
+.an-equip-chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.an-equip-chip{border:1px solid #263043;background:#101722;color:#aab5c7;border-radius:8px;padding:5px 9px;font-size:11.5px;cursor:pointer;font-weight:700}
+.an-equip-chip.active{background:#1d2940;border-color:#5574a7;color:#fff}
 
 .an-target-row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
 .an-target-row label{font-size:12.5px;color:#9fb0c8;font-weight:700;display:flex;align-items:center;gap:6px}
@@ -7328,7 +7330,24 @@ let AN_CARDS = [];
 let AN_EDIT_ID = null;
 let AN_INITED = false;
 let AN_STATS = {};
-let AN_EQUIP = { armor:['','','','','','',''], accessory:['','',''], ring:['',''] };
+function anEmptyEquip(){
+  return { armor:[[],[],[],[],[],[],[]], accessory:[[],[],[]], ring:[[],[]] };
+}
+function anNormalizeEquip(data){
+  const empty = anEmptyEquip();
+  if(!data) return empty;
+  ['armor','accessory','ring'].forEach(cat=>{
+    const src = Array.isArray(data[cat]) ? data[cat] : [];
+    empty[cat] = empty[cat].map((_,i)=>{
+      const v = src[i];
+      if(Array.isArray(v)) return v.filter(Boolean);
+      if(typeof v==='string' && v) return [v];
+      return [];
+    });
+  });
+  return empty;
+}
+let AN_EQUIP = anEmptyEquip();
 let AN_TARGETS = { active:20, passive:36 };
 
 function anStorageKey(job){ return 'buson2-arcana-cards-'+job; }
@@ -7358,8 +7377,8 @@ function anLoadEquip(job){
   try{
     const raw = localStorage.getItem(anEquipKey(job));
     const parsed = raw ? JSON.parse(raw) : null;
-    return parsed || { armor:['','','','','','',''], accessory:['','',''], ring:['',''] };
-  }catch(e){ return { armor:['','','','','','',''], accessory:['','',''], ring:['',''] }; }
+    return anNormalizeEquip(parsed);
+  }catch(e){ return anEmptyEquip(); }
 }
 function anSaveEquip(){
   try{ localStorage.setItem(anEquipKey(AN_CURRENT_JOB), JSON.stringify(AN_EQUIP)); }catch(e){}
@@ -7615,44 +7634,48 @@ function anRenderEquipPanel(){
   const pool = ARCANA_SKILLS[AN_CURRENT_JOB];
   if(!pool){ box.innerHTML=''; return; }
 
-  const slotSelect=(category, idx, label, skillPool)=>{
-    const current = AN_EQUIP[category][idx] || '';
-    const opts = ['<option value="">선택 안함</option>']
-      .concat(skillPool.map(name=>`<option value="${escapeHtml(name)}" ${name===current?'selected':''}>${escapeHtml(name)}</option>`));
+  const piece=(category, idx, label, skillPool)=>{
+    const selected = AN_EQUIP[category][idx] || [];
     return `
-      <div class="an-equip-slot">
-        <label>${label}</label>
-        <select onchange="anSetEquip('${category}',${idx},this.value)">${opts.join('')}</select>
+      <div class="an-equip-piece">
+        <div class="an-equip-piece-head">${label} <span class="an-equip-count">${selected.length}개 선택됨</span></div>
+        <div class="an-equip-chip-row">
+          ${skillPool.map(name=>`<button type="button" class="an-equip-chip ${selected.includes(name)?'active':''}" onclick="anToggleEquipSkill('${category}',${idx},'${escapeHtml(name).replace(/'/g,"\\'")}')">${escapeHtml(name)}</button>`).join('')}
+        </div>
       </div>
     `;
   };
 
   box.innerHTML = `
     <div class="an-equip-group">
-      <h3>🛡️ 방어구 (7부위 · 패시브)</h3>
-      <div class="an-equip-row">${ARMOR_PARTS.map((label,i)=>slotSelect('armor',i,label,pool.passive)).join('')}</div>
+      <h3>🛡️ 방어구 (7부위 · 패시브, 부위당 여러 스킬 동시 가능)</h3>
+      ${ARMOR_PARTS.map((label,i)=>piece('armor',i,label,pool.passive)).join('')}
     </div>
     <div class="an-equip-group">
       <h3>💍 장신구 (목걸이·귀걸이 · 패시브)</h3>
-      <div class="an-equip-row">${ACCESSORY_PARTS.map((label,i)=>slotSelect('accessory',i,label,pool.passive)).join('')}</div>
+      ${ACCESSORY_PARTS.map((label,i)=>piece('accessory',i,label,pool.passive)).join('')}
     </div>
     <div class="an-equip-group">
       <h3>💠 반지 (2개 · 액티브)</h3>
-      <div class="an-equip-row">${RING_PARTS.map((label,i)=>slotSelect('ring',i,label,pool.active)).join('')}</div>
+      ${RING_PARTS.map((label,i)=>piece('ring',i,label,pool.active)).join('')}
     </div>
   `;
 }
 
-function anSetEquip(category, idx, value){
-  AN_EQUIP[category][idx] = value;
+function anToggleEquipSkill(category, idx, skillName){
+  const arr = AN_EQUIP[category][idx] || (AN_EQUIP[category][idx]=[]);
+  const pos = arr.indexOf(skillName);
+  if(pos>=0) arr.splice(pos,1); else arr.push(skillName);
   anSaveEquip();
+  anRenderEquipPanel();
   anRenderCalcTable();
 }
 
 function anEquipCountFor(skillName, isActive){
   if(!skillName) return 0;
-  if(isActive) return AN_EQUIP.ring.filter(s=>s===skillName).length;
-  return AN_EQUIP.armor.filter(s=>s===skillName).length + AN_EQUIP.accessory.filter(s=>s===skillName).length;
+  const countIn=(pieces)=>pieces.reduce((sum,arr)=>sum+((arr||[]).includes(skillName)?1:0),0);
+  if(isActive) return countIn(AN_EQUIP.ring);
+  return countIn(AN_EQUIP.armor) + countIn(AN_EQUIP.accessory);
 }
 
 function anGetStat(name){ return AN_STATS[name] || {invest:0, devanion:0}; }
