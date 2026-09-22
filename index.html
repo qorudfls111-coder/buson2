@@ -4139,12 +4139,10 @@ min-height:56px;
 .an-skill-row{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:10px}
 .an-skill-row select{width:100%;padding:8px 10px;background:#0b1018;border:1px solid #263043;border-radius:8px;color:#eef4ff}
 .an-form-actions{display:flex;gap:10px;margin-top:6px}
-.an-card-group{margin-bottom:20px}
-.an-card-group:last-child{margin-bottom:0}
-.an-card-group-title{font-weight:900;color:#9db8ff;font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.an-card-group-count{font-size:11.5px;font-weight:700;color:#8fa3d9}
-.an-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.an-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:6px}
 .an-card-item{border:1px solid #263043;border-radius:12px;background:#0d131c;padding:12px 14px}
+.an-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.an-card-type{font-weight:900;color:#9db8ff}
 .an-card-skill{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:#c4d0e6}
 .an-card-skill b{color:#eef4ff}
 .an-card-memo{margin-top:8px;font-size:12px;color:#8b97ab;word-break:break-all}
@@ -7316,6 +7314,7 @@ const ACCESSORY_PARTS=['목걸이','귀걸이 1','귀걸이 2'];
 const RING_PARTS=['반지 1','반지 2'];
 
 let AN_CURRENT_JOB = ARCANA_JOBS[0];
+let AN_TYPE_FILTER = 'all';
 let AN_CARDS = [];
 let AN_EDIT_ID = null;
 let AN_INITED = false;
@@ -7389,6 +7388,7 @@ function anRenderJobTabs(){
 }
 function anSwitchJob(job){
   AN_CURRENT_JOB = job;
+  AN_TYPE_FILTER = 'all';
   AN_EDIT_ID = null;
   AN_CARDS = anLoadCards(job);
   AN_STATS = anLoadStats(job);
@@ -7406,11 +7406,12 @@ function anRenderTypeTabs(){
   const box = $('#an_type_tabs');
   if(!box) return;
   const items = [{key:'all',label:'전체'}, ...ARCANA_TYPES];
-  box.innerHTML = items.map(t=>`<button type="button" class="subtab" onclick="anJumpToType('${t.key}')">${t.label}</button>`).join('');
+  box.innerHTML = items.map(t=>`<button type="button" class="subtab ${t.key===AN_TYPE_FILTER?'active':''}" onclick="anSetTypeFilter('${t.key}')">${t.label}</button>`).join('');
 }
-function anJumpToType(key){
-  const el = key==='all' ? $('#an_card_list') : document.querySelector(`.an-card-group[data-type="${key}"]`);
-  el?.scrollIntoView({behavior:'smooth', block:'start'});
+function anSetTypeFilter(key){
+  AN_TYPE_FILTER = key;
+  anRenderTypeTabs();
+  anRenderCardList();
 }
 
 const ARCANA_TYPE_SKILL_MODE={ grail:'all', parchment:'active', compass:'active', bell:'passive', mirror:'passive', scale:'all' };
@@ -7540,14 +7541,18 @@ function anDeleteCard(id){
 function anRenderCardList(){
   const box = $('#an_card_list');
   if(!box) return;
+  const list = AN_TYPE_FILTER==='all' ? AN_CARDS : AN_CARDS.filter(c=>c.type===AN_TYPE_FILTER);
 
-  if(AN_CARDS.length===0){
+  if(list.length===0){
     box.innerHTML = `<div class="an-empty">등록된 카드가 없습니다. 위에서 "카드 추가"로 보유 카드를 등록해주세요.</div>`;
     return;
   }
 
-  const cardHtml=(c)=>`
+  box.innerHTML = `<div class="an-card-grid">${list.map(c=>`
     <div class="an-card-item">
+      <div class="an-card-head">
+        <span class="an-card-type">${anTypeLabel(c.type)}</span>
+      </div>
       ${c.skills.map(s=>`<div class="an-card-skill"><span>${escapeHtml(s.name)}</span><b>Lv ${s.lv}</b></div>`).join('')}
       ${c.memo ? `<div class="an-card-memo">${escapeHtml(c.memo)}</div>` : ''}
       <div class="an-card-actions">
@@ -7555,18 +7560,7 @@ function anRenderCardList(){
         <button type="button" class="btn secondary" onclick="anDeleteCard('${c.id}')">삭제</button>
       </div>
     </div>
-  `;
-
-  box.innerHTML = ARCANA_TYPES.map(t=>{
-    const cards = AN_CARDS.filter(c=>c.type===t.key);
-    if(cards.length===0) return '';
-    return `
-      <div class="an-card-group" data-type="${t.key}">
-        <div class="an-card-group-title">${anTypeLabel(t.key)} <span class="an-card-group-count">${cards.length}장</span></div>
-        <div class="an-card-grid">${cards.map(cardHtml).join('')}</div>
-      </div>
-    `;
-  }).join('');
+  `).join('')}</div>`;
 }
 
 const AN_SLOT_COUNT = 3;
