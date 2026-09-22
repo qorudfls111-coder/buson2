@@ -1814,7 +1814,7 @@ main.wrap{
   <div class="card">
     <div class="head">
       <h2>🃏 아르카나 카드 관리</h2>
-      <p>직업을 고르고 보유 중인 아르카나 카드를 등록하면, 카드에 붙은 스킬들의 합산 레벨을 한눈에 확인할 수 있습니다.</p>
+      <p>직업을 고르고 보유 중인 아르카나 카드를 등록하세요. 스킬 합산 레벨은 아래 종합 계산기에서 확인할 수 있습니다.</p>
     </div>
     <div class="body">
 
@@ -1827,15 +1827,13 @@ main.wrap{
 
       <div id="an_card_list"></div>
 
-      <div id="an_skill_summary" style="margin-top:22px;"></div>
-
     </div>
   </div>
 
   <div class="card" style="margin-top:20px;">
     <div class="head">
       <h2>🎯 종합 스킬 레벨 계산기</h2>
-      <p>스킬 투자·데바니온·장비(방어구/장신구/반지)·아르카나를 모두 합쳐서 실제 게임 내 스킬 레벨을 계산합니다. 목표 레벨까지 얼마나 남았는지도 함께 보여줍니다.</p>
+      <p>스킬 투자·데바니온·장비(방어구/장신구/반지)·아르카나를 모두 합쳐서 실제 게임 내 스킬 레벨을 계산합니다.</p>
     </div>
     <div class="body">
       <div id="an_equip_panel"></div>
@@ -4151,40 +4149,34 @@ min-height:56px;
 .an-card-actions{display:flex;gap:8px;margin-top:10px}
 .an-card-actions .btn{padding:6px 10px;font-size:12px}
 .an-empty{padding:24px;text-align:center;color:#8b97ab;border:1px dashed #263043;border-radius:12px}
-.an-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.an-summary-col h3{font-size:14px;color:#9db8ff;margin-bottom:10px}
-.an-summary-item{display:flex;justify-content:space-between;padding:7px 10px;border:1px solid #263043;border-radius:8px;margin-bottom:6px;font-size:13px}
-.an-summary-item.zero{opacity:.45}
-.an-summary-item b{color:#8df0bd}
 @media(max-width:700px){
   .an-form-row{grid-template-columns:1fr}
-  .an-summary-grid{grid-template-columns:1fr}
 }
 
-.an-equip-group{margin-bottom:18px}
-.an-equip-group h3{font-size:13px;color:#9db8ff;margin-bottom:10px}
-.an-equip-piece{border:1px solid #263043;border-radius:10px;background:#0d131c;padding:10px 12px;margin-bottom:8px}
+.an-equip-details{border:1px solid #263043;border-radius:12px;background:#0d131c;margin-bottom:10px;overflow:hidden}
+.an-equip-details summary{list-style:none;cursor:pointer;padding:11px 14px;font-size:13px;color:#9db8ff;font-weight:800;display:flex;align-items:center;justify-content:space-between}
+.an-equip-details summary::-webkit-details-marker{display:none}
+.an-equip-details summary .an-equip-summary-count{font-size:11.5px;color:#8fa3d9;font-weight:700}
+.an-equip-details[open] summary{border-bottom:1px solid #263043}
+.an-equip-details-body{padding:12px 14px}
+.an-equip-piece{border:1px solid #263043;border-radius:10px;background:#0b1018;padding:10px 12px;margin-bottom:8px}
+.an-equip-piece:last-child{margin-bottom:0}
 .an-equip-piece-head{font-size:12.5px;font-weight:800;color:#dce6f8;margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .an-equip-count{font-size:11px;font-weight:700;color:#8fa3d9}
 .an-equip-chip-row{display:flex;flex-wrap:wrap;gap:6px}
 .an-equip-chip{border:1px solid #263043;background:#101722;color:#aab5c7;border-radius:8px;padding:5px 9px;font-size:11.5px;cursor:pointer;font-weight:700}
 .an-equip-chip.active{background:#1d2940;border-color:#5574a7;color:#fff}
 
-.an-target-row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
-.an-target-row label{font-size:12.5px;color:#9fb0c8;font-weight:700;display:flex;align-items:center;gap:6px}
-.an-target-row input{width:56px;padding:6px 8px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;text-align:center}
-
 .an-calc-wrap{overflow-x:auto;border:1px solid #263043;border-radius:12px}
-.an-calc-table{border-collapse:collapse;width:100%;min-width:600px;font-size:12.5px}
+.an-calc-table{border-collapse:collapse;width:100%;min-width:520px;font-size:12.5px}
 .an-calc-table th,.an-calc-table td{border:1px solid #263043;padding:6px 7px;text-align:center}
 .an-calc-table thead th{background:#111c2e;color:#9db8ff;font-weight:800;white-space:nowrap;position:sticky;top:0}
 .an-calc-table td:first-child{text-align:left;color:#dce6f8;font-weight:700;white-space:nowrap}
 .an-calc-table input{width:44px;padding:4px 5px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;text-align:center;box-sizing:border-box}
 .an-calc-table .an-calc-total{font-weight:900;color:#8df0bd}
-.an-calc-table .an-calc-remain{font-size:11.5px;color:#8b97ab}
-.an-calc-table tr.an-calc-done td{background:#0d1712}
-.an-calc-table tr.an-calc-done .an-calc-remain{color:#9ef4bd;font-weight:800}
+.an-calc-table tr.an-calc-active td{background:#0d1712}
 .an-calc-section-title{font-size:13px;color:#9db8ff;font-weight:800;margin:14px 0 8px}
+.an-calc-section-title:first-child{margin-top:0}
 
 </style>
 </main>
@@ -7348,7 +7340,6 @@ function anNormalizeEquip(data){
   return empty;
 }
 let AN_EQUIP = anEmptyEquip();
-let AN_TARGETS = { active:20, passive:36 };
 
 function anStorageKey(job){ return 'buson2-arcana-cards-'+job; }
 function anLoadCards(job){
@@ -7384,18 +7375,6 @@ function anSaveEquip(){
   try{ localStorage.setItem(anEquipKey(AN_CURRENT_JOB), JSON.stringify(AN_EQUIP)); }catch(e){}
 }
 
-function anTargetsKey(job){ return 'buson2-arcana-targets-'+job; }
-function anLoadTargets(job){
-  try{
-    const raw = localStorage.getItem(anTargetsKey(job));
-    const parsed = raw ? JSON.parse(raw) : null;
-    return parsed || { active:20, passive:36 };
-  }catch(e){ return { active:20, passive:36 }; }
-}
-function anSaveTargets(){
-  try{ localStorage.setItem(anTargetsKey(AN_CURRENT_JOB), JSON.stringify(AN_TARGETS)); }catch(e){}
-}
-
 function anComputeArcanaSums(){
   const sums = {};
   AN_CARDS.forEach(c=>c.skills.forEach(s=>{
@@ -7417,12 +7396,10 @@ function anSwitchJob(job){
   AN_CARDS = anLoadCards(job);
   AN_STATS = anLoadStats(job);
   AN_EQUIP = anLoadEquip(job);
-  AN_TARGETS = anLoadTargets(job);
   anRenderJobTabs();
   anRenderTypeTabs();
   $('#an_form_wrap').innerHTML = '';
   anRenderCardList();
-  anRenderSkillSummary();
   anRenderEquipPanel();
   anRenderCalcTable();
 }
@@ -7555,7 +7532,6 @@ function anSaveCard(){
   anSaveCards();
   anCancelForm();
   anRenderCardList();
-  anRenderSkillSummary();
   anRenderCalcTable();
 }
 
@@ -7572,7 +7548,6 @@ function anDeleteCard(id){
   anSaveCards();
   if(AN_EDIT_ID===id) anCancelForm();
   anRenderCardList();
-  anRenderSkillSummary();
   anRenderCalcTable();
 }
 
@@ -7602,31 +7577,7 @@ function anRenderCardList(){
   `).join('')}</div>`;
 }
 
-function anRenderSkillSummary(){
-  const box = $('#an_skill_summary');
-  if(!box) return;
-  const pool = ARCANA_SKILLS[AN_CURRENT_JOB];
-  if(!pool){ box.innerHTML=''; return; }
-
-  const sums = anComputeArcanaSums();
-
-  const renderCol=(title, names)=>`
-    <div class="an-summary-col">
-      <h3>${title}</h3>
-      ${names.map(name=>{
-        const total = sums[name]||0;
-        return `<div class="an-summary-item ${total===0?'zero':''}"><span>${escapeHtml(name)}</span><b>Lv ${total}</b></div>`;
-      }).join('')}
-    </div>
-  `;
-
-  box.innerHTML = `
-    <div class="an-summary-grid">
-      ${renderCol('⚔️ 아르카나 액티브 합산', pool.active)}
-      ${renderCol('🛡️ 아르카나 패시브 합산', pool.passive)}
-    </div>
-  `;
-}
+let AN_EQUIP_OPEN = { armor:false, accessory:false, ring:false };
 
 function anRenderEquipPanel(){
   const box = $('#an_equip_panel');
@@ -7646,20 +7597,21 @@ function anRenderEquipPanel(){
     `;
   };
 
-  box.innerHTML = `
-    <div class="an-equip-group">
-      <h3>🛡️ 방어구 (7부위 · 패시브, 부위당 여러 스킬 동시 가능)</h3>
-      ${ARMOR_PARTS.map((label,i)=>piece('armor',i,label,pool.passive)).join('')}
-    </div>
-    <div class="an-equip-group">
-      <h3>💍 장신구 (목걸이·귀걸이 · 패시브)</h3>
-      ${ACCESSORY_PARTS.map((label,i)=>piece('accessory',i,label,pool.passive)).join('')}
-    </div>
-    <div class="an-equip-group">
-      <h3>💠 반지 (2개 · 액티브)</h3>
-      ${RING_PARTS.map((label,i)=>piece('ring',i,label,pool.active)).join('')}
-    </div>
+  const groupCount=(category)=>AN_EQUIP[category].reduce((sum,arr)=>sum+(arr?arr.length:0),0);
+
+  const group=(category, title, parts, skillPool)=>`
+    <details class="an-equip-details" ${AN_EQUIP_OPEN[category]?'open':''} ontoggle="AN_EQUIP_OPEN['${category}']=this.open">
+      <summary>${title}<span class="an-equip-summary-count">${groupCount(category)}개 배정됨</span></summary>
+      <div class="an-equip-details-body">
+        ${parts.map((label,i)=>piece(category,i,label,skillPool)).join('')}
+      </div>
+    </details>
   `;
+
+  box.innerHTML =
+    group('armor', '🛡️ 방어구 (7부위 · 패시브)', ARMOR_PARTS, pool.passive) +
+    group('accessory', '💍 장신구 (목걸이·귀걸이 · 패시브)', ACCESSORY_PARTS, pool.passive) +
+    group('ring', '💠 반지 (2개 · 액티브)', RING_PARTS, pool.active);
 }
 
 function anToggleEquipSkill(category, idx, skillName){
@@ -7687,12 +7639,6 @@ function anSetStat(name, field, value){
   anRenderCalcTable();
 }
 
-function anSetTarget(kind, value){
-  AN_TARGETS[kind] = Math.max(0, Number(value)||0);
-  anSaveTargets();
-  anRenderCalcTable();
-}
-
 function anRenderCalcTable(){
   const box = $('#an_calc_table');
   if(!box) return;
@@ -7706,32 +7652,23 @@ function anRenderCalcTable(){
     const equip = anEquipCountFor(name, isActive);
     const arcana = arcanaSums[name] || 0;
     const total = stat.invest + stat.devanion + equip + arcana;
-    const target = isActive ? AN_TARGETS.active : AN_TARGETS.passive;
-    const remain = target - total;
-    const done = remain <= 0;
     return `
-      <tr class="${done && total>0 ? 'an-calc-done':''}">
+      <tr class="${total>0 ? 'an-calc-active':''}">
         <td>${escapeHtml(name)}</td>
         <td><input type="number" min="0" max="10" value="${stat.invest}" onchange="anSetStat('${escapeHtml(name)}','invest',this.value)"></td>
         <td><input type="number" min="0" max="4" value="${stat.devanion}" onchange="anSetStat('${escapeHtml(name)}','devanion',this.value)"></td>
         <td>${equip}</td>
         <td>${arcana}</td>
         <td class="an-calc-total">${total}</td>
-        <td class="an-calc-remain">${total>0 ? (done ? '✅ 달성' : `목표까지 -${remain}`) : '-'}</td>
       </tr>
     `;
   }).join('');
 
   box.innerHTML = `
-    <div class="an-target-row">
-      <label>⚔️ 액티브 목표 레벨 <input type="number" min="0" value="${AN_TARGETS.active}" onchange="anSetTarget('active',this.value)"></label>
-      <label>🛡️ 패시브 목표 레벨 <input type="number" min="0" value="${AN_TARGETS.passive}" onchange="anSetTarget('passive',this.value)"></label>
-    </div>
-
     <div class="an-calc-section-title">⚔️ 액티브 스킬</div>
     <div class="an-calc-wrap">
       <table class="an-calc-table">
-        <thead><tr><th>스킬명</th><th>투자<br>(0~10)</th><th>데바니온<br>(0~4)</th><th>반지</th><th>아르카나</th><th>합계</th><th>목표 대비</th></tr></thead>
+        <thead><tr><th>스킬명</th><th>투자<br>(0~10)</th><th>데바니온<br>(0~4)</th><th>반지</th><th>아르카나</th><th>합계</th></tr></thead>
         <tbody>${renderRows(pool.active, true)}</tbody>
       </table>
     </div>
@@ -7739,7 +7676,7 @@ function anRenderCalcTable(){
     <div class="an-calc-section-title">🛡️ 패시브 스킬</div>
     <div class="an-calc-wrap">
       <table class="an-calc-table">
-        <thead><tr><th>스킬명</th><th>투자<br>(0~10)</th><th>데바니온<br>(0~4)</th><th>장비</th><th>아르카나</th><th>합계</th><th>목표 대비</th></tr></thead>
+        <thead><tr><th>스킬명</th><th>투자<br>(0~10)</th><th>데바니온<br>(0~4)</th><th>장비</th><th>아르카나</th><th>합계</th></tr></thead>
         <tbody>${renderRows(pool.passive, false)}</tbody>
       </table>
     </div>
@@ -7750,11 +7687,9 @@ function anInit(){
   AN_CARDS = anLoadCards(AN_CURRENT_JOB);
   AN_STATS = anLoadStats(AN_CURRENT_JOB);
   AN_EQUIP = anLoadEquip(AN_CURRENT_JOB);
-  AN_TARGETS = anLoadTargets(AN_CURRENT_JOB);
   anRenderJobTabs();
   anRenderTypeTabs();
   anRenderCardList();
-  anRenderSkillSummary();
   anRenderEquipPanel();
   anRenderCalcTable();
   AN_INITED = true;
