@@ -7417,23 +7417,104 @@ function anSetTypeFilter(key){
 const ARCANA_TYPE_SKILL_MODE={ grail:'all', parchment:'active', compass:'active', bell:'passive', mirror:'passive', scale:'all' };
 function anTypeSkillMode(typeKey){ return ARCANA_TYPE_SKILL_MODE[typeKey] || 'all'; }
 
-function anSkillOptionsHtml(selectedName, typeKey){
+/* 양피지/나침반(액티브 6개씩)·종/거울(패시브 5개씩)로 실제 게임처럼 고정 분배됩니다.
+   권성은 참고 자료가 없어 아직 고정 목록이 없고, 기존처럼 액티브/패시브 전체 중에서 고를 수 있습니다. */
+const ARCANA_CARD_SKILL_POOL={
+  '마도성':{
+    parchment:['불꽃 화살','불꽃 작살','불꽃 폭발','빙결 폭발','집중의 기원','지옥의 화염'],
+    compass:['얼음 사슬','혹한의 바람','빙결','겨울의 속박','화염 난사','충격 해제'],
+    bell:['불의 표식','냉기 소환','냉기의 로브','저항의 은혜','회생의 계약'],
+    mirror:['대지의 로브','불꽃의 로브','정기 흡수','강화의 은혜','생기 증발']
+  },
+  '정령성':{
+    parchment:['냉기 충격','원소 융합','협공: 저주','공간 지배','소환: 땅의 정령','소환: 불의 정령'],
+    compass:['화염 전소','연속 난사','소환: 바람의 정령','소환: 물의 정령','영혼의 절규','충격 해제'],
+    bell:['정령 강림','정령 타격','원소 결집','정령 교감','정령 회생'],
+    mirror:['정신 집중','회생의 계약','침식','연속 역류','정령 보호']
+  },
+  '검성':{
+    parchment:['내려찍기','파멸의 맹타','도약 찍기','예리한 일격','발목 베기','공중 결박'],
+    compass:['분쇄 파동','절단의 맹타','돌진 일격','유린의 검','충격 해제','검기 난무'],
+    bell:['공격 준비','생존 자세','생존 의지','피의 흡수','파괴 충동'],
+    mirror:['충격 적중','노련한 반격','약점 파악','살기 파열','보호의 갑옷']
+  },
+  '수호성':{
+    parchment:['심판','맹렬한 일격','징벌','쇠약의 맹타','포획','섬멸'],
+    compass:['연속 난타','비호의 일격','방패 돌격','방패 강타','섬광 난무','충격 해제'],
+    bell:['격앙','체력 강화','단죄의 가호','수호의 인장','모욕의 포효'],
+    mirror:['충격 적중','철벽 방어','고통 차단','생존 의지','비호의 방패']
+  },
+  '살성':{
+    parchment:['심장 찌르기','빠른 베기','문양 폭발','회오리 베기','암습','그림자 낙하'],
+    compass:['맹수의 포효','기습','폭풍 난무','섬광 베기','침투','충격 해제'],
+    bell:['강습 자세','육감 극대화','기습 자세','회생의 계약','독 바르기'],
+    mirror:['배후 강타','충격 적중','빈틈 노리기','방어 균열','각오']
+  },
+  '궁성':{
+    parchment:['저격','속사','송곳 화살','파열 화살','폭발의 덫','올가미 화살'],
+    compass:['조준 화살','광풍 화살','표적 화살','제압 화살','충격 해제','화살 난사'],
+    bell:['사냥꾼의 결의','경계의 눈','회생의 계약','속박의 눈','바람의 활력'],
+    mirror:['집중의 눈','사냥꾼의 혼','근접 사격','집중 포화','저항의 결의']
+  },
+  '호법성':{
+    parchment:['암격쇄','격파쇄','회전격','돌진 격파','파동격','열파격'],
+    compass:['백열격','쾌유의 주문','타격쇄','질풍 난타','진동쇄','충격 해제'],
+    bell:['공격 준비','생명의 축복','생존 의지','보호진','격노의 주문'],
+    mirror:['충격 적중','고취의 주문','대지의 약속','바람의 약속','십자 방어']
+  },
+  '치유성':{
+    parchment:['단죄','쾌유의 광휘','대지의 응보','고통의 연쇄','벽력','약화의 낙인'],
+    compass:['심판의 번개','재생의 빛','치유의 빛','신성한 기운','벼락 난사','충격 해제'],
+    bell:['주신의 은총','불사의 장막','따뜻한 가호','생존 의지','집중의 기도'],
+    mirror:['치유력 강화','대지의 은총','찬란한 가호','주신의 가호','회복 차단']
+  }
+};
+
+function anCardTypeSkillPool(typeKey){
+  const fixed = ARCANA_CARD_SKILL_POOL[AN_CURRENT_JOB]?.[typeKey];
+  if(fixed) return fixed;
+  const pool = ARCANA_SKILLS[AN_CURRENT_JOB];
+  if(!pool) return [];
+  const mode = anTypeSkillMode(typeKey);
+  if(mode==='active') return pool.active;
+  if(mode==='passive') return pool.passive;
+  return [...pool.active, ...pool.passive];
+}
+
+function anCurrentFormSkillValues(){
+  return [0,1,2,3].map(i=>$('#an_f_skill'+i+'_name')?.value || '');
+}
+
+function anSkillOptionsHtml(selectedName, typeKey, excludeNames){
   const pool = ARCANA_SKILLS[AN_CURRENT_JOB];
   if(!pool) return '';
   const mode = anTypeSkillMode(typeKey);
+  const fixed = ARCANA_CARD_SKILL_POOL[AN_CURRENT_JOB]?.[typeKey];
+  const excluded = new Set((excludeNames||[]).filter(n=>n && n!==selectedName));
   const opt=(name)=>`<option value="${escapeHtml(name)}" ${name===selectedName?'selected':''}>${escapeHtml(name)}</option>`;
   let html = '<option value="">스킬 선택</option>';
-  if(mode!=='passive') html += `<optgroup label="액티브 스킬">${pool.active.map(opt).join('')}</optgroup>`;
-  if(mode!=='active') html += `<optgroup label="패시브 스킬">${pool.passive.map(opt).join('')}</optgroup>`;
+  if(fixed){
+    html += fixed.filter(n=>!excluded.has(n)).map(opt).join('');
+  }else{
+    if(mode!=='passive') html += `<optgroup label="액티브 스킬">${pool.active.filter(n=>!excluded.has(n)).map(opt).join('')}</optgroup>`;
+    if(mode!=='active') html += `<optgroup label="패시브 스킬">${pool.passive.filter(n=>!excluded.has(n)).map(opt).join('')}</optgroup>`;
+  }
   return html;
 }
 
 function anRefreshSkillOptions(typeKey){
+  const values = anCurrentFormSkillValues();
   for(let i=0;i<4;i++){
     const sel = $('#an_f_skill'+i+'_name');
     if(!sel) continue;
-    sel.innerHTML = anSkillOptionsHtml(sel.value, typeKey);
+    const excludeNames = values.filter((v,idx)=>idx!==i);
+    sel.innerHTML = anSkillOptionsHtml(sel.value, typeKey, excludeNames);
   }
+}
+
+function anOnSkillPicked(){
+  const typeKey = $('#an_f_type')?.value;
+  anRefreshSkillOptions(typeKey);
 }
 
 function anSetFormType(key){
@@ -7469,20 +7550,22 @@ function anRenderForm(card){
         ${ARCANA_TYPES.map(t=>`<button type="button" class="an-type-btn ${t.key===type?'active':''}" data-type="${t.key}" onclick="anSetFormType('${t.key}')">${t.label}</button>`).join('')}
       </div>
       <input type="hidden" id="an_f_type" value="${type}">
-      <div class="note" style="margin-top:6px;">양피지·나침반은 액티브 스킬만, 종·거울은 패시브 스킬만 선택할 수 있습니다.</div>
+      <div class="note" style="margin-top:6px;">양피지·나침반은 실제 게임처럼 고정된 액티브 6종 중에서, 종·거울은 고정된 패시브 5종 중에서만 고를 수 있고, 같은 카드에 같은 스킬을 중복으로 넣을 수 없습니다.</div>
 
       <label style="margin-top:12px;">메모 (선택)</label>
       <input id="an_f_memo" value="${escapeHtml(memo||'')}" placeholder="카드 구분용 메모">
 
       <label>스킬 4개</label>
-      ${[0,1,2,3].map(i=>`
+      ${[0,1,2,3].map(i=>{
+        const excludeNames = skills.filter((_,idx)=>idx!==i).map(s=>s?.name||'');
+        return `
         <div class="an-skill-row">
-          <select id="an_f_skill${i}_name">${anSkillOptionsHtml(skills[i]?.name||'', type)}</select>
+          <select id="an_f_skill${i}_name" onchange="anOnSkillPicked()">${anSkillOptionsHtml(skills[i]?.name||'', type, excludeNames)}</select>
           <select id="an_f_skill${i}_lv">
             ${[1,2,3,4].map(n=>`<option value="${n}" ${String(n)===String(skills[i]?.lv||'1')?'selected':''}>Lv ${n}</option>`).join('')}
           </select>
         </div>
-      `).join('')}
+      `;}).join('')}
 
       <div class="an-form-actions">
         <button type="button" class="btn primary" onclick="anSaveCard()">${card?'수정 저장':'등록'}</button>
@@ -7508,6 +7591,7 @@ function anSaveCard(){
   })).filter(s=>s.name);
 
   if(skills.length===0){ alert('스킬을 최소 1개 이상 선택해주세요.'); return; }
+  if(new Set(skills.map(s=>s.name)).size !== skills.length){ alert('같은 스킬을 중복으로 선택할 수 없습니다.'); return; }
 
   if(AN_EDIT_ID){
     const idx = AN_CARDS.findIndex(c=>c.id===AN_EDIT_ID);
