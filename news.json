@@ -1,6 +1,13 @@
 {
-  "updated_at": "2026-09-23 02:18 KST",
+  "updated_at": "2026-09-23 05:28 KST",
   "update": [
+    {
+      "title": "[안내] 9/23(수) 업데이트 노트",
+      "date": "2026-09-22",
+      "time": "19:30",
+      "datetime": "2026-09-22 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6ab2d738a279104f7d9d5d5b"
+    },
     {
       "title": "[안내] 9/16(수) 업데이트 노트 (수정 9/18 12:50)",
       "date": "2026-09-15",
@@ -119,13 +126,6 @@
       "time": "19:30",
       "datetime": "2026-05-26 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a15f4b88cd2017bc6f020f5"
-    },
-    {
-      "title": "[안내] 5/20(수) 업데이트 노트 (수정 5/20 10:18)",
-      "date": "2026-05-19",
-      "time": "19:30",
-      "datetime": "2026-05-19 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a0cba385716f56bbe7ebd56"
     }
   ],
   "notice": [
@@ -149,6 +149,20 @@
       "time": "10:00",
       "datetime": "2025-11-16 10:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
+    },
+    {
+      "title": "[안내] 9/23(수) 신규 구독 상품 안내",
+      "date": "2026-09-22",
+      "time": "19:30",
+      "datetime": "2026-09-22 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab2d7386b722c561dc6a707"
+    },
+    {
+      "title": "[안내] 9/23(수) 신규 외형 상품 안내",
+      "date": "2026-09-22",
+      "time": "19:30",
+      "datetime": "2026-09-22 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab26dc0a279104f7d9d5cdc"
     },
     {
       "title": "[안내] 추석 특집 AION2 퍼플 라이브 방송 종료 시간 안내",
@@ -254,20 +268,6 @@
       "time": "08:05",
       "datetime": "2026-09-16 08:05",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aaa3f9cd97eae18cc40dfc0"
-    },
-    {
-      "title": "[안내] 9/16(수) AION2 임시점검 안내 (완료)",
-      "date": "2026-09-16",
-      "time": "02:10",
-      "datetime": "2026-09-16 02:10",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aa9f118eea53f5d6dbcf7b6"
-    },
-    {
-      "title": "[안내] 9월 3주차 알려진 이슈 및 조치 안내 (수정 9/17 13:28)",
-      "date": "2026-09-16",
-      "time": "00:55",
-      "datetime": "2026-09-16 00:55",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aa9cdf0d97eae18cc40df91"
     }
   ],
   "cm": [
