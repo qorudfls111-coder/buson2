@@ -355,6 +355,7 @@ main.wrap{
 <button class="tab" data-page="main">본부</button>
 <button class="tab" data-page="compare" style="display:none">파밍 비교</button>
 <button class="tab" data-page="party">성역 파티 배치</button>
+<button class="tab" data-page="arcana">아르카나</button>
 </nav>
 </div></header>
 
@@ -1803,6 +1804,58 @@ main.wrap{
         <div class="spec-guide-icon">④</div>
         <h3>전투력 밸런스</h3>
         <p>필수·선호 역할을 배치한 뒤, 남은 인원은 두 파티의 전투력 합계가 최대한 비슷해지도록 나눕니다.</p>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<section id="page-arcana" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>🃏 아르카나 카드 관리</h2>
+      <p>직업을 고르고 보유 중인 아르카나 카드를 등록하면, 카드에 붙은 스킬들의 합산 레벨을 한눈에 확인할 수 있습니다.</p>
+    </div>
+    <div class="body">
+
+      <div class="subtabs" id="an_job_tabs"></div>
+      <div class="subtabs" id="an_type_tabs"></div>
+
+      <button type="button" class="btn primary" id="an_add_btn" onclick="anToggleForm()" style="margin-bottom:14px;">+ 카드 추가</button>
+
+      <div id="an_form_wrap"></div>
+
+      <div id="an_card_list"></div>
+
+      <div id="an_skill_summary" style="margin-top:22px;"></div>
+
+    </div>
+  </div>
+
+  <section class="spec-guide" style="margin-top:20px;">
+    <div class="spec-guide-head">
+      <span class="spec-guide-badge">BUSON2 GUIDE</span>
+      <h2>아르카나 카드 관리 기준</h2>
+      <p>
+        직업별 스킬 목록은 아이온2 공식 가이드북 기준으로 정리했습니다. 카드마다 종류·레벨·스킬 4개를 등록하면
+        해당 직업에서 보유한 카드들의 스킬별 합산 레벨을 자동으로 계산해서 보여줍니다.
+      </p>
+    </div>
+    <div class="spec-guide-grid">
+      <div class="spec-guide-card purple">
+        <div class="spec-guide-icon">①</div>
+        <h3>직업별 관리</h3>
+        <p>직업마다 보유 카드 목록이 따로 저장됩니다. 부캐 직업이 다르면 상단에서 직업을 바꿔서 등록하세요.</p>
+      </div>
+      <div class="spec-guide-card green">
+        <div class="spec-guide-icon">②</div>
+        <h3>카드 종류 필터</h3>
+        <p>성배·양피지·나침반·종·거울·천칭 중 원하는 종류만 골라서 목록을 볼 수 있습니다.</p>
+      </div>
+      <div class="spec-guide-card orange">
+        <div class="spec-guide-icon">③</div>
+        <h3>스킬 합산</h3>
+        <p>같은 스킬이 여러 카드에 걸쳐 있으면 레벨을 모두 더해서 액티브·패시브로 나눠 보여줍니다.</p>
       </div>
     </div>
   </section>
@@ -4065,6 +4118,36 @@ min-height:56px;
 
 @media(max-width:700px){
   .pt-party-grid{grid-template-columns:1fr}
+}
+
+/* ===== 아르카나 카드 관리 ===== */
+.an-type-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.an-type-btn{border:1px solid var(--line);background:#101722;color:#aab5c7;border-radius:10px;padding:8px 14px;cursor:pointer;font-weight:800;font-size:13px}
+.an-type-btn.active{background:#1d2940;border-color:#5574a7;color:#fff}
+.an-form{border:1px solid #263043;border-radius:14px;background:#0d131c;padding:16px;margin-bottom:16px}
+.an-form-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px}
+.an-skill-row{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:10px}
+.an-skill-row select{width:100%;padding:8px 10px;background:#0b1018;border:1px solid #263043;border-radius:8px;color:#eef4ff}
+.an-form-actions{display:flex;gap:10px;margin-top:6px}
+.an-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:6px}
+.an-card-item{border:1px solid #263043;border-radius:12px;background:#0d131c;padding:12px 14px}
+.an-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.an-card-type{font-weight:900;color:#9db8ff}
+.an-card-level{font-size:12px;color:#8fa3d9;font-weight:800}
+.an-card-skill{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:#c4d0e6}
+.an-card-skill b{color:#eef4ff}
+.an-card-memo{margin-top:8px;font-size:12px;color:#8b97ab;word-break:break-all}
+.an-card-actions{display:flex;gap:8px;margin-top:10px}
+.an-card-actions .btn{padding:6px 10px;font-size:12px}
+.an-empty{padding:24px;text-align:center;color:#8b97ab;border:1px dashed #263043;border-radius:12px}
+.an-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.an-summary-col h3{font-size:14px;color:#9db8ff;margin-bottom:10px}
+.an-summary-item{display:flex;justify-content:space-between;padding:7px 10px;border:1px solid #263043;border-radius:8px;margin-bottom:6px;font-size:13px}
+.an-summary-item.zero{opacity:.45}
+.an-summary-item b{color:#8df0bd}
+@media(max-width:700px){
+  .an-form-row{grid-template-columns:1fr}
+  .an-summary-grid{grid-template-columns:1fr}
 }
 
 </style>
@@ -6439,7 +6522,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party','arcana'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster();if(b.dataset.page==='arcana')anInit()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 function openTabFromHash(){
   const page = location.hash.replace("#", "");
@@ -7148,6 +7231,292 @@ async function ptCopyRound(r, btn){
    renderPartyRoster가 아직 정의되기 전에 클릭 핸들러가 도는 문제 보정 */
 if(document.querySelector('.tab[data-page="party"]')?.classList.contains('active')){
   renderPartyRoster();
+}
+</script>
+  <script>
+/* ===== 아르카나 카드 관리 ===== */
+const ARCANA_JOBS=['수호성','검성','치유성','호법성','궁성','마도성','정령성','권성','살성'];
+const ARCANA_SKILLS={
+  '수호성':{
+    active:['맹렬한 일격','연속 난타','포획','방패 강타','심판','섬광 난무','쇠약의 맹타','비호의 일격','방패 돌격','섬멸','징벌','충격 해제'],
+    passive:['체력 강화','비호의 방패','단죄의 가호','철벽 방어','수호의 인장','충격 적중','모욕의 포효','격앙','생존 의지','고통 차단']
+  },
+  '검성':{
+    active:['예리한 일격','절단의 맹타','도약 찍기','유린의 검','내려찍기','검기 난무','발목 베기','분쇄 파동','돌진 일격','공중 결박','파멸의 맹타','충격 해제'],
+    passive:['생존 자세','보호의 갑옷','피의 흡수','약점 파악','공격 준비','충격 적중','파괴 충동','노련한 반격','생존 의지','살기 파열']
+  },
+  '치유성':{
+    active:['대지의 응보','심판의 번개','약화의 낙인','신성한 기운','고통의 연쇄','벼락 난사','재생의 빛','단죄','치유의 빛','쾌유의 광휘','벽력','충격 해제'],
+    passive:['따뜻한 가호','주신의 가호','주신의 은총','치유력 강화','불사의 장막','회복 차단','집중의 기도','대지의 은총','생존 의지','찬란한 가호']
+  },
+  '호법성':{
+    active:['격파쇄','백열격','돌진 격파','타격쇄','암격쇄','질풍 난타','열파격','쾌유의 주문','진동쇄','파동격','회전격','충격 해제'],
+    passive:['생명의 축복','십자 방어','보호진','고취의 주문','공격 준비','충격 적중','격노의 주문','대지의 약속','생존 의지','바람의 약속']
+  },
+  '궁성':{
+    active:['저격','속사','올가미 화살','표적 화살','송곳 화살','화살 난사','광풍 화살','폭발의 덫','파열 화살','제압 화살','조준 화살','충격 해제'],
+    passive:['경계의 눈','집중 포화','바람의 활력','집중의 눈','사냥꾼의 결의','저항의 결의','속박의 눈','근접 사격','회생의 계약','사냥꾼의 혼']
+  },
+  '마도성':{
+    active:['불꽃 화살','얼음 사슬','불꽃 작살','혹한의 바람','불꽃 폭발','화염 난사','빙결','겨울의 속박','빙결 폭발','집중의 기원','지옥의 화염','충격 해제'],
+    passive:['불의 표식','대지의 로브','냉기 소환','불꽃의 로브','정기 흡수','저항의 은혜','냉기의 로브','강화의 은혜','회생의 계약','생기 증발']
+  },
+  '정령성':{
+    active:['냉기 충격','화염 전소','소환: 불의 정령','소환: 물의 정령','협공: 저주','연속 난사','소환: 땅의 정령','공간 지배','소환: 바람의 정령','영혼의 절규','원소 융합','충격 해제'],
+    passive:['정령 타격','정령 보호','정령 강림','침식','정령 회생','정신 집중','연속 역류','정령 교감','회생의 계약','원소 결집']
+  },
+  '권성':{
+    active:['연격','비각','폭주','질풍격','연환권','태풍 연타','회전각','지면 강타','철산고','폭렬권','승천타','충격 해제'],
+    passive:['정신 전환','전선 유지','정면 돌파','위세','폭주 증폭','충격 적중','충격타','거대한 분노','회생의 계약','경량화']
+  },
+  '살성':{
+    active:['빠른 베기','맹수의 포효','암습','기습','심장 찌르기','폭풍 난무','회오리 베기','섬광 베기','침투','그림자 낙하','문양 폭발','충격 해제'],
+    passive:['육감 극대화','빈틈 노리기','독 바르기','배후 강타','강습 자세','충격 적중','기습 자세','방어 균열','회생의 계약','각오']
+  }
+};
+const ARCANA_TYPES=[
+  {key:'grail',label:'성배'},
+  {key:'parchment',label:'양피지'},
+  {key:'compass',label:'나침반'},
+  {key:'bell',label:'종'},
+  {key:'mirror',label:'거울'},
+  {key:'scale',label:'천칭'}
+];
+function anTypeLabel(key){ return ARCANA_TYPES.find(t=>t.key===key)?.label || key; }
+
+let AN_CURRENT_JOB = ARCANA_JOBS[0];
+let AN_TYPE_FILTER = 'all';
+let AN_CARDS = [];
+let AN_EDIT_ID = null;
+let AN_INITED = false;
+
+function anStorageKey(job){ return 'buson2-arcana-cards-'+job; }
+function anLoadCards(job){
+  try{
+    const raw = localStorage.getItem(anStorageKey(job));
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function anSaveCards(){
+  try{ localStorage.setItem(anStorageKey(AN_CURRENT_JOB), JSON.stringify(AN_CARDS)); }catch(e){}
+}
+
+function anRenderJobTabs(){
+  const box = $('#an_job_tabs');
+  if(!box) return;
+  box.innerHTML = ARCANA_JOBS.map(job=>`<button type="button" class="subtab ${job===AN_CURRENT_JOB?'active':''}" onclick="anSwitchJob('${job}')">${job}</button>`).join('');
+}
+function anSwitchJob(job){
+  AN_CURRENT_JOB = job;
+  AN_TYPE_FILTER = 'all';
+  AN_EDIT_ID = null;
+  AN_CARDS = anLoadCards(job);
+  anRenderJobTabs();
+  anRenderTypeTabs();
+  $('#an_form_wrap').innerHTML = '';
+  anRenderCardList();
+  anRenderSkillSummary();
+}
+
+function anRenderTypeTabs(){
+  const box = $('#an_type_tabs');
+  if(!box) return;
+  const items = [{key:'all',label:'전체'}, ...ARCANA_TYPES];
+  box.innerHTML = items.map(t=>`<button type="button" class="subtab ${t.key===AN_TYPE_FILTER?'active':''}" onclick="anSetTypeFilter('${t.key}')">${t.label}</button>`).join('');
+}
+function anSetTypeFilter(key){
+  AN_TYPE_FILTER = key;
+  anRenderTypeTabs();
+  anRenderCardList();
+}
+
+function anSkillOptionsHtml(selectedName){
+  const pool = ARCANA_SKILLS[AN_CURRENT_JOB];
+  if(!pool) return '';
+  const opt=(name)=>`<option value="${escapeHtml(name)}" ${name===selectedName?'selected':''}>${escapeHtml(name)}</option>`;
+  return `<option value="">스킬 선택</option>
+    <optgroup label="액티브 스킬">${pool.active.map(opt).join('')}</optgroup>
+    <optgroup label="패시브 스킬">${pool.passive.map(opt).join('')}</optgroup>`;
+}
+
+function anSetFormType(key){
+  const hidden = $('#an_f_type');
+  if(hidden) hidden.value = key;
+  document.querySelectorAll('.an-type-btn').forEach(btn=>btn.classList.toggle('active', btn.dataset.type===key));
+}
+
+function anToggleForm(){
+  const wrap = $('#an_form_wrap');
+  if(!wrap) return;
+  if(wrap.innerHTML.trim() !== ''){
+    wrap.innerHTML = '';
+    AN_EDIT_ID = null;
+    return;
+  }
+  anRenderForm(null);
+}
+
+function anRenderForm(card){
+  const wrap = $('#an_form_wrap');
+  if(!wrap) return;
+  AN_EDIT_ID = card ? card.id : null;
+  const skills = card ? card.skills : [{name:'',lv:'1'},{name:'',lv:'1'},{name:'',lv:'1'},{name:'',lv:'1'}];
+  const type = card ? card.type : '';
+  const level = card ? card.level : '1';
+  const memo = card ? card.memo : '';
+
+  wrap.innerHTML = `
+    <div class="an-form">
+      <label>카드 종류</label>
+      <div class="an-type-row">
+        ${ARCANA_TYPES.map(t=>`<button type="button" class="an-type-btn ${t.key===type?'active':''}" data-type="${t.key}" onclick="anSetFormType('${t.key}')">${t.label}</button>`).join('')}
+      </div>
+      <input type="hidden" id="an_f_type" value="${type}">
+
+      <div class="an-form-row">
+        <div>
+          <label>카드 레벨</label>
+          <select id="an_f_level">
+            ${[1,2,3,4,5].map(n=>`<option value="${n}" ${String(n)===String(level)?'selected':''}>${n}강</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label>메모 (선택)</label>
+          <input id="an_f_memo" value="${escapeHtml(memo||'')}" placeholder="카드 구분용 메모">
+        </div>
+      </div>
+
+      <label>스킬 4개</label>
+      ${[0,1,2,3].map(i=>`
+        <div class="an-skill-row">
+          <select id="an_f_skill${i}_name">${anSkillOptionsHtml(skills[i]?.name||'')}</select>
+          <select id="an_f_skill${i}_lv">
+            ${[1,2,3,4].map(n=>`<option value="${n}" ${String(n)===String(skills[i]?.lv||'1')?'selected':''}>Lv ${n}</option>`).join('')}
+          </select>
+        </div>
+      `).join('')}
+
+      <div class="an-form-actions">
+        <button type="button" class="btn primary" onclick="anSaveCard()">${card?'수정 저장':'등록'}</button>
+        <button type="button" class="btn secondary" onclick="anCancelForm()">취소</button>
+      </div>
+    </div>
+  `;
+}
+
+function anCancelForm(){
+  $('#an_form_wrap').innerHTML = '';
+  AN_EDIT_ID = null;
+}
+
+function anSaveCard(){
+  const type = $('#an_f_type')?.value;
+  if(!type){ alert('카드 종류를 선택해주세요.'); return; }
+  const level = $('#an_f_level')?.value || '1';
+  const memo = $('#an_f_memo')?.value || '';
+  const skills = [0,1,2,3].map(i=>({
+    name: $('#an_f_skill'+i+'_name')?.value || '',
+    lv: $('#an_f_skill'+i+'_lv')?.value || '1'
+  })).filter(s=>s.name);
+
+  if(skills.length===0){ alert('스킬을 최소 1개 이상 선택해주세요.'); return; }
+
+  if(AN_EDIT_ID){
+    const idx = AN_CARDS.findIndex(c=>c.id===AN_EDIT_ID);
+    if(idx>=0) AN_CARDS[idx] = {...AN_CARDS[idx], type, level, memo, skills};
+  }else{
+    AN_CARDS.push({ id: 'c'+Date.now()+Math.random().toString(36).slice(2,7), type, level, memo, skills });
+  }
+
+  anSaveCards();
+  anCancelForm();
+  anRenderCardList();
+  anRenderSkillSummary();
+}
+
+function anEditCard(id){
+  const card = AN_CARDS.find(c=>c.id===id);
+  if(!card) return;
+  anRenderForm(card);
+  $('#an_form_wrap')?.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function anDeleteCard(id){
+  if(!confirm('이 카드를 삭제할까요?')) return;
+  AN_CARDS = AN_CARDS.filter(c=>c.id!==id);
+  anSaveCards();
+  if(AN_EDIT_ID===id) anCancelForm();
+  anRenderCardList();
+  anRenderSkillSummary();
+}
+
+function anRenderCardList(){
+  const box = $('#an_card_list');
+  if(!box) return;
+  const list = AN_TYPE_FILTER==='all' ? AN_CARDS : AN_CARDS.filter(c=>c.type===AN_TYPE_FILTER);
+
+  if(list.length===0){
+    box.innerHTML = `<div class="an-empty">등록된 카드가 없습니다. 위에서 "카드 추가"로 보유 카드를 등록해주세요.</div>`;
+    return;
+  }
+
+  box.innerHTML = `<div class="an-card-grid">${list.map(c=>`
+    <div class="an-card-item">
+      <div class="an-card-head">
+        <span class="an-card-type">${anTypeLabel(c.type)}</span>
+        <span class="an-card-level">${c.level}강</span>
+      </div>
+      ${c.skills.map(s=>`<div class="an-card-skill"><span>${escapeHtml(s.name)}</span><b>Lv ${s.lv}</b></div>`).join('')}
+      ${c.memo ? `<div class="an-card-memo">${escapeHtml(c.memo)}</div>` : ''}
+      <div class="an-card-actions">
+        <button type="button" class="btn secondary" onclick="anEditCard('${c.id}')">수정</button>
+        <button type="button" class="btn secondary" onclick="anDeleteCard('${c.id}')">삭제</button>
+      </div>
+    </div>
+  `).join('')}</div>`;
+}
+
+function anRenderSkillSummary(){
+  const box = $('#an_skill_summary');
+  if(!box) return;
+  const pool = ARCANA_SKILLS[AN_CURRENT_JOB];
+  if(!pool){ box.innerHTML=''; return; }
+
+  const sums = {};
+  AN_CARDS.forEach(c=>c.skills.forEach(s=>{
+    if(!s.name) return;
+    sums[s.name] = (sums[s.name]||0) + Number(s.lv||0);
+  }));
+
+  const renderCol=(title, names)=>`
+    <div class="an-summary-col">
+      <h3>${title}</h3>
+      ${names.map(name=>{
+        const total = sums[name]||0;
+        return `<div class="an-summary-item ${total===0?'zero':''}"><span>${escapeHtml(name)}</span><b>Lv ${total}</b></div>`;
+      }).join('')}
+    </div>
+  `;
+
+  box.innerHTML = `
+    <div class="an-summary-grid">
+      ${renderCol('⚔️ 액티브 스킬 합산', pool.active)}
+      ${renderCol('🛡️ 패시브 스킬 합산', pool.passive)}
+    </div>
+  `;
+}
+
+function anInit(){
+  AN_CARDS = anLoadCards(AN_CURRENT_JOB);
+  anRenderJobTabs();
+  anRenderTypeTabs();
+  anRenderCardList();
+  anRenderSkillSummary();
+  AN_INITED = true;
+}
+
+if(document.querySelector('.tab[data-page="arcana"]')?.classList.contains('active')){
+  anInit();
 }
 </script>
   <script>
