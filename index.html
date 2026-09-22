@@ -1836,6 +1836,7 @@ main.wrap{
       <p>스킬 투자·데바니온·장비(방어구/장신구/반지)·아르카나를 모두 합쳐서 실제 게임 내 스킬 레벨을 계산합니다.</p>
     </div>
     <div class="body">
+      <div id="an_save_panel"></div>
       <div id="an_equip_panel"></div>
       <div id="an_calc_table" style="margin-top:18px;"></div>
     </div>
@@ -7396,6 +7397,7 @@ function anSwitchJob(job){
   anRenderTypeTabs();
   $('#an_form_wrap').innerHTML = '';
   anRenderCardList();
+  anRenderSaveSlots();
   anRenderEquipPanel();
   anRenderCalcTable();
 }
@@ -7561,6 +7563,84 @@ function anRenderCardList(){
   `).join('')}</div>`;
 }
 
+const AN_SLOT_COUNT = 3;
+function anSlotKey(job, slot){ return `buson2-arcana-slot-${job}-${slot}`; }
+function anSlotNameKey(job, slot){ return `buson2-arcana-slot-name-${job}-${slot}`; }
+function anReadSlot(job, slot){
+  try{ const raw = localStorage.getItem(anSlotKey(job, slot)); return raw ? JSON.parse(raw) : null; }catch(e){ return null; }
+}
+function anReadSlotName(job, slot){
+  try{ return localStorage.getItem(anSlotNameKey(job, slot)) || ''; }catch(e){ return ''; }
+}
+
+function anRenderSaveSlots(){
+  const box = $('#an_save_panel');
+  if(!box) return;
+  box.innerHTML = `
+    <div class="spec-save-panel">
+      <div class="spec-save-head"><div><b>💾 ${AN_CURRENT_JOB} 세팅 저장</b><span>카드·스킬 투자·장비 배정을 통째로 최대 ${AN_SLOT_COUNT}개까지 저장하고 불러올 수 있습니다.</span></div></div>
+      <div class="spec-save-grid" style="grid-template-columns:repeat(${AN_SLOT_COUNT},1fr)">
+        ${Array.from({length:AN_SLOT_COUNT},(_,i)=>{
+          const slot = i+1;
+          const hasData = !!anReadSlot(AN_CURRENT_JOB, slot);
+          const name = anReadSlotName(AN_CURRENT_JOB, slot);
+          return `
+            <div class="spec-save-slot ${hasData?'has-data':''}">
+              <div class="slot-top"><b>저장 ${slot}</b><span>${hasData?'저장됨':'비어 있음'}</span></div>
+              <input id="an_slot_name_${slot}" class="slot-name" placeholder="예: 현재 세팅" maxlength="20" value="${escapeHtml(name)}">
+              <div class="slot-actions">
+                <button type="button" class="slot-save" onclick="anSaveSlot(${slot})">저장</button>
+                <button type="button" class="slot-load" onclick="anLoadSlot(${slot})">불러오기</button>
+                <button type="button" class="slot-delete" onclick="anDeleteSlot(${slot})">삭제</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <div id="an_slot_msg" style="margin-top:8px;font-size:12px;color:#8df0bd;min-height:16px;"></div>
+    </div>
+  `;
+}
+
+function anSaveSlot(slot){
+  const msg = $('#an_slot_msg');
+  const input = $('#an_slot_name_'+slot);
+  const name = (input?.value||'').trim() || ('저장 '+slot);
+  try{
+    const data = { cards:AN_CARDS, stats:AN_STATS, equip:AN_EQUIP };
+    localStorage.setItem(anSlotKey(AN_CURRENT_JOB, slot), JSON.stringify(data));
+    localStorage.setItem(anSlotNameKey(AN_CURRENT_JOB, slot), name);
+    anRenderSaveSlots();
+    if(msg){ msg.textContent = `✓ 저장 ${slot} · "${name}"에 저장했습니다.`; setTimeout(()=>{ if(msg) msg.textContent=''; },3000); }
+  }catch(e){
+    if(msg) msg.textContent = '저장에 실패했습니다.';
+  }
+}
+
+function anLoadSlot(slot){
+  const msg = $('#an_slot_msg');
+  const data = anReadSlot(AN_CURRENT_JOB, slot);
+  if(!data){ if(msg) msg.textContent = '저장된 설정이 없습니다.'; return; }
+  AN_CARDS = Array.isArray(data.cards) ? data.cards : [];
+  AN_STATS = (data.stats && typeof data.stats==='object') ? data.stats : {};
+  AN_EQUIP = anNormalizeEquip(data.equip);
+  anSaveCards();
+  anSaveStats();
+  anSaveEquip();
+  anCancelForm();
+  anRenderCardList();
+  anRenderEquipPanel();
+  anRenderCalcTable();
+  if(msg){ msg.textContent = '✓ 저장된 설정을 불러왔습니다.'; setTimeout(()=>{ if(msg) msg.textContent=''; },3000); }
+}
+
+function anDeleteSlot(slot){
+  if(!confirm(`저장 ${slot}을 삭제할까요?`)) return;
+  localStorage.removeItem(anSlotKey(AN_CURRENT_JOB, slot));
+  localStorage.removeItem(anSlotNameKey(AN_CURRENT_JOB, slot));
+  anRenderSaveSlots();
+}
+
 let AN_EQUIP_OPEN = { armor:false, accessory:false, ring:false };
 
 function anRenderEquipPanel(){
@@ -7674,6 +7754,7 @@ function anInit(){
   anRenderJobTabs();
   anRenderTypeTabs();
   anRenderCardList();
+  anRenderSaveSlots();
   anRenderEquipPanel();
   anRenderCalcTable();
   AN_INITED = true;
