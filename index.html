@@ -4137,6 +4137,7 @@ min-height:56px;
 .an-form{border:1px solid #263043;border-radius:14px;background:#0d131c;padding:16px;margin-bottom:16px}
 .an-form>input{margin-bottom:14px}
 .an-skill-row{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:10px}
+.an-skill-sum{font-size:11.5px;font-weight:700;color:#8fa3d9;margin-left:8px}
 .an-skill-row select{width:100%;padding:8px 10px;background:#0b1018;border:1px solid #263043;border-radius:8px;color:#eef4ff}
 .an-form-actions{display:flex;gap:10px;margin-top:6px}
 .an-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:6px}
@@ -7502,14 +7503,43 @@ function anSkillOptionsHtml(selectedName, typeKey, excludeNames){
   return html;
 }
 
+/* 카드 5레벨 = 스킬 4개 기본 Lv1(합 4) + 강화 5회(+5) = 스킬 레벨 합계 최대 9 */
+const AN_SKILL_LEVEL_BUDGET = 9;
+const AN_SKILL_LEVEL_MAX = 4;
+
+function anLvOptionsHtml(slotIndex, selectedLv, hasName, sumOthers){
+  const maxAllowed = hasName ? Math.max(1, Math.min(AN_SKILL_LEVEL_MAX, AN_SKILL_LEVEL_BUDGET - sumOthers)) : AN_SKILL_LEVEL_MAX;
+  const clamped = Math.min(Number(selectedLv)||1, maxAllowed);
+  const opts=[];
+  for(let n=1;n<=maxAllowed;n++){
+    opts.push(`<option value="${n}" ${n===clamped?'selected':''}>Lv ${n}</option>`);
+  }
+  return opts.join('');
+}
+
 function anRefreshSkillOptions(typeKey){
-  const values = anCurrentFormSkillValues();
+  const names = anCurrentFormSkillValues();
+  const lvs = [0,1,2,3].map(i=>Number($('#an_f_skill'+i+'_lv')?.value)||1);
+
   for(let i=0;i<4;i++){
     const sel = $('#an_f_skill'+i+'_name');
     if(!sel) continue;
-    const excludeNames = values.filter((v,idx)=>idx!==i);
+    const excludeNames = names.filter((v,idx)=>idx!==i);
     sel.innerHTML = anSkillOptionsHtml(sel.value, typeKey, excludeNames);
   }
+
+  let total = 0;
+  for(let i=0;i<4;i++){
+    const lvSel = $('#an_f_skill'+i+'_lv');
+    if(!lvSel) continue;
+    const hasName = !!names[i];
+    const sumOthers = [0,1,2,3].filter(idx=>idx!==i && names[idx]).reduce((s,idx)=>s+lvs[idx],0);
+    lvSel.innerHTML = anLvOptionsHtml(i, lvSel.value, hasName, sumOthers);
+    if(hasName) total += Number(lvSel.value)||1;
+  }
+
+  const badge = $('#an_f_sum');
+  if(badge) badge.textContent = `합계 ${total}/${AN_SKILL_LEVEL_BUDGET}`;
 }
 
 function anOnSkillPicked(){
@@ -7550,22 +7580,25 @@ function anRenderForm(card){
         ${ARCANA_TYPES.map(t=>`<button type="button" class="an-type-btn ${t.key===type?'active':''}" data-type="${t.key}" onclick="anSetFormType('${t.key}')">${t.label}</button>`).join('')}
       </div>
       <input type="hidden" id="an_f_type" value="${type}">
-      <div class="note" style="margin-top:6px;">양피지·나침반은 실제 게임처럼 고정된 액티브 6종 중에서, 종·거울은 고정된 패시브 5종 중에서만 고를 수 있고, 같은 카드에 같은 스킬을 중복으로 넣을 수 없습니다.</div>
+      <div class="note" style="margin-top:6px;">양피지·나침반은 실제 게임처럼 고정된 액티브 6종 중에서, 종·거울은 고정된 패시브 5종 중에서만 고를 수 있고, 같은 카드에 같은 스킬을 중복으로 넣을 수 없습니다. 스킬 레벨은 개당 최대 4, 4개 합계 최대 9를 넘을 수 없습니다 (기본 1×4 + 강화 5회).</div>
 
       <label style="margin-top:12px;">메모 (선택)</label>
       <input id="an_f_memo" value="${escapeHtml(memo||'')}" placeholder="카드 구분용 메모">
 
-      <label>스킬 4개</label>
-      ${[0,1,2,3].map(i=>{
-        const excludeNames = skills.filter((_,idx)=>idx!==i).map(s=>s?.name||'');
-        return `
-        <div class="an-skill-row">
-          <select id="an_f_skill${i}_name" onchange="anOnSkillPicked()">${anSkillOptionsHtml(skills[i]?.name||'', type, excludeNames)}</select>
-          <select id="an_f_skill${i}_lv">
-            ${[1,2,3,4].map(n=>`<option value="${n}" ${String(n)===String(skills[i]?.lv||'1')?'selected':''}>Lv ${n}</option>`).join('')}
-          </select>
-        </div>
-      `;}).join('')}
+      ${(()=>{
+        const norm = [0,1,2,3].map(i=>({name: skills[i]?.name||'', lv: Number(skills[i]?.lv)||1}));
+        const total = norm.reduce((s,x)=>s+(x.name?x.lv:0),0);
+        return `<label>스킬 4개 <span id="an_f_sum" class="an-skill-sum">합계 ${total}/${AN_SKILL_LEVEL_BUDGET}</span></label>
+        ${[0,1,2,3].map(i=>{
+          const excludeNames = norm.filter((_,idx)=>idx!==i).map(s=>s.name);
+          const sumOthers = norm.filter((s,idx)=>idx!==i && s.name).reduce((s,x)=>s+x.lv,0);
+          return `
+          <div class="an-skill-row">
+            <select id="an_f_skill${i}_name" onchange="anOnSkillPicked()">${anSkillOptionsHtml(norm[i].name, type, excludeNames)}</select>
+            <select id="an_f_skill${i}_lv" onchange="anOnSkillPicked()">${anLvOptionsHtml(i, norm[i].lv, !!norm[i].name, sumOthers)}</select>
+          </div>
+        `;}).join('')}`;
+      })()}
 
       <div class="an-form-actions">
         <button type="button" class="btn primary" onclick="anSaveCard()">${card?'수정 저장':'등록'}</button>
@@ -7592,6 +7625,8 @@ function anSaveCard(){
 
   if(skills.length===0){ alert('스킬을 최소 1개 이상 선택해주세요.'); return; }
   if(new Set(skills.map(s=>s.name)).size !== skills.length){ alert('같은 스킬을 중복으로 선택할 수 없습니다.'); return; }
+  if(skills.some(s=>Number(s.lv)>AN_SKILL_LEVEL_MAX)){ alert(`스킬 레벨은 최대 ${AN_SKILL_LEVEL_MAX}까지 가능합니다.`); return; }
+  if(skills.reduce((s,x)=>s+Number(x.lv),0) > AN_SKILL_LEVEL_BUDGET){ alert(`카드 한 장의 스킬 레벨 합계는 ${AN_SKILL_LEVEL_BUDGET}을 넘을 수 없습니다.`); return; }
 
   if(AN_EDIT_ID){
     const idx = AN_CARDS.findIndex(c=>c.id===AN_EDIT_ID);
