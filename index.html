@@ -4144,8 +4144,11 @@ min-height:56px;
 .an-card-item{border:1px solid #263043;border-radius:12px;background:#0d131c;padding:12px 14px}
 .an-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .an-card-type{font-weight:900;color:#9db8ff}
-.an-card-skill{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:#c4d0e6}
+.an-card-skill{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:3px 0;color:#c4d0e6}
 .an-card-skill b{color:#eef4ff}
+.an-card-skill-name{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.an-skill-icon{border-radius:5px;flex-shrink:0;vertical-align:middle;background:#0b1018}
+.an-calc-table td:first-child .an-skill-icon{margin-right:6px}
 .an-card-memo{margin-top:8px;font-size:12px;color:#8b97ab;word-break:break-all}
 .an-card-actions{display:flex;gap:8px;margin-top:10px}
 .an-card-actions .btn{padding:6px 10px;font-size:12px}
@@ -7309,6 +7312,230 @@ const ARCANA_TYPES=[
 ];
 function anTypeLabel(key){ return ARCANA_TYPES.find(t=>t.key===key)?.label || key; }
 
+/* 아이온2 공식 가이드북(aion2.plaync.com)에 실린 스킬 아이콘. 일부(검성 3종)는 원본이 아이콘 대신
+   페이지에 통째로 붙여넣은 이미지라 안정적인 링크가 없어 비워둡니다 — 그 스킬은 아이콘 없이 표시됩니다. */
+const ARCANA_SKILL_ICONS={
+  '수호성':{
+    '맹렬한 일격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c1005c-2e5e02ee-3aec-483b-9de2-a0b54f224596',
+    '연속 난타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c11b10-c59db673-e1b7-44a9-8a34-4b7311e1d581',
+    '포획':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a91656104-c8620256-27c8-4a03-99b5-7982e5f964a2',
+    '방패 강타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a91644631-db21426b-0080-41ee-8218-cb5138bb7e5e',
+    '심판':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a91653a5f-2489def5-9003-400e-b802-5c7a3ee30345',
+    '섬광 난무':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a91a9f80b-fdb5c9c8-334f-4c61-987c-6c5531332522',
+    '쇠약의 맹타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c720fc-f1477b8e-fd32-4824-82eb-d08a41f70eb1',
+    '비호의 일격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c77830-31ac84a4-ffa8-4c1f-ae4f-c7eaafe9b4ad',
+    '방패 돌격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c854ca-3a873b65-f834-4974-9225-5fd22d2b3776',
+    '섬멸':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a9164e991-4da4621f-2f17-4b4e-a8ca-7d0601dd0cc8',
+    '징벌':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c882ad-c37cfc89-d0c0-424a-bcf9-5f7fbc804bd1',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c8c04f-8078df07-070a-4681-a30a-cf026d49c358',
+    '체력 강화':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cbe0a0-8a0f0d27-28b2-4c0b-b1f6-576d1d0e43dd',
+    '비호의 방패':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cbfd1e-faf576fb-581c-4ca2-a41c-8f3ec10f6277',
+    '단죄의 가호':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cc18d8-90b9a9ef-064b-4199-baf1-9229186f0a6d',
+    '철벽 방어':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cc4b53-7d43a69d-7532-458e-8cba-c092fe175561',
+    '수호의 인장':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cc6cce-9488ce14-ff80-445f-8994-a2779b54ea42',
+    '충격 적중':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b2487-dd85a1a3-c23c-4a8e-823f-bf193b8a7f4c',
+    '모욕의 포효':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cd2713-50638d4e-044d-46fe-a1f0-7bf086645679',
+    '격앙':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cd51e3-666e6d4b-9d05-4749-84f5-54b711f6eac8',
+    '생존 의지':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b4c1d-64d15099-a346-40ba-9b78-18d18cbaa46b',
+    '고통 차단':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77cdc839-cf5d06f3-d000-42bb-bc70-212fc21c30a6'
+  },
+  '검성':{
+    '예리한 일격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a8f855015-20012a3d-2482-4154-aed9-69025056551a',
+    '유린의 검':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a6914d6b0-31fade60-17c2-4a0e-82a1-0aa98fff19f0',
+    '내려찍기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a6914f721-8fc2cd96-df39-4a6f-bb59-38308afe1d16',
+    '발목 베기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a6915fa1a-198d9033-305e-4a21-9580-fcca7b548aa7',
+    '분쇄 파동':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a6916a8e3-10cc1218-b587-4bbc-9f0a-5517bcfa67de',
+    '공중 결박':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a69171f59-440de8af-4176-4de0-a4eb-fcbb554340a1',
+    '파멸의 맹타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a69174d7a-fb432557-da2c-4a65-99da-94a75231cd22',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a77c8c04f-8078df07-070a-4681-a30a-cf026d49c358',
+    '생존 자세':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691acfbd-873e0322-ed45-4ac3-9bef-f73b4de2f6cb',
+    '보호의 갑옷':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691ae684-844cabc8-48d8-48a0-ac7b-985db7530953',
+    '피의 흡수':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691af5bd-21e9f351-292d-43c4-80be-2104fc7d379e',
+    '약점 파악':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b0689-c75128d9-c6f1-4a5a-b3dc-469bc861037c',
+    '공격 준비':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b1316-d595c298-828d-4822-801c-b5d2da063d81',
+    '충격 적중':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b2487-dd85a1a3-c23c-4a8e-823f-bf193b8a7f4c',
+    '파괴 충동':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b3275-07294dcf-037f-4a2b-b025-993ab7228dae',
+    '노련한 반격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b3fbd-e7080f9f-555b-499b-8dd6-cb31be338d90',
+    '생존 의지':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b4c1d-64d15099-a346-40ba-9b78-18d18cbaa46b',
+    '살기 파열':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a691b5de7-0a2f4c75-3a26-41f1-91f7-62c25812c466'
+  },
+  '치유성':{
+    '대지의 응보':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bc8297-bdc9c945-5c2b-449f-b782-6d31aeda00e6',
+    '심판의 번개':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bca140-c7f3908a-e9ca-46bb-83d6-154cc785c949',
+    '약화의 낙인':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bcbc74-55c37c49-b83f-4ff0-8039-5233372272ca',
+    '신성한 기운':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bd2661-69bac46b-19e9-455f-876b-1dcab0581108',
+    '고통의 연쇄':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bd8ba3-ee966d67-9b4a-47b6-8337-fa9e1d20c7f2',
+    '벼락 난사':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bdbcd7-de19efc2-484b-4ee7-8af0-e2e26991946a',
+    '재생의 빛':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bded85-cb9895f2-2e26-4674-b1ea-9cabe9aa7c78',
+    '단죄':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7be1309-5cb7ec94-a2bf-4a0a-a1cf-2c0cc75b9eb4',
+    '치유의 빛':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7be4e8a-365a3f0e-a283-4c4b-bcb8-f1d200092d2f',
+    '쾌유의 광휘':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7be7700-15098312-68b8-419d-b105-75a5935e4d4a',
+    '벽력':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7be9ee9-b4e8d2d8-9173-48ac-8ec5-f9d610bec35a',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7becb13-61056cab-898b-4d9d-b8c7-14242795070b',
+    '따뜻한 가호':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bf0ded-93d5235b-b2aa-4923-9b0f-f45a039e4b35',
+    '주신의 가호':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bf43bb-4129746f-4016-4be1-b1cc-925d92e81529',
+    '주신의 은총':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bf6924-431f3eb9-f194-4c17-ad68-cde690f12d1d',
+    '치유력 강화':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bf9246-1e64ec1c-a06a-4124-9cb3-8e084270d0d5',
+    '불사의 장막':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bfb88b-539df8f6-636f-4193-8317-5b7bb001f2cd',
+    '회복 차단':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bfd52b-ebdc2787-1e09-4567-ad0c-bcd41ca894bd',
+    '집중의 기도':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7bffbee-40d13ce6-43c8-42eb-b416-4de3561004c7',
+    '대지의 은총':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7c0278f-bbded961-1fed-483b-a3bf-33b0c4a4f753',
+    '생존 의지':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7c04f10-a7c64635-9a45-4338-8fc5-b55b9c63bb45',
+    '찬란한 가호':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7c0801e-7607002e-f177-4fea-9052-34593821fab0'
+  },
+  '호법성':{
+    '격파쇄':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd111b88-12e92233-5c58-4578-a152-52bca3704ecb',
+    '백열격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd113e37-90e70e0c-3388-412b-9ad7-d566a5709e75',
+    '돌진 격파':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19a9166f7fb-bcb054ee-fb14-48f9-ad5a-b48e5f25fdcb',
+    '타격쇄':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd11622b-58016f94-b255-4bce-ab7f-e2fc008cd25f',
+    '암격쇄':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd11afcc-fe4e8077-8a30-41c4-8a69-21edb55f96b8',
+    '질풍 난타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd11ea28-ededf247-460c-41d3-a53e-d19831a0372d',
+    '열파격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd120ed5-3d043158-4e59-462f-a565-36147b788963',
+    '쾌유의 주문':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd123094-80d9be0a-f760-4f0c-a1e9-646d1ccf1763',
+    '진동쇄':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd125a4f-593575ec-2202-4429-8d5c-1cf3741d33af',
+    '파동격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd127d53-908f87af-7bd3-4a70-9897-2bf1fcb7a3fd',
+    '회전격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd12a1a3-ebcabf46-5559-44c1-8871-b27b40abbd1c',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd12c9fa-ba5d8fb6-aa67-4896-a93f-ed9f4dd8beda',
+    '생명의 축복':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd12f679-e9ab6ead-f57f-4b61-88fb-966b29caf274',
+    '십자 방어':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd131668-1f59af3e-e10f-4fbd-994a-df99f0b13f7e',
+    '보호진':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd13376c-3c0bfa2b-d829-4248-96b7-191aa1b50673',
+    '고취의 주문':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd1355fa-deef2f65-cc80-44ac-aeed-481ae440b784',
+    '공격 준비':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd1399a6-4f4770d1-9e57-48c5-9d84-c44a87558665',
+    '충격 적중':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd13c1a5-0b95cac7-4645-4250-9d0b-2cac5a34af7f',
+    '격노의 주문':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd13f97e-77eef740-32f3-46cb-bf65-f569d4e312ad',
+    '대지의 약속':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd141d61-27c6d184-2a2d-4216-a0f6-23a3f10a1f05',
+    '생존 의지':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd144348-7902c5bb-7530-4ce2-bc47-481f09fe21aa',
+    '바람의 약속':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd146f21-a2a45d67-ae9c-4d5b-8128-d738dc4d35f3'
+  },
+  '궁성':{
+    '저격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a1a7ca-4b126f14-3f65-4e83-a911-cf37e17d0a7c',
+    '속사':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a1d16c-cd477fec-a30b-43ab-a602-ea8e8ba21266',
+    '올가미 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a1ff49-de30505a-a819-4955-9567-434f081725ae',
+    '표적 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a220a9-377098b9-1e48-402e-9a4d-f91feff88f66',
+    '송곳 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a23c9e-f5bb7748-06e8-42c1-8649-7fa8bdf2b70a',
+    '화살 난사':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a28272-9d22d636-c278-45b8-b063-a1d02dedabfc',
+    '광풍 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a2d05e-6ef8ac1a-b8a9-44bb-b788-20fe28525bf2',
+    '폭발의 덫':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a309c4-a612ca1a-685c-4910-81ed-3872bf22e09b',
+    '파열 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a3307b-fabcafb8-7685-456b-9c0c-625be57d5401',
+    '제압 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a374f0-6b86715e-686f-4e96-905b-7adfb0630da0',
+    '조준 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a3f71f-6749b2b7-457d-4689-a04e-443b64fc0a93',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a4355a-dba97962-dd34-4901-8f1b-cc58220d8973',
+    '경계의 눈':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a476d8-aa014052-fb9b-44ff-828c-f93a91aa0a7b',
+    '집중 포화':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a4a00a-a17cf9b2-dc82-4f83-b433-ada1808885e1',
+    '바람의 활력':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a4ca8e-20810a3e-596b-43cc-ac1b-215a7a0c8bb6',
+    '집중의 눈':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a4f5cb-ece7420f-8ada-41e3-b45e-8606d0f35fab',
+    '사냥꾼의 결의':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a527a8-83e5cb8f-e623-42d7-9723-8b7a97b6fd64',
+    '저항의 결의':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a554a1-9a1bf58d-bd92-4ec6-903d-01f5661d4909',
+    '속박의 눈':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a580dc-3ccb3f19-b528-437f-840f-21964336e8c9',
+    '근접 사격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a5a3e2-a4d79b28-f364-4a49-947a-c24eb3eab44d',
+    '회생의 계약':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a5d336-a1478f43-16c6-494a-bc89-5fb9a485be21',
+    '사냥꾼의 혼':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7a6102a-9040c73e-3e04-48d8-a3c2-b6728a920f6d'
+  },
+  '마도성':{
+    '불꽃 화살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7aaad53-0e636149-6221-45c2-9cae-32620b0c0663',
+    '얼음 사슬':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7aac95f-c1d70b74-ae17-4ff9-922e-c5c31478d307',
+    '불꽃 작살':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7ae26dd-528ce70b-d12e-4435-8d6e-029ffeb108c1',
+    '혹한의 바람':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7ae49ab-164c6e93-1e2a-4a41-9115-90ca8910cbd3',
+    '불꽃 폭발':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7ae6b07-f4f6ce50-65be-4bb8-9ef6-ccfcd9e6f6dc',
+    '화염 난사':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7ae9013-9712e1a6-d237-4f9f-be5a-665d0bff5a69',
+    '빙결':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7aeaf17-368557dd-dfff-4d97-8a52-ef4a53063550',
+    '겨울의 속박':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7aed74b-dd8cd0fa-c2f0-4384-a8d9-d5b5cea0e473',
+    '빙결 폭발':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7aef8fd-bc1152ef-dd0b-4501-b7da-5f5d4c44cfc1',
+    '집중의 기원':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7af2197-0dd738d3-90d2-4a81-bc8c-75500f92de10',
+    '지옥의 화염':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7af4450-faba127e-5475-45ee-975b-3f7b4124a6b5',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7af6c7e-a6f54ef2-1cbe-4678-a5d1-1b0929b13fec',
+    '불의 표식':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7afac24-50b09396-0f0a-4622-ab4d-0cca31cd2671',
+    '대지의 로브':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7afd48b-481f2d87-45f7-4541-885e-4da28334a675',
+    '냉기 소환':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7affb0f-828661f5-c746-4f81-92e5-96a529c2b438',
+    '불꽃의 로브':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b01e57-418b58cf-e739-43c6-940b-84b2e0667643',
+    '정기 흡수':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b0428b-63c3846a-167c-4b82-bfcd-7417558cef6f',
+    '저항의 은혜':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b06c2a-3dfb190b-a850-43f6-b10c-13c95188b92e',
+    '냉기의 로브':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b09001-7f58a195-8900-42ac-8ba1-0fc22b74c460',
+    '강화의 은혜':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b0bac5-096b9f29-c593-481c-9a01-d2d00ccf0c8f',
+    '회생의 계약':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b103d1-aae66faa-564b-49eb-a8d6-849bdc056bd7',
+    '생기 증발':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b15113-a8ce74f1-80bb-4011-a9cf-0b9d30072c24'
+  },
+  '정령성':{
+    '냉기 충격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b4512c-dc4275f1-6922-4443-8047-f53f5b55be11',
+    '화염 전소':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b47213-cc4789e5-bccc-4d76-87ce-d849159dfb3a',
+    '소환: 불의 정령':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b4afc8-d646831d-fe43-48f1-8349-030276612f8c',
+    '소환: 물의 정령':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b4cbd6-7fdf9d11-04ce-40a1-99ae-ad333b57a25a',
+    '협공: 저주':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b63b90-0cfdae0c-5c15-414c-b02a-e3341a2cc362',
+    '연속 난사':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b66291-56e119ea-253e-47fb-90dc-7be2f00202b5',
+    '소환: 땅의 정령':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b68678-7cf1e77b-d133-4e22-b667-9721f4027c62',
+    '공간 지배':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b6a8af-ab26ebe6-d1e8-43fc-97fb-e74c889523cd',
+    '소환: 바람의 정령':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b6c403-8da92404-9ff2-4d4d-971d-cfcfaa67e30f',
+    '영혼의 절규':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b70fe5-e2c6028b-ab45-4f8d-a1c8-325075fb6ba3',
+    '원소 융합':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b742d1-5a1746bb-1dbe-47ac-8f2f-c3c9a1ff97bf',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b76565-a29f946c-4a4b-40b0-82a3-9a088bd171ab',
+    '정령 타격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b7a06f-703c6318-91d0-49df-a996-f9a5ed8d4252',
+    '정령 보호':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b7c671-ae876b65-e197-4d84-b8bc-1c4b1db9d153',
+    '정령 강림':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b808c6-6a9802ce-096b-4414-a6c6-a4dea7dd1761',
+    '침식':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b82bc5-1bc74e73-ba1b-4be6-bec6-88e94d2406e7',
+    '정령 회생':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b87887-9cb554a2-6774-41e2-9876-bc1395f14f08',
+    '정신 집중':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b89c11-ccb77684-88b4-4c5b-b48f-b10360973eb9',
+    '연속 역류':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b8cafc-26b772d0-2a32-41d3-875c-648d6628176b',
+    '정령 교감':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b8f217-da8f04c4-59cb-4b99-8559-d614b295db69',
+    '회생의 계약':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b925cb-6ce05c45-b632-4e39-ae4c-915fa38bc4d7',
+    '원소 결집':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7b954c6-249b2d5e-56c1-45af-9324-bfe2817899f0'
+  },
+  '권성':{
+    '연격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125e96b0-56891f80-b9ea-43c1-ab04-5a83528041ec',
+    '비각':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125ec490-4bec101f-d611-4d72-900f-ccc7be8d1a83',
+    '폭주':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125efb0e-b926f9fa-a283-4299-89cf-8c252222608d',
+    '질풍격':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125f0b6a-12492e19-a685-4082-bf26-b589d44aab5c',
+    '연환권':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125f4fdb-252ecc21-f550-4c04-8852-8bc98f9d5630',
+    '태풍 연타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125f677a-9c1c804f-b2e2-4906-8b5a-b0895ccdface',
+    '회전각':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125f84fa-95934c9c-bd42-4597-8b3d-4ecbcc7fe2dc',
+    '지면 강타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125fa86a-508ada19-ec07-4458-a982-138aaab3e333',
+    '철산고':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125fc5d5-eb0e4592-9346-48a1-9784-e75d713b98ce',
+    '폭렬권':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f125fe320-e9accca3-7a41-439e-8ae0-fd10610bea76',
+    '승천타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f12601b48-d76b1ad9-7259-4686-b6a5-7c8662de87a3',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd12c9fa-ba5d8fb6-aa67-4896-a93f-ed9f4dd8beda',
+    '정신 전환':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f12603e9f-c93dbf59-5409-4f58-b660-939cb0d8784e',
+    '전선 유지':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f12606afe-c2128817-8078-4a85-96e9-f3218b02707f',
+    '정면 돌파':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f1261d70e-5f41efa2-f0f9-43b7-9bfe-0b6e37fdef3f',
+    '위세':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f1261c479-f46ca1f3-130a-441a-ba27-e800470bbcec',
+    '폭주 증폭':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f126131d2-11aa5328-9c99-4fd2-9021-a5ad29989674',
+    '충격 적중':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19acd13c1a5-0b95cac7-4645-4250-9d0b-2cac5a34af7f',
+    '충격타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f12625065-913dcddc-1501-407b-a1c7-4713322c9293',
+    '거대한 분노':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f12623b9f-afc15c9c-69cd-4318-bc1c-5cf0aca503d2',
+    '회생의 계약':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f1262671b-56e3d4e7-8239-4946-bec3-0ca07be7bb7f',
+    '경량화':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19f12627fdc-51985cb5-09f2-4ca2-b375-5115c40b7e5a'
+  },
+  '살성':{
+    '빠른 베기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad79476f9-3566d1a1-d8f3-425d-9771-55600996722c',
+    '맹수의 포효':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad795add5-31ca2518-616d-43ff-8c41-8189a56ec051',
+    '암습':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad795d069-5e0f9651-0173-4e89-a04d-877a4951597b',
+    '기습':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad795ffc5-359c1a56-654c-488b-9297-ce7b340e4a4d',
+    '심장 찌르기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad796562d-8751ae39-e701-4a7e-b09c-fa532ad15d11',
+    '폭풍 난무':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad79693e9-9b939e71-cd79-4f3b-9ef0-99d22a70ffd5',
+    '회오리 베기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad796c06a-7bb2a0e3-0bff-4528-91d8-a537e9c136eb',
+    '섬광 베기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad796e1f9-84b2583d-755e-48df-b3fa-e4fcc5670c8d',
+    '침투':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad79713ca-3671bac3-9f87-4053-86fc-44dfbc5e1158',
+    '그림자 낙하':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7975ac6-81d8bb76-eb1f-48d3-bbfc-d33f668065a2',
+    '문양 폭발':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7977cdf-ab586801-2f19-4ca0-a1d3-a6187f403da7',
+    '충격 해제':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad797a476-a9e9b439-91c7-4365-a6bb-0bfe11158cd4',
+    '육감 극대화':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad797e90b-3f2ccf79-3a5f-4373-aa39-f69e241e5dff',
+    '빈틈 노리기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad798103d-9117ad9b-5e75-44d5-8fd7-966395eec26c',
+    '독 바르기':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7983623-59928345-8c29-484d-88e1-f1f8affeb26d',
+    '배후 강타':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7987b7b-86d422ca-a0ee-4452-8290-c83697b5bbec',
+    '강습 자세':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad798aabe-d3838016-a038-4ba1-9f0c-f66337aab3b1',
+    '충격 적중':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad798f59f-b722ea12-b604-4508-a228-c25a4ad9c71a',
+    '기습 자세':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7992f18-a22a6a62-3db0-4d7a-9491-814ecc2460a8',
+    '방어 균열':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad7998f54-c454521d-bf49-4d59-a077-d12df85b59e0',
+    '회생의 계약':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad799c00b-45d60da8-6faf-4ca2-a717-c2dc651b4ba3',
+    '각오':'https://fizz-download.playnccdn.com/download/v2/buckets/guidebook/files/19ad799fa49-b512323c-e608-43cf-a0bc-38941f0ef566'
+  }
+};
+function anSkillIcon(name){ return ARCANA_SKILL_ICONS[AN_CURRENT_JOB]?.[name] || ''; }
+function anSkillIconHtml(name, size){
+  const src = anSkillIcon(name);
+  if(!src) return '';
+  const s = size||18;
+  return `<img src="${src}" alt="" loading="lazy" width="${s}" height="${s}" class="an-skill-icon" onerror="this.remove()">`;
+}
+
 const ARMOR_PARTS=['투구','견갑','상의','하의','장갑','망토','신발'];
 const ACCESSORY_PARTS=['목걸이','귀걸이 1','귀걸이 2'];
 const RING_PARTS=['반지 1','반지 2'];
@@ -7658,7 +7885,7 @@ function anRenderCardList(){
       <div class="an-card-head">
         <span class="an-card-type">${anTypeLabel(c.type)}</span>
       </div>
-      ${c.skills.map(s=>`<div class="an-card-skill"><span>${escapeHtml(s.name)}</span><b>Lv ${s.lv}</b></div>`).join('')}
+      ${c.skills.map(s=>`<div class="an-card-skill"><span class="an-card-skill-name">${anSkillIconHtml(s.name)}${escapeHtml(s.name)}</span><b>Lv ${s.lv}</b></div>`).join('')}
       ${c.memo ? `<div class="an-card-memo">${escapeHtml(c.memo)}</div>` : ''}
       <div class="an-card-actions">
         <button type="button" class="btn secondary" onclick="anEditCard('${c.id}')">수정</button>
@@ -7814,7 +8041,7 @@ function anRenderCalcTable(){
     const total = AN_BASE_LEVEL + equip + arcana;
     return `
       <tr class="${(equip||arcana) ? 'an-calc-active':''}">
-        <td>${escapeHtml(name)}</td>
+        <td>${anSkillIconHtml(name,16)}${escapeHtml(name)}</td>
         <td>${equip}</td>
         <td>${arcana}</td>
         <td class="an-calc-total">${total}</td>
