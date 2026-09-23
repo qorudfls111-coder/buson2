@@ -4175,8 +4175,19 @@ min-height:56px;
 .an-calc-table td:first-child{text-align:left;color:#dce6f8;font-weight:700;white-space:nowrap}
 .an-calc-table .an-calc-total{font-weight:900;color:#8df0bd}
 .an-calc-table tr.an-calc-active td{background:#0d1712}
+.an-calc-table tr.an-calc-short td{background:#1a1115}
+.an-calc-table tr.an-calc-met td{background:#0d1712}
 .an-calc-section-title{font-size:13px;color:#9db8ff;font-weight:800;margin:14px 0 8px}
 .an-calc-section-title:first-child{margin-top:0}
+.an-target-input{width:42px;padding:4px 5px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;text-align:center;box-sizing:border-box}
+.an-calc-status{font-weight:900;color:#ff9fb0;white-space:nowrap}
+.an-calc-table tr.an-calc-met .an-calc-status{color:#9ef4bd}
+
+.an-shortfall-box{border:1px solid #5a2a33;background:#1a1115;border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.an-shortfall-title{font-size:13px;font-weight:800;color:#ff9fb0;margin-bottom:8px}
+.an-shortfall-item{display:flex;align-items:center;gap:6px;font-size:12.5px;padding:4px 0;color:#dce6f8}
+.an-shortfall-item b{color:#ff9fb0;font-weight:900}
+.an-shortfall-detail{color:#8b97ab;font-size:11.5px;margin-left:2px}
 
 </style>
 </main>
@@ -7607,6 +7618,7 @@ function anSwitchJob(job){
   AN_EDIT_ID = null;
   AN_CARDS = anLoadCards(job);
   AN_EQUIP = anLoadEquip(job);
+  AN_TARGETS = anLoadTargets(job);
   anRenderJobTabs();
   anRenderTypeTabs();
   $('#an_form_wrap').innerHTML = '';
@@ -8027,6 +8039,25 @@ function anEquipCountFor(skillName, isActive){
 /* 스킬 투자 10 + 데바니온 4는 사실상 누구나 다 찍는 고정값이라 입력칸 없이 기본값으로 깔고 계산합니다. */
 const AN_BASE_LEVEL = 14;
 
+let AN_TARGETS = {};
+function anTargetsKey(job){ return 'buson2-arcana-targets-'+job; }
+function anLoadTargets(job){
+  try{
+    const raw = localStorage.getItem(anTargetsKey(job));
+    const parsed = raw ? JSON.parse(raw) : null;
+    return (parsed && typeof parsed==='object') ? parsed : {};
+  }catch(e){ return {}; }
+}
+function anSaveTargets(){
+  try{ localStorage.setItem(anTargetsKey(AN_CURRENT_JOB), JSON.stringify(AN_TARGETS)); }catch(e){}
+}
+function anSetSkillTarget(name, value){
+  const n = Math.max(0, Math.min(99, Number(value)||0));
+  if(n>0) AN_TARGETS[name] = n; else delete AN_TARGETS[name];
+  anSaveTargets();
+  anRenderCalcTable();
+}
+
 function anRenderCalcTable(){
   const box = $('#an_calc_table');
   if(!box) return;
@@ -8034,37 +8065,58 @@ function anRenderCalcTable(){
   if(!pool){ box.innerHTML=''; return; }
 
   const arcanaSums = anComputeArcanaSums();
+  const shortfalls = [];
 
   const renderRows=(names, isActive)=>names.map(name=>{
     const equip = anEquipCountFor(name, isActive);
     const arcana = arcanaSums[name] || 0;
     const total = AN_BASE_LEVEL + equip + arcana;
+    const target = AN_TARGETS[name] || 0;
+    const remain = target - total;
+    const met = target>0 && remain<=0;
+    if(target>0 && remain>0) shortfalls.push({name, target, total, remain});
+    let statusHtml = '-';
+    if(target>0) statusHtml = met ? '✅' : `<b>-${remain}</b>`;
     return `
-      <tr class="${(equip||arcana) ? 'an-calc-active':''}">
+      <tr class="${(equip||arcana) ? 'an-calc-active':''} ${met?'an-calc-met':''} ${target>0 && !met ? 'an-calc-short':''}">
         <td>${anSkillIconHtml(name,16)}${escapeHtml(name)}</td>
         <td>${equip}</td>
         <td>${arcana}</td>
         <td class="an-calc-total">${total}</td>
+        <td><input type="number" min="0" max="99" class="an-target-input" value="${target||''}" placeholder="-" onchange="anSetSkillTarget('${escapeHtml(name)}', this.value)"></td>
+        <td class="an-calc-status">${statusHtml}</td>
       </tr>
     `;
   }).join('');
 
+  const activeRows = renderRows(pool.active, true);
+  const passiveRows = renderRows(pool.passive, false);
+
+  const shortfallHtml = shortfalls.length ? `
+    <div class="an-shortfall-box">
+      <div class="an-shortfall-title">🎯 목표 미달 ${shortfalls.length}개</div>
+      ${shortfalls.map(s=>`<div class="an-shortfall-item">${anSkillIconHtml(s.name,14)}<span>${escapeHtml(s.name)}</span><b>-${s.remain}</b><span class="an-shortfall-detail">(현재 ${s.total} / 목표 ${s.target})</span></div>`).join('')}
+    </div>
+  ` : '';
+
   box.innerHTML = `
-    <div class="note" style="margin-bottom:14px;">스킬 투자 10 + 데바니온 4 = 기본 ${AN_BASE_LEVEL}은 모든 스킬에 항상 포함됩니다. 아래 합계는 여기에 반지·장비·아르카나로 올린 만큼을 더한 값이에요.</div>
+    <div class="note" style="margin-bottom:14px;">스킬 투자 10 + 데바니온 4 = 기본 ${AN_BASE_LEVEL}은 모든 스킬에 항상 포함됩니다. 목표 칸에 원하는 레벨을 입력하면 부족한 만큼을 보여줍니다.</div>
+
+    ${shortfallHtml}
 
     <div class="an-calc-section-title">⚔️ 액티브 스킬 (기본 ${AN_BASE_LEVEL} + 반지 + 아르카나)</div>
     <div class="an-calc-wrap">
       <table class="an-calc-table">
-        <thead><tr><th>스킬명</th><th>반지</th><th>아르카나</th><th>합계</th></tr></thead>
-        <tbody>${renderRows(pool.active, true)}</tbody>
+        <thead><tr><th>스킬명</th><th>반지</th><th>아르카나</th><th>합계</th><th>목표</th><th>부족</th></tr></thead>
+        <tbody>${activeRows}</tbody>
       </table>
     </div>
 
     <div class="an-calc-section-title">🛡️ 패시브 스킬 (기본 ${AN_BASE_LEVEL} + 장비 + 아르카나)</div>
     <div class="an-calc-wrap">
       <table class="an-calc-table">
-        <thead><tr><th>스킬명</th><th>장비</th><th>아르카나</th><th>합계</th></tr></thead>
-        <tbody>${renderRows(pool.passive, false)}</tbody>
+        <thead><tr><th>스킬명</th><th>장비</th><th>아르카나</th><th>합계</th><th>목표</th><th>부족</th></tr></thead>
+        <tbody>${passiveRows}</tbody>
       </table>
     </div>
   `;
@@ -8073,6 +8125,7 @@ function anRenderCalcTable(){
 function anInit(){
   AN_CARDS = anLoadCards(AN_CURRENT_JOB);
   AN_EQUIP = anLoadEquip(AN_CURRENT_JOB);
+  AN_TARGETS = anLoadTargets(AN_CURRENT_JOB);
   anRenderJobTabs();
   anRenderTypeTabs();
   anRenderCardList();
