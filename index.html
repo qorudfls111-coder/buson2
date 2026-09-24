@@ -1891,8 +1891,9 @@ main.wrap{
         <button type="button" class="btn secondary" onclick="rcReset()">초기화</button>
       </div>
       <div id="rc_expect"></div>
+      <div class="rc-editor" id="rc_editor"></div>
       <div class="note" style="margin-top:14px;">
-        등급 확률 영웅 5% · 유일 15% · 전승 30% · 희귀 30% · 일반 20%, 옵션은 같은 등급 안에서 균등하게 나온다고 계산합니다(게임 표시값과 소수점 오차 가능).
+        등급 확률 영웅 5% · 유일 15% · 전승 30% · 희귀 30% · 일반 20%, 옵션은 같은 등급 안에서 균등하게 나온다고 계산합니다(목표는 옵션별 "최소 등급 이상"으로 판정하며 수치는 보지 않습니다)(게임 표시값과 소수점 오차 가능).
         분석 비용은 특수 종족 LV10에서 확인한 값(잠금 0~8개: 결정 45·50·55·75·120·215·310·405·500, 골드는 결정×200)이며 다른 종족도 같다고 가정했습니다.
         지성·야성·자연·변형은 옵션 구성이 같고 "○○족" 이름만 다릅니다. 기대값은 "목표를 달성한 슬롯은 바로 잠근다"는 전략 기준입니다.
       </div>
@@ -4256,8 +4257,8 @@ min-height:56px;
 .rc-lock{border:1px solid #33435a;background:#151f2d;border-radius:8px;padding:4px 9px;cursor:pointer;font-size:14px}
 .rc-lock.on{background:#182541;border-color:#5574a7}
 .rc-list{display:flex;flex-direction:column;gap:8px}
-.rc-head{display:grid;grid-template-columns:34px minmax(220px,1.3fr) minmax(300px,1.4fr) 48px;gap:10px;padding:0 12px;font-size:11px;font-weight:800;color:#7f93bd}
-.rc-row{--gc:#3a465c;display:grid;grid-template-columns:34px minmax(220px,1.3fr) minmax(300px,1.4fr) 48px;gap:10px;align-items:center;padding:8px 12px;border:1px solid #263043;border-left:4px solid var(--gc);border-radius:12px;background:linear-gradient(90deg,color-mix(in srgb,var(--gc) 16%,#0d131c),#0d131c 65%)}
+.rc-head{display:grid;grid-template-columns:34px minmax(200px,1.2fr) minmax(200px,1.2fr) 84px 48px;gap:10px;padding:0 12px;font-size:11px;font-weight:800;color:#7f93bd}
+.rc-row{--gc:#3a465c;display:grid;grid-template-columns:34px minmax(200px,1.2fr) minmax(200px,1.2fr) 84px 48px;gap:10px;align-items:center;padding:8px 12px;border:1px solid #263043;border-left:4px solid var(--gc);border-radius:12px;background:linear-gradient(90deg,color-mix(in srgb,var(--gc) 16%,#0d131c),#0d131c 65%)}
 .rc-row.rc-locked{border-color:#5574a7;border-left-color:var(--gc);box-shadow:0 0 0 1px #2f4a78 inset}
 .rc-row.rc-met{box-shadow:0 0 0 1px #2e8a55 inset}
 .rc-no{width:28px;height:28px;border-radius:50%;background:#182338;color:#9db8ff;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
@@ -4274,9 +4275,33 @@ min-height:56px;
 .rc-row .rc-lock{padding:8px 0;width:44px;font-size:17px}
 @media(max-width:860px){
   .rc-head{display:none}
-  .rc-row{grid-template-columns:30px 1fr 44px}
+  .rc-row{grid-template-columns:30px 1fr 84px 44px}
   .rc-row .rc-tgt{grid-column:1 / -1}
+  .rc-ed-grid{grid-template-columns:110px 1fr 46px 46px !important}
 }
+.rc-row.rc-editing{outline:2px solid #4da1ff;outline-offset:-1px}
+.rc-edit-btn{border:1px solid #33435a;background:#151f2d;color:#bcd0ff;border-radius:8px;padding:7px 0;font-size:12px;font-weight:800;cursor:pointer}
+.rc-row.rc-editing .rc-edit-btn{background:#0f3a63;border-color:#4da1ff;color:#7fe0ff}
+.rc-tgt-list{font-size:12.5px;font-weight:800;line-height:1.4;color:#9aa4b2}
+.rc-editor{margin-top:14px;border:1px solid #2c3a55;background:#0d131c;border-radius:12px;padding:14px}
+.rc-ed-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-bottom:10px}
+.rc-ed-head b{font-size:15px;color:#eef4ff}
+.rc-ed-sub{font-size:11.5px;color:#8b97ab;flex:1;min-width:200px}
+.rc-ed-btns{display:flex;gap:6px}
+.rc-ed-btns button{border:1px solid #33435a;background:#151f2d;color:#bcd0ff;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;cursor:pointer}
+.rc-ed-grid{display:grid;grid-template-columns:minmax(150px,1fr) minmax(330px,1.6fr) 60px 60px;align-items:center;gap:8px;padding:6px 8px}
+.rc-ed-cols{font-size:11.5px;font-weight:800;color:#7f93bd;border-bottom:1px solid #263043}
+.rc-ed-row{border-radius:8px;border-bottom:1px solid #1a2333}
+.rc-ed-row.on{background:#101b2c}
+.rc-ed-name{font-size:13.5px;font-weight:800;color:#8b97ab}
+.rc-ed-chips{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;text-align:center}
+.rc-ed-cols .rc-ed-chips{font-size:11px}
+.rc-chip{height:26px;border:1px solid #2a3547;background:#0b1018;border-radius:6px;color:#0b1018;font-size:12px;cursor:pointer;padding:0}
+.rc-chip.na{color:#3a465c;cursor:default;background:transparent;border-style:dashed}
+.rc-chip.act{background:var(--cc,#5b6b8c);border-color:var(--cc,#7f93bd);color:#0b1018;font-weight:900}
+.rc-chip.inc{background:color-mix(in srgb,var(--cc) 28%,#0b1018);border-color:var(--cc);color:var(--cc)}
+.rc-ed-scroll{max-height:560px;overflow-y:auto}
+.rc-ed-num{text-align:center;font-size:12.5px;color:#cfd8ea}
 .rc-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
 .rc-actions .btn{width:auto;padding:10px 16px}
 .rc-expect-box{border:1px solid #2c3a55;background:#0d131c;border-radius:12px;padding:14px}
@@ -8316,7 +8341,9 @@ const RC_SPECIAL={
 let RC_RACE='지성';
 let RC_SLOTS=Array(RC_SLOT_COUNT).fill(null);
 let RC_LOCK=Array(RC_SLOT_COUNT).fill(false);
-let RC_TARGET=Array.from({length:RC_SLOT_COUNT},()=>({opt:'',grade:1,min:0}));
+// 슬롯별 목표: { 옵션명: 최소 등급 인덱스(0=영웅 … 4=일반) } — 인게임 자동 분석 목표 설정과 동일
+let RC_TARGET=Array.from({length:RC_SLOT_COUNT},()=>({}));
+let RC_EDIT=0;
 let RC_TOTAL={rolls:0,crystal:0};
 let RC_POOL_CACHE={};
 
@@ -8363,41 +8390,35 @@ function rcRollSlot(slot){
   return {g:gi,name:o.name,unit:o.unit,val:Math.round(val*10)/10};
 }
 
-function rcProbAtLeast(op,v){
-  const step=op.unit==='p'?0.1:1;
-  const n=Math.round((op.max-op.min)/step)+1;
-  if(!(v>op.min+1e-9)) return 1;
-  const k=Math.ceil((v-op.min)/step-1e-9);
-  return Math.max(0,n-k)/n;
-}
+function rcHasTarget(t){ return Object.keys(t).length>0; }
 
+// 옵션이 나올 수 있는 등급과 (전 등급 통틀어) 최소/최대 수치
+function rcOptInfo(slot,name){
+  const pool=rcPool(slot), grades=[]; let mn=Infinity, mx=-Infinity, unit='f';
+  pool.forEach((list,g)=>{ const op=list.find(x=>x.name===name); if(op){ grades.push(g); mn=Math.min(mn,op.min); mx=Math.max(mx,op.max); unit=op.unit; } });
+  return {grades,min:mn,max:mx,unit};
+}
+function rcFmtNum(v,unit){ return (Math.round(v*10)/10)+(unit==='p'?'%':''); }
+
+// 슬롯 하나가 목표 조건(옵션별 최소 등급 중 하나라도)을 만족할 1회 확률
 function rcTargetProb(slot,t){
-  if(!t.opt) return null;
+  if(!rcHasTarget(t)) return null;
   const pool=rcPool(slot);
   let p=0;
-  for(let g=0;g<=t.grade;g++){
-    if(t.opt==='*'){ p+=RC_GRADES[g].p; continue; }
-    const list=pool[g];
-    const op=list.find(x=>x.name===t.opt);
-    if(op) p+=RC_GRADES[g].p/list.length*rcProbAtLeast(op,t.min);
-  }
+  Object.keys(t).forEach(name=>{
+    for(let g=0;g<=t[name];g++){
+      const list=pool[g];
+      if(list.some(x=>x.name===name)) p+=RC_GRADES[g].p/list.length;
+    }
+  });
   return p;
-}
-
-function rcRange(slot,t){
-  if(!t.opt||t.opt==='*') return null;
-  const op=rcPool(slot)[t.grade].find(x=>x.name===t.opt);
-  return op?{min:op.min,max:op.max,unit:op.unit}:null;
 }
 
 function rcSatisfied(i){
   const t=RC_TARGET[i], r=RC_SLOTS[i];
-  if(!t.opt||!r) return false;
-  if(r.g>t.grade) return false;
-  if(t.opt==='*') return true;
-  return r.name===t.opt && r.val>=t.min-1e-9;
+  if(!r||!rcHasTarget(t)) return false;
+  return t[r.name]!==undefined && r.g<=t[r.name];
 }
-
 function rcFmtVal(r){ return r.unit==='p' ? r.val.toFixed(1)+'%' : String(r.val); }
 function rcNum(n){ return Math.round(n).toLocaleString('ko-KR'); }
 function rcLockCount(){ return RC_LOCK.filter(Boolean).length; }
@@ -8424,7 +8445,7 @@ function rcToggleLock(i){
 }
 
 function rcAutoRun(all){
-  const idx=[]; RC_TARGET.forEach((t,i)=>{ if(t.opt) idx.push(i); });
+  const idx=[]; RC_TARGET.forEach((t,i)=>{ if(rcHasTarget(t)) idx.push(i); });
   if(!idx.length){ alert('목표 옵션을 하나 이상 지정해주세요.'); return; }
   if(idx.some(i=>!(rcTargetProb(i+1,RC_TARGET[i])>0))){ alert('달성 확률이 0인 목표가 있습니다. 조건을 바꿔주세요.'); return; }
   idx.forEach(i=>{ if(RC_LOCK[i] && !rcSatisfied(i)) RC_LOCK[i]=false; });
@@ -8455,7 +8476,7 @@ function rcSetRace(name){
   RC_RACE=name;
   RC_SLOTS=Array(RC_SLOT_COUNT).fill(null);
   RC_LOCK=Array(RC_SLOT_COUNT).fill(false);
-  RC_TARGET=Array.from({length:RC_SLOT_COUNT},()=>({opt:'',grade:1,min:0}));
+  RC_TARGET=Array.from({length:RC_SLOT_COUNT},()=>({})); RC_EDIT=0; 
   RC_TOTAL={rolls:0,crystal:0};
   rcRenderRaceTabs();
   rcRenderTable();
@@ -8469,44 +8490,73 @@ function rcRenderRaceTabs(){
 
 function rcRenderTable(){
   const box=$('#rc_table'); if(!box) return;
-  let html='<div class="rc-head"><span>슬롯</span><span>현재 옵션</span><span>목표 (옵션 · 최소 등급 · 최소 수치)</span><span>잠금</span></div>';
+  let html='<div class="rc-head"><span>슬롯</span><span>현재 옵션</span><span>목표</span><span></span><span>잠금</span></div>';
   for(let i=0;i<RC_SLOT_COUNT;i++){
-    const names=rcOptionNames(i+1);
     html+=`<div class="rc-row" id="rc_row_${i}">
       <div class="rc-no">${i+1}</div>
       <div class="rc-res" id="rc_res_${i}"></div>
-      <div class="rc-tgt">
-        <div class="rc-tgt-in">
-          <select id="rc_opt_${i}" onchange="rcSetTarget(${i},'opt',this.value)">
-            <option value="">목표 없음</option><option value="*">아무 옵션 (등급만)</option>
-            ${names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('')}
-          </select>
-          <select id="rc_grade_${i}" onchange="rcSetTarget(${i},'grade',this.value)">
-            ${RC_MIN_GRADE_LABELS.map((l,g)=>`<option value="${g}" ${g===1?'selected':''}>${l}</option>`).join('')}
-          </select>
-          <input type="number" min="0" step="any" id="rc_min_${i}" placeholder="0" onchange="rcSetTarget(${i},'min',this.value)">
-        </div>
-        <div class="rc-p" id="rc_p_${i}">-</div>
-      </div>
+      <div class="rc-tgt" id="rc_tgt_${i}"></div>
+      <button type="button" class="rc-edit-btn" id="rc_editbtn_${i}" onclick="rcSelectEdit(${i})">목표 설정</button>
       <button type="button" class="rc-lock" id="rc_lock_${i}" onclick="rcToggleLock(${i})">🔓</button>
     </div>`;
   }
   box.innerHTML=html;
-}
-function rcSetTarget(i,field,val){
-  const t=RC_TARGET[i];
-  if(field==='opt'){ t.opt=val; if(!val||val==='*') t.min=0; }
-  else if(field==='grade') t.grade=Number(val)||0;
-  else t.min=Math.max(0,Number(val)||0);
-  const rg=rcRange(i+1,t);
-  if(rg){
-    if(field==='opt'||field==='grade') t.min=rg.min;
-    else t.min=Math.min(rg.max,Math.max(rg.min,Math.round(t.min*10)/10));
-  }
-  const mi=$('#rc_min_'+i); if(mi) mi.value=t.min||'';
-  rcUpdateResults();
+  rcRenderEditor();
 }
 
+function rcSelectEdit(i){ RC_EDIT=i; rcRenderEditor(); rcUpdateResults(); const e=$('#rc_editor'); if(e) e.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+
+function rcSetOpt(slot0,name,g){
+  const t=RC_TARGET[slot0];
+  if(g<0) delete t[name]; else t[name]=g;
+  rcRenderEditor(); rcUpdateResults();
+}
+
+function rcGroupKey(slot){
+  if(RC_RACE==='특수') return [1,2,4,5,7,8].includes(slot)?'S1':[3,9].includes(slot)?'S3':'S6';
+  return [1,4,7].includes(slot)?'A':[2,5,8].includes(slot)?'B':[3,9].includes(slot)?'C':'D';
+}
+
+function rcCopyTarget(){
+  const k=rcGroupKey(RC_EDIT+1), src=RC_TARGET[RC_EDIT]; let n=0;
+  for(let i=0;i<RC_SLOT_COUNT;i++){
+    if(i!==RC_EDIT && rcGroupKey(i+1)===k){ RC_TARGET[i]=Object.assign({},src); n++; }
+  }
+  rcRenderEditor(); rcUpdateResults();
+}
+
+function rcClearTarget(){ RC_TARGET[RC_EDIT]={}; rcRenderEditor(); rcUpdateResults(); }
+
+function rcRenderEditor(){
+  const box=$('#rc_editor'); if(!box) return;
+  const slot=RC_EDIT+1, t=RC_TARGET[RC_EDIT];
+  const order=[4,3,2,1,0];
+  let html=`<div class="rc-ed-head"><b>${slot}슬롯 목표 설정</b>
+    <span class="rc-ed-sub">옵션마다 최소 등급을 고르세요. 선택한 옵션 중 하나가 그 등급 이상으로 뜨면 목표 달성입니다.</span>
+    <span class="rc-ed-btns"><button type="button" onclick="rcCopyTarget()">같은 구성 슬롯에 복사</button><button type="button" onclick="rcClearTarget()">전체 해제</button></span></div>
+    <div class="rc-ed-grid rc-ed-cols"><span>옵션</span>
+      <span class="rc-ed-chips"><span>선택 안함</span>${order.map(g=>`<span style="color:${RC_GRADES[g].color}">${RC_GRADES[g].label}</span>`).join('')}</span>
+      <span>최소</span><span>최대</span></div>`;
+  html+='<div class="rc-ed-scroll">';
+  rcOptionNames(slot).forEach(name=>{
+    const info=rcOptInfo(slot,name), sel=t[name], on=sel!==undefined;
+    const nm=name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    html+=`<div class="rc-ed-grid rc-ed-row ${on?'on':''}">
+      <span class="rc-ed-name" style="${on?'color:'+RC_GRADES[sel].color:''}">${escapeHtml(name)}</span>
+      <span class="rc-ed-chips">
+        <button type="button" class="rc-chip ${on?'':'act'}" onclick="rcSetOpt(${RC_EDIT},'${nm.replace(/"/g,'&quot;')}',-1)">${on?'':'●'}</button>
+        ${order.map(g=>{
+          if(!info.grades.includes(g)) return '<button type="button" class="rc-chip na" disabled>-</button>';
+          const cur=on&&sel===g, incl=on&&g<sel;
+          return `<button type="button" class="rc-chip ${cur?'act':''} ${incl?'inc':''}" style="--cc:${RC_GRADES[g].color}" onclick="rcSetOpt(${RC_EDIT},'${nm.replace(/"/g,'&quot;')}',${g})">${cur?'●':(incl?'○':'')}</button>`;
+        }).join('')}
+      </span>
+      <span class="rc-ed-num">${rcFmtNum(info.min,info.unit)}</span><span class="rc-ed-num">${rcFmtNum(info.max,info.unit)}</span>
+    </div>`;
+  });
+  html+='</div>';
+  box.innerHTML=html;
+}
 function rcUpdateResults(){
   for(let i=0;i<RC_SLOT_COUNT;i++){
     const r=RC_SLOTS[i], t=RC_TARGET[i];
@@ -8521,15 +8571,16 @@ function rcUpdateResults(){
     lock.textContent=RC_LOCK[i]?'🔒':'🔓';
     lock.classList.toggle('on',RC_LOCK[i]);
     row.classList.toggle('rc-met',met);
-    const minInput=$('#rc_min_'+i), gradeSel=$('#rc_grade_'+i);
-    minInput.disabled=!t.opt||t.opt==='*';
-    gradeSel.disabled=!t.opt;
-    const rg=rcRange(i+1,t);
-    if(rg){ minInput.min=rg.min; minInput.max=rg.max; minInput.step=rg.unit==='p'?0.1:1; minInput.placeholder=rg.min+'~'+rg.max+(rg.unit==='p'?'%':''); }
-    else { minInput.removeAttribute('min'); minInput.removeAttribute('max'); minInput.placeholder='0'; }
-    if(document.activeElement!==minInput) minInput.value=t.min||'';
-    const p=rcTargetProb(i+1,t);
-    $('#rc_p_'+i).textContent = p===null ? '-' : (p>0 ? `${(p*100).toFixed(3)}% (평균 ${rcNum(1/p)}회)` : '불가능');
+    row.classList.toggle('rc-editing',i===RC_EDIT);
+    $('#rc_editbtn_'+i).textContent = i===RC_EDIT?'설정 중':'목표 설정';
+    const names=Object.keys(t), p=rcTargetProb(i+1,t);
+    let sum='<span class="rc-empty">목표 없음</span>';
+    if(names.length){
+      const shown=names.slice(0,3).map(n=>`<span style="color:${RC_GRADES[t[n]].color}">${escapeHtml(n)}</span>`).join(', ');
+      sum=`<div class="rc-tgt-list">${shown}${names.length>3?` 외 ${names.length-3}개`:''}</div>
+        <div class="rc-p">${p>0?`${(p*100).toFixed(2)}% (평균 ${rcNum(1/p)}회)`:'불가능'}</div>`;
+    }
+    $('#rc_tgt_'+i).innerHTML=sum;
   }
   const locked=rcLockCount();
   const nextCost=locked>=RC_SLOT_COUNT?null:RC_COST[locked];
@@ -8571,7 +8622,7 @@ function rcRenderExpect(){
   const ps=[], slots=[];
   RC_TARGET.forEach((t,i)=>{ if(RC_LOCK[i] && rcSatisfied(i)) return; const p=rcTargetProb(i+1,t); if(p!==null){ ps.push(p); slots.push(i+1); } });
   if(!ps.length){
-    box.innerHTML=head(RC_TARGET.some(t=>t.opt)?'남은 목표가 없습니다. 모두 잠금 완료!':'위 표에서 슬롯별 목표 옵션을 고르면 목표를 하나씩 순서대로 달성할 때 필요한 영혼 결정·골드 기대값을 계산해 드립니다.');
+    box.innerHTML=head(RC_TARGET.some(rcHasTarget)?'남은 목표가 없습니다. 모두 잠금 완료!':'아래 목표 설정에서 슬롯별 옵션과 최소 등급을 고르면 목표를 하나씩 순서대로 달성할 때 필요한 영혼 결정·골드 기대값을 계산해 드립니다.');
     return;
   }
   if(ps.some(p=>!(p>0))){ box.innerHTML=head('달성 확률이 0인 조건이 있습니다. 최소 등급이나 최소 수치를 조정해주세요.'); return; }
