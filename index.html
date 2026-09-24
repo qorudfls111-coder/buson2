@@ -1882,7 +1882,7 @@ main.wrap{
     <div class="body">
       <div class="subtabs" id="rc_race_tabs"></div>
       <div id="rc_stats"></div>
-      <div class="an-calc-wrap"><table class="rc-table" id="rc_table"></table></div>
+      <div class="rc-list" id="rc_table"></div>
       <div class="rc-actions">
         <button type="button" class="btn primary" onclick="rcRollClick()">🎲 분석 1회</button>
         <button type="button" class="btn secondary" onclick="rcRollMany(10)">10회</button>
@@ -4255,6 +4255,28 @@ min-height:56px;
 .rc-table input:disabled,.rc-table select:disabled{opacity:.4}
 .rc-lock{border:1px solid #33435a;background:#151f2d;border-radius:8px;padding:4px 9px;cursor:pointer;font-size:14px}
 .rc-lock.on{background:#182541;border-color:#5574a7}
+.rc-list{display:flex;flex-direction:column;gap:8px}
+.rc-head{display:grid;grid-template-columns:34px minmax(220px,1.3fr) minmax(300px,1.4fr) 48px;gap:10px;padding:0 12px;font-size:11px;font-weight:800;color:#7f93bd}
+.rc-row{--gc:#3a465c;display:grid;grid-template-columns:34px minmax(220px,1.3fr) minmax(300px,1.4fr) 48px;gap:10px;align-items:center;padding:8px 12px;border:1px solid #263043;border-left:4px solid var(--gc);border-radius:12px;background:linear-gradient(90deg,color-mix(in srgb,var(--gc) 16%,#0d131c),#0d131c 65%)}
+.rc-row.rc-locked{border-color:#5574a7;border-left-color:var(--gc);box-shadow:0 0 0 1px #2f4a78 inset}
+.rc-row.rc-met{box-shadow:0 0 0 1px #2e8a55 inset}
+.rc-no{width:28px;height:28px;border-radius:50%;background:#182338;color:#9db8ff;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+.rc-res{display:flex;align-items:center;gap:8px;min-height:34px;font-weight:800}
+.rc-badge{font-size:11px;font-weight:900;color:#0b1018;background:var(--gc);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.rc-name{font-size:15px;color:#eef4ff}
+.rc-val{font-size:16px;font-weight:900;color:var(--gc);margin-left:auto;white-space:nowrap}
+.rc-empty{color:#5b6b8c;font-weight:700}
+.rc-tgt{display:flex;flex-direction:column;gap:4px}
+.rc-tgt-in{display:grid;grid-template-columns:1.3fr 1fr .8fr;gap:6px}
+.rc-tgt select,.rc-tgt input{width:100%;min-width:0;padding:5px 6px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;box-sizing:border-box}
+.rc-tgt input:disabled,.rc-tgt select:disabled{opacity:.4}
+.rc-p{font-size:11px;color:#8fa3d9}
+.rc-row .rc-lock{padding:8px 0;width:44px;font-size:17px}
+@media(max-width:860px){
+  .rc-head{display:none}
+  .rc-row{grid-template-columns:30px 1fr 44px}
+  .rc-row .rc-tgt{grid-column:1 / -1}
+}
 .rc-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
 .rc-actions .btn{width:auto;padding:10px 16px}
 .rc-expect-box{border:1px solid #2c3a55;background:#0d131c;border-radius:12px;padding:14px}
@@ -8446,26 +8468,31 @@ function rcRenderRaceTabs(){
 }
 
 function rcRenderTable(){
-  const tb=$('#rc_table'); if(!tb) return;
-  let html='<thead><tr><th>슬롯</th><th>잠금</th><th>현재 옵션</th><th>목표 옵션</th><th>최소 등급</th><th>최소 수치</th><th>목표 확률</th></tr></thead><tbody>';
+  const box=$('#rc_table'); if(!box) return;
+  let html='<div class="rc-head"><span>슬롯</span><span>현재 옵션</span><span>목표 (옵션 · 최소 등급 · 최소 수치)</span><span>잠금</span></div>';
   for(let i=0;i<RC_SLOT_COUNT;i++){
     const names=rcOptionNames(i+1);
-    html+=`<tr id="rc_row_${i}"><td><b>${i+1}</b></td>
-      <td><button type="button" class="rc-lock" id="rc_lock_${i}" onclick="rcToggleLock(${i})">🔓</button></td>
-      <td class="rc-res" id="rc_res_${i}"></td>
-      <td><select id="rc_opt_${i}" onchange="rcSetTarget(${i},'opt',this.value)">
-        <option value="">제한 없음</option><option value="*">아무 옵션 (등급만)</option>
-        ${names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('')}
-      </select></td>
-      <td><select id="rc_grade_${i}" onchange="rcSetTarget(${i},'grade',this.value)">
-        ${RC_MIN_GRADE_LABELS.map((l,g)=>`<option value="${g}" ${g===1?'selected':''}>${l}</option>`).join('')}
-      </select></td>
-      <td><input type="number" min="0" step="any" id="rc_min_${i}" placeholder="0" onchange="rcSetTarget(${i},'min',this.value)"></td>
-      <td class="rc-p" id="rc_p_${i}">-</td></tr>`;
+    html+=`<div class="rc-row" id="rc_row_${i}">
+      <div class="rc-no">${i+1}</div>
+      <div class="rc-res" id="rc_res_${i}"></div>
+      <div class="rc-tgt">
+        <div class="rc-tgt-in">
+          <select id="rc_opt_${i}" onchange="rcSetTarget(${i},'opt',this.value)">
+            <option value="">목표 없음</option><option value="*">아무 옵션 (등급만)</option>
+            ${names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('')}
+          </select>
+          <select id="rc_grade_${i}" onchange="rcSetTarget(${i},'grade',this.value)">
+            ${RC_MIN_GRADE_LABELS.map((l,g)=>`<option value="${g}" ${g===1?'selected':''}>${l}</option>`).join('')}
+          </select>
+          <input type="number" min="0" step="any" id="rc_min_${i}" placeholder="0" onchange="rcSetTarget(${i},'min',this.value)">
+        </div>
+        <div class="rc-p" id="rc_p_${i}">-</div>
+      </div>
+      <button type="button" class="rc-lock" id="rc_lock_${i}" onclick="rcToggleLock(${i})">🔓</button>
+    </div>`;
   }
-  tb.innerHTML=html+'</tbody>';
+  box.innerHTML=html;
 }
-
 function rcSetTarget(i,field,val){
   const t=RC_TARGET[i];
   if(field==='opt'){ t.opt=val; if(!val||val==='*') t.min=0; }
@@ -8487,8 +8514,10 @@ function rcUpdateResults(){
     if(!cell) return;
     const met=rcSatisfied(i);
     cell.innerHTML=r
-      ? `<span style="color:${RC_GRADES[r.g].color}">[${RC_GRADES[r.g].label}] ${escapeHtml(r.name)} ${rcFmtVal(r)}</span>${met?' ✅':''}`
-      : '<span style="color:#5b6b8c;font-weight:600">분석 전</span>';
+      ? `<span class="rc-badge">${RC_GRADES[r.g].label}</span><span class="rc-name">${escapeHtml(r.name)}</span><span class="rc-val">${rcFmtVal(r)}${met?' ✅':''}</span>`
+      : '<span class="rc-empty">분석 전</span>';
+    row.style.setProperty('--gc',r?RC_GRADES[r.g].color:'#3a465c');
+    row.classList.toggle('rc-locked',!!RC_LOCK[i]);
     lock.textContent=RC_LOCK[i]?'🔒':'🔓';
     lock.classList.toggle('on',RC_LOCK[i]);
     row.classList.toggle('rc-met',met);
