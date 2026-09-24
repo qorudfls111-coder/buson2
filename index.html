@@ -356,6 +356,7 @@ main.wrap{
 <button class="tab" data-page="compare" style="display:none">파밍 비교</button>
 <button class="tab" data-page="party">성역 파티 배치</button>
 <button class="tab" data-page="arcana">아르카나</button>
+<button class="tab" data-page="race">종족 이해도</button>
 </nav>
 </div></header>
 
@@ -1870,6 +1871,32 @@ main.wrap{
     </div>
   </section>
 
+</section>
+
+<section id="page-race" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>🐾 종족 이해도 분석 시뮬레이터</h2>
+      <p>LV10 종족 이해도의 분석(옵션 리롤)을 그대로 굴려보고, 원하는 옵션을 목표로 정하면 달성까지 필요한 영혼 결정·골드 기대값을 계산합니다.</p>
+    </div>
+    <div class="body">
+      <div class="subtabs" id="rc_race_tabs"></div>
+      <div id="rc_stats"></div>
+      <div class="an-calc-wrap"><table class="rc-table" id="rc_table"></table></div>
+      <div class="rc-actions">
+        <button type="button" class="btn primary" onclick="rcRollClick()">🎲 분석 1회</button>
+        <button type="button" class="btn secondary" onclick="rcRollMany(10)">10회</button>
+        <button type="button" class="btn secondary" onclick="rcAutoRun()">🎯 목표까지 자동 분석</button>
+        <button type="button" class="btn secondary" onclick="rcReset()">초기화</button>
+      </div>
+      <div id="rc_expect"></div>
+      <div class="note" style="margin-top:14px;">
+        등급 확률 영웅 5% · 유일 15% · 전승 30% · 희귀 30% · 일반 20%, 옵션은 같은 등급 안에서 균등하게 나온다고 계산합니다(게임 표시값과 소수점 오차 가능).
+        분석 비용은 특수 종족 LV10에서 확인한 값(잠금 0~8개: 결정 45·50·55·75·120·215·310·405·500, 골드는 결정×200)이며 다른 종족도 같다고 가정했습니다.
+        지성·야성·자연·변형은 옵션 구성이 같고 "○○족" 이름만 다릅니다. 기대값은 "목표를 달성한 슬롯은 바로 잠근다"는 전략 기준입니다.
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- BUSON2 소개 / SEO 영역 -->
@@ -4193,6 +4220,35 @@ min-height:56px;
 .an-shortfall-detail{color:#8b97ab;font-size:11.5px;margin-left:2px}
 .an-shortfall-cards{margin-top:5px;font-size:11.5px;color:#8b97ab;display:flex;flex-wrap:wrap;align-items:center;gap:5px}
 .an-shortfall-card-tag{background:#16233a;border:1px solid #2c3a55;color:#9db8ff;border-radius:999px;padding:2px 9px;font-weight:700;font-size:11px}
+
+/* ===== 종족 이해도 시뮬레이터 ===== */
+.rc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.rc-stat{border:1px solid #263043;background:#0d131c;border-radius:12px;padding:10px 12px}
+.rc-stat span{display:block;font-size:11px;color:#8fa3d9;font-weight:700;margin-bottom:3px}
+.rc-stat b{font-size:15px;color:#eef4ff}
+.rc-table{border-collapse:collapse;width:100%;min-width:780px;font-size:12.5px}
+.rc-table th,.rc-table td{border:1px solid #263043;padding:6px 8px;text-align:center}
+.rc-table thead th{background:#111c2e;color:#9db8ff;font-weight:800;white-space:nowrap}
+.rc-table td.rc-res{text-align:left;font-weight:800;white-space:nowrap}
+.rc-table td.rc-p{font-size:11.5px;color:#8fa3d9;white-space:nowrap}
+.rc-table tr.rc-met td{background:#0d1712}
+.rc-table select,.rc-table input{width:100%;min-width:90px;padding:5px 6px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;box-sizing:border-box}
+.rc-table input:disabled,.rc-table select:disabled{opacity:.4}
+.rc-lock{border:1px solid #33435a;background:#151f2d;border-radius:8px;padding:4px 9px;cursor:pointer;font-size:14px}
+.rc-lock.on{background:#182541;border-color:#5574a7}
+.rc-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.rc-actions .btn{width:auto;padding:10px 16px}
+.rc-expect-box{border:1px solid #2c3a55;background:#0d131c;border-radius:12px;padding:14px}
+.rc-expect-title{font-size:13.5px;font-weight:800;color:#9db8ff;margin-bottom:10px}
+.rc-expect-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rc-expect-cell{border:1px solid #263043;border-radius:10px;padding:9px 11px;background:#0b1018}
+.rc-expect-cell span{display:block;font-size:11px;color:#8fa3d9;font-weight:700;margin-bottom:3px}
+.rc-expect-cell b{font-size:14px;color:#8df0bd}
+.rc-expect-sub{margin-top:10px;font-size:12px;color:#8b97ab}
+@media(max-width:700px){
+  .rc-stats{grid-template-columns:1fr 1fr}
+  .rc-expect-grid{grid-template-columns:1fr}
+}
 
 </style>
 </main>
@@ -6566,7 +6622,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party','arcana'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster();if(b.dataset.page==='arcana')anInit()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party','arcana','race'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster();if(b.dataset.page==='arcana')anInit();if(b.dataset.page==='race')rcInit()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 function openTabFromHash(){
   const page = location.hash.replace("#", "");
@@ -8151,6 +8207,345 @@ function anInit(){
 
 if(document.querySelector('.tab[data-page="arcana"]')?.classList.contains('active')){
   anInit();
+}
+</script>
+  <script>
+/* ===== 종족 이해도 분석 시뮬레이터 (LV10) ===== */
+const RC_RACES=['지성','야성','자연','변형','특수'];
+const RC_GRADES=[
+  {label:'영웅',p:0.05,color:'#ff7a1a'},
+  {label:'유일',p:0.15,color:'#f2c230'},
+  {label:'전승',p:0.30,color:'#3b8fe8'},
+  {label:'희귀',p:0.30,color:'#2ecc57'},
+  {label:'일반',p:0.20,color:'#9aa4b2'}
+];
+const RC_MIN_GRADE_LABELS=['영웅만','유일 이상','전승 이상','희귀 이상','일반 이상(전부)'];
+const RC_COST=[45,50,55,75,120,215,310,405,500];
+const RC_GOLD_PER=200;
+const RC_SLOT_COUNT=9;
+const RC_MAX_LOCK=8;
+
+function rcOp(name,unit,min,max){ return {name,unit,min,max}; }
+
+/* 일반 종족: [이름,단위,영웅범위,유일범위] */
+const RC_COMMON12=[
+  ['추가 명중','f',[20,40],[17,34]],['치명타','f',[15,30],[10,20]],['보스 공격력','f',[10,20],[8,16]],
+  ['추가 회피','f',[20,40],[15,30]],['치명타 저항','f',[15,30],[10,20]],['막기','f',[25,50],[20,40]],
+  ['후방 치명타','f',[25,50],[16,32]],['전방 치명타','f',[25,50],[16,32]],
+  ['후방 치명타 저항','f',[20,40],[15,30]],['전방 치명타 저항','f',[20,40],[15,30]],
+  ['생명력','f',[100,200],[70,140]],['정신력','f',[50,100],[35,70]]
+];
+const RC_FRONT={
+  A:t=>[['추가 방어력','f',[80,160],[60,120]],['치명타 방어력','f',[100,200],[80,160]],['후방 방어력','f',[100,200],[80,160]],['전방 방어력','f',[100,200],[80,160]],['PVE 방어력','f',[100,200],[80,160]]],
+  B:t=>[['추가 공격력','f',[8,16],[6,12]],['최대 공격력','f',[10,20],[8,16]],['치명타 공격력','f',[10,20],[8,16]],['후방 공격력','f',[10,20],[8,16]],['전방 공격력','f',[10,20],[8,16]],['PVE 공격력','f',[10,20],[8,16]]],
+  C:t=>[['피해 증폭','p',[1.2,2.4],[0.9,1.8]],['강타','p',[1.2,2.4],[0.9,1.8]],['완벽','p',[1.2,2.4],[0.9,1.8]],[t+' 피해 증폭','p',[2.4,4.8],[2,4]],['무기 피해 증폭','p',[1.2,2.4],[0.9,1.8]],['치명타 피해 증폭','p',[1.5,3],[1.2,2.4]],['후방 피해 증폭','p',[1.5,3],[1.2,2.4]],['전방 피해 증폭','p',[1.5,3],[1.2,2.4]],['PVE 피해 증폭','p',[1.5,3],[1.2,2.4]]],
+  D:t=>[['피해 내성','p',[1.2,2.4],[0.9,1.8]],['철벽','p',[1.2,2.4],[0.9,1.8]],['재생','p',[1.2,2.4],[0.9,1.8]],[t+' 피해 내성','p',[2.4,4.8],[2,4]],['무기 피해 내성','p',[1.2,2.4],[0.9,1.8]],['치명타 피해 내성','p',[1.3,2.6],[1,2]],['후방 피해 내성','p',[1.3,2.6],[1,2]],['전방 피해 내성','p',[1.3,2.6],[1,2]],['PVE 피해 내성','p',[1.5,3],[1.2,2.4]]]
+};
+const RC_LEG=[['PVE 공격력',6,12],['PVE 방어력',60,120],['후방 치명타',14,28],['전방 치명타',14,28],['후방 치명타 저항',10,20],['전방 치명타 저항',10,20],['생명력',50,100],['정신력',25,50]];
+const RC_RARE=t=>[[t+' 공격력',5,10],[t+' 방어력',50,100],[t+' 명중',7,14],[t+' 회피',7,14],[t+' 치명타',5,10],[t+' 치명타 저항',5,10],[t+' 막기',10,20],['보스 공격력',5,10],['생명력',30,60],['정신력',15,30]];
+const RC_COM=t=>[[t+' 방어력',40,80],[t+' 회피',5,10],[t+' 치명타 저항',2,4],[t+' 막기',7,14],['생명력',20,40],['정신력',10,20]];
+
+/* 특수 종족: [이름,단위,영웅,유일,전승,희귀,일반] */
+const RC_SPECIAL={
+  S1:[
+    ['추가 공격력','f',[8,16],[6,12],[4,8],[3,6],[2,4]],['최대 공격력','f',[10,20],[8,16],[6,12],[5,10],[3,6]],
+    ['관통','f',[80,160],[60,120],[40,80],[30,60],[20,40]],['봉혼석 추가 피해','f',[8,16],[6,12],[4,8],[3,6],[2,4]],
+    ['치명타 공격력','f',[10,20],[8,16],[6,12],[5,10],[4,8]],['후방 공격력','f',[10,20],[8,16],[6,12],[5,10],[4,8]],
+    ['전방 공격력','f',[10,20],[8,16],[6,12],[5,10],[4,8]],['PVE 공격력','f',[10,20],[8,16],[6,12],[5,10],[4,8]],
+    ['생명력','f',[100,200],[70,140],[50,100],[30,60],[20,40]],['정신력','f',[50,100],[35,70],[25,50],[15,30],[10,20]]
+  ],
+  S3:[
+    ['관통','f',[80,160],[60,120],[40,80],[30,60],[20,40]],
+    ['피해 증폭','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],['강타','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],
+    ['완벽','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],['무기 피해 증폭','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],
+    ['치명타 피해 증폭','p',[1.5,3],[1.2,2.4],[0.9,1.8],[0.7,1.4],[0.5,1]],['후방 피해 증폭','p',[1.5,3],[1.2,2.4],[0.9,1.8],[0.7,1.4],[0.5,1]],
+    ['전방 피해 증폭','p',[1.5,3],[1.2,2.4],[0.9,1.8],[0.7,1.4],[0.5,1]],['PVE 피해 증폭','p',[1.5,3],[1.2,2.4],[0.9,1.8],[0.7,1.4],[0.5,1]],
+    ['생명력','f',[100,200],[70,140],[50,100],[30,60],[20,40]],['정신력','f',[50,100],[35,70],[25,50],[15,30],[10,20]]
+  ],
+  S6:[
+    ['관통','f',[80,160],[60,120],[40,80],[30,60],[20,40]],
+    ['피해 내성','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],['철벽','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],
+    ['재생','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],['무기 피해 내성','p',[1.2,2.4],[0.9,1.8],[0.6,1.2],[0.3,0.6],[0.2,0.4]],
+    ['치명타 피해 내성','p',[1.3,2.6],[1,2],[0.7,1.4],[0.4,0.8],[0.3,0.6]],['후방 피해 내성','p',[1.3,2.6],[1,2],[0.7,1.4],[0.4,0.8],[0.3,0.6]],
+    ['전방 피해 내성','p',[1.3,2.6],[1,2],[0.7,1.4],[0.4,0.8],[0.3,0.6]],['PVE 피해 내성','p',[1.5,3],[1.2,2.4],[0.9,1.8],[0.7,1.4],[0.5,1]],
+    ['생명력','f',[100,200],[70,140],[50,100],[30,60],[20,40]],['정신력','f',[50,100],[35,70],[25,50],[15,30],[10,20]]
+  ]
+};
+
+let RC_RACE='지성';
+let RC_SLOTS=Array(RC_SLOT_COUNT).fill(null);
+let RC_LOCK=Array(RC_SLOT_COUNT).fill(false);
+let RC_TARGET=Array.from({length:RC_SLOT_COUNT},()=>({opt:'',grade:1,min:0}));
+let RC_TOTAL={rolls:0,crystal:0};
+let RC_POOL_CACHE={};
+
+function rcPool(slot){
+  const key=RC_RACE+'|'+slot;
+  if(RC_POOL_CACHE[key]) return RC_POOL_CACHE[key];
+  let pool;
+  if(RC_RACE==='특수'){
+    const g=[1,2,4,5,7,8].includes(slot)?'S1':[3,9].includes(slot)?'S3':'S6';
+    pool=[0,1,2,3,4].map(gi=>RC_SPECIAL[g].map(r=>rcOp(r[0],r[1],r[2+gi][0],r[2+gi][1])));
+  }else{
+    const t=RC_RACE+'족';
+    const g=[1,4,7].includes(slot)?'A':[2,5,8].includes(slot)?'B':[3,9].includes(slot)?'C':'D';
+    const hu=RC_FRONT[g](t).concat(RC_COMMON12);
+    pool=[
+      hu.map(r=>rcOp(r[0],r[1],r[2][0],r[2][1])),
+      hu.map(r=>rcOp(r[0],r[1],r[3][0],r[3][1])),
+      RC_LEG.map(r=>rcOp(r[0],'f',r[1],r[2])),
+      RC_RARE(t).map(r=>rcOp(r[0],'f',r[1],r[2])),
+      RC_COM(t).map(r=>rcOp(r[0],'f',r[1],r[2]))
+    ];
+  }
+  RC_POOL_CACHE[key]=pool;
+  return pool;
+}
+
+function rcOptionNames(slot){
+  const seen=new Set(), out=[];
+  rcPool(slot).forEach(list=>list.forEach(o=>{ if(!seen.has(o.name)){seen.add(o.name);out.push(o.name);} }));
+  return out;
+}
+
+function rcRollSlot(slot){
+  const pool=rcPool(slot);
+  const r=Math.random();
+  let gi=0, acc=0;
+  for(;gi<RC_GRADES.length;gi++){ acc+=RC_GRADES[gi].p; if(r<acc) break; }
+  if(gi>=RC_GRADES.length) gi=RC_GRADES.length-1;
+  const list=pool[gi];
+  const o=list[Math.floor(Math.random()*list.length)];
+  const step=o.unit==='p'?0.1:1;
+  const n=Math.round((o.max-o.min)/step)+1;
+  const val=o.min+Math.floor(Math.random()*n)*step;
+  return {g:gi,name:o.name,unit:o.unit,val:Math.round(val*10)/10};
+}
+
+function rcProbAtLeast(op,v){
+  const step=op.unit==='p'?0.1:1;
+  const n=Math.round((op.max-op.min)/step)+1;
+  if(!(v>op.min+1e-9)) return 1;
+  const k=Math.ceil((v-op.min)/step-1e-9);
+  return Math.max(0,n-k)/n;
+}
+
+function rcTargetProb(slot,t){
+  if(!t.opt) return null;
+  const pool=rcPool(slot);
+  let p=0;
+  for(let g=0;g<=t.grade;g++){
+    if(t.opt==='*'){ p+=RC_GRADES[g].p; continue; }
+    const list=pool[g];
+    const op=list.find(x=>x.name===t.opt);
+    if(op) p+=RC_GRADES[g].p/list.length*rcProbAtLeast(op,t.min);
+  }
+  return p;
+}
+
+function rcSatisfied(i){
+  const t=RC_TARGET[i], r=RC_SLOTS[i];
+  if(!t.opt||!r) return false;
+  if(r.g>t.grade) return false;
+  if(t.opt==='*') return true;
+  return r.name===t.opt && r.val>=t.min-1e-9;
+}
+
+function rcFmtVal(r){ return r.unit==='p' ? r.val.toFixed(1)+'%' : String(r.val); }
+function rcNum(n){ return Math.round(n).toLocaleString('ko-KR'); }
+function rcLockCount(){ return RC_LOCK.filter(Boolean).length; }
+
+function rcRollOnce(){
+  const locked=rcLockCount();
+  if(locked>=RC_SLOT_COUNT) return false;
+  RC_TOTAL.rolls++;
+  RC_TOTAL.crystal+=RC_COST[locked];
+  for(let i=0;i<RC_SLOT_COUNT;i++){
+    if(!RC_LOCK[i]) RC_SLOTS[i]=rcRollSlot(i+1);
+  }
+  return true;
+}
+
+function rcRollClick(){ rcRollOnce(); rcUpdateResults(); }
+function rcRollMany(n){ for(let k=0;k<n;k++) if(!rcRollOnce()) break; rcUpdateResults(); }
+
+function rcToggleLock(i){
+  if(!RC_SLOTS[i]) return;
+  if(!RC_LOCK[i] && rcLockCount()>=RC_MAX_LOCK){ alert('잠금은 최대 8개까지 가능합니다.'); return; }
+  RC_LOCK[i]=!RC_LOCK[i];
+  rcUpdateResults();
+}
+
+function rcAutoRun(){
+  const idx=[]; RC_TARGET.forEach((t,i)=>{ if(t.opt) idx.push(i); });
+  if(!idx.length){ alert('목표 옵션을 하나 이상 지정해주세요.'); return; }
+  if(idx.some(i=>!(rcTargetProb(i+1,RC_TARGET[i])>0))){ alert('달성 확률이 0인 목표가 있습니다. 조건을 바꿔주세요.'); return; }
+  idx.forEach(i=>{ if(RC_LOCK[i] && !rcSatisfied(i)) RC_LOCK[i]=false; });
+  let guard=0;
+  while(guard++<200000){
+    idx.forEach(i=>{ if(rcSatisfied(i)) RC_LOCK[i]=true; });
+    if(idx.every(i=>rcSatisfied(i))) break;
+    if(!rcRollOnce()) break;
+  }
+  if(guard>=200000) alert('분석 횟수가 20만 회를 넘어 중단했습니다.');
+  rcUpdateResults();
+}
+
+function rcReset(){
+  RC_SLOTS=Array(RC_SLOT_COUNT).fill(null);
+  RC_LOCK=Array(RC_SLOT_COUNT).fill(false);
+  RC_TOTAL={rolls:0,crystal:0};
+  rcUpdateResults();
+}
+
+function rcSetRace(name){
+  RC_RACE=name;
+  RC_SLOTS=Array(RC_SLOT_COUNT).fill(null);
+  RC_LOCK=Array(RC_SLOT_COUNT).fill(false);
+  RC_TARGET=Array.from({length:RC_SLOT_COUNT},()=>({opt:'',grade:1,min:0}));
+  RC_TOTAL={rolls:0,crystal:0};
+  rcRenderRaceTabs();
+  rcRenderTable();
+  rcUpdateResults();
+}
+
+function rcRenderRaceTabs(){
+  const box=$('#rc_race_tabs'); if(!box) return;
+  box.innerHTML=RC_RACES.map(r=>`<button type="button" class="subtab ${r===RC_RACE?'active':''}" onclick="rcSetRace('${r}')">${r}${r==='특수'?'':'족'}</button>`).join('');
+}
+
+function rcRenderTable(){
+  const tb=$('#rc_table'); if(!tb) return;
+  let html='<thead><tr><th>슬롯</th><th>잠금</th><th>현재 옵션</th><th>목표 옵션</th><th>최소 등급</th><th>최소 수치</th><th>목표 확률</th></tr></thead><tbody>';
+  for(let i=0;i<RC_SLOT_COUNT;i++){
+    const names=rcOptionNames(i+1);
+    html+=`<tr id="rc_row_${i}"><td><b>${i+1}</b></td>
+      <td><button type="button" class="rc-lock" id="rc_lock_${i}" onclick="rcToggleLock(${i})">🔓</button></td>
+      <td class="rc-res" id="rc_res_${i}"></td>
+      <td><select id="rc_opt_${i}" onchange="rcSetTarget(${i},'opt',this.value)">
+        <option value="">제한 없음</option><option value="*">아무 옵션 (등급만)</option>
+        ${names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('')}
+      </select></td>
+      <td><select id="rc_grade_${i}" onchange="rcSetTarget(${i},'grade',this.value)">
+        ${RC_MIN_GRADE_LABELS.map((l,g)=>`<option value="${g}" ${g===1?'selected':''}>${l}</option>`).join('')}
+      </select></td>
+      <td><input type="number" min="0" step="any" id="rc_min_${i}" placeholder="0" onchange="rcSetTarget(${i},'min',this.value)"></td>
+      <td class="rc-p" id="rc_p_${i}">-</td></tr>`;
+  }
+  tb.innerHTML=html+'</tbody>';
+}
+
+function rcSetTarget(i,field,val){
+  const t=RC_TARGET[i];
+  if(field==='opt'){ t.opt=val; if(!val||val==='*') t.min=0; }
+  else if(field==='grade') t.grade=Number(val)||0;
+  else t.min=Math.max(0,Number(val)||0);
+  rcUpdateResults();
+}
+
+function rcUpdateResults(){
+  for(let i=0;i<RC_SLOT_COUNT;i++){
+    const r=RC_SLOTS[i], t=RC_TARGET[i];
+    const cell=$('#rc_res_'+i), lock=$('#rc_lock_'+i), row=$('#rc_row_'+i);
+    if(!cell) return;
+    const met=rcSatisfied(i);
+    cell.innerHTML=r
+      ? `<span style="color:${RC_GRADES[r.g].color}">[${RC_GRADES[r.g].label}] ${escapeHtml(r.name)} ${rcFmtVal(r)}</span>${met?' ✅':''}`
+      : '<span style="color:#5b6b8c;font-weight:600">분석 전</span>';
+    lock.textContent=RC_LOCK[i]?'🔒':'🔓';
+    lock.classList.toggle('on',RC_LOCK[i]);
+    row.classList.toggle('rc-met',met);
+    const minInput=$('#rc_min_'+i), gradeSel=$('#rc_grade_'+i);
+    minInput.disabled=!t.opt||t.opt==='*';
+    gradeSel.disabled=!t.opt;
+    if(!minInput.value && t.min) minInput.value=t.min;
+    const p=rcTargetProb(i+1,t);
+    $('#rc_p_'+i).textContent = p===null ? '-' : (p>0 ? `${(p*100).toFixed(3)}% (평균 ${rcNum(1/p)}회)` : '불가능');
+  }
+  const locked=rcLockCount();
+  const nextCost=locked>=RC_SLOT_COUNT?null:RC_COST[locked];
+  $('#rc_stats').innerHTML=`<div class="rc-stats">
+    <div class="rc-stat"><span>분석 횟수</span><b>${rcNum(RC_TOTAL.rolls)}회</b></div>
+    <div class="rc-stat"><span>누적 영혼 결정</span><b>${rcNum(RC_TOTAL.crystal)}개</b></div>
+    <div class="rc-stat"><span>누적 골드</span><b>${rcNum(RC_TOTAL.crystal*RC_GOLD_PER)}</b></div>
+    <div class="rc-stat"><span>다음 분석 비용 (잠금 ${locked}개)</span><b>${nextCost===null?'-':rcNum(nextCost)+'개 / '+rcNum(nextCost*RC_GOLD_PER)}</b></div>
+  </div>`;
+  rcRenderExpect();
+}
+
+function rcExpected(ps){
+  const n=ps.length, full=(1<<n)-1;
+  const E=new Float64Array(1<<n), N=new Float64Array(1<<n);
+  for(let S=full-1;S>=0;S--){
+    const un=[]; for(let i=0;i<n;i++) if(!((S>>i)&1)) un.push(i);
+    const m=un.length;
+    let locked=0; for(let i=0;i<n;i++) if((S>>i)&1) locked++;
+    let sumE=0,sumN=0,pStay=1;
+    for(let T=0;T<(1<<m);T++){
+      let pr=1,mask=0;
+      for(let j=0;j<m;j++){
+        const idx=un[j];
+        if((T>>j)&1){ pr*=ps[idx]; mask|=(1<<idx); } else pr*=1-ps[idx];
+      }
+      if(T===0){ pStay=pr; continue; }
+      sumE+=pr*E[S|mask]; sumN+=pr*N[S|mask];
+    }
+    const denom=1-pStay;
+    E[S]=(RC_COST[locked]+sumE)/denom;
+    N[S]=(1+sumN)/denom;
+  }
+  return {crystal:E[0],rolls:N[0]};
+}
+
+function rcSimulate(ps,trials){
+  const n=ps.length, out=new Float64Array(trials), rolls=new Float64Array(trials);
+  const lnq=ps.map(p=>p>=1?0:Math.log(1-p));
+  for(let k=0;k<trials;k++){
+    const T=ps.map((p,i)=>p>=1?1:Math.max(1,Math.ceil(Math.log(1-Math.random())/lnq[i])));
+    T.sort((a,b)=>a-b);
+    let prev=0,cost=0;
+    for(let j=0;j<n;j++){ cost+=(T[j]-prev)*RC_COST[j]; prev=T[j]; }
+    out[k]=cost; rolls[k]=T[n-1];
+  }
+  out.sort(); rolls.sort();
+  const q=(arr,f)=>arr[Math.min(arr.length-1,Math.floor(arr.length*f))];
+  return {median:q(out,.5),p90:q(out,.9),p95:q(out,.95),rollMedian:q(rolls,.5),rollP90:q(rolls,.9)};
+}
+
+function rcRenderExpect(){
+  const box=$('#rc_expect'); if(!box) return;
+  const ps=[]; RC_TARGET.forEach((t,i)=>{ const p=rcTargetProb(i+1,t); if(p!==null) ps.push(p); });
+  if(!ps.length){
+    box.innerHTML='<div class="rc-expect-box"><div class="rc-expect-title">🎯 목표 달성 기대 비용</div><div class="rc-expect-sub">위 표에서 슬롯별 목표 옵션을 고르면 달성까지 필요한 영혼 결정·골드 기대값을 계산해 드립니다.</div></div>';
+    return;
+  }
+  if(ps.some(p=>!(p>0))){
+    box.innerHTML='<div class="rc-expect-box"><div class="rc-expect-title">🎯 목표 달성 기대 비용</div><div class="rc-expect-sub">달성 확률이 0인 조건이 있습니다. 최소 등급이나 최소 수치를 조정해주세요.</div></div>';
+    return;
+  }
+  const ex=rcExpected(ps), sim=rcSimulate(ps,20000);
+  box.innerHTML=`<div class="rc-expect-box">
+    <div class="rc-expect-title">🎯 목표 달성 기대 비용 (목표 ${ps.length}슬롯 동시 달성)</div>
+    <div class="rc-expect-grid">
+      <div class="rc-expect-cell"><span>평균 분석 횟수</span><b>${rcNum(ex.rolls)}회</b></div>
+      <div class="rc-expect-cell"><span>평균 영혼 결정</span><b>${rcNum(ex.crystal)}개</b></div>
+      <div class="rc-expect-cell"><span>평균 골드</span><b>${rcNum(ex.crystal*RC_GOLD_PER)}</b></div>
+    </div>
+    <div class="rc-expect-sub">
+      운이 보통일 때(중앙값) 결정 ${rcNum(sim.median)}개 · 운이 나쁠 때(상위 10%) ${rcNum(sim.p90)}개 · 매우 나쁠 때(상위 5%) ${rcNum(sim.p95)}개
+      (분석 횟수 중앙값 ${rcNum(sim.rollMedian)}회 / 상위 10% ${rcNum(sim.rollP90)}회, 시뮬레이션 2만 회)
+    </div>
+  </div>`;
+}
+
+function rcInit(){
+  rcRenderRaceTabs();
+  rcRenderTable();
+  rcUpdateResults();
+}
+
+if(document.querySelector('.tab[data-page="race"]')?.classList.contains('active')){
+  rcInit();
 }
 </script>
   <script>
