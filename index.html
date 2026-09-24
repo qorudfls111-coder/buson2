@@ -1893,7 +1893,7 @@ main.wrap{
       <div id="rc_expect"></div>
       <div class="rc-editor" id="rc_editor"></div>
       <div class="note" style="margin-top:14px;">
-        등급 확률 영웅 5% · 유일 15% · 전승 30% · 희귀 30% · 일반 20%, 옵션은 같은 등급 안에서 균등하게 나온다고 계산합니다(목표는 옵션별 "최소 등급 이상"으로 판정하며 수치는 보지 않습니다)(게임 표시값과 소수점 오차 가능).
+        등급 확률 영웅 5% · 유일 15% · 전승 30% · 희귀 30% · 일반 20%, 옵션은 같은 등급 안에서 균등하게 나온다고 계산합니다(목표는 옵션별 "최소 등급 이상 + 최소 수치 이상"으로 판정합니다)(게임 표시값과 소수점 오차 가능).
         분석 비용은 특수 종족 LV10에서 확인한 값(잠금 0~8개: 결정 45·50·55·75·120·215·310·405·500, 골드는 결정×200)이며 다른 종족도 같다고 가정했습니다.
         지성·야성·자연·변형은 옵션 구성이 같고 "○○족" 이름만 다릅니다. 기대값은 "목표를 달성한 슬롯은 바로 잠근다"는 전략 기준입니다.
       </div>
@@ -4289,7 +4289,7 @@ min-height:56px;
 .rc-ed-sub{font-size:11.5px;color:#8b97ab;flex:1;min-width:200px}
 .rc-ed-btns{display:flex;gap:6px}
 .rc-ed-btns button{border:1px solid #33435a;background:#151f2d;color:#bcd0ff;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;cursor:pointer}
-.rc-ed-grid{display:grid;grid-template-columns:minmax(150px,1fr) minmax(330px,1.6fr) 60px 60px;align-items:center;gap:8px;padding:6px 8px}
+.rc-ed-grid{display:grid;grid-template-columns:minmax(150px,1fr) minmax(330px,1.6fr) 84px 90px;align-items:center;gap:8px;padding:6px 8px}
 .rc-ed-cols{font-size:11.5px;font-weight:800;color:#7f93bd;border-bottom:1px solid #263043}
 .rc-ed-row{border-radius:8px;border-bottom:1px solid #1a2333}
 .rc-ed-row.on{background:#101b2c}
@@ -4301,6 +4301,8 @@ min-height:56px;
 .rc-chip.act{background:var(--cc,#5b6b8c);border-color:var(--cc,#7f93bd);color:#0b1018;font-weight:900}
 .rc-chip.inc{background:color-mix(in srgb,var(--cc) 28%,#0b1018);border-color:var(--cc);color:var(--cc)}
 .rc-ed-scroll{max-height:560px;overflow-y:auto}
+.rc-val-in{width:100%;min-width:0;padding:4px 5px;font-size:12px;background:#0b1018;border:1px solid #263043;border-radius:6px;color:#eef4ff;box-sizing:border-box}
+.rc-val-in:disabled{opacity:.3}
 .rc-ed-num{text-align:center;font-size:12.5px;color:#cfd8ea}
 .rc-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
 .rc-actions .btn{width:auto;padding:10px 16px}
@@ -8341,7 +8343,7 @@ const RC_SPECIAL={
 let RC_RACE='지성';
 let RC_SLOTS=Array(RC_SLOT_COUNT).fill(null);
 let RC_LOCK=Array(RC_SLOT_COUNT).fill(false);
-// 슬롯별 목표: { 옵션명: 최소 등급 인덱스(0=영웅 … 4=일반) } — 인게임 자동 분석 목표 설정과 동일
+// 슬롯별 목표: { 옵션명: {g:최소 등급 인덱스(0=영웅 … 4=일반), v:최소 수치(0=제한 없음)} } — 인게임 자동 분석 목표 설정과 동일
 let RC_TARGET=Array.from({length:RC_SLOT_COUNT},()=>({}));
 let RC_EDIT=0;
 let RC_TOTAL={rolls:0,crystal:0};
@@ -8401,14 +8403,23 @@ function rcOptInfo(slot,name){
 function rcFmtNum(v,unit){ return (Math.round(v*10)/10)+(unit==='p'?'%':''); }
 
 // 슬롯 하나가 목표 조건(옵션별 최소 등급 중 하나라도)을 만족할 1회 확률
+function rcProbAtLeast(op,v){
+  const step=op.unit==='p'?0.1:1;
+  const n=Math.round((op.max-op.min)/step)+1;
+  if(!(v>op.min+1e-9)) return 1;
+  const k=Math.ceil((v-op.min)/step-1e-9);
+  return Math.max(0,n-k)/n;
+}
+
 function rcTargetProb(slot,t){
   if(!rcHasTarget(t)) return null;
   const pool=rcPool(slot);
   let p=0;
   Object.keys(t).forEach(name=>{
-    for(let g=0;g<=t[name];g++){
-      const list=pool[g];
-      if(list.some(x=>x.name===name)) p+=RC_GRADES[g].p/list.length;
+    const c=t[name];
+    for(let g=0;g<=c.g;g++){
+      const list=pool[g], op=list.find(x=>x.name===name);
+      if(op) p+=RC_GRADES[g].p/list.length*rcProbAtLeast(op,c.v||0);
     }
   });
   return p;
@@ -8417,7 +8428,8 @@ function rcTargetProb(slot,t){
 function rcSatisfied(i){
   const t=RC_TARGET[i], r=RC_SLOTS[i];
   if(!r||!rcHasTarget(t)) return false;
-  return t[r.name]!==undefined && r.g<=t[r.name];
+  const c=t[r.name];
+  return c!==undefined && r.g<=c.g && r.val>=(c.v||0)-1e-9;
 }
 function rcFmtVal(r){ return r.unit==='p' ? r.val.toFixed(1)+'%' : String(r.val); }
 function rcNum(n){ return Math.round(n).toLocaleString('ko-KR'); }
@@ -8508,7 +8520,16 @@ function rcSelectEdit(i){ RC_EDIT=i; rcRenderEditor(); rcUpdateResults(); const 
 
 function rcSetOpt(slot0,name,g){
   const t=RC_TARGET[slot0];
-  if(g<0) delete t[name]; else t[name]=g;
+  if(g<0) delete t[name]; else t[name]={g,v:t[name]?t[name].v:0};
+  rcRenderEditor(); rcUpdateResults();
+}
+
+function rcSetVal(slot0,name,val){
+  const c=RC_TARGET[slot0][name]; if(!c) return;
+  const info=rcOptInfo(slot0+1,name);
+  let v=Number(val)||0;
+  if(v>0) v=Math.min(info.max,Math.max(info.min,Math.round(v*10)/10)); 
+  c.v=v;
   rcRenderEditor(); rcUpdateResults();
 }
 
@@ -8520,7 +8541,7 @@ function rcGroupKey(slot){
 function rcCopyTarget(){
   const k=rcGroupKey(RC_EDIT+1), src=RC_TARGET[RC_EDIT]; let n=0;
   for(let i=0;i<RC_SLOT_COUNT;i++){
-    if(i!==RC_EDIT && rcGroupKey(i+1)===k){ RC_TARGET[i]=Object.assign({},src); n++; }
+    if(i!==RC_EDIT && rcGroupKey(i+1)===k){ RC_TARGET[i]=JSON.parse(JSON.stringify(src)); n++; }
   }
   rcRenderEditor(); rcUpdateResults();
 }
@@ -8532,14 +8553,14 @@ function rcRenderEditor(){
   const slot=RC_EDIT+1, t=RC_TARGET[RC_EDIT];
   const order=[4,3,2,1,0];
   let html=`<div class="rc-ed-head"><b>${slot}슬롯 목표 설정</b>
-    <span class="rc-ed-sub">옵션마다 최소 등급을 고르세요. 선택한 옵션 중 하나가 그 등급 이상으로 뜨면 목표 달성입니다.</span>
+    <span class="rc-ed-sub">옵션마다 최소 등급을 고르고, 원하면 최소 수치도 적으세요(예: 영웅 + 2.0% 이상). 선택한 옵션 중 하나가 조건에 맞게 뜨면 목표 달성입니다.</span>
     <span class="rc-ed-btns"><button type="button" onclick="rcCopyTarget()">같은 구성 슬롯에 복사</button><button type="button" onclick="rcClearTarget()">전체 해제</button></span></div>
     <div class="rc-ed-grid rc-ed-cols"><span>옵션</span>
       <span class="rc-ed-chips"><span>선택 안함</span>${order.map(g=>`<span style="color:${RC_GRADES[g].color}">${RC_GRADES[g].label}</span>`).join('')}</span>
-      <span>최소</span><span>최대</span></div>`;
+      <span>범위</span><span>최소 수치</span></div>`;
   html+='<div class="rc-ed-scroll">';
   rcOptionNames(slot).forEach(name=>{
-    const info=rcOptInfo(slot,name), sel=t[name], on=sel!==undefined;
+    const info=rcOptInfo(slot,name), cfg=t[name], sel=cfg?cfg.g:undefined, on=cfg!==undefined;
     const nm=name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     html+=`<div class="rc-ed-grid rc-ed-row ${on?'on':''}">
       <span class="rc-ed-name" style="${on?'color:'+RC_GRADES[sel].color:''}">${escapeHtml(name)}</span>
@@ -8551,7 +8572,8 @@ function rcRenderEditor(){
           return `<button type="button" class="rc-chip ${cur?'act':''} ${incl?'inc':''}" style="--cc:${RC_GRADES[g].color}" onclick="rcSetOpt(${RC_EDIT},'${nm.replace(/"/g,'&quot;')}',${g})">${cur?'●':(incl?'○':'')}</button>`;
         }).join('')}
       </span>
-      <span class="rc-ed-num">${rcFmtNum(info.min,info.unit)}</span><span class="rc-ed-num">${rcFmtNum(info.max,info.unit)}</span>
+      <span class="rc-ed-num">${rcFmtNum(info.min,info.unit)}~${rcFmtNum(info.max,info.unit)}</span>
+      <span class="rc-ed-num"><input type="number" class="rc-val-in" ${on?'':'disabled'} min="${info.min}" max="${info.max}" step="${info.unit==='p'?0.1:1}" placeholder="제한 없음" value="${on&&cfg.v?cfg.v:''}" onchange="rcSetVal(${RC_EDIT},'${nm.replace(/"/g,'&quot;')}',this.value)"></span>
     </div>`;
   });
   html+='</div>';
@@ -8576,7 +8598,7 @@ function rcUpdateResults(){
     const names=Object.keys(t), p=rcTargetProb(i+1,t);
     let sum='<span class="rc-empty">목표 없음</span>';
     if(names.length){
-      const shown=names.slice(0,3).map(n=>`<span style="color:${RC_GRADES[t[n]].color}">${escapeHtml(n)}</span>`).join(', ');
+      const shown=names.slice(0,3).map(n=>`<span style="color:${RC_GRADES[t[n].g].color}">${escapeHtml(n)}${t[n].v?' ≥'+t[n].v:''}</span>`).join(', ');
       sum=`<div class="rc-tgt-list">${shown}${names.length>3?` 외 ${names.length-3}개`:''}</div>
         <div class="rc-p">${p>0?`${(p*100).toFixed(2)}% (평균 ${rcNum(1/p)}회)`:'불가능'}</div>`;
     }
