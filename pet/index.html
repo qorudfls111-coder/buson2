@@ -442,6 +442,68 @@
 
 }
   </style>
+  <style>
+    .pet-table{border-collapse:collapse;width:100%;margin-top:14px;font-size:14px}
+    .pet-table th,.pet-table td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+    .pet-table thead th{background:#111c2e;color:#9db8ff}
+    .pet-table td{color:var(--text)}
+  </style>
+<script type="application/ld+json">
+{
+    "@context":  "https://schema.org",
+    "mainEntity":  [
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "아이온2 종족 이해도를 올린 뒤 분석 기능으로 슬롯 9개의 옵션을 무작위로 다시 뽑는 것을 흔히 펫작이라고 부릅니다. 원하는 옵션이 나온 슬롯은 잠그고, 나머지 슬롯만 다시 분석하는 방식으로 진행합니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "펫작(종족 이해도 분석)이란 무엇인가요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "잠근 슬롯 수에 따라 달라집니다. 잠금이 없을 때 45개, 1개일 때 50개, 2개일 때 55개, 3개일 때 75개, 4개일 때 120개, 5개일 때 215개, 6개일 때 310개, 7개일 때 405개, 8개일 때 500개입니다. 골드는 결정 1개당 200으로 환산해 계산합니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "분석 1회에 영혼 결정이 얼마나 드나요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "시뮬레이터는 영웅 5%, 유일 15%, 전승 30%, 희귀 30%, 일반 20%로 계산하고, 같은 등급 안에서는 옵션이 균등하게 나온다고 가정합니다. 게임 내 표시값과 소수점 단위의 오차가 있을 수 있습니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "옵션 등급 확률은 어떻게 되나요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "네. 슬롯마다 옵션별로 최소 등급을 고르고 원하면 최소 수치도 정할 수 있습니다. 고른 옵션 중 하나라도 조건에 맞게 나오면 목표 달성으로 계산하며, 인게임 자동 분석 목표 설정과 같은 방식입니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "목표 옵션은 여러 개 정할 수 있나요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "목표를 건 슬롯 중 확률이 낮은 것부터 하나씩 굴려서 뜨면 잠그고 다음 슬롯으로 넘어가는 순서로 계산합니다. 잠금이 늘수록 1회 비용이 올라가기 때문에 어려운 목표부터 하는 것이 유리합니다. 평균값과 운이 나쁠 때(상위 10%, 5%)의 비용도 함께 보여줍니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "기대 비용은 어떤 순서로 계산하나요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "지성·야성·자연·변형은 옵션 구성이 같고 이름에 종족명만 다릅니다. 특수 종족은 별도 옵션 구성을 씁니다. 분석 비용은 특수 종족에서 확인한 값을 다른 종족에도 같게 적용했으므로 실제와 다르면 알려주세요.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "종족마다 옵션과 비용이 다른가요?",
+                           "@type":  "Question"
+                       }
+                   ],
+    "@type":  "FAQPage"
+}
+</script>
 </head>
 <body>
 
@@ -477,6 +539,126 @@
     </article>
   </section>
 
+  <section class="spec-guide">
+    <div class="spec-guide-head">
+      <span class="spec-guide-badge">HOW TO</span>
+      <h2>아이온2 펫작 시뮬레이터 사용법</h2>
+      <p>실제 분석을 하기 전에 원하는 옵션이 나올 때까지 평균 얼마나 걸리는지, 영혼 결정과 골드가 얼마나 드는지 미리 계산해볼 수 있습니다.</p>
+    </div>
+    <div class="spec-guide-grid">
+      <div class="spec-guide-card purple"><div class="spec-guide-icon">1</div><h3>종족 선택</h3><p>지성·야성·자연·변형·특수 중 분석할 종족 탭을 고릅니다. 종족에 따라 슬롯별 옵션 목록이 달라집니다.</p></div>
+      <div class="spec-guide-card green"><div class="spec-guide-icon">2</div><h3>목표 설정</h3><p>슬롯의 목표 설정 버튼을 눌러 원하는 옵션마다 최소 등급과 최소 수치를 정합니다. 슬롯별 달성 확률이 바로 표시됩니다.</p></div>
+      <div class="spec-guide-card orange"><div class="spec-guide-icon">3</div><h3>분석 굴리기</h3><p>분석 1회, 10회, 다음 목표까지 분석 버튼으로 직접 굴려봅니다. 원하는 옵션이 뜬 슬롯은 잠금 버튼으로 고정합니다.</p></div>
+      <div class="spec-guide-card blue"><div class="spec-guide-icon">4</div><h3>기대 비용 확인</h3><p>목표를 순서대로 달성할 때 필요한 평균 분석 횟수, 영혼 결정, 골드와 운이 나쁠 때의 비용을 확인합니다.</p></div>
+    </div>
+  </section>
+
+  <section class="info">
+    <h2>분석 잠금 비용표</h2>
+    <p>분석 1회 비용은 잠근 슬롯이 많을수록 올라갑니다. 최대 8개까지 잠글 수 있고, 골드는 영혼 결정 1개당 200으로 계산합니다.</p>
+    <table class="pet-table">
+      <thead><tr><th>잠근 슬롯</th><th>영혼 결정</th><th>골드</th></tr></thead>
+      <tbody>
+      <tr><td>0개</td><td>45개</td><td>9,000</td></tr>
+      <tr><td>1개</td><td>50개</td><td>10,000</td></tr>
+      <tr><td>2개</td><td>55개</td><td>11,000</td></tr>
+      <tr><td>3개</td><td>75개</td><td>15,000</td></tr>
+      <tr><td>4개</td><td>120개</td><td>24,000</td></tr>
+      <tr><td>5개</td><td>215개</td><td>43,000</td></tr>
+      <tr><td>6개</td><td>310개</td><td>62,000</td></tr>
+      <tr><td>7개</td><td>405개</td><td>81,000</td></tr>
+      <tr><td>8개</td><td>500개</td><td>100,000</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px">예시: 지성족 3번 슬롯에서 영웅 강타만 노리면 1회 확률은 약 0.24%로, 평균 약 420회를 굴려야 합니다. 잠금이 없을 때 1회 45개이므로 평균 약 18,900개, 골드로는 약 378만이 필요합니다. 여러 슬롯을 동시에 노릴수록 기대 비용은 크게 늘어납니다.</p>
+  </section>
+
+  <section class="info">
+    <h2>등급별 출현 확률</h2>
+    <table class="pet-table">
+      <thead><tr><th>등급</th><th>영웅</th><th>유일</th><th>전승</th><th>희귀</th><th>일반</th></tr></thead>
+      <tbody><tr><td>확률</td><td>5%</td><td>15%</td><td>30%</td><td>30%</td><td>20%</td></tr></tbody>
+    </table>
+    <p style="margin-top:14px">등급이 정해지면 그 등급에 속한 옵션 중 하나가 같은 확률로 나오고, 수치는 해당 옵션의 범위 안에서 고르게 나온다고 계산합니다.</p>
+  </section>
+
+  <section class="spec-faq">
+    <div class="spec-faq-title">
+      <span>?</span>
+      <div><small>FAQ</small><h2>아이온2 펫작 시뮬레이터 자주 묻는 질문</h2></div>
+    </div>
+  <details>
+    <summary>
+      <span class="faq-number">Q1</span>
+      펫작(종족 이해도 분석)이란 무엇인가요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      아이온2 종족 이해도를 올린 뒤 분석 기능으로 슬롯 9개의 옵션을 무작위로 다시 뽑는 것을 흔히 펫작이라고 부릅니다. 원하는 옵션이 나온 슬롯은 잠그고, 나머지 슬롯만 다시 분석하는 방식으로 진행합니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q2</span>
+      분석 1회에 영혼 결정이 얼마나 드나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      잠근 슬롯 수에 따라 달라집니다. 잠금이 없을 때 45개, 1개일 때 50개, 2개일 때 55개, 3개일 때 75개, 4개일 때 120개, 5개일 때 215개, 6개일 때 310개, 7개일 때 405개, 8개일 때 500개입니다. 골드는 결정 1개당 200으로 환산해 계산합니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q3</span>
+      옵션 등급 확률은 어떻게 되나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      시뮬레이터는 영웅 5%, 유일 15%, 전승 30%, 희귀 30%, 일반 20%로 계산하고, 같은 등급 안에서는 옵션이 균등하게 나온다고 가정합니다. 게임 내 표시값과 소수점 단위의 오차가 있을 수 있습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q4</span>
+      목표 옵션은 여러 개 정할 수 있나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      네. 슬롯마다 옵션별로 최소 등급을 고르고 원하면 최소 수치도 정할 수 있습니다. 고른 옵션 중 하나라도 조건에 맞게 나오면 목표 달성으로 계산하며, 인게임 자동 분석 목표 설정과 같은 방식입니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q5</span>
+      기대 비용은 어떤 순서로 계산하나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      목표를 건 슬롯 중 확률이 낮은 것부터 하나씩 굴려서 뜨면 잠그고 다음 슬롯으로 넘어가는 순서로 계산합니다. 잠금이 늘수록 1회 비용이 올라가기 때문에 어려운 목표부터 하는 것이 유리합니다. 평균값과 운이 나쁠 때(상위 10%, 5%)의 비용도 함께 보여줍니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q6</span>
+      종족마다 옵션과 비용이 다른가요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      지성·야성·자연·변형은 옵션 구성이 같고 이름에 종족명만 다릅니다. 특수 종족은 별도 옵션 구성을 씁니다. 분석 비용은 특수 종족에서 확인한 값을 다른 종족에도 같게 적용했으므로 실제와 다르면 알려주세요.
+    </div>
+  </details>
+
+  </section>
+
+  <div class="actions" style="margin-top:32px">
+    <a class="btn primary" href="/#race">펫작 시뮬 사용하기</a>
+    <a class="btn secondary" href="/arcana/">아르카나 계산기</a>
+  </div>
   <footer>
     <p>버스온2(BUSON2)는 비공식 팬 계산기 사이트이며 게임사와 무관합니다. 계산 결과는 참고용입니다.</p>
     <p><a href="/" style="color:#91a7ff">메인</a> · <a href="/spec/" style="color:#91a7ff">스펙 계산기</a> · <a href="/driver/" style="color:#91a7ff">버스 수익 계산기</a> · <a href="/about/" style="color:#91a7ff">소개</a></p>
