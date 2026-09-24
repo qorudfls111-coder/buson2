@@ -1886,7 +1886,8 @@ main.wrap{
       <div class="rc-actions">
         <button type="button" class="btn primary" onclick="rcRollClick()">🎲 분석 1회</button>
         <button type="button" class="btn secondary" onclick="rcRollMany(10)">10회</button>
-        <button type="button" class="btn secondary" onclick="rcAutoRun()">🎯 목표까지 자동 분석</button>
+        <button type="button" class="btn secondary" onclick="rcAutoRun(false)">🎯 다음 목표까지 분석</button>
+        <button type="button" class="btn secondary" onclick="rcAutoRun(true)">⏩ 전부 끝까지</button>
         <button type="button" class="btn secondary" onclick="rcReset()">초기화</button>
       </div>
       <div id="rc_expect"></div>
@@ -8376,21 +8377,27 @@ function rcToggleLock(i){
   rcUpdateResults();
 }
 
-function rcAutoRun(){
+function rcAutoRun(all){
   const idx=[]; RC_TARGET.forEach((t,i)=>{ if(t.opt) idx.push(i); });
   if(!idx.length){ alert('목표 옵션을 하나 이상 지정해주세요.'); return; }
   if(idx.some(i=>!(rcTargetProb(i+1,RC_TARGET[i])>0))){ alert('달성 확률이 0인 목표가 있습니다. 조건을 바꿔주세요.'); return; }
   idx.forEach(i=>{ if(RC_LOCK[i] && !rcSatisfied(i)) RC_LOCK[i]=false; });
+  const pending=()=>idx.filter(i=>!RC_LOCK[i]);
+  if(!pending().length){ alert('모든 목표 슬롯이 이미 잠겨 있습니다.'); return; }
+  // 한 번에 하나씩: 목표가 하나 뜨면 잠그고 멈춤 (all=true면 끝까지)
   let guard=0;
-  while(guard++<200000){
-    idx.forEach(i=>{ if(rcSatisfied(i)) RC_LOCK[i]=true; });
-    if(idx.every(i=>rcSatisfied(i))) break;
+  while(pending().length && guard<200000){
     if(!rcRollOnce()) break;
+    guard++;
+    const hit=pending().filter(i=>rcSatisfied(i));
+    if(hit.length){
+      hit.forEach(i=>{ RC_LOCK[i]=true; });
+      if(!all) break;
+    }
   }
   if(guard>=200000) alert('분석 횟수가 20만 회를 넘어 중단했습니다.');
   rcUpdateResults();
 }
-
 function rcReset(){
   RC_SLOTS=Array(RC_SLOT_COUNT).fill(null);
   RC_LOCK=Array(RC_SLOT_COUNT).fill(false);
@@ -8473,71 +8480,57 @@ function rcUpdateResults(){
   rcRenderExpect();
 }
 
-function rcExpected(ps){
-  const n=ps.length, full=(1<<n)-1;
-  const E=new Float64Array(1<<n), N=new Float64Array(1<<n);
-  for(let S=full-1;S>=0;S--){
-    const un=[]; for(let i=0;i<n;i++) if(!((S>>i)&1)) un.push(i);
-    const m=un.length;
-    let locked=0; for(let i=0;i<n;i++) if((S>>i)&1) locked++;
-    let sumE=0,sumN=0,pStay=1;
-    for(let T=0;T<(1<<m);T++){
-      let pr=1,mask=0;
-      for(let j=0;j<m;j++){
-        const idx=un[j];
-        if((T>>j)&1){ pr*=ps[idx]; mask|=(1<<idx); } else pr*=1-ps[idx];
-      }
-      if(T===0){ pStay=pr; continue; }
-      sumE+=pr*E[S|mask]; sumN+=pr*N[S|mask];
-    }
-    const denom=1-pStay;
-    E[S]=(RC_COST[locked]+sumE)/denom;
-    N[S]=(1+sumN)/denom;
-  }
-  return {crystal:E[0],rolls:N[0]};
+// 순차 진행: 어려운 목표부터 하나씩 굴려 잠그고 다음 목표로 (잠금이 늘수록 1회 비용 증가)
+function rcStages(ps,base){
+  const order=ps.map((p,i)=>i).sort((x,y)=>ps[x]-ps[y]);
+  return order.map((i,k)=>{
+    const c=RC_COST[Math.min(base+k,RC_COST.length-1)];
+    return {i,p:ps[i],cost:c,rolls:1/ps[i],crystal:c/ps[i]};
+  });
 }
 
-function rcSimulate(ps,trials){
-  const n=ps.length, out=new Float64Array(trials), rolls=new Float64Array(trials);
-  const lnq=ps.map(p=>p>=1?0:Math.log(1-p));
+function rcSimulate(stages,trials){
+  const out=new Float64Array(trials), rolls=new Float64Array(trials);
   for(let k=0;k<trials;k++){
-    const T=ps.map((p,i)=>p>=1?1:Math.max(1,Math.ceil(Math.log(1-Math.random())/lnq[i])));
-    T.sort((a,b)=>a-b);
-    let prev=0,cost=0;
-    for(let j=0;j<n;j++){ cost+=(T[j]-prev)*RC_COST[j]; prev=T[j]; }
-    out[k]=cost; rolls[k]=T[n-1];
+    let cost=0,n=0;
+    for(const s of stages){
+      const t=s.p>=1?1:Math.max(1,Math.ceil(Math.log(1-Math.random())/Math.log(1-s.p)));
+      cost+=t*s.cost; n+=t;
+    }
+    out[k]=cost; rolls[k]=n;
   }
   out.sort(); rolls.sort();
   const q=(arr,f)=>arr[Math.min(arr.length-1,Math.floor(arr.length*f))];
   return {median:q(out,.5),p90:q(out,.9),p95:q(out,.95),rollMedian:q(rolls,.5),rollP90:q(rolls,.9)};
 }
-
 function rcRenderExpect(){
   const box=$('#rc_expect'); if(!box) return;
-  const ps=[]; RC_TARGET.forEach((t,i)=>{ const p=rcTargetProb(i+1,t); if(p!==null) ps.push(p); });
+  const head=t=>`<div class="rc-expect-box"><div class="rc-expect-title">🎯 목표 달성 기대 비용</div><div class="rc-expect-sub">${t}</div></div>`;
+  const ps=[], slots=[];
+  RC_TARGET.forEach((t,i)=>{ if(RC_LOCK[i] && rcSatisfied(i)) return; const p=rcTargetProb(i+1,t); if(p!==null){ ps.push(p); slots.push(i+1); } });
   if(!ps.length){
-    box.innerHTML='<div class="rc-expect-box"><div class="rc-expect-title">🎯 목표 달성 기대 비용</div><div class="rc-expect-sub">위 표에서 슬롯별 목표 옵션을 고르면 달성까지 필요한 영혼 결정·골드 기대값을 계산해 드립니다.</div></div>';
+    box.innerHTML=head(RC_TARGET.some(t=>t.opt)?'남은 목표가 없습니다. 모두 잠금 완료!':'위 표에서 슬롯별 목표 옵션을 고르면 목표를 하나씩 순서대로 달성할 때 필요한 영혼 결정·골드 기대값을 계산해 드립니다.');
     return;
   }
-  if(ps.some(p=>!(p>0))){
-    box.innerHTML='<div class="rc-expect-box"><div class="rc-expect-title">🎯 목표 달성 기대 비용</div><div class="rc-expect-sub">달성 확률이 0인 조건이 있습니다. 최소 등급이나 최소 수치를 조정해주세요.</div></div>';
-    return;
-  }
-  const ex=rcExpected(ps), sim=rcSimulate(ps,20000);
+  if(ps.some(p=>!(p>0))){ box.innerHTML=head('달성 확률이 0인 조건이 있습니다. 최소 등급이나 최소 수치를 조정해주세요.'); return; }
+  const base=rcLockCount();
+  const st=rcStages(ps,base), sim=rcSimulate(st,20000);
+  const tot=st.reduce((a,s)=>({r:a.r+s.rolls,c:a.c+s.crystal}),{r:0,c:0});
+  const rows=st.map((s,k)=>`<tr><td>${k+1}단계</td><td>${slots[s.i]}번 슬롯</td><td>${(s.p*100).toFixed(3)}%</td><td>${rcNum(s.rolls)}회</td><td>${rcNum(s.cost)}개/회</td><td>${rcNum(s.crystal)}개</td><td>${rcNum(s.crystal*RC_GOLD_PER)}</td></tr>`).join('');
   box.innerHTML=`<div class="rc-expect-box">
-    <div class="rc-expect-title">🎯 목표 달성 기대 비용 (목표 ${ps.length}슬롯 동시 달성)</div>
+    <div class="rc-expect-title">🎯 목표 달성 기대 비용 (${ps.length}개 목표, 하나씩 순서대로)</div>
     <div class="rc-expect-grid">
-      <div class="rc-expect-cell"><span>평균 분석 횟수</span><b>${rcNum(ex.rolls)}회</b></div>
-      <div class="rc-expect-cell"><span>평균 영혼 결정</span><b>${rcNum(ex.crystal)}개</b></div>
-      <div class="rc-expect-cell"><span>평균 골드</span><b>${rcNum(ex.crystal*RC_GOLD_PER)}</b></div>
+      <div class="rc-expect-cell"><span>평균 분석 횟수</span><b>${rcNum(tot.r)}회</b></div>
+      <div class="rc-expect-cell"><span>평균 영혼 결정</span><b>${rcNum(tot.c)}개</b></div>
+      <div class="rc-expect-cell"><span>평균 골드</span><b>${rcNum(tot.c*RC_GOLD_PER)}</b></div>
     </div>
+    <table class="rc-table" style="margin-top:10px"><thead><tr><th>단계</th><th>목표</th><th>확률</th><th>평균 횟수</th><th>1회 비용</th><th>결정</th><th>골드</th></tr></thead><tbody>${rows}</tbody></table>
     <div class="rc-expect-sub">
+      확률이 낮은 목표부터 굴려 뜨면 잠그고 다음으로 넘어가는 순서입니다 (잠금이 늘수록 1회 비용이 올라가므로 어려운 것부터가 유리).
       운이 보통일 때(중앙값) 결정 ${rcNum(sim.median)}개 · 운이 나쁠 때(상위 10%) ${rcNum(sim.p90)}개 · 매우 나쁠 때(상위 5%) ${rcNum(sim.p95)}개
-      (분석 횟수 중앙값 ${rcNum(sim.rollMedian)}회 / 상위 10% ${rcNum(sim.rollP90)}회, 시뮬레이션 2만 회)
     </div>
   </div>`;
 }
-
 function rcInit(){
   rcRenderRaceTabs();
   rcRenderTable();
