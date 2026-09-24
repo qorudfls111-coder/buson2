@@ -8344,6 +8344,12 @@ function rcTargetProb(slot,t){
   return p;
 }
 
+function rcRange(slot,t){
+  if(!t.opt||t.opt==='*') return null;
+  const op=rcPool(slot)[t.grade].find(x=>x.name===t.opt);
+  return op?{min:op.min,max:op.max,unit:op.unit}:null;
+}
+
 function rcSatisfied(i){
   const t=RC_TARGET[i], r=RC_SLOTS[i];
   if(!t.opt||!r) return false;
@@ -8447,6 +8453,12 @@ function rcSetTarget(i,field,val){
   if(field==='opt'){ t.opt=val; if(!val||val==='*') t.min=0; }
   else if(field==='grade') t.grade=Number(val)||0;
   else t.min=Math.max(0,Number(val)||0);
+  const rg=rcRange(i+1,t);
+  if(rg){
+    if(field==='opt'||field==='grade') t.min=rg.min;
+    else t.min=Math.min(rg.max,Math.max(rg.min,Math.round(t.min*10)/10));
+  }
+  const mi=$('#rc_min_'+i); if(mi) mi.value=t.min||'';
   rcUpdateResults();
 }
 
@@ -8465,7 +8477,10 @@ function rcUpdateResults(){
     const minInput=$('#rc_min_'+i), gradeSel=$('#rc_grade_'+i);
     minInput.disabled=!t.opt||t.opt==='*';
     gradeSel.disabled=!t.opt;
-    if(!minInput.value && t.min) minInput.value=t.min;
+    const rg=rcRange(i+1,t);
+    if(rg){ minInput.min=rg.min; minInput.max=rg.max; minInput.step=rg.unit==='p'?0.1:1; minInput.placeholder=rg.min+'~'+rg.max+(rg.unit==='p'?'%':''); }
+    else { minInput.removeAttribute('min'); minInput.removeAttribute('max'); minInput.placeholder='0'; }
+    if(document.activeElement!==minInput) minInput.value=t.min||'';
     const p=rcTargetProb(i+1,t);
     $('#rc_p_'+i).textContent = p===null ? '-' : (p>0 ? `${(p*100).toFixed(3)}% (평균 ${rcNum(1/p)}회)` : '불가능');
   }
