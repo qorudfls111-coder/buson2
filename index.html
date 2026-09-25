@@ -8817,7 +8817,7 @@ function crCalc(){
   <div class="cr-note">개당 실수령 ${crFmt(net)} 키나 (시세 ${crFmt(price)} − 수수료 ${(fee*100).toFixed(0)}%). 기대 이득 = 시세 × (1−수수료) × 기대 생산량 − 재료비이고, 기대 생산량 = 성공률 × 기본 생산량 × (1 + 콤보 확률 × (배수−1))입니다. 실패하면 재료만 소모된다고 가정했고, 시세 변동과 판매 대기 시간은 반영하지 않습니다. 콤보 확률·수수료는 게임과 다를 수 있으니 실제 값으로 바꿔 쓰세요.</div>`;
   crSave();
 }
-function crInit(){
+function crInit(){ crLoadData();
   const sel=$('#cr_preset'); if(!sel.options.length) sel.innerHTML=Object.keys(CR_PRESETS).map(k=>`<option>${k}</option>`).join('');
   let saved=null; try{ saved=JSON.parse(localStorage.getItem(CR_KEY)||'null'); }catch(e){}
   if(saved && Array.isArray(saved.mats) && saved.mats.length){
