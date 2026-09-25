@@ -4306,6 +4306,9 @@ min-height:56px;
 .an-shortfall-cards{margin-top:5px;font-size:11.5px;color:#8b97ab;display:flex;flex-wrap:wrap;align-items:center;gap:5px}
 .an-shortfall-card-tag{background:#16233a;border:1px solid #2c3a55;color:#9db8ff;border-radius:999px;padding:2px 9px;font-weight:700;font-size:11px}
 
+/* 숫자 입력칸: 위아래 화살표(스피너) 숨김 */
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 /* ===== 강화 시뮬레이터 ===== */
 .en-fields{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .en-sim{margin-top:18px;border:1px solid #263043;background:#0d131c;border-radius:12px;padding:14px}
@@ -8767,6 +8770,10 @@ function rcInit(){
 if(document.querySelector('.tab[data-page="race"]')?.classList.contains('active')){
   rcInit();
 }
+</script>
+<script>
+/* 숫자 입력칸에서 마우스 휠로 값이 바뀌지 않게 */
+document.addEventListener('wheel',e=>{ const t=e.target; if(t&&t.tagName==='INPUT'&&t.type==='number'&&document.activeElement===t) t.blur(); },{passive:true});
 </script>
 <script>
 /* ===== 강화 시뮬레이터 ===== */
