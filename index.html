@@ -290,7 +290,6 @@ main.wrap{
 #page-spec,
 #page-driver,
 #page-sub,
-#page-main,
 #page-compare{
   width:100% !important;
   max-width:none !important;
@@ -352,7 +351,6 @@ main.wrap{
 <button class="tab" data-page="driver">버스 기사</button>
 <button class="tab" data-page="lookup">기사 조회</button>
 <button class="tab" data-page="sub">부캐 버스</button>
-<button class="tab" data-page="main">본부</button>
 <button class="tab" data-page="compare" style="display:none">파밍 비교</button>
 <button class="tab" data-page="party">성역 파티 배치</button>
 <button class="tab" data-page="arcana">아르카나</button>
@@ -458,7 +456,7 @@ main.wrap{
       ">
         여기서는 최근 공지·업데이트 제목만 모아서 보여주고, 자세한 내용은 각 항목의
         '공식 원문' 링크에서 확인할 수 있습니다. 던전 보상이나 오드 소모량이 바뀌는
-        업데이트가 있으면, BUSON2의 던전 DB·본부 계산기 수치도 함께 갱신할 예정입니다.
+        업데이트가 있으면, BUSON2의 던전 DB 수치도 함께 갱신할 예정입니다.
       </div>
       <div class="subtabs">
         <button class="subtab active" data-news-key="notice">공지</button>
@@ -1174,76 +1172,6 @@ main.wrap{
 </div>
 </section>
 
-<section id="page-main" class="hidden">
-<div class="grid2">
-<div class="card"><div class="head"><h2>⚔️ 본부 설정</h2></div><div class="body"><div class="fields">
-<div><label>콘텐츠 유형</label><select id="m_content_type">
-<option value="expedition" selected>원정</option>
-<option value="transcendence">초월</option>
-<option value="sanctuary">성역</option>
-</select></div>
-<div><label>한 판 획득 기본 키나</label><select id="m_income">
-<option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">타데바 보통 - 201만</option>
-<option value="1800000" data-ode="60">타데바 어려움 - 180만</option>
-<option value="3600000" data-ode="120">타데바 어려움 - 360만</option>
-<option value="810000" data-ode="40">푸섬, 환영 보통 - 81만</option>
-<option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
-
-<option value="750000" data-ode="40">붉은 연심의 거울 1단 - 75만</option>
-<option value="1500000" data-ode="80">붉은 연심의 거울 1단 - 150만</option>
-<option value="855000" data-ode="40">붉은 연심의 거울 2단 - 85.5만</option>
-<option value="1710000" data-ode="80">붉은 연심의 거울 2단 - 171만</option>
-<option value="1005000" data-ode="40">붉은 연심의 거울 3단 - 100.5만</option>
-<option value="2010000" data-ode="80">붉은 연심의 거울 3단 - 201만</option>
-<option value="1200000" data-ode="40">붉은 연심의 거울 4단 - 120만</option>
-<option value="2400000" data-ode="80">붉은 연심의 거울 4단 - 240만</option>
-<option value="855000" data-ode="40">심연의 뿔 암굴 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">심연의 뿔 암굴 1단 - 171만</option>
-<option value="1005000" data-ode="40">심연의 뿔 암굴 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
-<option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
-<option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
-<option value="2100000" data-ode="60">심연의 뿔 암굴 4단 - 210만</option>
-<option value="4200000" data-ode="120">심연의 뿔 암굴 4단 - 420만</option>
-<option value="1005000" data-ode="40">데우스 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">데우스 보통 - 201만</option>
-<option value="1800000" data-ode="60">데우스 어려움 - 180만</option>
-<option value="3600000" data-ode="120">데우스 어려움 - 360만</option>
-<option value="855000" data-ode="40">노이란 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">노이란 1단 - 171만</option>
-<option value="1005000" data-ode="40">노이란 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">노이란 2단 - 201만</option>
-<option value="1200000" data-ode="40">노이란 3단 - 120만</option>
-<option value="2400000" data-ode="80">노이란 3단 - 240만</option>
-<option value="2100000" data-ode="60">노이란 4단 - 210만</option>
-<option value="4200000" data-ode="120">노이란 4단 - 420만</option>
-<option value="12000000" data-ode="160">무스펠 어려움 - 1200만</option>
-<option value="10000000" data-ode="160">무스펠 보통 - 1000만</option>
-<option value="8000000" data-ode="80">비탄의 설원 어려움 - 800만</option>
-<option value="16000000" data-ode="160">비탄의 설원 어려움 - 1600만</option>
-<option value="7000000" data-ode="80">비탄의 설원 보통 - 700만</option>
-<option value="14000000" data-ode="160">비탄의 설원 보통 - 1400만</option>
-<option value="5000000" data-ode="80">비탄의 설원 쉬움 - 500만</option>
-<option value="10000000" data-ode="160">비탄의 설원 쉬움 - 1000만</option>
-</select></div>
-<div><label>한 판 소비 키나</label><div class="iwrap"><input id="m_cost" class="money" value="0"><span class="unit">키나</span></div></div>
-<div><label>한 판 소비 오드</label><select id="m_ode">
-<option value="0" selected>0 오드</option>
-<option value="40">40 오드</option>
-<option value="60">60 오드</option>
-<option value="80">80 오드</option>
-<option value="120">120 오드</option>
-<option value="160">160 오드</option>
-</select></div>
-<div><label>계산할 판수</label><div class="iwrap"><input id="m_runs" value="0"><span class="unit">판</span></div></div>
-<div><label>보유 오드</label><div class="iwrap"><input id="m_ownedOde" value="0"><span class="unit">오드</span></div></div>
-  </div></div></div>
-<div class="card"><div class="head"><h2>본부 결과</h2></div><div class="body"><div class="metrics" id="m_metrics"></div>
-<button type="button" class="btn primary" style="width:100%;margin-top:14px;" onclick="shareTabResult('main', this)">🔗 이 계산 결과 공유 링크 복사하기</button>
-</div></div>
-<div class="spec-save-panel tab-save-panel" data-tab-save-slots="main"></div>
-</div></section>
 <section id="page-lookup" class="hidden">
 
   <div class="card" style="max-width:900px;margin:0 auto;">
@@ -1713,7 +1641,7 @@ main.wrap{
 <section id="page-compare" class="hidden">
   <div class="card compare-master-card">
     <div class="head">
-      <h2>🏆 버스 · 본부 · 부캐버스 종합 비교</h2>
+      <h2>🏆 버스 기사 · 부캐 버스 종합 비교</h2>
       <p>각 탭에 현재 입력된 값을 같은 오드 기준으로 환산해 가장 효율적인 방식을 비교합니다.</p>
     </div>
     <div class="body">
@@ -1733,7 +1661,7 @@ main.wrap{
       </div>
 
       <div class="compare-help">
-버스 기사·본부·부캐 버스 탭에 입력한 현재 값을 사용합니다.
+버스 기사·부캐 버스 탭에 입력한 현재 값을 사용합니다.
 판당 소비 오드가 0인 방식은 오드 기준 비교에서 제외됩니다.
       </div>
 
@@ -2020,21 +1948,11 @@ main.wrap{
       <span class="buson-link purple">바로가기 →</span>
     </a>
 
-    <a href="/main/" class="buson-tool-card">
-      <div class="buson-icon icon-green">⚔️</div>
-      <h3>아이온2 본부 파밍 계산기</h3>
-      <p>
-        타데바, 데우스, 노이란, 무스펠 등 던전별 보유 오드 기준
-        총수익과 오드 효율 순위를 계산합니다.
-      </p>
-      <span class="buson-link green">바로가기 →</span>
-    </a>
-
     <a href="/compare/" class="buson-tool-card">
       <div class="buson-icon icon-orange">🏆</div>
-      <h3>버스·본부·부캐버스 종합 비교</h3>
+      <h3>버스 기사·부캐 버스 종합 비교</h3>
       <p>
-        같은 오드 기준으로 환산해 버스 기사, 본부, 부캐 버스 중
+        같은 오드 기준으로 환산해 버스 기사와 부캐 버스 중
         가장 효율적인 파밍 방식을 비교합니다.
       </p>
       <span class="buson-link orange">바로가기 →</span>
@@ -2152,18 +2070,9 @@ main.wrap{
     <a href="/dungeon/">아이온2 던전 파밍 DB 바로가기 →</a>
   </p>
 
-  <h3>아이온2 본부 파밍 계산기</h3>
-  <p>
-    타데바, 데우스, 노이란, 무스펠 등 던전별 판당 키나와 소비 오드를 기준으로
-    보유 오드로 얻을 수 있는 총수익과 오드 대비 효율 순위를 계산합니다.
-  </p>
-  <p>
-    <a href="/main/">아이온2 본부 파밍 계산기 바로가기 →</a>
-  </p>
-
   <h3>아이온2 파밍 비교</h3>
   <p>
-    버스 기사, 본부, 부캐 버스 세 가지 파밍 방식을 같은 오드 기준으로 환산해
+    버스 기사와 부캐 버스 두 가지 파밍 방식을 같은 오드 기준으로 환산해
     지금 상황에서 가장 효율적인 방식을 비교합니다.
   </p>
   <p>
@@ -5400,7 +5309,6 @@ function buildCompare(){
 
   const items=[
     driverAverage(),
-    compareItemFromSimple('m','본부'),
     compareItemFromSimple('s','부캐 버스')
   ].map(x=>{
     const odeRuns=x.ode>0?Math.floor(odeBudget/x.ode):0;
@@ -6693,7 +6601,7 @@ function updateIncomeOptions(prefix){
 }
 
 function initContentTypeSelectors(){
-  ['d','m','s'].forEach(prefix=>{
+  ['d','s'].forEach(prefix=>{
     cacheIncomeOptions(prefix);
     updateIncomeOptions(prefix);
 
@@ -6794,7 +6702,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party','arcana','race','enh'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster();if(b.dataset.page==='arcana')anInit();if(b.dataset.page==='race')rcInit();if(b.dataset.page==='enh')enInit()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','compare','party','arcana','race','enh'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster();if(b.dataset.page==='arcana')anInit();if(b.dataset.page==='race')rcInit();if(b.dataset.page==='enh')enInit()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 function openTabFromHash(){
   const page = location.hash.replace("#", "");
@@ -6811,12 +6719,6 @@ syncSanctuaryRunLock();
 $('#d_fare_runs')?.addEventListener('change',calcDriver);
 $('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
 $('#d_ode').addEventListener('change',calcDriver);
-['m_cost','m_runs','m_ownedOde'].forEach(id=>$('#'+id)?.addEventListener('input',()=>{
-  calcSimple('m');
-  calcSimple('s');
-}));
-$('#m_income').addEventListener('change',()=>{syncOdeFromDungeon('m');calcSimple('m');calcSimple('s')});
-$('#m_ode').addEventListener('change',()=>{calcSimple('m');calcSimple('s')});
 ['s_cost','s_runs','s_ownedOde'].forEach(id=>$('#'+id)?.addEventListener('input',()=>calcSimple('s')));
 $('#s_income').addEventListener('change',()=>{syncOdeFromDungeon('s');calcSimple('s')});
 $('#s_ode').addEventListener('change',()=>calcSimple('s'));
@@ -6824,8 +6726,6 @@ document.addEventListener('change',e=>{
  const id=e.target && e.target.id ? e.target.id : '';
  if(id==='d_income'){syncOdeFromDungeon('d');calcDriver()}
  else if(id==='d_ode'){calcDriver()}
- else if(id==='m_income'){syncOdeFromDungeon('m');calcSimple('m')}
- else if(id==='m_ode'){calcSimple('m')}
  else if(id==='s_income'){syncOdeFromDungeon('s');calcSimple('s')}
  else if(id==='s_ode'){calcSimple('s')}
 });
@@ -6876,7 +6776,7 @@ SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
 calcSpec();
 calcGearCompare();
 $('#cmp_ode_budget')?.addEventListener('input',buildCompare);
-$('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();syncDriverPartySettings();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');buildCompare();
+$('#dg_type')?.addEventListener('change',()=>{updateDungeonFilterOptions();renderDungeonDB()});$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);initContentTypeSelectors();renderDungeonDB();syncDriverPartySettings();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('s');calcDriver();calcSimple('s');buildCompare();
 loadOfficialNews();
 </script>
   <script>
@@ -6960,7 +6860,7 @@ window.addEventListener('load', function(){
   if(!raw) return;
 
   const tab=(window.location.hash||'').replace('#','') || 'driver';
-  if(!['driver','main','sub'].includes(tab)) return;
+  if(!['driver','sub'].includes(tab)) return;
 
   try{
     const data=JSON.parse(decodeURIComponent(raw));
