@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="ko">
+<head>
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D4LT1W5QL2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D4LT1W5QL2');
+</script>
+  <meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="32x32" href="https://buson2.com/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://buson2.com/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://buson2.com/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>아이온2 강화 시뮬레이터 | 장비 강화·돌파·마석 확률 기대값</title>
+<meta name="description" content="아이온2 장비 강화, 돌파 강화, 마석·영석 뽑기를 NC 공식 확률로 계산하세요. 목표 단계까지 강화석·돌파석·키나 기대값과 원하는 마석 옵션까지 필요한 개수를 알려줍니다.">
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://buson2.com/enhance/">
+
+  <meta property="og:type" content="website">
+   <meta property="og:site_name" content="버스온2">
+  <meta property="og:url" content="https://buson2.com/enhance/">
+  <meta property="og:title" content="아이온2 강화·돌파·마석 시뮬레이터 | 공식 확률 기대 비용 - 버스온2">
+  <meta property="og:description" content="아이온2 강화 +20, 돌파 +5까지 필요한 강화석·돌파석·키나와 원하는 마석 옵션이 나올 때까지 필요한 개수를 NC 공식 확률로 계산해보세요.">
+  <meta property="og:image" content="https://buson2.com/assets/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://buson2.com/assets/og-image.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "아이온2 강화·돌파·마석 시뮬레이터 | 공식 확률 기대 비용 - 버스온2",
+  "url": "https://buson2.com/enhance/",
+  "description": "아이온2 강화 +20, 돌파 +5까지 필요한 강화석·돌파석·키나와 원하는 마석 옵션이 나올 때까지 필요한 개수를 NC 공식 확률로 계산해보세요.",
+  "inLanguage": "ko-KR",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "버스온2",
+    "alternateName": "BUSON2",
+    "url": "https://buson2.com/"
+  }
+}
+</script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090b10;
+      --panel: #111621;
+      --line: #263043;
+      --text: #eef4ff;
+      --muted: #9cabc2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top, #12192a 0, #090b10 48%);
+      color: var(--text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        "Pretendard",
+        "Malgun Gothic",
+        sans-serif;
+    }
+
+    .wrap {
+      max-width: 1000px;
+      margin: auto;
+      padding: 56px 20px;
+    }
+
+    .brand {
+      font-weight: 900;
+      letter-spacing: .04em;
+      color: #91a7ff;
+    }
+
+    .hero {
+      padding: 48px 0 30px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.18;
+      margin: 12px 0 18px;
+    }
+
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      border: 1px solid var(--line);
+    }
+
+    .primary {
+      background: linear-gradient(135deg, #6f8cff, #7d72ff);
+      color: white;
+    }
+
+    .secondary {
+      background: #111621;
+      color: #dce6f8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .card,
+    .info {
+      background: #111621;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin: 0 0 9px;
+    }
+
+    .card p,
+    .info p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .info {
+      margin-top: 38px;
+    }
+
+    .info h2 {
+      margin-top: 0;
+    }
+
+    footer {
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .wrap {
+        padding: 34px 16px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+     /* ===== BUSON2 SPEC GUIDE ===== */
+
+.spec-guide{
+  margin-top:28px;
+  padding:26px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top right,rgba(59,130,246,.10),transparent 35%),
+    linear-gradient(180deg,#111c2e,#0e1726);
+}
+
+.spec-guide-head{
+  margin-bottom:24px;
+}
+
+.spec-guide-badge{
+  display:inline-block;
+  padding:5px 10px;
+  margin-bottom:12px;
+  border:1px solid #3577d4;
+  border-radius:999px;
+  color:#60a5fa;
+  background:#0b1a2f;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+}
+
+.spec-guide-head h2{
+  margin:0 0 10px;
+  color:#f8fafc;
+  font-size:24px;
+  line-height:1.35;
+}
+
+.spec-guide-head p{
+  margin:0;
+  max-width:900px;
+  color:#9fb0c8;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.spec-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.spec-guide-card{
+  min-height:250px;
+  padding:22px 18px;
+  border:1px solid #293b55;
+  border-radius:14px;
+  background:linear-gradient(180deg,#142033,#0e1725);
+  transition:transform .18s ease,border-color .18s ease;
+}
+
+.spec-guide-card:hover{
+  transform:translateY(-3px);
+  border-color:#3b82f6;
+}
+
+.spec-guide-icon{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:18px;
+  border-radius:13px;
+  color:white;
+  font-size:23px;
+  font-weight:900;
+}
+
+.spec-guide-card.purple .spec-guide-icon{
+  background:linear-gradient(135deg,#7c3aed,#6366f1);
+  box-shadow:0 0 22px rgba(124,58,237,.35);
+}
+
+.spec-guide-card.green .spec-guide-icon{
+  background:linear-gradient(135deg,#059669,#22c55e);
+  box-shadow:0 0 22px rgba(34,197,94,.30);
+}
+
+.spec-guide-card.orange .spec-guide-icon{
+  background:linear-gradient(135deg,#d97706,#f59e0b);
+  box-shadow:0 0 22px rgba(245,158,11,.30);
+}
+
+.spec-guide-card.blue .spec-guide-icon{
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  box-shadow:0 0 22px rgba(59,130,246,.30);
+}
+
+.spec-guide-card h3{
+  margin:0 0 12px;
+  color:#f8fafc;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.spec-guide-card p{
+  margin:0;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* FAQ */
+
+.spec-faq{
+  margin-top:18px;
+  padding:24px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top left,rgba(59,130,246,.08),transparent 30%),
+    #111c2e;
+}
+
+.spec-faq-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.spec-faq-title > span{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+}
+
+.spec-faq-title small{
+  display:block;
+  margin-bottom:2px;
+  color:#60a5fa;
+  font-size:10px;
+  font-weight:800;
+}
+
+.spec-faq-title h2{
+  margin:0;
+  color:#f8fafc;
+  font-size:20px;
+}
+
+.spec-faq details{
+  margin-top:9px;
+  overflow:hidden;
+  border:1px solid #293d5a;
+  border-radius:12px;
+  background:#0c1624;
+}
+
+.spec-faq summary{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 16px;
+  color:#f1f5f9;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  list-style:none;
+}
+
+.spec-faq summary::-webkit-details-marker{
+  display:none;
+}
+
+.spec-faq summary b{
+  margin-left:auto;
+  color:#60a5fa;
+  transition:transform .2s ease;
+}
+
+.spec-faq details[open] summary b{
+  transform:rotate(180deg);
+}
+
+.faq-number{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#2563eb;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+
+.faq-answer{
+  padding:0 56px 17px;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* 모바일 */
+
+@media(max-width:850px){
+
+  .spec-guide-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:600px){
+
+  .spec-guide{
+    padding:18px 14px;
+    border-radius:14px;
+  }
+
+  .spec-guide-head h2{
+    font-size:20px;
+  }
+
+  .spec-guide-grid{
+    grid-template-columns:1fr;
+  }
+
+  .spec-guide-card{
+    min-height:auto;
+  }
+
+  .spec-faq{
+    padding:18px 14px;
+  }
+
+  .spec-faq-title h2{
+    font-size:17px;
+  }
+
+  .faq-answer{
+    padding:0 16px 16px;
+  }
+
+}
+  </style>
+  <style>
+    .pet-table{border-collapse:collapse;width:100%;margin-top:14px;font-size:14px}
+    .pet-table th,.pet-table td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+    .pet-table thead th{background:#111c2e;color:#9db8ff}
+    .pet-table td{color:var(--text)}
+    .info{overflow-x:auto}
+  </style>
+<script type="application/ld+json">
+{
+    "@context":  "https://schema.org",
+    "mainEntity":  [
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "아니요. NC 공식 확률정보 기준으로 장비 강화와 돌파 강화 모두 실패 시 패널티가 \"유지\"입니다. 단계가 내려가거나 장비가 파괴되지 않고, 소모한 키나와 재료만 사라집니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "아이온2 강화는 실패하면 단계가 내려가나요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "같은 단계에서 실패할 때마다 표에 적힌 \"강화 실패 시 보정 확률\"이 강화 확률에 더해집니다. 예를 들어 기본 20%, 보정 5%인 단계는 실패할수록 25%, 30%로 올라가며 최대 17번째 시도에서 100%가 되어 확정 성공합니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "강화 실패 시 보정 확률은 어떻게 적용되나요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "대부분의 장비는 +1부터 +10까지 강화 확률이 100%라 재료와 키나만 있으면 바로 올라갑니다. 확률 강화는 +11부터 시작하며, 영웅 장비는 +16부터 다시 65%로 시작하는 구간이 있습니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "+10까지는 무조건 성공하나요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "유일 장비는 +1부터 66%, 50%, 33%, 25%, 20%이고 영웅 장비는 33%, 25%, 16.5%, 12.5%, 10%입니다. 실패 시 보정 확률은 단계별로 5%, 4%, 3%, 2%, 1%입니다. 펜던트와 브로치는 공식 표에 돌파 데이터가 없습니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "돌파 강화 확률은 얼마인가요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "NC 공식 마석/영석 확률표에서 같은 등급의 마석과 영석, 그리고 각인 여부에 따른 확률은 모두 같습니다. 대신 하급·중급·상급, 심연 여부에 따라 나오는 옵션 종류와 확률이 다릅니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "마석과 영석은 확률이 다른가요?",
+                           "@type":  "Question"
+                       },
+                       {
+                           "acceptedAnswer":  {
+                                                  "text":  "중급·상급 마석은 기본 50%, 상급 35%, 최상급 15% 확률로 등급이 정해지고, 하급 마석은 기본 70%, 상급 30%입니다. 특정 옵션의 최상급 확률은 옵션마다 달라서 상급 심연의 마석의 최상급 피해 증폭은 0.075%입니다.",
+                                                  "@type":  "Answer"
+                                              },
+                           "name":  "마석 최상급 옵션은 얼마나 나오나요?",
+                           "@type":  "Question"
+                       }
+                   ],
+    "@type":  "FAQPage"
+}
+</script>
+</head>
+<body>
+
+<main class="wrap">
+
+  <div class="brand">BUSON2 · 아이온2 효율 계산기</div>
+
+  <section class="hero">
+    <h1>아이온2 강화·돌파·마석 시뮬레이터</h1>
+    <p class="lead">NC 공식 확률정보를 기준으로 장비 강화, 돌파 강화, 마석·영석 뽑기에 드는 비용을 미리 계산합니다. 목표 단계까지 필요한 강화석·돌파석·키나와, 원하는 마석 옵션이 나올 때까지 필요한 개수를 평균값과 운이 나쁠 때 기준으로 보여줍니다.</p>
+    <div class="actions">
+      <a class="btn primary" href="/#enh">강화 시뮬 사용하기</a>
+      <a class="btn secondary" href="/">BUSON2 메인으로</a>
+    </div>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>장비 강화</h2>
+      <p>무기·방어구·악세사리 24종, 등급과 장비 레벨별 공식 강화 표로 현재 단계부터 목표 단계까지 평균 시도 횟수, 강화석, 키나를 계산합니다.</p>
+    </article>
+    <article class="card">
+      <h2>돌파 강화</h2>
+      <p>유일·영웅 장비의 돌파 +1~+5 확률과 실패 보정을 반영해 필요한 돌파석과 키나를 계산합니다.</p>
+    </article>
+    <article class="card">
+      <h2>마석·영석</h2>
+      <p>하급·중급·상급 마석과 심연의 마석에서 원하는 옵션을 원하는 등급 이상으로 얻을 때까지 평균 몇 개가 필요한지 계산합니다.</p>
+    </article>
+    <article class="card">
+      <h2>직접 굴려보기</h2>
+      <p>강화 1회·10회·목표까지 자동, 마석 1개·10개 뽑기로 실제처럼 결과를 확인하고 누적 비용을 볼 수 있습니다.</p>
+    </article>
+  </section>
+
+  <section class="spec-guide">
+    <div class="spec-guide-head">
+      <span class="spec-guide-badge">HOW TO</span>
+      <h2>아이온2 강화 시뮬레이터 사용법</h2>
+      <p>강화나 마석에 재화를 쓰기 전에 목표까지 평균 얼마가 드는지, 운이 나쁘면 얼마까지 들 수 있는지 미리 확인해보세요.</p>
+    </div>
+    <div class="spec-guide-grid">
+      <div class="spec-guide-card purple"><div class="spec-guide-icon">1</div><h3>모드 선택</h3><p>장비 강화, 돌파 강화, 마석·영석 중 하나를 고릅니다.</p></div>
+      <div class="spec-guide-card green"><div class="spec-guide-icon">2</div><h3>장비·마석 선택</h3><p>장비 종류, 등급, 장비 레벨과 현재·목표 단계를 고르거나, 마석 종류와 원하는 옵션의 최소 등급을 고릅니다.</p></div>
+      <div class="spec-guide-card orange"><div class="spec-guide-icon">3</div><h3>시세 입력 (선택)</h3><p>강화석·돌파석·마석의 개당 시세를 입력하면 재료까지 키나로 환산한 총 비용이 나옵니다.</p></div>
+      <div class="spec-guide-card blue"><div class="spec-guide-icon">4</div><h3>기대값 확인</h3><p>평균값과 함께 상위 10%·5% 운이 나쁜 경우의 비용, 단계별 표를 확인하고 직접 굴려봅니다.</p></div>
+    </div>
+  </section>
+
+  <section class="info">
+    <h2>강화 확률 예시 (영웅 장검 Lv.98)</h2>
+    <p>+1~+10은 모두 100%입니다. 실패할 때마다 보정 확률이 더해지고, 실패해도 단계는 유지됩니다.</p>
+    <table class="pet-table">
+      <thead><tr><th>목표 단계</th><th>기본 확률</th><th>실패 시 보정</th><th>1회 키나</th><th>1회 강화석</th></tr></thead>
+      <tbody>
+      <tr><td>+11</td><td>65%</td><td>+5%</td><td>350,000</td><td>8,940개</td></tr>
+      <tr><td>+12</td><td>50%</td><td>+5%</td><td>510,000</td><td>10,190개</td></tr>
+      <tr><td>+13</td><td>35%</td><td>+5%</td><td>830,000</td><td>11,490개</td></tr>
+      <tr><td>+14</td><td>25%</td><td>+5%</td><td>1,290,000</td><td>12,840개</td></tr>
+      <tr><td>+15</td><td>20%</td><td>+5%</td><td>1,780,000</td><td>14,240개</td></tr>
+      <tr><td>+16</td><td>65%</td><td>+5%</td><td>1,780,000</td><td>14,240개</td></tr>
+      <tr><td>+17</td><td>50%</td><td>+5%</td><td>1,780,000</td><td>14,240개</td></tr>
+      <tr><td>+18</td><td>35%</td><td>+5%</td><td>1,780,000</td><td>14,240개</td></tr>
+      <tr><td>+19</td><td>25%</td><td>+5%</td><td>1,780,000</td><td>14,240개</td></tr>
+      <tr><td>+20</td><td>20%</td><td>+5%</td><td>1,780,000</td><td>14,240개</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px">이 장비를 +0에서 +20까지 올리면 평균 약 34회 시도, 강화석 약 35.7만 개, 키나 약 3,617만이 필요합니다.</p>
+  </section>
+
+  <section class="info">
+    <h2>돌파 강화 확률표</h2>
+    <table class="pet-table">
+      <thead><tr><th>돌파 단계</th><th>유일</th><th>영웅</th><th>실패 시 보정</th><th>1회 키나</th><th>1회 돌파석</th></tr></thead>
+      <tbody>
+      <tr><td>+1</td><td>66%</td><td>33%</td><td>+5%</td><td>60만</td><td>6개</td></tr>
+      <tr><td>+2</td><td>50%</td><td>25%</td><td>+4%</td><td>90만</td><td>9개</td></tr>
+      <tr><td>+3</td><td>33%</td><td>16.5%</td><td>+3%</td><td>140만</td><td>12개</td></tr>
+      <tr><td>+4</td><td>25%</td><td>12.5%</td><td>+2%</td><td>200만</td><td>15개</td></tr>
+      <tr><td>+5</td><td>20%</td><td>10%</td><td>+1%</td><td>300만</td><td>20개</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px">인장은 비용이 더 큰 별도 표(1회 키나 150만~450만)를 쓰고, 펜던트·브로치는 돌파 데이터가 없습니다. 장검 기준 +0→+5 평균은 유일 약 14회·돌파석 196개, 영웅 약 22회·돌파석 309개입니다.</p>
+  </section>
+
+  <section class="info">
+    <h2>마석·영석 등급 확률</h2>
+    <table class="pet-table">
+      <thead><tr><th>마석 종류</th><th>기본</th><th>상급</th><th>최상급</th><th>옵션 수</th></tr></thead>
+      <tbody>
+      <tr><td>하급 마석·영석</td><td>70%</td><td>30%</td><td>-</td><td>9</td></tr>
+      <tr><td>중급 마석·영석</td><td>50%</td><td>35%</td><td>15%</td><td>9</td></tr>
+      <tr><td>상급 마석·영석</td><td>50%</td><td>35%</td><td>15%</td><td>14</td></tr>
+      <tr><td>하급·중급 심연의 마석·영석</td><td>50%</td><td>35%</td><td>15%</td><td>16</td></tr>
+      <tr><td>상급 심연의 마석·영석</td><td>50%</td><td>35%</td><td>15%</td><td>22</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px">예시: 상급 심연의 마석에서 최상급 피해 증폭 또는 최상급 무기 피해 증폭 중 하나를 노리면 1개당 확률은 0.15%로, 평균 약 667개가 필요합니다.</p>
+  </section>
+
+  <section class="spec-faq">
+    <div class="spec-faq-title">
+      <span>?</span>
+      <div><small>FAQ</small><h2>아이온2 강화·마석 자주 묻는 질문</h2></div>
+    </div>
+  <details>
+    <summary>
+      <span class="faq-number">Q1</span>
+      아이온2 강화는 실패하면 단계가 내려가나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      아니요. NC 공식 확률정보 기준으로 장비 강화와 돌파 강화 모두 실패 시 패널티가 "유지"입니다. 단계가 내려가거나 장비가 파괴되지 않고, 소모한 키나와 재료만 사라집니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q2</span>
+      강화 실패 시 보정 확률은 어떻게 적용되나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      같은 단계에서 실패할 때마다 표에 적힌 "강화 실패 시 보정 확률"이 강화 확률에 더해집니다. 예를 들어 기본 20%, 보정 5%인 단계는 실패할수록 25%, 30%로 올라가며 최대 17번째 시도에서 100%가 되어 확정 성공합니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q3</span>
+      +10까지는 무조건 성공하나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      대부분의 장비는 +1부터 +10까지 강화 확률이 100%라 재료와 키나만 있으면 바로 올라갑니다. 확률 강화는 +11부터 시작하며, 영웅 장비는 +16부터 다시 65%로 시작하는 구간이 있습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q4</span>
+      돌파 강화 확률은 얼마인가요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      유일 장비는 +1부터 66%, 50%, 33%, 25%, 20%이고 영웅 장비는 33%, 25%, 16.5%, 12.5%, 10%입니다. 실패 시 보정 확률은 단계별로 5%, 4%, 3%, 2%, 1%입니다. 펜던트와 브로치는 공식 표에 돌파 데이터가 없습니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q5</span>
+      마석과 영석은 확률이 다른가요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      NC 공식 마석/영석 확률표에서 같은 등급의 마석과 영석, 그리고 각인 여부에 따른 확률은 모두 같습니다. 대신 하급·중급·상급, 심연 여부에 따라 나오는 옵션 종류와 확률이 다릅니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q6</span>
+      마석 최상급 옵션은 얼마나 나오나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      중급·상급 마석은 기본 50%, 상급 35%, 최상급 15% 확률로 등급이 정해지고, 하급 마석은 기본 70%, 상급 30%입니다. 특정 옵션의 최상급 확률은 옵션마다 달라서 상급 심연의 마석의 최상급 피해 증폭은 0.075%입니다.
+    </div>
+  </details>
+
+  </section>
+
+  <div class="actions" style="margin-top:32px">
+    <a class="btn primary" href="/#enh">강화 시뮬 사용하기</a>
+    <a class="btn secondary" href="/pet/">펫작 시뮬레이터</a>
+    <a class="btn secondary" href="/arcana/">아르카나 계산기</a>
+  </div>
+
+  <footer>
+    <p>확률과 비용은 NC 아이온2 확률정보(2026-09-23 갱신본)를 기준으로 하며, 업데이트로 바뀔 수 있습니다. 버스온2(BUSON2)는 비공식 팬 계산기 사이트이며 게임사와 무관합니다.</p>
+    <p><a href="/" style="color:#91a7ff">메인</a> · <a href="/spec/" style="color:#91a7ff">스펙 계산기</a> · <a href="/pet/" style="color:#91a7ff">펫작 시뮬</a> · <a href="/about/" style="color:#91a7ff">소개</a></p>
+  </footer>
+
+</main>
+
+</body>
+</html>
