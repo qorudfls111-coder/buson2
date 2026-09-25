@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-25 08:28 KST",
+  "updated_at": "2026-09-25 10:55 KST",
   "update": [
     {
       "title": "[안내] 9/23(수) 업데이트 노트",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [313차]",
+      "date": "2026-09-25",
+      "time": "01:00",
+      "datetime": "2026-09-25 01:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab5c790fa34c1011d6278e2"
+    },
+    {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [312차]",
       "date": "2026-09-24",
       "time": "01:00",
@@ -261,13 +268,6 @@
       "time": "05:40",
       "datetime": "2026-09-22 05:40",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab214b0d97eae18cc40e036"
-    },
-    {
-      "title": "[안내] 추석 특집 AION2 퍼플 라이브 방송 안내",
-      "date": "2026-09-21",
-      "time": "11:50",
-      "datetime": "2026-09-21 11:50",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab118bca279104f7d9d5cda"
     }
   ],
   "cm": [
