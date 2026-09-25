@@ -3804,6 +3804,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .en-sim{margin-top:18px;border:1px solid #263043;background:#0d131c;border-radius:12px;padding:14px}
 .en-sim h3{margin:0 0 10px;font-size:14px;color:#9db8ff}
 .en-log{font-size:12.5px;line-height:1.7;color:#aab5c7;max-height:220px;overflow:auto}
+.en-next-cost{font-size:11.5px;color:#8fa3d9;margin-top:4px;line-height:1.5}
+.rc-table .en-per{background:rgba(77,161,255,.06);color:#bcd6ff}
+.rc-table thead th.en-per{color:#7fc4ff}
 .en-ok{color:#8df0bd;font-weight:800}.en-fail{color:#ff8d8d;font-weight:800}
 @media(max-width:860px){.en-fields{grid-template-columns:1fr 1fr}}
 .ms-help{font-size:12px;color:#8b97ab;margin:-4px 0 10px;line-height:1.6}
@@ -8364,7 +8367,8 @@ function enCalc(){
     const r=t[s-1], st=enStage(r);
     tries+=st.tries; kina+=st.tries*r[2]; enAddMats(mats,r,st.tries);
     const one={}; enAddMats(one,r,st.tries);
-    rows.push(`<tr><td>+${s}</td><td>${r[0]}%</td><td>${r[1]?'+'+r[1]+'%':'-'}</td><td>${st.cap?st.cap+'회':'-'}</td><td>${st.tries.toFixed(2)}회</td><td>${rcNum(st.tries*r[2])}</td><td style="white-space:normal">${enMatsText(one,'<br>')}</td></tr>`);
+    const per={}; enAddMats(per,r,1);
+    rows.push(`<tr><td>+${s}</td><td>${r[0]}%</td><td>${r[1]?'+'+r[1]+'%':'-'}</td><td>${st.cap?st.cap+'회':'-'}</td><td class="en-per">${rcNum(r[2])}</td><td class="en-per" style="white-space:normal">${enMatsText(per,'<br>')}</td><td>${st.tries.toFixed(2)}회</td><td>${rcNum(st.tries*r[2])}</td><td style="white-space:normal">${enMatsText(one,'<br>')}</td></tr>`);
   }
   // 몬테카를로: 운이 나쁠 때 시도 횟수·키나
   const N=20000, T=new Float64Array(N), K=new Float64Array(N);
@@ -8380,7 +8384,7 @@ function enCalc(){
       <div class="rc-stat"><span>${bm?(price?bm+' 환산 총 비용':bm+' 시세 입력 시 총 비용'):'운이 나쁠 때(상위 10%) 키나'}</span><b>${bm?(price?rcNum(kina+mats[bm]*price):'-'):rcNum(q(K,.9))}</b></div>
     </div>
     <div class="rc-expect-sub" style="margin:0 0 12px">시도 횟수 — 운이 보통일 때(중앙값) ${rcNum(q(T,.5))}회 · 나쁠 때(상위 10%) ${rcNum(q(T,.9))}회 · 매우 나쁠 때(상위 5%) ${rcNum(q(T,.95))}회 · 최악 근처(상위 1%) ${rcNum(q(T,.99))}회 / 키나 상위 5% ${rcNum(q(K,.95))} (시뮬레이션 2만 회)</div>
-    <div class="an-calc-wrap"><table class="rc-table" style="min-width:640px"><thead><tr><th>목표 단계</th><th>기본 확률</th><th>실패 시 보정</th><th>확정(천장)</th><th>평균 시도</th><th>평균 키나</th><th>평균 재료</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+    <div class="an-calc-wrap"><table class="rc-table" style="min-width:860px"><thead><tr><th>목표 단계</th><th>기본 확률</th><th>실패 시 보정</th><th>확정(천장)</th><th class="en-per">1회 키나</th><th class="en-per">1회 재료</th><th>평균 시도</th><th>평균 키나</th><th>평균 재료</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   enSimRender();
 }
 /* 직접 강화 */
@@ -8404,7 +8408,7 @@ function enSimRender(){
   const bm=EN.mode==='brk'?enBrkMat(EN_SIM.mats):null, price=bm?(Number($('#en_price').value)||0):0;
   box.innerHTML=`<div class="rc-stats">
     <div class="rc-stat"><span>현재 강화${done?' (목표 달성!)':''}</span><b>+${EN_SIM.lv}</b></div>
-    <div class="rc-stat"><span>다음 성공 확률 (실패 ${EN_SIM.fails}회 보정)</span><b>${p===null?'-':(p*100).toFixed(1)+'%'}</b></div>
+    <div class="rc-stat"><span>다음 성공 확률 (실패 ${EN_SIM.fails}회 보정)</span><b>${p===null?'-':(p*100).toFixed(1)+'%'}</b>${next?`<div class="en-next-cost">1회 비용: 키나 ${rcNum(next[2])} · ${(()=>{const m={};enAddMats(m,next,1);return enMatsText(m,' · ');})()}</div>`:''}</div>
     <div class="rc-stat"><span>누적 시도 / 키나${price?' (돌파석 환산 포함)':''}</span><b>${rcNum(EN_SIM.tries)}회 / ${rcNum(EN_SIM.kina+(bm?(EN_SIM.mats[bm]||0)*price:0))}</b></div>
     <div class="rc-stat"><span>누적 재료</span><b style="font-size:13.5px">${enMatsText(EN_SIM.mats,'<br>')}</b></div>
   </div>`;
