@@ -8775,7 +8775,7 @@ const EN={mode:'enh',group:'무기',cat:'',grade:'영웅',lv:'',from:0,to:0};
 let EN_SIM={lv:0,fails:0,tries:0,kina:0,stone:0,log:[]};
 function enLoad(){
   if(EN_DATA) return Promise.resolve(EN_DATA);
-  if(!EN_LOADING) EN_LOADING=fetch('/data/enhance.json').then(r=>r.json()).then(d=>EN_DATA=d).catch(()=>{EN_LOADING=null;return null});
+  if(!EN_LOADING) EN_LOADING=fetch('/data/enhance.json?v=20260925').then(r=>r.json()).then(d=>EN_DATA=d).catch(()=>{EN_LOADING=null;return null});
   return EN_LOADING;
 }
 function enOpts(el,arr,sel){ el.innerHTML=arr.map(v=>`<option value="${v}" ${String(v)===String(sel)?'selected':''}>${v}</option>`).join(''); }
@@ -8878,6 +8878,7 @@ let MS_SIM={n:0,hits:0,log:[]};
 const MS_TIER_COLORS=['#cfd8ea','#4da1ff','#ffb020'];
 function msStone(){ return EN_DATA.ms[MS.stone]; }
 function msInit(){
+  if(!EN_DATA.ms){ $('#ms_table').innerHTML='<div class="note" style="padding:12px">마석 데이터를 불러오지 못했습니다. 새로고침(Ctrl+F5) 후 다시 시도해주세요.</div>'; return; }
   const sel=$('#ms_stone');
   if(!sel.options.length) sel.innerHTML=EN_DATA.ms.map((s,i)=>`<option value="${i}" ${i===MS.stone?'selected':''}>${s.n} / ${s.a}</option>`).join('');
   msRender();
