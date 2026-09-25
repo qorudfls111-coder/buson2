@@ -1905,10 +1905,11 @@ main.wrap{
 <section id="page-enh" class="hidden">
   <div class="card">
     <div class="head">
-      <h2>🔨 강화 시뮬레이터</h2>
-      <p>NC 공식 확률정보(장비 강화 확률)를 기준으로 목표 강화 단계까지 필요한 시도 횟수, 강화석, 키나의 기대값을 계산하고 직접 강화를 굴려볼 수 있습니다. 실패해도 단계가 내려가거나 장비가 파괴되지 않고, 실패할 때마다 보정 확률이 쌓입니다.</p>
+      <h2>🔨 강화·돌파 시뮬레이터</h2>
+      <p>NC 공식 확률정보(장비 강화·돌파 강화 확률)를 기준으로 목표 단계까지 필요한 시도 횟수, 강화석, 키나의 기대값을 계산하고 직접 강화를 굴려볼 수 있습니다. 실패해도 단계가 내려가거나 장비가 파괴되지 않고, 실패할 때마다 보정 확률이 쌓입니다.</p>
     </div>
     <div class="body">
+      <div class="subtabs" style="margin-bottom:14px"><button type="button" class="subtab active" id="en_mode_enh" onclick="enSetMode('enh')">장비 강화</button><button type="button" class="subtab" id="en_mode_brk" onclick="enSetMode('brk')">돌파 강화</button></div>
       <div class="en-fields">
         <div><label>장비 대분류</label><select id="en_group" onchange="enSetGroup(this.value)"></select></div>
         <div><label>장비 종류</label><select id="en_cat" onchange="enSetCat(this.value)"></select></div>
@@ -1916,7 +1917,7 @@ main.wrap{
         <div><label>장비 레벨</label><select id="en_lv" onchange="enSetLv(this.value)"></select></div>
         <div><label>현재 강화</label><select id="en_from" onchange="enSetRange()"></select></div>
         <div><label>목표 강화</label><select id="en_to" onchange="enSetRange()"></select></div>
-        <div><label>강화석 시세 (개당 키나, 선택)</label><input id="en_price" type="number" min="0" placeholder="입력하면 총 비용에 환산" oninput="enCalc()"></div>
+        <div><label id="en_price_label">강화석 시세 (개당 키나, 선택)</label><input id="en_price" type="number" min="0" placeholder="입력하면 총 비용에 환산" oninput="enCalc()"></div>
       </div>
       <div id="en_result"></div>
       <div class="en-sim">
@@ -1931,8 +1932,8 @@ main.wrap{
         <div id="en_log" class="en-log"></div>
       </div>
       <div class="note" style="margin-top:14px;">
-        기준: NC 아이온2 확률정보 &gt; 장비 강화 확률(2026-09-23 갱신본). 각 단계의 강화 확률에 "강화 실패 시 보정 확률"이 실패 횟수만큼 더해지며, 실패 시 패널티는 모두 "유지"입니다.
-        시도마다 키나와 강화석이 소모된다고 계산하고, 돌파 강화와 강화석 외 재료는 포함하지 않았습니다. 확률이 바뀌면 결과도 달라질 수 있습니다.
+        기준: NC 아이온2 확률정보 &gt; 장비 강화 확률·돌파 강화 확률(2026-09-23 갱신본). 각 단계의 강화 확률에 "강화 실패 시 보정 확률"이 실패 횟수만큼 더해지며, 실패 시 패널티는 모두 "유지"입니다.
+        시도마다 키나와 재료(강화석 또는 돌파석)가 소모된다고 계산합니다. 돌파 강화는 장비 레벨과 관계없이 등급(유일·영웅)별로 정해진 표를 씁니다. 확률이 바뀌면 결과도 달라질 수 있습니다.
       </div>
     </div>
   </div>
@@ -8722,7 +8723,7 @@ if(document.querySelector('.tab[data-page="race"]')?.classList.contains('active'
 <script>
 /* ===== 강화 시뮬레이터 ===== */
 let EN_DATA=null, EN_LOADING=null;
-const EN={group:'무기',cat:'',grade:'영웅',lv:'',from:0,to:0};
+const EN={mode:'enh',group:'무기',cat:'',grade:'영웅',lv:'',from:0,to:0};
 let EN_SIM={lv:0,fails:0,tries:0,kina:0,stone:0,log:[]};
 function enLoad(){
   if(EN_DATA) return Promise.resolve(EN_DATA);
@@ -8730,14 +8731,26 @@ function enLoad(){
   return EN_LOADING;
 }
 function enOpts(el,arr,sel){ el.innerHTML=arr.map(v=>`<option value="${v}" ${String(v)===String(sel)?'selected':''}>${v}</option>`).join(''); }
-function enTable(){ const m=EN_DATA.m[EN.cat]&&EN_DATA.m[EN.cat][EN.grade]; const i=m&&m[EN.lv]; return i===undefined?null:EN_DATA.t[i]; }
+function enStone(){ return EN.mode==='brk'?((EN_DATA.b.mat&&EN_DATA.b.mat[EN.grade])||'돌파석'):'강화석'; }
+function enCatsOf(group){ const all=EN_DATA.groups[group]; return EN.mode==='brk'?all.filter(c=>EN_DATA.b.m[c]):all; }
+function enGradesOf(cat){ return EN.mode==='brk'?EN_DATA.grades.filter(g=>EN_DATA.b.m[cat]&&EN_DATA.b.m[cat][g]!==undefined):EN_DATA.grades.filter(g=>EN_DATA.m[cat][g]); }
+function enSetMode(m){
+  EN.mode=m; EN.from=0; EN.to=0;
+  $('#en_mode_enh').classList.toggle('active',m==='enh'); $('#en_mode_brk').classList.toggle('active',m==='brk');
+  $('#en_price_label').textContent=(m==='brk'?'돌파석':'강화석')+' 시세 (개당 키나, 선택)';
+  $('#en_lv').parentElement.style.display=m==='brk'?'none':'';
+  if(EN_DATA) enSetGroup(EN.group);
+}
+function enTable(){ if(EN.mode==='brk'){ const b=EN_DATA.b, i=b.m[EN.cat]&&b.m[EN.cat][EN.grade]; return i===undefined?null:b.t[i]; } const m=EN_DATA.m[EN.cat]&&EN_DATA.m[EN.cat][EN.grade]; const i=m&&m[EN.lv]; return i===undefined?null:EN_DATA.t[i]; }
 async function enInit(){
   const d=await enLoad(); if(!d){ $('#en_result').innerHTML='<div class="note">데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>'; return; }
   if(!$('#en_group').options.length){ enOpts($('#en_group'),Object.keys(d.groups),EN.group); enSetGroup(EN.group); }
 }
-function enSetGroup(v){ EN.group=v; const cats=EN_DATA.groups[v]; if(!cats.includes(EN.cat)) EN.cat=cats[0]; enOpts($('#en_cat'),cats,EN.cat); enSetCat(EN.cat); }
-function enSetCat(v){ EN.cat=v; const gs=EN_DATA.grades.filter(g=>EN_DATA.m[v][g]); if(!gs.includes(EN.grade)) EN.grade=gs[0]; enOpts($('#en_grade'),gs,EN.grade); enSetGrade(EN.grade); }
-function enSetGrade(v){ EN.grade=v; const lvs=Object.keys(EN_DATA.m[EN.cat][v]).map(Number).sort((a,b)=>a-b); if(!lvs.includes(Number(EN.lv))) EN.lv=lvs[0]; enOpts($('#en_lv'),lvs.map(x=>x),EN.lv); enSetLv(EN.lv); }
+function enSetGroup(v){ EN.group=v; const cats=enCatsOf(v); if(!cats.includes(EN.cat)) EN.cat=cats[0]; enOpts($('#en_cat'),cats,EN.cat); enSetCat(EN.cat); }
+function enSetCat(v){ EN.cat=v; const gs=enGradesOf(v); if(!gs.includes(EN.grade)) EN.grade=gs[0]; enOpts($('#en_grade'),gs,EN.grade); enSetGrade(EN.grade); }
+function enSetGrade(v){ EN.grade=v;
+  if(EN.mode==='brk'){ EN.lv=0; enSetLv(0); return; }
+  const lvs=Object.keys(EN_DATA.m[EN.cat][v]).map(Number).sort((a,b)=>a-b); if(!lvs.includes(Number(EN.lv))) EN.lv=lvs[0]; enOpts($('#en_lv'),lvs.map(x=>x),EN.lv); enSetLv(EN.lv); }
 function enSetLv(v){
   EN.lv=Number(v); const t=enTable(); if(!t) return; const n=t.length;
   const froms=Array.from({length:n},(_,i)=>i); enOpts($('#en_from'),froms.map(x=>x),Math.min(EN.from,n-1)); EN.from=Math.min(EN.from,n-1);
@@ -8775,12 +8788,12 @@ function enCalc(){
   const total=kina+stone*price;
   $('#en_result').innerHTML=`<div class="rc-stats">
       <div class="rc-stat"><span>평균 시도 횟수</span><b>${rcNum(tries)}회</b></div>
-      <div class="rc-stat"><span>평균 강화석</span><b>${rcNum(stone)}개</b></div>
+      <div class="rc-stat"><span>평균 ${enStone()}</span><b>${rcNum(stone)}개</b></div>
       <div class="rc-stat"><span>평균 키나</span><b>${rcNum(kina)}</b></div>
-      <div class="rc-stat"><span>${price?'강화석 환산 총 비용':'강화석 시세 입력 시 총 비용'}</span><b>${price?rcNum(total):'-'}</b></div>
+      <div class="rc-stat"><span>${price?enStone()+' 환산 총 비용':enStone()+' 시세 입력 시 총 비용'}</span><b>${price?rcNum(total):'-'}</b></div>
     </div>
-    <div class="rc-expect-sub" style="margin:0 0 12px">운이 보통일 때(중앙값) 강화석 ${rcNum(q(S,.5))}개 · 운이 나쁠 때(상위 10%) ${rcNum(q(S,.9))}개 · 매우 나쁠 때(상위 5%) ${rcNum(q(S,.95))}개 · 최악 근처(상위 1%) ${rcNum(q(S,.99))}개 (시도 횟수 중앙값 ${rcNum(q(T,.5))}회 / 상위 5% ${rcNum(q(T,.95))}회, 시뮬레이션 2만 회)</div>
-    <div class="an-calc-wrap"><table class="rc-table" style="min-width:640px"><thead><tr><th>목표 단계</th><th>기본 확률</th><th>실패 시 보정</th><th>확정(천장)</th><th>평균 시도</th><th>평균 키나</th><th>평균 강화석</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+    <div class="rc-expect-sub" style="margin:0 0 12px">운이 보통일 때(중앙값) ${enStone()} ${rcNum(q(S,.5))}개 · 운이 나쁠 때(상위 10%) ${rcNum(q(S,.9))}개 · 매우 나쁠 때(상위 5%) ${rcNum(q(S,.95))}개 · 최악 근처(상위 1%) ${rcNum(q(S,.99))}개 (시도 횟수 중앙값 ${rcNum(q(T,.5))}회 / 상위 5% ${rcNum(q(T,.95))}회, 시뮬레이션 2만 회)</div>
+    <div class="an-calc-wrap"><table class="rc-table" style="min-width:640px"><thead><tr><th>목표 단계</th><th>기본 확률</th><th>실패 시 보정</th><th>확정(천장)</th><th>평균 시도</th><th>평균 키나</th><th>평균 ${enStone()}</th></tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   enSimRender();
 }
 /* 직접 강화 */
@@ -8804,8 +8817,8 @@ function enSimRender(){
   box.innerHTML=`<div class="rc-stats">
     <div class="rc-stat"><span>현재 강화${done?' (목표 달성!)':''}</span><b>+${EN_SIM.lv}</b></div>
     <div class="rc-stat"><span>다음 성공 확률 (실패 ${EN_SIM.fails}회 보정)</span><b>${p===null?'-':(p*100).toFixed(1)+'%'}</b></div>
-    <div class="rc-stat"><span>누적 시도 / 강화석</span><b>${rcNum(EN_SIM.tries)}회 / ${rcNum(EN_SIM.stone)}개</b></div>
-    <div class="rc-stat"><span>누적 키나${price?' (강화석 환산 포함)':''}</span><b>${rcNum(EN_SIM.kina+EN_SIM.stone*price)}</b></div>
+    <div class="rc-stat"><span>누적 시도 / ${enStone()}</span><b>${rcNum(EN_SIM.tries)}회 / ${rcNum(EN_SIM.stone)}개</b></div>
+    <div class="rc-stat"><span>누적 키나${price?' (재료 환산 포함)':''}</span><b>${rcNum(EN_SIM.kina+EN_SIM.stone*price)}</b></div>
   </div>`;
   $('#en_log').innerHTML=EN_SIM.log.join('');
 }
