@@ -1910,7 +1910,7 @@ main.wrap{
     </div>
     <div class="body">
       <div class="cr-top">
-        <div><label>제작 아이템 이름</label><input id="cr_name" placeholder="예: 흑룡의 허브 차"></div>
+        <div class="cr-search"><label>제작 아이템 이름 (몇 글자만 입력하면 재료가 자동으로 채워집니다)</label><input id="cr_name" placeholder="예: 허브 차, 후르츠, 오리하르콘" autocomplete="off" oninput="crSearch(this.value)" onfocus="crSearch(this.value)"><div id="cr_suggest" class="cr-suggest"></div></div>
         <div><label>프리셋</label><select id="cr_preset" onchange="crLoadPreset(this.value)"></select></div>
       </div>
       <div class="cr-cols">
@@ -1925,6 +1925,8 @@ main.wrap{
           <div class="fields">
             <div><label>완성품 시세 (키나)</label><input id="cr_price" type="number" min="0" placeholder="거래소 판매가" oninput="crCalc()"></div>
             <div><label>제작 횟수</label><input id="cr_count" type="number" min="1" value="1" oninput="crCalc()"></div>
+            <div><label>제작 성공률 (%)</label><input id="cr_succ" type="number" min="0" max="100" value="100" oninput="crCalc()"></div>
+            <div><label>기본 생산량 (개)</label><input id="cr_base" type="number" min="1" value="1" oninput="crCalc()"></div>
             <div><label>콤보 발동 확률 (%)</label><input id="cr_combo" type="number" min="0" max="100" value="30" oninput="crCalc()"></div>
             <div><label>콤보 시 생산량 (배)</label><input id="cr_mult" type="number" min="1" value="2" oninput="crCalc()"></div>
             <div><label>거래소 수수료 (%)</label><input id="cr_fee" type="number" min="0" max="100" value="22" oninput="crCalc()"></div>
@@ -4281,6 +4283,11 @@ min-height:56px;
 .cr-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
 .cr-box{border:1px solid #263043;background:#0d131c;border-radius:12px;padding:14px}
 .cr-box h3{margin:0 0 10px;font-size:14px;color:#9db8ff}
+.cr-search{position:relative}
+.cr-suggest{position:absolute;left:0;right:0;top:100%;z-index:20;background:#0f1622;border:1px solid #33435a;border-radius:10px;margin-top:4px;max-height:280px;overflow:auto;display:none;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.cr-suggest button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;border:0;background:transparent;color:#dbe6ff;padding:9px 12px;cursor:pointer;font-size:13px}
+.cr-suggest button:hover{background:#1a2740}
+.cr-suggest small{color:#8b97ab}
 .cr-mat{display:grid;grid-template-columns:1.4fr .6fr 1fr auto 28px;gap:6px;align-items:center;margin-bottom:6px}
 .cr-mat input[type=number],.cr-mat input[type=text]{width:100%;min-width:0}
 .cr-mat label{display:flex;align-items:center;gap:4px;margin:0;font-size:11.5px;white-space:nowrap}
@@ -8737,9 +8744,37 @@ const CR_PRESETS={
     {n:'용족의 달콤한 열매',q:1,p:0,own:false},{n:'모르파 (각인)',q:3,p:0,own:false},{n:'오크라 (각인)',q:2,p:0,own:false},{n:'설탕 (각인)',q:5,p:0,own:false},{n:'오드',q:1,p:0,own:false}]},
   '직접 입력':{name:'',combo:0,mult:2,mats:[{n:'',q:1,p:0,own:false}]}
 };
-let CR_MATS=[];
+let CR_MATS=[], CR_DATA=null, CR_LOADING=null;
+function crLoadData(){
+  if(CR_DATA) return Promise.resolve(CR_DATA);
+  if(!CR_LOADING) CR_LOADING=fetch('/data/craft-recipes.json').then(r=>r.json()).then(d=>CR_DATA=d).catch(()=>{CR_LOADING=null;return null});
+  return CR_LOADING;
+}
+function crSearch(q){
+  const box=$('#cr_suggest'); q=(q||'').trim();
+  if(!q){ box.style.display='none'; return; }
+  crLoadData().then(d=>{
+    if(!d||$('#cr_name').value.trim()!==q) return;
+    const key=q.replace(/\s+/g,'');
+    const hits=d.filter(r=>r.n.replace(/\s+/g,'').includes(key)).slice(0,10);
+    box.innerHTML=hits.length?hits.map(r=>`<button type="button" onclick="crPick(${d.indexOf(r)})"><span>${escapeHtml(r.n)}</span><small>${escapeHtml(r.c)} · ${escapeHtml(r.g)}</small></button>`).join(''):'<div style="padding:10px 12px;color:#8b97ab;font-size:12.5px">일치하는 제작 아이템이 없습니다. 직접 입력해서 계산할 수 있어요.</div>';
+    box.style.display='block';
+  });
+}
+function crPick(i){
+  const r=CR_DATA[i]; if(!r) return;
+  $('#cr_name').value=r.n; $('#cr_suggest').style.display='none';
+  CR_MATS=r.m.map(m=>({n:m[0],q:m[1],p:m[2]||0,own:false}));
+  const hasProc=r.p!==undefined;
+  $('#cr_succ').value=r.s??100;
+  $('#cr_base').value=hasProc?1:(r.o||1);
+  $('#cr_combo').value=hasProc?r.p:0;
+  $('#cr_mult').value=hasProc?(r.o||2):1;
+  crRenderMats(); crCalc();
+}
+document.addEventListener('click',e=>{ const b=$('#cr_suggest'); if(b&&!e.target.closest('.cr-search')) b.style.display='none'; });
 function crFmt(n){ const a=Math.abs(n); if(!isFinite(n)) return '-'; const sign=n<0?'-':''; if(a>=1e8) return sign+(a/1e8).toFixed(2).replace(/\.?0+$/,'')+'억'; if(a>=1e4) return sign+Math.round(a).toLocaleString('ko-KR'); return sign+Math.round(a).toLocaleString('ko-KR'); }
-function crSave(){ try{ localStorage.setItem(CR_KEY,JSON.stringify({name:$('#cr_name').value,mats:CR_MATS,price:$('#cr_price').value,count:$('#cr_count').value,combo:$('#cr_combo').value,mult:$('#cr_mult').value,fee:$('#cr_fee').value})); }catch(e){} }
+function crSave(){ try{ localStorage.setItem(CR_KEY,JSON.stringify({name:$('#cr_name').value,mats:CR_MATS,price:$('#cr_price').value,count:$('#cr_count').value,succ:$('#cr_succ').value,base:$('#cr_base').value,combo:$('#cr_combo').value,mult:$('#cr_mult').value,fee:$('#cr_fee').value})); }catch(e){} }
 function crRenderMats(){
   $('#cr_mats').innerHTML=CR_MATS.map((m,i)=>`<div class="cr-mat">
     <input type="text" placeholder="재료 이름" value="${escapeHtml(m.n)}" oninput="CR_MATS[${i}].n=this.value;crCalc()">
@@ -8753,18 +8788,19 @@ function crAddMat(){ CR_MATS.push({n:'',q:1,p:0,own:false}); crRenderMats(); crC
 function crDelMat(i){ CR_MATS.splice(i,1); crRenderMats(); crCalc(); }
 function crLoadPreset(k){
   const p=CR_PRESETS[k]; if(!p) return;
-  $('#cr_name').value=p.name; $('#cr_combo').value=p.combo; $('#cr_mult').value=p.mult;
+  $('#cr_name').value=p.name; $('#cr_succ').value=100; $('#cr_base').value=1; $('#cr_combo').value=p.combo; $('#cr_mult').value=p.mult;
   CR_MATS=JSON.parse(JSON.stringify(p.mats)); crRenderMats(); crCalc();
 }
 function crCalc(){
   const price=Number($('#cr_price').value)||0, count=Math.max(1,Number($('#cr_count').value)||1);
   const combo=Math.min(100,Math.max(0,Number($('#cr_combo').value)||0))/100, mult=Math.max(1,Number($('#cr_mult').value)||1);
+  const succ=Math.min(100,Math.max(0,Number($('#cr_succ').value)||0))/100, base=Math.max(1,Number($('#cr_base').value)||1);
   const fee=Math.min(100,Math.max(0,Number($('#cr_fee').value)||0))/100;
   const cost=CR_MATS.reduce((a,m)=>a+(m.own?0:(m.q||0)*(m.p||0)),0);
-  const expQty=1+combo*(mult-1);
+  const expQty=succ*base*(1+combo*(mult-1));   // 실패 시 재료만 소모된다고 가정
   const net=price*(1-fee);                 // 개당 실수령
   const income=net*expQty, profit=income-cost;
-  const noCombo=net-cost, hitCombo=net*mult-cost;
+  const noCombo=net*base-cost, hitCombo=net*base*mult-cost;
   const be=expQty>0?cost/(expQty*(1-fee)):0;   // 손익분기 판매가
   const rate=cost>0?profit/cost*100:null;
   const cls=profit>=0?'good':'bad';
@@ -8775,10 +8811,10 @@ function crCalc(){
     <div class="cr-res ${cls}"><span>수익률</span><b>${rate===null?'-':(rate>=0?'+':'')+rate.toFixed(1)+'%'}</b></div>
     <div class="cr-res"><span>기대 생산량 / 회</span><b>${expQty.toFixed(2)}개</b></div>
     <div class="cr-res"><span>손익분기 판매가</span><b>${crFmt(be)}</b></div>
-    <div class="cr-res"><span>콤보 없음 / 콤보 발동 시 이득</span><b style="font-size:13.5px">${crFmt(noCombo)} / ${crFmt(hitCombo)}</b></div>
+    <div class="cr-res"><span>콤보 없음 / 발동 시 이득 (성공 시)</span><b style="font-size:13.5px">${crFmt(noCombo)} / ${crFmt(hitCombo)}</b></div>
     <div class="cr-res ${cls}"><span>${count}회 제작 총 기대 이득</span><b>${profit>=0?'+':''}${crFmt(profit*count)}</b></div>
   </div>
-  <div class="cr-note">개당 실수령 ${crFmt(net)} 키나 (시세 ${crFmt(price)} − 수수료 ${(fee*100).toFixed(0)}%). 기대 이득 = 시세 × (1−수수료) × 기대 생산량 − 재료비이며, 시세 변동과 판매 대기 시간은 반영하지 않습니다. 콤보 확률·수수료는 게임과 다를 수 있으니 실제 값으로 바꿔 쓰세요.</div>`;
+  <div class="cr-note">개당 실수령 ${crFmt(net)} 키나 (시세 ${crFmt(price)} − 수수료 ${(fee*100).toFixed(0)}%). 기대 이득 = 시세 × (1−수수료) × 기대 생산량 − 재료비이고, 기대 생산량 = 성공률 × 기본 생산량 × (1 + 콤보 확률 × (배수−1))입니다. 실패하면 재료만 소모된다고 가정했고, 시세 변동과 판매 대기 시간은 반영하지 않습니다. 콤보 확률·수수료는 게임과 다를 수 있으니 실제 값으로 바꿔 쓰세요.</div>`;
   crSave();
 }
 function crInit(){
@@ -8786,7 +8822,7 @@ function crInit(){
   let saved=null; try{ saved=JSON.parse(localStorage.getItem(CR_KEY)||'null'); }catch(e){}
   if(saved && Array.isArray(saved.mats) && saved.mats.length){
     CR_MATS=saved.mats; $('#cr_name').value=saved.name||''; $('#cr_price').value=saved.price||''; $('#cr_count').value=saved.count||1;
-    $('#cr_combo').value=saved.combo??30; $('#cr_mult').value=saved.mult??2; $('#cr_fee').value=saved.fee??22;
+    $('#cr_succ').value=saved.succ??100; $('#cr_base').value=saved.base??1; $('#cr_combo').value=saved.combo??30; $('#cr_mult').value=saved.mult??2; $('#cr_fee').value=saved.fee??22;
     crRenderMats(); crCalc();
   } else { crLoadPreset('흑룡의 허브 차'); }
   $('#cr_name').oninput=crSave;
