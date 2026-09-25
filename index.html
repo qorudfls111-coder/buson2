@@ -357,6 +357,7 @@ main.wrap{
 <button class="tab" data-page="party">성역 파티 배치</button>
 <button class="tab" data-page="arcana">아르카나</button>
 <button class="tab" data-page="race">펫작 시뮬</button>
+<button class="tab" data-page="craft">제작 이득</button>
 </nav>
 </div></header>
 
@@ -1901,6 +1902,40 @@ main.wrap{
   </div>
 </section>
 
+<section id="page-craft" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>🍵 제작 이득 계산기</h2>
+      <p>재료 가격과 완성품 시세, 콤보 확률, 거래소 수수료를 넣으면 1회 제작당 기대 이득과 손익분기 판매가를 계산합니다. 시세는 게임 거래소 기준으로 직접 입력하세요.</p>
+    </div>
+    <div class="body">
+      <div class="cr-top">
+        <div><label>제작 아이템 이름</label><input id="cr_name" placeholder="예: 흑룡의 허브 차"></div>
+        <div><label>프리셋</label><select id="cr_preset" onchange="crLoadPreset(this.value)"></select></div>
+      </div>
+      <div class="cr-cols">
+        <div class="cr-box">
+          <h3>재료 (1회 제작 기준)</h3>
+          <div id="cr_mats"></div>
+          <button type="button" class="btn secondary" style="width:auto;padding:8px 14px;margin-top:8px" onclick="crAddMat()">+ 재료 추가</button>
+          <div class="cr-hint">직접 모은 재료(거래 불가 각인 재료 등)는 "직접 수집"을 체크하면 0원으로 계산합니다. 체크하지 않으면 시세로 계산합니다.</div>
+        </div>
+        <div class="cr-box">
+          <h3>판매 · 확률</h3>
+          <div class="fields">
+            <div><label>완성품 시세 (키나)</label><input id="cr_price" type="number" min="0" placeholder="거래소 판매가" oninput="crCalc()"></div>
+            <div><label>제작 횟수</label><input id="cr_count" type="number" min="1" value="1" oninput="crCalc()"></div>
+            <div><label>콤보 발동 확률 (%)</label><input id="cr_combo" type="number" min="0" max="100" value="30" oninput="crCalc()"></div>
+            <div><label>콤보 시 생산량 (배)</label><input id="cr_mult" type="number" min="1" value="2" oninput="crCalc()"></div>
+            <div><label>거래소 수수료 (%)</label><input id="cr_fee" type="number" min="0" max="100" value="22" oninput="crCalc()"></div>
+            <div><label>&nbsp;</label><div class="cr-hint" style="margin:0">월드 거래소 22%(등록 수수료 2% 포함) 기준. 다르면 수정하세요.</div></div>
+          </div>
+        </div>
+      </div>
+      <div id="cr_result"></div>
+    </div>
+  </div>
+</section>
 <!-- BUSON2 소개 / SEO 영역 -->
 <section class="buson-info-section">
 
@@ -4241,6 +4276,24 @@ min-height:56px;
 .an-shortfall-cards{margin-top:5px;font-size:11.5px;color:#8b97ab;display:flex;flex-wrap:wrap;align-items:center;gap:5px}
 .an-shortfall-card-tag{background:#16233a;border:1px solid #2c3a55;color:#9db8ff;border-radius:999px;padding:2px 9px;font-weight:700;font-size:11px}
 
+/* ===== 제작 이득 계산기 ===== */
+.cr-top{display:grid;grid-template-columns:2fr 1fr;gap:13px;margin-bottom:14px}
+.cr-cols{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+.cr-box{border:1px solid #263043;background:#0d131c;border-radius:12px;padding:14px}
+.cr-box h3{margin:0 0 10px;font-size:14px;color:#9db8ff}
+.cr-mat{display:grid;grid-template-columns:1.4fr .6fr 1fr auto 28px;gap:6px;align-items:center;margin-bottom:6px}
+.cr-mat input[type=number],.cr-mat input[type=text]{width:100%;min-width:0}
+.cr-mat label{display:flex;align-items:center;gap:4px;margin:0;font-size:11.5px;white-space:nowrap}
+.cr-mat label input{width:auto}
+.cr-x{border:0;background:transparent;color:#8b97ab;cursor:pointer;font-size:16px}
+.cr-hint{font-size:11.5px;color:#8b97ab;margin-top:8px;line-height:1.6}
+.cr-res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.cr-res{border:1px solid #263043;border-radius:10px;padding:10px 12px;background:#0b1018}
+.cr-res span{display:block;font-size:11px;color:#8fa3d9;font-weight:700;margin-bottom:3px}
+.cr-res b{font-size:16px;color:#eef4ff}
+.cr-res.good b{color:#8df0bd}.cr-res.bad b{color:#ff8d8d}
+.cr-note{margin-top:12px;font-size:12px;color:#8b97ab;line-height:1.7}
+@media(max-width:860px){.cr-top,.cr-cols{grid-template-columns:1fr}.cr-res-grid{grid-template-columns:1fr 1fr}.cr-mat{grid-template-columns:1fr 1fr}}
 /* ===== 종족 이해도 시뮬레이터 ===== */
 .rc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 .rc-stat{border:1px solid #263043;background:#0d131c;border-radius:12px;padding:10px 12px}
@@ -6690,7 +6743,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party','arcana','race'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster();if(b.dataset.page==='arcana')anInit();if(b.dataset.page==='race')rcInit()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','lookup','sub','main','compare','party','arcana','race','craft'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party')renderPartyRoster();if(b.dataset.page==='arcana')anInit();if(b.dataset.page==='race')rcInit();if(b.dataset.page==='craft')crInit()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 function openTabFromHash(){
   const page = location.hash.replace("#", "");
@@ -8676,7 +8729,71 @@ if(document.querySelector('.tab[data-page="race"]')?.classList.contains('active'
   rcInit();
 }
 </script>
-  <script>
+<script>
+/* ===== 제작 이득 계산기 ===== */
+const CR_KEY='buson2-craft-v1';
+const CR_PRESETS={
+  '흑룡의 허브 차':{name:'흑룡의 허브 차',combo:30,mult:2,mats:[
+    {n:'용족의 달콤한 열매',q:1,p:0,own:false},{n:'모르파 (각인)',q:3,p:0,own:false},{n:'오크라 (각인)',q:2,p:0,own:false},{n:'설탕 (각인)',q:5,p:0,own:false},{n:'오드',q:1,p:0,own:false}]},
+  '직접 입력':{name:'',combo:0,mult:2,mats:[{n:'',q:1,p:0,own:false}]}
+};
+let CR_MATS=[];
+function crFmt(n){ const a=Math.abs(n); if(!isFinite(n)) return '-'; const sign=n<0?'-':''; if(a>=1e8) return sign+(a/1e8).toFixed(2).replace(/\.?0+$/,'')+'억'; if(a>=1e4) return sign+Math.round(a).toLocaleString('ko-KR'); return sign+Math.round(a).toLocaleString('ko-KR'); }
+function crSave(){ try{ localStorage.setItem(CR_KEY,JSON.stringify({name:$('#cr_name').value,mats:CR_MATS,price:$('#cr_price').value,count:$('#cr_count').value,combo:$('#cr_combo').value,mult:$('#cr_mult').value,fee:$('#cr_fee').value})); }catch(e){} }
+function crRenderMats(){
+  $('#cr_mats').innerHTML=CR_MATS.map((m,i)=>`<div class="cr-mat">
+    <input type="text" placeholder="재료 이름" value="${escapeHtml(m.n)}" oninput="CR_MATS[${i}].n=this.value;crCalc()">
+    <input type="number" min="0" placeholder="수량" value="${m.q}" oninput="CR_MATS[${i}].q=Number(this.value)||0;crCalc()">
+    <input type="number" min="0" placeholder="개당 가격" value="${m.p||''}" ${m.own?'disabled':''} oninput="CR_MATS[${i}].p=Number(this.value)||0;crCalc()">
+    <label><input type="checkbox" ${m.own?'checked':''} onchange="CR_MATS[${i}].own=this.checked;crRenderMats();crCalc()">직접 수집</label>
+    <button type="button" class="cr-x" onclick="crDelMat(${i})" title="삭제">✕</button>
+  </div>`).join('');
+}
+function crAddMat(){ CR_MATS.push({n:'',q:1,p:0,own:false}); crRenderMats(); crCalc(); }
+function crDelMat(i){ CR_MATS.splice(i,1); crRenderMats(); crCalc(); }
+function crLoadPreset(k){
+  const p=CR_PRESETS[k]; if(!p) return;
+  $('#cr_name').value=p.name; $('#cr_combo').value=p.combo; $('#cr_mult').value=p.mult;
+  CR_MATS=JSON.parse(JSON.stringify(p.mats)); crRenderMats(); crCalc();
+}
+function crCalc(){
+  const price=Number($('#cr_price').value)||0, count=Math.max(1,Number($('#cr_count').value)||1);
+  const combo=Math.min(100,Math.max(0,Number($('#cr_combo').value)||0))/100, mult=Math.max(1,Number($('#cr_mult').value)||1);
+  const fee=Math.min(100,Math.max(0,Number($('#cr_fee').value)||0))/100;
+  const cost=CR_MATS.reduce((a,m)=>a+(m.own?0:(m.q||0)*(m.p||0)),0);
+  const expQty=1+combo*(mult-1);
+  const net=price*(1-fee);                 // 개당 실수령
+  const income=net*expQty, profit=income-cost;
+  const noCombo=net-cost, hitCombo=net*mult-cost;
+  const be=expQty>0?cost/(expQty*(1-fee)):0;   // 손익분기 판매가
+  const rate=cost>0?profit/cost*100:null;
+  const cls=profit>=0?'good':'bad';
+  $('#cr_result').innerHTML=`<div class="cr-res-grid">
+    <div class="cr-res"><span>1회 재료비</span><b>${crFmt(cost)}</b></div>
+    <div class="cr-res"><span>1회 기대 판매 수입 (수수료 제외)</span><b>${crFmt(income)}</b></div>
+    <div class="cr-res ${cls}"><span>1회 기대 이득</span><b>${profit>=0?'+':''}${crFmt(profit)}</b></div>
+    <div class="cr-res ${cls}"><span>수익률</span><b>${rate===null?'-':(rate>=0?'+':'')+rate.toFixed(1)+'%'}</b></div>
+    <div class="cr-res"><span>기대 생산량 / 회</span><b>${expQty.toFixed(2)}개</b></div>
+    <div class="cr-res"><span>손익분기 판매가</span><b>${crFmt(be)}</b></div>
+    <div class="cr-res"><span>콤보 없음 / 콤보 발동 시 이득</span><b style="font-size:13.5px">${crFmt(noCombo)} / ${crFmt(hitCombo)}</b></div>
+    <div class="cr-res ${cls}"><span>${count}회 제작 총 기대 이득</span><b>${profit>=0?'+':''}${crFmt(profit*count)}</b></div>
+  </div>
+  <div class="cr-note">개당 실수령 ${crFmt(net)} 키나 (시세 ${crFmt(price)} − 수수료 ${(fee*100).toFixed(0)}%). 기대 이득 = 시세 × (1−수수료) × 기대 생산량 − 재료비이며, 시세 변동과 판매 대기 시간은 반영하지 않습니다. 콤보 확률·수수료는 게임과 다를 수 있으니 실제 값으로 바꿔 쓰세요.</div>`;
+  crSave();
+}
+function crInit(){
+  const sel=$('#cr_preset'); if(!sel.options.length) sel.innerHTML=Object.keys(CR_PRESETS).map(k=>`<option>${k}</option>`).join('');
+  let saved=null; try{ saved=JSON.parse(localStorage.getItem(CR_KEY)||'null'); }catch(e){}
+  if(saved && Array.isArray(saved.mats) && saved.mats.length){
+    CR_MATS=saved.mats; $('#cr_name').value=saved.name||''; $('#cr_price').value=saved.price||''; $('#cr_count').value=saved.count||1;
+    $('#cr_combo').value=saved.combo??30; $('#cr_mult').value=saved.mult??2; $('#cr_fee').value=saved.fee??22;
+    crRenderMats(); crCalc();
+  } else { crLoadPreset('흑룡의 허브 차'); }
+  $('#cr_name').oninput=crSave;
+}
+if(document.querySelector('.tab[data-page="craft"]')?.classList.contains('active')) crInit();
+</script>
+    <script>
 /* ===== BUSON2 공식 AION2 캐릭터 검색 ===== */
 
 (function () {
