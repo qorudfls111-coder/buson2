@@ -357,7 +357,7 @@ main.wrap{
 <button class="tab" data-page="party">성역 파티 배치</button>
 <button class="tab" data-page="arcana">아르카나</button>
 <button class="tab" data-page="race">펫작 시뮬</button>
-<button class="tab" data-page="enh">강화 시뮬</button>
+<button class="tab" data-page="enh">강화·마석</button>
 </nav>
 </div></header>
 
@@ -1905,11 +1905,12 @@ main.wrap{
 <section id="page-enh" class="hidden">
   <div class="card">
     <div class="head">
-      <h2>🔨 강화·돌파 시뮬레이터</h2>
-      <p>NC 공식 확률정보(장비 강화·돌파 강화 확률)를 기준으로 목표 단계까지 필요한 시도 횟수, 강화석, 키나의 기대값을 계산하고 직접 강화를 굴려볼 수 있습니다. 실패해도 단계가 내려가거나 장비가 파괴되지 않고, 실패할 때마다 보정 확률이 쌓입니다.</p>
+      <h2>🔨 강화·돌파·마석 시뮬레이터</h2>
+      <p>NC 공식 확률정보(장비 강화·돌파 강화·마석/영석 확률)를 기준으로 목표 강화 단계나 원하는 마석 옵션까지 필요한 시도 횟수와 비용의 기대값을 계산하고 직접 굴려볼 수 있습니다.</p>
     </div>
     <div class="body">
-      <div class="subtabs" style="margin-bottom:14px"><button type="button" class="subtab active" id="en_mode_enh" onclick="enSetMode('enh')">장비 강화</button><button type="button" class="subtab" id="en_mode_brk" onclick="enSetMode('brk')">돌파 강화</button></div>
+      <div class="subtabs" style="margin-bottom:14px"><button type="button" class="subtab active" id="en_mode_enh" onclick="enSetMode('enh')">장비 강화</button><button type="button" class="subtab" id="en_mode_brk" onclick="enSetMode('brk')">돌파 강화</button><button type="button" class="subtab" id="en_mode_ms" onclick="enSetMode('ms')">마석·영석</button></div>
+      <div id="en_main">
       <div class="en-fields">
         <div><label>장비 대분류</label><select id="en_group" onchange="enSetGroup(this.value)"></select></div>
         <div><label>장비 종류</label><select id="en_cat" onchange="enSetCat(this.value)"></select></div>
@@ -1934,6 +1935,33 @@ main.wrap{
       <div class="note" style="margin-top:14px;">
         기준: NC 아이온2 확률정보 &gt; 장비 강화 확률·돌파 강화 확률(2026-09-23 갱신본). 각 단계의 강화 확률에 "강화 실패 시 보정 확률"이 실패 횟수만큼 더해지며, 실패 시 패널티는 모두 "유지"입니다.
         시도마다 키나와 재료(강화석 또는 돌파석)가 소모된다고 계산합니다. 돌파 강화는 장비 레벨과 관계없이 등급(유일·영웅)별로 정해진 표를 씁니다. 확률이 바뀌면 결과도 달라질 수 있습니다.
+      </div>
+      </div>
+      <div id="ms_main" style="display:none">
+        <div class="en-fields">
+          <div><label>마석 종류</label><select id="ms_stone" onchange="msSetStone(this.value)"></select></div>
+          <div><label>필요 개수</label><input id="ms_need" type="number" min="1" max="100" value="1" oninput="msCalc()"></div>
+          <div><label>마석 개당 가격 (키나, 선택)</label><input id="ms_price" type="number" min="0" placeholder="입력하면 총 비용에 환산" oninput="msCalc()"></div>
+          <div><label>&nbsp;</label><button type="button" class="btn secondary" style="width:100%;padding:10px" onclick="msClear()">목표 전체 해제</button></div>
+        </div>
+        <div class="ms-help">원하는 옵션마다 최소 등급을 누르세요. 고른 옵션 중 하나가 그 등급 이상으로 나오면 목표 달성입니다. 칸 안의 숫자는 옵션 수치, 아래는 해당 등급으로 나올 확률입니다.</div>
+        <div id="ms_table" class="ms-table"></div>
+        <div id="ms_result"></div>
+        <div class="en-sim">
+          <h3>🎲 직접 뽑아보기</h3>
+          <div id="ms_sim_stats"></div>
+          <div class="rc-actions">
+            <button type="button" class="btn primary" onclick="msTry(1)">1개 사용</button>
+            <button type="button" class="btn secondary" onclick="msTry(10)">10개</button>
+            <button type="button" class="btn secondary" onclick="msTryToTarget()">필요 개수까지 자동</button>
+            <button type="button" class="btn secondary" onclick="msSimReset()">초기화</button>
+          </div>
+          <div id="ms_log" class="en-log"></div>
+        </div>
+        <div class="note" style="margin-top:14px;">
+          기준: NC 아이온2 확률정보 &gt; 마석/영석 확률(2026-09-23 갱신본)의 옵션별 "획득 확률". 마석과 영석, 각인 여부에 따라 확률표가 같아서 한 목록으로 묶었습니다.
+          수치는 공식 표에 적힌 값 그대로이며, 결과는 확률 기반 예상치라 실제와 다를 수 있습니다.
+        </div>
       </div>
     </div>
   </div>
@@ -4285,6 +4313,26 @@ min-height:56px;
 .en-log{font-size:12.5px;line-height:1.7;color:#aab5c7;max-height:220px;overflow:auto}
 .en-ok{color:#8df0bd;font-weight:800}.en-fail{color:#ff8d8d;font-weight:800}
 @media(max-width:860px){.en-fields{grid-template-columns:1fr 1fr}}
+.ms-help{font-size:12px;color:#8b97ab;margin:-4px 0 10px;line-height:1.6}
+.ms-table{border:1px solid #263043;border-radius:12px;overflow:hidden}
+.ms-row{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;padding:7px 12px;border-bottom:1px solid #1a2333}
+.ms-row:last-child{border-bottom:0}
+.ms-row.on{background:#101b2c}
+.ms-row.ms-headrow{font-size:11.5px;font-weight:800;color:#7f93bd;background:#0d131c}
+.ms-name{font-size:13.5px;font-weight:800;color:#8b97ab}
+.ms-row.on .ms-name{color:#eef4ff}
+.ms-chips{display:grid;grid-template-columns:70px repeat(3,1fr);gap:5px}
+.ms-chip{border:1px solid #2a3547;background:#0b1018;border-radius:7px;color:#9aa4b2;padding:4px 2px;cursor:pointer;font-size:12px;line-height:1.25;text-align:center}
+.ms-chip b{display:block;font-size:13px;color:var(--cc,#cfd8ea)}
+.ms-chip small{font-size:10.5px;color:#6f7d96}
+.ms-chip.act{background:var(--cc);border-color:var(--cc);color:#0b1018}
+.ms-chip.act b,.ms-chip.act small{color:#0b1018}
+.ms-chip.inc{background:color-mix(in srgb,var(--cc) 22%,#0b1018);border-color:var(--cc)}
+.ms-chip.na{visibility:hidden}
+.ms-chip.none.act{background:#3a465c;border-color:#5b6b8c;color:#eef4ff}
+.ms-p{text-align:right;font-size:12px;color:#8fa3d9}
+#ms_result{margin-top:14px}
+@media(max-width:860px){.ms-row{grid-template-columns:1fr;gap:6px}.ms-p{text-align:left}.ms-chips{grid-template-columns:60px repeat(3,1fr)}}
 /* ===== 종족 이해도 시뮬레이터 ===== */
 .rc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 .rc-stat{border:1px solid #263043;background:#0d131c;border-radius:12px;padding:10px 12px}
@@ -8735,8 +8783,10 @@ function enStone(){ return EN.mode==='brk'?((EN_DATA.b.mat&&EN_DATA.b.mat[EN.gra
 function enCatsOf(group){ const all=EN_DATA.groups[group]; return EN.mode==='brk'?all.filter(c=>EN_DATA.b.m[c]):all; }
 function enGradesOf(cat){ return EN.mode==='brk'?EN_DATA.grades.filter(g=>EN_DATA.b.m[cat]&&EN_DATA.b.m[cat][g]!==undefined):EN_DATA.grades.filter(g=>EN_DATA.m[cat][g]); }
 function enSetMode(m){
+  ['enh','brk','ms'].forEach(k=>$('#en_mode_'+k).classList.toggle('active',m===k));
+  $('#en_main').style.display=m==='ms'?'none':''; $('#ms_main').style.display=m==='ms'?'':'none';
+  if(m==='ms'){ enLoad().then(d=>{ if(d) msInit(); }); return; }
   EN.mode=m; EN.from=0; EN.to=0;
-  $('#en_mode_enh').classList.toggle('active',m==='enh'); $('#en_mode_brk').classList.toggle('active',m==='brk');
   $('#en_price_label').textContent=(m==='brk'?'돌파석':'강화석')+' 시세 (개당 키나, 선택)';
   $('#en_lv').parentElement.style.display=m==='brk'?'none':'';
   if(EN_DATA) enSetGroup(EN.group);
@@ -8821,6 +8871,92 @@ function enSimRender(){
     <div class="rc-stat"><span>누적 키나${price?' (재료 환산 포함)':''}</span><b>${rcNum(EN_SIM.kina+EN_SIM.stone*price)}</b></div>
   </div>`;
   $('#en_log').innerHTML=EN_SIM.log.join('');
+}
+/* ----- 마석·영석 ----- */
+const MS={stone:5,target:{}};
+let MS_SIM={n:0,hits:0,log:[]};
+const MS_TIER_COLORS=['#cfd8ea','#4da1ff','#ffb020'];
+function msStone(){ return EN_DATA.ms[MS.stone]; }
+function msInit(){
+  const sel=$('#ms_stone');
+  if(!sel.options.length) sel.innerHTML=EN_DATA.ms.map((s,i)=>`<option value="${i}" ${i===MS.stone?'selected':''}>${s.n} / ${s.a}</option>`).join('');
+  msRender();
+}
+function msSetStone(i){ MS.stone=Number(i); MS.target={}; msSimReset(); msRender(); }
+function msClear(){ MS.target={}; msRender(); }
+function msSetTarget(name,ti){ if(ti<0) delete MS.target[name]; else MS.target[name]=ti; msRender(); }
+function msStatProb(name,min){ let p=0; msStone().t.forEach((t,ti)=>{ if(ti>=min){ const x=t.s.find(y=>y[0]===name); if(x) p+=x[2]/100; } }); return p; }
+function msProb(){ let p=0; for(const n in MS.target) p+=msStatProb(n,MS.target[n]); return p; }
+function msHit(r){ const m=MS.target[r.name]; return m!==undefined && r.ti>=m; }
+function msRoll(){
+  const st=msStone(); const u=Math.random()*100; let acc=0;
+  for(let ti=0;ti<st.t.length;ti++) for(const x of st.t[ti].s){ acc+=x[2]; if(u<acc) return {ti,name:x[0],v:x[1]}; }
+  const lt=st.t.length-1, lx=st.t[lt].s[st.t[lt].s.length-1]; return {ti:lt,name:lx[0],v:lx[1]};
+}
+function msRender(){
+  const st=msStone(); if(!st) return;
+  const nT=st.t.length;
+  let html=`<div class="ms-row ms-headrow"><span>옵션</span><span class="ms-chips"><span style="text-align:center">선택 안함</span>${[0,1,2].map(ti=>`<span style="text-align:center;color:${MS_TIER_COLORS[ti]}">${st.t[ti]?st.t[ti].n+' ('+st.t[ti].p+'%)':''}</span>`).join('')}</span><span style="text-align:right">목표 확률</span></div>`;
+  st.t[0].s.forEach(x=>{
+    const name=x[0], sel=MS.target[name], on=sel!==undefined;
+    const nm=name.replace(/'/g,"\\'");
+    html+=`<div class="ms-row ${on?'on':''}"><span class="ms-name">${escapeHtml(name)}</span><span class="ms-chips">
+      <button type="button" class="ms-chip none ${on?'':'act'}" onclick="msSetTarget('${nm}',-1)">-</button>
+      ${[0,1,2].map(ti=>{
+        const t=st.t[ti]; if(!t) return '<button type="button" class="ms-chip na" disabled></button>';
+        const y=t.s.find(z=>z[0]===name); if(!y) return '<button type="button" class="ms-chip na" disabled></button>';
+        const cls=on&&sel===ti?'act':(on&&ti>sel?'inc':'');
+        return `<button type="button" class="ms-chip ${cls}" style="--cc:${MS_TIER_COLORS[ti]}" onclick="msSetTarget('${nm}',${ti})"><b>${y[1]}</b><small>${y[2]}%</small></button>`;
+      }).join('')}
+    </span><span class="ms-p">${on?(msStatProb(name,sel)*100).toFixed(3)+'%':'-'}</span></div>`;
+  });
+  $('#ms_table').innerHTML=html;
+  msCalc();
+}
+function msCalc(){
+  const box=$('#ms_result'); if(!box||!EN_DATA) return;
+  const p=msProb(), need=Math.max(1,Math.min(100,Math.round(Number($('#ms_need').value)||1))), price=Number($('#ms_price').value)||0;
+  if(!(p>0)){ box.innerHTML='<div class="rc-expect-box"><div class="rc-expect-sub" style="margin:0">위 표에서 원하는 옵션의 최소 등급을 고르면 필요한 마석 개수 기대값을 계산해 드립니다.</div></div>'; msSimRender(); return; }
+  const mean=need/p;
+  const N=20000, A=new Float64Array(N), lq=Math.log(1-p);
+  for(let k=0;k<N;k++){ let s=0; for(let j=0;j<need;j++) s+=p>=1?1:Math.max(1,Math.ceil(Math.log(1-Math.random())/lq)); A[k]=s; }
+  A.sort(); const q=f=>A[Math.min(N-1,Math.floor(N*f))];
+  // n개 사용 시 필요 개수 이상 나올 확률 (이항분포)
+  const atLeast=n=>{ if(n<need) return 0; let pmf=Math.pow(1-p,n), cdf=pmf; for(let k=1;k<need;k++){ pmf*=(n-k+1)/k*p/(1-p); cdf+=pmf; } return Math.max(0,1-cdf); };
+  const ns=[10,50,100,300].map(n=>`${n}개: ${(atLeast(n)*100).toFixed(1)}%`).join(' · ');
+  box.innerHTML=`<div class="rc-stats">
+      <div class="rc-stat"><span>1개당 목표 확률</span><b>${(p*100).toFixed(3)}%</b></div>
+      <div class="rc-stat"><span>목표 ${need}개까지 평균 사용량</span><b>${rcNum(mean)}개</b></div>
+      <div class="rc-stat"><span>운이 나쁠 때 (상위 10% / 5%)</span><b>${rcNum(q(.9))}개 / ${rcNum(q(.95))}개</b></div>
+      <div class="rc-stat"><span>${price?'평균 비용':'가격 입력 시 평균 비용'}</span><b>${price?rcNum(mean*price):'-'}</b></div>
+    </div>
+    <div class="rc-expect-sub" style="margin:0">마석을 N개 썼을 때 목표 ${need}개 이상 나올 확률 — ${ns} (중앙값 ${rcNum(q(.5))}개${price?`, 상위 10% 비용 ${rcNum(q(.9)*price)}`:''})</div>`;
+  msSimRender();
+}
+function msSimReset(){ MS_SIM={n:0,hits:0,log:[]}; msSimRender(); }
+function msTry(n){
+  for(let i=0;i<n;i++){
+    const r=msRoll(), hit=msHit(r); MS_SIM.n++; if(hit) MS_SIM.hits++;
+    const st=msStone();
+    MS_SIM.log.unshift(`<div>${MS_SIM.n}. <span style="color:${MS_TIER_COLORS[r.ti]};font-weight:800">[${st.t[r.ti].n}] ${escapeHtml(r.name)} ${r.v}</span>${hit?' <span class="en-ok">목표!</span>':''}</div>`);
+  }
+  MS_SIM.log=MS_SIM.log.slice(0,80); msSimRender();
+}
+function msTryToTarget(){
+  if(!(msProb()>0)){ alert('목표 옵션을 먼저 골라주세요.'); return; }
+  const need=Math.max(1,Math.round(Number($('#ms_need').value)||1)); let g=0;
+  while(MS_SIM.hits<need && g++<200000) msTry(1);
+}
+function msSimRender(){
+  const box=$('#ms_sim_stats'); if(!box) return;
+  const price=Number($('#ms_price').value)||0, need=Math.max(1,Math.round(Number($('#ms_need').value)||1));
+  box.innerHTML=`<div class="rc-stats">
+    <div class="rc-stat"><span>사용한 마석</span><b>${rcNum(MS_SIM.n)}개</b></div>
+    <div class="rc-stat"><span>목표 옵션 획득</span><b>${MS_SIM.hits} / ${need}개${MS_SIM.hits>=need?' ✅':''}</b></div>
+    <div class="rc-stat"><span>실제 확률</span><b>${MS_SIM.n?(MS_SIM.hits/MS_SIM.n*100).toFixed(2)+'%':'-'}</b></div>
+    <div class="rc-stat"><span>누적 비용</span><b>${price?rcNum(MS_SIM.n*price):'-'}</b></div>
+  </div>`;
+  $('#ms_log').innerHTML=MS_SIM.log.join('');
 }
 if(document.querySelector('.tab[data-page="enh"]')?.classList.contains('active')) enInit();
 </script>
