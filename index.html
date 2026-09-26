@@ -3798,6 +3798,11 @@ min-height:56px;
 /* 숫자 입력칸: 위아래 화살표(스피너) 숨김 */
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.an-base-cell{padding:3px 4px !important}
+.an-base-sel{width:52px;padding:3px 4px;font-size:12.5px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff;text-align:center}
+.an-bulk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 14px;font-size:12.5px;color:#a9b6cc}
+.an-bulk-row select{padding:4px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff}
+.an-bulk-row button{padding:5px 10px;border:1px solid #365b8a;border-radius:7px;background:#132844;color:#9ec5ff;font-weight:800;font-size:12px;cursor:pointer}
 .char-skill-box{margin-top:22px}
 .char-skill-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:16px;font-weight:800;color:#fff;margin-bottom:6px}
 .char-skill-go{border:1px solid #2f6b4f;background:#10281d;color:#9ef4bd;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:800;cursor:pointer}
@@ -7397,6 +7402,7 @@ function anSwitchJob(job){
   AN_CARDS = anLoadCards(job);
   AN_EQUIP = anLoadEquip(job);
   AN_TARGETS = anLoadTargets(job);
+  AN_BASE = anLoadBase(job);
   anRenderJobTabs();
   anRenderTypeTabs();
   $('#an_form_wrap').innerHTML = '';
@@ -7733,7 +7739,7 @@ function anSaveSlot(slot){
   const input = $('#an_slot_name_'+slot);
   const name = (input?.value||'').trim() || ('저장 '+slot);
   try{
-    const data = { cards:AN_CARDS, equip:AN_EQUIP };
+    const data = { cards:AN_CARDS, equip:AN_EQUIP, base:AN_BASE };
     localStorage.setItem(anSlotKey(AN_CURRENT_JOB, slot), JSON.stringify(data));
     localStorage.setItem(anSlotNameKey(AN_CURRENT_JOB, slot), name);
     anRenderSaveSlots();
@@ -7749,6 +7755,7 @@ function anLoadSlot(slot){
   if(!data){ if(msg) msg.textContent = '저장된 설정이 없습니다.'; return; }
   AN_CARDS = Array.isArray(data.cards) ? data.cards : [];
   AN_EQUIP = anNormalizeEquip(data.equip);
+  if(data.base && typeof data.base==='object'){ AN_BASE = data.base; anSaveBase(); }
   anSaveCards();
   anSaveEquip();
   anCancelForm();
@@ -7818,8 +7825,39 @@ function anEquipCountFor(skillName, isActive){
   return countIn(AN_EQUIP.armor) + countIn(AN_EQUIP.accessory);
 }
 
-/* 스킬 투자 10 + 데바니온 4는 사실상 누구나 다 찍는 고정값이라 입력칸 없이 기본값으로 깔고 계산합니다. */
-const AN_BASE_LEVEL = 14;
+/* 스킬마다 스킬 포인트(0~10)와 데바니온(0~4)을 따로 설정한다. 설정하지 않은 스킬은 10 + 4 */
+const AN_SP_MAX = 10, AN_DV_MAX = 4;
+let AN_BASE = {};
+function anBaseKey(job){ return 'buson2-arcana-base-'+job; }
+function anLoadBase(job){
+  try{ const p = JSON.parse(localStorage.getItem(anBaseKey(job))||'null'); return (p && typeof p==='object') ? p : {}; }catch(e){ return {}; }
+}
+function anSaveBase(){ try{ localStorage.setItem(anBaseKey(AN_CURRENT_JOB), JSON.stringify(AN_BASE)); }catch(e){} }
+function anBaseOf(name){
+  const b = AN_BASE[name] || {};
+  const sp = b.sp===undefined ? AN_SP_MAX : Math.max(0, Math.min(AN_SP_MAX, Number(b.sp)||0));
+  const dv = b.dv===undefined ? AN_DV_MAX : Math.max(0, Math.min(AN_DV_MAX, Number(b.dv)||0));
+  return { sp, dv };
+}
+function anSetBase(name, field, value){
+  const cur = anBaseOf(name);
+  cur[field] = Number(value)||0;
+  AN_BASE[name] = cur;
+  anSaveBase();
+  anRenderCalcTable();
+}
+function anSetBaseAll(){
+  const sp = Number($('#an_bulk_sp')?.value ?? AN_SP_MAX), dv = Number($('#an_bulk_dv')?.value ?? AN_DV_MAX);
+  const pool = ARCANA_SKILLS[AN_CURRENT_JOB]; if(!pool) return;
+  [...pool.active, ...pool.passive].forEach(n=>{ AN_BASE[n] = { sp, dv }; });
+  anSaveBase();
+  anRenderCalcTable();
+}
+function anLvSelect(name, field, value, max){
+  let h = `<select class="an-base-sel" onchange="anSetBase('${escapeHtml(name).replace(/'/g,"\\'")}','${field}',this.value)">`;
+  for(let i=0;i<=max;i++) h += `<option value="${i}" ${i===value?'selected':''}>${i}</option>`;
+  return h + '</select>';
+}
 
 let AN_TARGETS = {};
 function anTargetsKey(job){ return 'buson2-arcana-targets-'+job; }
@@ -7852,7 +7890,8 @@ function anRenderCalcTable(){
   const renderRows=(names, isActive)=>names.map(name=>{
     const equip = anEquipCountFor(name, isActive);
     const arcana = arcanaSums[name] || 0;
-    const total = AN_BASE_LEVEL + equip + arcana;
+    const { sp, dv } = anBaseOf(name);
+    const total = sp + dv + equip + arcana;
     const target = AN_TARGETS[name] || 0;
     const remain = target - total;
     const met = target>0 && remain<=0;
@@ -7862,6 +7901,8 @@ function anRenderCalcTable(){
     return `
       <tr class="${(equip||arcana) ? 'an-calc-active':''} ${met?'an-calc-met':''} ${target>0 && !met ? 'an-calc-short':''}">
         <td>${anSkillIconHtml(name,16)}${escapeHtml(name)}</td>
+        <td class="an-base-cell">${anLvSelect(name,'sp',sp,AN_SP_MAX)}</td>
+        <td class="an-base-cell">${anLvSelect(name,'dv',dv,AN_DV_MAX)}</td>
         <td>${equip}</td>
         <td>${arcana}</td>
         <td class="an-calc-total">${total}</td>
@@ -7887,22 +7928,25 @@ function anRenderCalcTable(){
   ` : '';
 
   box.innerHTML = `
-    <div class="note" style="margin-bottom:14px;">스킬 투자 10 + 데바니온 4 = 기본 ${AN_BASE_LEVEL}은 모든 스킬에 항상 포함됩니다. 목표 칸에 원하는 레벨을 입력하면 부족한 만큼을 보여줍니다.</div>
+    <div class="note" style="margin-bottom:10px;">스킬마다 <b>스킬 포인트(0~10)</b>와 <b>데바니온(0~4)</b>을 고를 수 있습니다(기본 10·4). 합계 = 스킬 포인트 + 데바니온 + 장비 + 아르카나이며, 목표 칸에 원하는 레벨을 넣으면 부족한 만큼을 보여줍니다.</div>
+    <div class="an-bulk-row">일괄 설정: 스킬 포인트 ${(()=>{let h='<select id="an_bulk_sp">';for(let i=0;i<=AN_SP_MAX;i++)h+=`<option value="${i}" ${i===AN_SP_MAX?'selected':''}>${i}</option>`;return h+'</select>';})()}
+      데바니온 ${(()=>{let h='<select id="an_bulk_dv">';for(let i=0;i<=AN_DV_MAX;i++)h+=`<option value="${i}" ${i===AN_DV_MAX?'selected':''}>${i}</option>`;return h+'</select>';})()}
+      <button type="button" onclick="anSetBaseAll()">전체 스킬에 적용</button></div>
 
     ${shortfallHtml}
 
-    <div class="an-calc-section-title">⚔️ 액티브 스킬 (기본 ${AN_BASE_LEVEL} + 반지 + 아르카나)</div>
+    <div class="an-calc-section-title">⚔️ 액티브 스킬 (스킬 포인트 + 데바니온 + 반지 + 아르카나)</div>
     <div class="an-calc-wrap">
       <table class="an-calc-table">
-        <thead><tr><th>스킬명</th><th>반지</th><th>아르카나</th><th>합계</th><th>목표</th><th>부족</th></tr></thead>
+        <thead><tr><th>스킬명</th><th>스킬 포인트</th><th>데바니온</th><th>반지</th><th>아르카나</th><th>합계</th><th>목표</th><th>부족</th></tr></thead>
         <tbody>${activeRows}</tbody>
       </table>
     </div>
 
-    <div class="an-calc-section-title">🛡️ 패시브 스킬 (기본 ${AN_BASE_LEVEL} + 장비 + 아르카나)</div>
+    <div class="an-calc-section-title">🛡️ 패시브 스킬 (스킬 포인트 + 데바니온 + 장비 + 아르카나)</div>
     <div class="an-calc-wrap">
       <table class="an-calc-table">
-        <thead><tr><th>스킬명</th><th>장비</th><th>아르카나</th><th>합계</th><th>목표</th><th>부족</th></tr></thead>
+        <thead><tr><th>스킬명</th><th>스킬 포인트</th><th>데바니온</th><th>장비</th><th>아르카나</th><th>합계</th><th>목표</th><th>부족</th></tr></thead>
         <tbody>${passiveRows}</tbody>
       </table>
     </div>
@@ -7913,6 +7957,7 @@ function anInit(){
   AN_CARDS = anLoadCards(AN_CURRENT_JOB);
   AN_EQUIP = anLoadEquip(AN_CURRENT_JOB);
   AN_TARGETS = anLoadTargets(AN_CURRENT_JOB);
+  AN_BASE = anLoadBase(AN_CURRENT_JOB);
   anRenderJobTabs();
   anRenderTypeTabs();
   anRenderCardList();
@@ -8591,7 +8636,7 @@ async function charLoadBasics(c) {
     charApi({ mode: 'info', characterId: cid, serverId: sid }),
     charApi({ mode: 'equipment', characterId: cid, serverId: sid })
   ]);
-  return { cid, sid, info, list: eq.equipment?.equipmentList || [] };
+  return { cid, sid, info, list: eq.equipment?.equipmentList || [], skills: eq.skill?.skillList || [] };
 }
 function charItemDetail(b, it) {
   return charApi({ mode: 'item', id: it.id, enchantLevel: it.enchantLevel, characterId: b.cid, serverId: b.sid, slotPos: it.slotPos });
@@ -8694,18 +8739,38 @@ async function charImportToArcana(c, btn) {
     if (!newCards.length && gears.every((_, j) => !(details[cards.length + j]?.subSkills || []).length)) {
       alert('불러올 아르카나 카드나 장비 스킬 정보가 없습니다.'); return;
     }
+    // 실제 스킬 레벨에서 장비·아르카나 몫을 빼고 남는 만큼을 스킬 포인트(최대 10) → 데바니온(최대 4) 순으로 채운다
+    const pool = ARCANA_SKILLS[job] || { active: [], passive: [] };
+    const arcSum = {};
+    newCards.forEach(cd => cd.skills.forEach(s => { arcSum[s.name] = (arcSum[s.name] || 0) + Number(s.lv); }));
+    const gearCount = (name, isActive) => {
+      const cnt = arr => arr.reduce((t, a) => t + ((a || []).includes(name) ? 1 : 0), 0);
+      return isActive ? cnt(equip.ring) : cnt(equip.armor) + cnt(equip.accessory);
+    };
+    const base = {}; let mismatch = 0;
+    [...pool.active.map(n => [n, true]), ...pool.passive.map(n => [n, false])].forEach(([n, isActive]) => {
+      const official = b.skills.find(s => s.name === n);
+      if (!official) return;
+      const rest = (Number(official.skillLevel) || 0) - gearCount(n, isActive) - (arcSum[n] || 0);
+      const dv = Math.max(0, Math.min(AN_DV_MAX, rest - AN_SP_MAX));
+      const sp = Math.max(0, Math.min(AN_SP_MAX, rest - dv));
+      if (rest < 0 || rest > AN_SP_MAX + AN_DV_MAX) mismatch++;
+      base[n] = { sp, dv };
+    });
+
     const old = anLoadCards(job);
     if (old.length && !confirm(job + ' 아르카나 계산기에 저장된 카드 ' + old.length + '장과 장비 스킬 설정을\n' + cleanCharName(c.name) + '의 카드 ' + newCards.length + '장·장비 스킬로 바꿀까요?')) return;
 
-    try { localStorage.setItem(anStorageKey(job), JSON.stringify(newCards)); localStorage.setItem(anEquipKey(job), JSON.stringify(equip)); } catch (e) {}
+    try { localStorage.setItem(anStorageKey(job), JSON.stringify(newCards)); localStorage.setItem(anEquipKey(job), JSON.stringify(equip)); localStorage.setItem(anBaseKey(job), JSON.stringify(base)); } catch (e) {}
     AN_CURRENT_JOB = job;
     document.querySelector('.tab[data-page="arcana"]')?.click();
     if (!AN_INITED) anInit();
     anSwitchJob(job);
-    AN_CARDS = newCards; AN_EQUIP = equip;
+    AN_CARDS = newCards; AN_EQUIP = equip; AN_BASE = base;
     anRenderCardList(); anRenderEquipPanel(); anRenderCalcTable();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    alert(cleanCharName(c.name) + '(' + job + ')의 아르카나 카드 ' + newCards.length + '장과 장비 스킬을 불러왔습니다.');
+    alert(cleanCharName(c.name) + '(' + job + ')의 아르카나 카드 ' + newCards.length + '장과 장비 스킬을 불러왔습니다.\n실제 스킬 레벨과 합계가 맞도록 스킬마다 스킬 포인트·데바니온을 채웠습니다.' +
+      (mismatch ? '\n\n※ ' + mismatch + '개 스킬은 장비·아르카나 외의 효과(칭호·기타 장비 등)가 있어 합계가 실제 레벨과 다를 수 있습니다.' : ''));
   } catch (e) {
     console.error(e);
     alert('캐릭터 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
