@@ -3807,6 +3807,26 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .an-bulk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 14px;font-size:12.5px;color:#a9b6cc}
 .an-bulk-row select{width:auto !important;min-width:56px;padding:4px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff}
 .an-bulk-row button{padding:5px 10px;border:1px solid #365b8a;border-radius:7px;background:#132844;color:#9ec5ff;font-weight:800;font-size:12px;cursor:pointer}
+.char-title-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-top:8px}
+.char-title-card{padding:12px 14px;border:1px solid #263d59;border-left:4px solid var(--gc);border-radius:12px;background:#0d131c}
+.char-title-cat{font-size:12px;font-weight:800;color:#8fa3c4}
+.char-title-cat span{color:var(--gc);margin-left:4px}
+.char-title-name{font-size:16px;font-weight:900;color:var(--gc);margin:3px 0 8px}
+.char-title-lbl{font-size:11px;font-weight:800;color:#6f7d96;margin-top:6px}
+.char-title-fx{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
+.char-title-fx span{font-size:12.5px;padding:3px 8px;border-radius:999px;background:#16233a;border:1px solid #2c3a55;color:#dbe4f3}
+.char-title-fx.own span{background:transparent;color:#a9b6cc}
+.char-title-own{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:11.5px;color:#8b97ab;font-weight:700}
+.char-title-own i{flex:1;height:4px;border-radius:9px;background:#1b2536;overflow:hidden}
+.char-title-own i b{display:block;height:100%;background:var(--gc)}
+.char-pw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.char-pw-card{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid #263d59;border-left:4px solid var(--gc);border-radius:12px;background:#0d131c}
+.char-pw-card img{width:48px;height:48px;border-radius:10px;background:#0b1018;flex:0 0 48px;object-fit:contain}
+.char-pw-label{font-size:11.5px;font-weight:800;color:#8fa3c4}
+.char-pw-label span{color:var(--gc)}
+.char-pw-name{font-size:14.5px;font-weight:800;color:#e6ecf7;margin-top:2px}
+.char-pw-name em{font-style:normal;color:#ffb36b}
+.char-pw-sub{font-size:12px;color:#9db8ff;font-weight:700;margin-top:2px}
 .char-dv-box{margin-top:22px;padding-top:18px;border-top:1px solid #263043}
 .char-dv-sum{font-size:12.5px;color:#8fa3c4;font-weight:700}
 .char-dv-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -8743,6 +8763,51 @@ async function charImportToSpec(c, btn) {
 const CHAR_ARCANA_TYPES = [['성배', 'grail'], ['양피지', 'parchment'], ['나침반', 'compass'], ['종', 'bell'], ['거울', 'mirror'], ['천칭', 'scale']];
 // 공식 장비 슬롯 번호 → 아르카나 계산기 장비 칸 (투구·견갑·상의·하의·장갑·망토·신발 / 목걸이·귀걸이1·2 / 반지1·2)
 const CHAR_GEAR_SLOTS = { 3: ['armor', 0], 4: ['armor', 1], 5: ['armor', 2], 6: ['armor', 3], 7: ['armor', 4], 19: ['armor', 5], 8: ['armor', 6], 10: ['accessory', 0], 11: ['accessory', 1], 12: ['accessory', 2], 13: ['ring', 0], 14: ['ring', 1] };
+// 칭호 (info 응답의 title: 장착 칭호 3종 + 보유 수)
+const CHAR_GRADE = { Common: ['일반', '#dfe6f2'], Rare: ['희귀', '#3ecf6e'], Legend: ['전설', '#4da1ff'], Unique: ['유일', '#ffb020'], Epic: ['영웅', '#ff7a1a'], Special: ['특수', '#c38bff'] };
+function charGradeOf(g) { return CHAR_GRADE[g] || [g || '', '#c9d3e6']; }
+function charTitleHtml(title) {
+  const list = title?.titleList || [];
+  if (!list.length && !title?.ownedCount) return '';
+  const catName = { Attack: '⚔️ 공격', Defense: '🛡️ 방어', Etc: '✨ 기타' };
+  const cards = list.map(t => {
+    const [gName, gColor] = charGradeOf(t.grade);
+    const pct = Math.max(0, Math.min(100, Number(t.ownedPercent) || 0));
+    return `<div class="char-title-card" style="--gc:${gColor}">
+      <div class="char-title-cat">${catName[t.equipCategory] || charDvEsc(t.equipCategory)} 칭호 <span>${gName}</span></div>
+      <div class="char-title-name">${charDvEsc(t.name)}</div>
+      ${(t.equipStatList || []).length ? `<div class="char-title-lbl">장착 효과</div><div class="char-title-fx">${t.equipStatList.map(e => `<span>${charDvEsc(e.desc)}</span>`).join('')}</div>` : ''}
+      ${(t.statList || []).length ? `<div class="char-title-lbl">보유 효과</div><div class="char-title-fx own">${t.statList.map(e => `<span>${charDvEsc(e.desc)}</span>`).join('')}</div>` : ''}
+      <div class="char-title-own">이 분류 보유 ${t.ownedCount}/${t.totalCount}<i><b style="width:${pct}%"></b></i>${pct}%</div>
+    </div>`;
+  }).join('');
+  const total = Number(title?.totalCount) || 0;
+  return `<div class="char-dv-box char-title-box">
+    <div class="char-skill-head">🏷️ 칭호 <span class="char-dv-sum">보유 ${Number(title?.ownedCount || 0).toLocaleString('ko-KR')}${total ? ' / ' + total.toLocaleString('ko-KR') : ''}개</span></div>
+    ${cards ? `<div class="char-title-grid">${cards}</div>` : '<div class="char-dv-note">장착한 칭호가 없습니다.</div>'}
+  </div>`;
+}
+// 펫 · 날개 (equipment 응답의 petwing)
+function charPetWingHtml(pw) {
+  if (!pw || !(pw.pet || pw.wing || pw.wingSkin)) return '';
+  const card = (label, it, sub) => {
+    if (!it) return '';
+    const [gName, gColor] = charGradeOf(it.grade);
+    return `<div class="char-pw-card" style="--gc:${gColor}">
+      ${it.icon ? `<img src="${charDvEsc(it.icon)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+      <div><div class="char-pw-label">${label}${it.grade ? ` · <span>${gName}</span>` : ''}</div>
+      <div class="char-pw-name">${Number(it.enchantLevel) > 0 ? `<em>+${it.enchantLevel}</em> ` : ''}${charDvEsc(it.name)}</div>
+      ${sub ? `<div class="char-pw-sub">${sub}</div>` : ''}</div>
+    </div>`;
+  };
+  return `<div style="font-size:16px;font-weight:800;color:#fff;margin-top:22px;margin-bottom:12px;">🐾 펫 · 날개</div>
+    <div class="char-pw-grid">
+      ${card('펫', pw.pet, pw.pet?.level ? 'Lv.' + pw.pet.level : '')}
+      ${card('날개', pw.wing, '')}
+      ${card('날개 외형', pw.wingSkin, '')}
+    </div>`;
+}
+
 // 데바니온: 신별 보드 탭 + 선택한 보드의 노드 배치(공식 row/col 좌표)
 function charDvEsc(t) { return String(t ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch])); }
 function charDaevanionHtml(boards) {
@@ -9581,7 +9646,7 @@ ${stat.value}
 
       </div>
     `;
-    dataEl.insertAdjacentHTML('beforeend', charDaevanionHtml(data.daevanion?.boardList || []));
+    dataEl.insertAdjacentHTML('beforeend', charTitleHtml(data.title) + charDaevanionHtml(data.daevanion?.boardList || []));
     document.getElementById('char-dv-more')?.addEventListener('click', function () { charLoadDaevanionEffects(character, data.daevanion?.boardList || [], this); });
     document.querySelectorAll('.char-dv-tab').forEach(t => t.addEventListener('click', () => charShowDaevanionBoard(character, t.dataset.board)));
     const firstDvTab = document.querySelector('.char-dv-tab:not([disabled])');
@@ -9846,6 +9911,7 @@ background:#0d131c;
 `
 }
 </div>
+${charPetWingHtml(equipmentData.petwing)}
 ${charSkillHtml(equipmentData.skill?.skillList || [])}
           </div>
         `
