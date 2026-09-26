@@ -346,6 +346,7 @@ main.wrap{
 <button class="tab" data-page="arcana">아르카나</button>
 <button class="tab" data-page="race">펫작 시뮬</button>
 <button class="tab" data-page="enh">강화·마석</button>
+<button class="tab" data-page="charcmp">캐릭터 비교</button>
 </nav>
 </div></header>
 
@@ -1472,6 +1473,31 @@ main.wrap{
           수치는 공식 표에 적힌 값 그대로이며, 결과는 확률 기반 예상치라 실제와 다를 수 있습니다.
         </div>
       </div>
+    </div>
+  </div>
+</section>
+<section id="page-charcmp" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>⚖️ 캐릭터 비교</h2>
+      <p>두 캐릭터를 검색해서 전투력·스탯·장비·스킬 레벨·데바니온을 나란히 비교합니다. 캐릭터 검색 상세 화면의 "⚖️ 비교에 추가" 버튼으로도 넣을 수 있습니다.</p>
+    </div>
+    <div class="body">
+      <div class="cc-pick-grid">
+        <div class="cc-slot" id="cc_slot_a">
+          <div class="cc-slot-title"><span class="cc-badge a">A</span> 캐릭터</div>
+          <div class="cc-search"><select id="cc_race_a"><option value="1">천족</option><option value="2">마족</option></select><input id="cc_kw_a" placeholder="닉네임 (전체 서버 검색)" onkeydown="if(event.key==='Enter')ccSearch('a')"><button type="button" onclick="ccSearch('a')">검색</button></div>
+          <div class="cc-results" id="cc_results_a"></div>
+          <div class="cc-picked" id="cc_picked_a"><div class="cc-empty">비교할 캐릭터를 검색해서 고르세요.</div></div>
+        </div>
+        <div class="cc-slot" id="cc_slot_b">
+          <div class="cc-slot-title"><span class="cc-badge b">B</span> 캐릭터</div>
+          <div class="cc-search"><select id="cc_race_b"><option value="1">천족</option><option value="2">마족</option></select><input id="cc_kw_b" placeholder="닉네임 (전체 서버 검색)" onkeydown="if(event.key==='Enter')ccSearch('b')"><button type="button" onclick="ccSearch('b')">검색</button></div>
+          <div class="cc-results" id="cc_results_b"></div>
+          <div class="cc-picked" id="cc_picked_b"><div class="cc-empty">비교할 캐릭터를 검색해서 고르세요.</div></div>
+        </div>
+      </div>
+      <div id="cc_result"></div>
     </div>
   </div>
 </section>
@@ -3807,6 +3833,38 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .an-bulk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 14px;font-size:12.5px;color:#a9b6cc}
 .an-bulk-row select{width:auto !important;min-width:56px;padding:4px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff}
 .an-bulk-row button{padding:5px 10px;border:1px solid #365b8a;border-radius:7px;background:#132844;color:#9ec5ff;font-weight:800;font-size:12px;cursor:pointer}
+.cc-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cc-slot{border:1px solid #263043;border-radius:14px;background:#0d131c;padding:14px}
+.cc-slot-title{font-size:15px;font-weight:900;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.cc-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;font-size:12px;font-weight:900;color:#0b1018}
+.cc-badge.a{background:#4da1ff}.cc-badge.b{background:#ff7aa8}
+.cc-search{display:grid;grid-template-columns:80px 1fr auto;gap:6px}
+.cc-search select,.cc-search input{width:100%;min-width:0;padding:9px 10px;background:#0b1018;border:1px solid #2c3a55;border-radius:9px;color:#eef4ff}
+.cc-search button{padding:9px 14px;border:0;border-radius:9px;background:linear-gradient(135deg,#6fa4ff,#7d72ff);color:#fff;font-weight:800;cursor:pointer}
+.cc-results{display:flex;flex-direction:column;gap:5px;margin-top:8px;max-height:260px;overflow:auto}
+.cc-result{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid #2c3a55;border-radius:9px;background:#101826;color:#e6ecf7;cursor:pointer;text-align:left}
+.cc-result:hover{border-color:#4da1ff}
+.cc-result span{color:#8fa3c4;font-size:12.5px;white-space:nowrap}
+.cc-picked{margin-top:10px}
+.cc-empty{font-size:12.5px;color:#8b97ab;padding:6px 2px}
+.cc-card{position:relative;display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid #2f4a78;border-radius:12px;background:#101b2c}
+.cc-card img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+.cc-card-name{font-size:17px;font-weight:900;color:#fff}
+.cc-card-sub{font-size:12.5px;color:#9fb0c7;margin-top:2px}
+.cc-card-cp{font-size:13px;font-weight:800;color:#ffd980;margin-top:3px}
+.cc-clear{position:absolute;top:6px;right:8px;border:0;background:transparent;color:#8b97ab;font-size:15px;cursor:pointer}
+.cc-legend{margin-top:16px;font-size:12.5px;color:#8b97ab}
+.cc-sec-title{font-size:15px;font-weight:900;color:#fff;margin:18px 0 8px}
+.cc-table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+.cc-table th,.cc-table td{border:1px solid #263043;padding:7px 10px;text-align:center}
+.cc-table thead th{background:#111c2e;color:#9db8ff;font-weight:800}
+.cc-table tbody th{text-align:left;color:#c9d3e6;font-weight:700;background:#0d131c;white-space:nowrap}
+.cc-table td{color:#dbe4f3}
+.cc-table td.win{background:#0f2418;color:#8df0bd;font-weight:800}
+.cc-diff{font-weight:800;color:#8b97ab;white-space:nowrap}.cc-diff.up{color:#ff9fbf}.cc-diff.down{color:#7fc4ff}
+.cc-exceed{color:#9db8ff;font-weight:800}
+.cc-cat{display:inline-block;min-width:34px;font-size:10.5px;color:#7f8ca3}
+@media(max-width:860px){.cc-pick-grid{grid-template-columns:1fr}}
 .char-title-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-top:8px}
 .char-title-card{padding:12px 14px;border:1px solid #263d59;border-left:4px solid var(--gc);border-radius:12px;background:#0d131c}
 .char-title-cat{font-size:12px;font-weight:800;color:#8fa3c4}
@@ -6407,7 +6465,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','compare','party','arcana','race','enh'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party'&&typeof renderPartyRoster==='function')renderPartyRoster();if(b.dataset.page==='arcana'&&typeof anInit==='function')anInit();if(b.dataset.page==='race'&&typeof rcInit==='function')rcInit();if(b.dataset.page==='enh'&&typeof enInit==='function')enInit()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','compare','party','arcana','race','enh','charcmp'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party'&&typeof renderPartyRoster==='function')renderPartyRoster();if(b.dataset.page==='arcana'&&typeof anInit==='function')anInit();if(b.dataset.page==='race'&&typeof rcInit==='function')rcInit();if(b.dataset.page==='enh'&&typeof enInit==='function')enInit()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 function openTabFromHash(){
   const page = location.hash.replace("#", "");
@@ -8717,7 +8775,7 @@ async function charLoadBasics(c) {
     charApi({ mode: 'info', characterId: cid, serverId: sid }),
     charApi({ mode: 'equipment', characterId: cid, serverId: sid })
   ]);
-  return { cid, sid, info, list: eq.equipment?.equipmentList || [], skills: eq.skill?.skillList || [] };
+  return { cid, sid, info, list: eq.equipment?.equipmentList || [], skills: eq.skill?.skillList || [], petwing: eq.petwing || null };
 }
 function charItemDetail(b, it) {
   return charApi({ mode: 'item', id: it.id, enchantLevel: it.enchantLevel, characterId: b.cid, serverId: b.sid, slotPos: it.slotPos });
@@ -8763,6 +8821,138 @@ async function charImportToSpec(c, btn) {
 const CHAR_ARCANA_TYPES = [['성배', 'grail'], ['양피지', 'parchment'], ['나침반', 'compass'], ['종', 'bell'], ['거울', 'mirror'], ['천칭', 'scale']];
 // 공식 장비 슬롯 번호 → 아르카나 계산기 장비 칸 (투구·견갑·상의·하의·장갑·망토·신발 / 목걸이·귀걸이1·2 / 반지1·2)
 const CHAR_GEAR_SLOTS = { 3: ['armor', 0], 4: ['armor', 1], 5: ['armor', 2], 6: ['armor', 3], 7: ['armor', 4], 19: ['armor', 5], 8: ['armor', 6], 10: ['accessory', 0], 11: ['accessory', 1], 12: ['accessory', 2], 13: ['ring', 0], 14: ['ring', 1] };
+/* ===== 캐릭터 비교 ===== */
+const CC = { a: null, b: null };
+const CC_SLOT_LABEL = { MainHand: '주무기', SubHand: '보조무기', Helmet: '투구', Shoulder: '견갑', Torso: '흉갑', Pants: '각반', Gloves: '장갑', Boots: '장화', Cape: '망토', Necklace: '목걸이', Earring1: '귀걸이 1', Earring2: '귀걸이 2', Ring1: '반지 1', Ring2: '반지 2', Bracelet1: '팔찌 1', Bracelet2: '팔찌 2', Brooch1: '브로치 1', Brooch2: '브로치 2', Belt: '허리띠', Pendant: '펜던트', Amulet: '아뮬렛', Rune1: '룬 1', Rune2: '룬 2' };
+const CC_MAIN_STATS = [['STR', '위력'], ['DEX', '민첩'], ['AGI', '정확'], ['WIS', '의지'], ['INT', '지식'], ['CON', '체력']];
+const CC_GOD_STATS = [['Justice', '정의[네자칸]'], ['Freedom', '자유[바이젤]'], ['Illusion', '환상[카이시넬]'], ['Life', '생명[유스티엘]'], ['Time', '시간[시엘]'], ['Destruction', '파괴[지켈]'], ['Death', '죽음[트리니엘]'], ['Wisdom', '지혜[루미엘]'], ['Destiny', '운명[마르쿠탄]'], ['Space', '공간[이스라펠]']];
+
+async function ccSearch(slot) {
+  const kw = (document.getElementById('cc_kw_' + slot).value || '').trim();
+  const race = Number(document.getElementById('cc_race_' + slot).value) || 1;
+  const box = document.getElementById('cc_results_' + slot);
+  if (!kw) { box.innerHTML = '<div class="cc-empty">닉네임을 입력해주세요.</div>'; return; }
+  box.innerHTML = '<div class="cc-empty">전체 서버에서 찾는 중...</div>';
+  try {
+    const list = (await charSearchAllServers(kw, race, window.AION2_SERVERS_LIST || [])).slice(0, 20);
+    if (!list.length) { box.innerHTML = '<div class="cc-empty">검색 결과가 없습니다.</div>'; return; }
+    window['__cc_list_' + slot] = list;
+    box.innerHTML = list.map((c, i) => `<button type="button" class="cc-result" onclick="ccPick('${slot}', window['__cc_list_${slot}'][${i}])">
+      <b>${charDvEsc(cleanCharName(c.name))}</b><span>${charDvEsc(c.serverName)} · Lv.${c.level ?? '-'}</span></button>`).join('');
+  } catch (e) {
+    console.error(e);
+    box.innerHTML = '<div class="cc-empty">캐릭터를 검색하지 못했습니다. 잠시 후 다시 시도해주세요.</div>';
+  }
+}
+
+async function ccPick(slot, c) {
+  document.getElementById('cc_results_' + slot).innerHTML = '';
+  const box = document.getElementById('cc_picked_' + slot);
+  box.innerHTML = `<div class="cc-empty">${charDvEsc(cleanCharName(c.name))} 정보를 불러오는 중...</div>`;
+  try {
+    const b = await charLoadBasics(c);
+    CC[slot] = { c, ...b };
+    const p = b.info.profile || {};
+    box.innerHTML = `<div class="cc-card">
+      ${p.profileImage ? `<img src="${charDvEsc(p.profileImage)}" alt="" onerror="this.remove()">` : ''}
+      <div><div class="cc-card-name">${charDvEsc(p.characterName || cleanCharName(c.name))}</div>
+      <div class="cc-card-sub">${charDvEsc(c.serverName || '')} · ${charDvEsc(p.className || '')} · Lv.${p.characterLevel ?? c.level ?? '-'}</div>
+      <div class="cc-card-cp">전투력 ${Number(p.combatPower || 0).toLocaleString('ko-KR')}</div></div>
+      <button type="button" class="cc-clear" onclick="ccClear('${slot}')" title="지우기">✕</button>
+    </div>`;
+  } catch (e) {
+    console.error(e);
+    CC[slot] = null;
+    box.innerHTML = '<div class="cc-empty">캐릭터 정보를 불러오지 못했습니다.</div>';
+  }
+  ccRender();
+}
+function ccClear(slot) {
+  CC[slot] = null;
+  document.getElementById('cc_picked_' + slot).innerHTML = '<div class="cc-empty">비교할 캐릭터를 검색해서 고르세요.</div>';
+  ccRender();
+}
+function ccAddFromDetail(c) {
+  const slot = !CC.a ? 'a' : (!CC.b ? 'b' : 'b');
+  document.querySelector('.tab[data-page="charcmp"]')?.click();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  ccPick(slot, c);
+}
+
+// 숫자 비교 행: 큰 쪽 강조, 차이(B − A) 표시
+function ccNumRow(label, a, b, unit) {
+  const na = Number(a), nb = Number(b), ok = Number.isFinite(na) && Number.isFinite(nb);
+  const fmt = v => Number.isFinite(Number(v)) ? Number(v).toLocaleString('ko-KR') + (unit || '') : (v ?? '-');
+  const d = ok ? nb - na : null;
+  return `<tr><th>${label}</th>
+    <td class="${ok && na > nb ? 'win' : ''}">${fmt(a)}</td>
+    <td class="${ok && nb > na ? 'win' : ''}">${fmt(b)}</td>
+    <td class="cc-diff ${d > 0 ? 'up' : d < 0 ? 'down' : ''}">${d === null ? '' : d === 0 ? '=' : (d > 0 ? '+' : '') + Math.round(d * 100) / 100 + (unit || '')}</td></tr>`;
+}
+function ccTextRow(label, a, b, scoreA, scoreB) {
+  return `<tr><th>${label}</th><td class="${scoreA > scoreB ? 'win' : ''}">${a || '-'}</td><td class="${scoreB > scoreA ? 'win' : ''}">${b || '-'}</td><td></td></tr>`;
+}
+function ccSection(title, rows) {
+  const A = cleanCharName(CC.a.info.profile?.characterName || CC.a.c.name), B = cleanCharName(CC.b.info.profile?.characterName || CC.b.c.name);
+  return `<div class="cc-sec-title">${title}</div><div class="an-calc-wrap"><table class="cc-table">
+    <thead><tr><th>항목</th><th><span class="cc-badge a">A</span> ${charDvEsc(A)}</th><th><span class="cc-badge b">B</span> ${charDvEsc(B)}</th><th>차이 (B−A)</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+function ccItemText(it) {
+  if (!it) return '';
+  const [, color] = charGradeOf(it.grade);
+  return `<span style="color:${color};font-weight:800">${Number(it.enchantLevel) > 0 ? '+' + it.enchantLevel + ' ' : ''}${charDvEsc(it.name)}</span>${Number(it.exceedLevel) > 0 ? ` <small class="cc-exceed">돌파 ${it.exceedLevel}</small>` : ''}`;
+}
+function ccRender() {
+  const box = document.getElementById('cc_result');
+  if (!box) return;
+  if (!CC.a || !CC.b) { box.innerHTML = CC.a || CC.b ? '<div class="cc-empty" style="margin-top:14px">나머지 한 캐릭터도 골라주세요.</div>' : ''; return; }
+  const A = CC.a, B = CC.b, pa = A.info.profile || {}, pb = B.info.profile || {};
+  const stat = (x, t) => Number((x.info.stat?.statList || []).find(s => s.type === t)?.value) || 0;
+  const dvSum = x => (x.info.daevanion?.boardList || []).reduce((t, b) => t + (Number(b.open) > 0 ? Number(b.openNodeCount) || 0 : 0), 0);
+  let html = '';
+
+  html += ccSection('📋 기본 정보',
+    ccTextRow('서버 · 직업', `${charDvEsc(A.c.serverName || '')} · ${charDvEsc(pa.className || '')}`, `${charDvEsc(B.c.serverName || '')} · ${charDvEsc(pb.className || '')}`, 0, 0) +
+    ccNumRow('레벨', pa.characterLevel, pb.characterLevel) +
+    ccNumRow('전투력', pa.combatPower, pb.combatPower) +
+    ccNumRow('아이템 레벨', stat(A, 'ItemLevel'), stat(B, 'ItemLevel')) +
+    ccNumRow('데바니온 개방 노드', dvSum(A), dvSum(B)) +
+    ccNumRow('보유 칭호', A.info.title?.ownedCount || 0, B.info.title?.ownedCount || 0) +
+    ccTextRow('날개', ccItemText(A.petwing?.wing), ccItemText(B.petwing?.wing), Number(A.petwing?.wing?.enchantLevel) || 0, Number(B.petwing?.wing?.enchantLevel) || 0) +
+    ccNumRow('펫 레벨', A.petwing?.pet?.level ?? '-', B.petwing?.pet?.level ?? '-'));
+
+  html += ccSection('💪 주요 스탯', CC_MAIN_STATS.map(([t, n]) => ccNumRow(n, stat(A, t), stat(B, t))).join(''));
+  html += ccSection('✨ 주신 스탯', CC_GOD_STATS.map(([t, n]) => ccNumRow(n, stat(A, t), stat(B, t))).join(''));
+
+  const bySlot = x => Object.fromEntries(x.list.map(it => [it.slotPosName, it]));
+  const ea = bySlot(A), eb = bySlot(B);
+  const score = it => it ? (Number(it.enchantLevel) || 0) + (Number(it.exceedLevel) || 0) * 10 : -1;
+  html += ccSection('🛡️ 장비 (강화 · 돌파)', Object.keys(CC_SLOT_LABEL).filter(k => ea[k] || eb[k])
+    .map(k => ccTextRow(CC_SLOT_LABEL[k], ccItemText(ea[k]), ccItemText(eb[k]), score(ea[k]), score(eb[k]))).join(''));
+  const arc = x => x.list.filter(it => Number(it.slotPos) >= 41).sort((p, q) => Number(p.slotPos) - Number(q.slotPos));
+  const aa = arc(A), ab = arc(B);
+  if (aa.length || ab.length) {
+    html += ccSection('🔮 아르카나', Array.from({ length: Math.max(aa.length, ab.length) }, (_, i) =>
+      ccTextRow('아르카나 ' + (i + 1), ccItemText(aa[i]), ccItemText(ab[i]), score(aa[i]), score(ab[i]))).join(''));
+  }
+
+  if (pa.className && pa.className === pb.className) {
+    const cat = { Active: '액티브', Passive: '패시브', Dp: 'DP' };
+    const lv = (x, n) => Number(x.skills.find(s => s.name === n)?.skillLevel) || 0;
+    const names = A.skills.filter(s => cat[s.category]).map(s => s);
+    html += ccSection('📜 스킬 레벨 (' + charDvEsc(pa.className) + ')', names.map(s => ccNumRow(`<small class="cc-cat">${cat[s.category]}</small> ${charDvEsc(s.name)}`, lv(A, s.name), lv(B, s.name))).join(''));
+  } else {
+    html += `<div class="cc-sec-title">📜 스킬 레벨</div><div class="cc-empty">직업이 달라서(${charDvEsc(pa.className || '-')} / ${charDvEsc(pb.className || '-')}) 스킬 레벨 비교는 생략합니다.</div>`;
+  }
+
+  const boards = x => Object.fromEntries((x.info.daevanion?.boardList || []).map(b => [b.name, b]));
+  const ba = boards(A), bb = boards(B), bnames = [...new Set([...Object.keys(ba), ...Object.keys(bb)])];
+  if (bnames.length) html += ccSection('🌟 데바니온 보드 (개방 노드)', bnames.map(n => ccNumRow(n,
+    Number(ba[n]?.open) > 0 ? Number(ba[n].openNodeCount) || 0 : 0, Number(bb[n]?.open) > 0 ? Number(bb[n].openNodeCount) || 0 : 0)).join(''));
+
+  box.innerHTML = `<div class="cc-legend">초록색 칸이 더 높은 쪽입니다. 장비는 돌파 단계를 먼저, 그다음 강화 단계를 비교합니다.</div>` + html;
+}
 // 칭호 (info 응답의 title: 장착 칭호 3종 + 보유 수)
 const CHAR_GRADE = { Common: ['일반', '#dfe6f2'], Rare: ['희귀', '#3ecf6e'], Legend: ['전설', '#4da1ff'], Unique: ['유일', '#ffb020'], Epic: ['영웅', '#ff7a1a'], Special: ['특수', '#c38bff'] };
 function charGradeOf(g) { return CHAR_GRADE[g] || [g || '', '#c9d3e6']; }
@@ -9365,6 +9555,7 @@ card.style.display = 'flex';
         <div class="char-import-btns">
           <button type="button" id="char-to-spec">📊 스펙 계산기로 보내기</button>
           <button type="button" id="char-to-arcana">🔮 아르카나 계산기로 불러오기</button>
+          <button type="button" id="char-to-compare">⚖️ 비교에 추가</button>
         </div>
       </div>
     </div>
@@ -9419,6 +9610,7 @@ if (shareBtn) {
 
   document.getElementById('char-to-spec')?.addEventListener('click', function () { charImportToSpec(character, this); });
   document.getElementById('char-to-arcana')?.addEventListener('click', function () { charImportToArcana(character, this); });
+  document.getElementById('char-to-compare')?.addEventListener('click', function () { ccAddFromDetail(character); });
 
   const dataEl = document.getElementById('char-detail-data');
 
@@ -10854,6 +11046,7 @@ const AION2_SERVERS = [
   { race: 2, id: 2020, name: '인드나흐' },
   { race: 2, id: 2021, name: '이스할겐' }
 ];
+window.AION2_SERVERS_LIST = AION2_SERVERS;
 
 function updateServerOptions() {
   const selectedRace = Number(raceEl.value);
