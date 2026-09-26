@@ -597,8 +597,8 @@ main.wrap{
             <select id="sp_party_dmg">
               <option value="0">없음</option>
               <option value="25">치유/호법 +25%</option>
-              <option value="40">수호 격양 +40%</option>
-              <option value="65">둘 다 +65%</option>
+              <option value="28">수호 격앙 Lv35 +28%</option>
+              <option value="53">둘 다 +53%</option>
             </select>
           </div>
         </div>
@@ -5225,6 +5225,12 @@ const SPEC_IDS=[
  'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
+// 격앙 너프 전 저장값(40/65)을 Lv35 기준(28/53)으로 바꿔 불러온다
+const SPEC_PARTY_DMG_LEGACY={'40':'28','65':'53'};
+function specMigrate(d){
+ if(d&&typeof d==='object'&&SPEC_PARTY_DMG_LEGACY[d.sp_party_dmg])d.sp_party_dmg=SPEC_PARTY_DMG_LEGACY[d.sp_party_dmg];
+ return d;
+}
 
 function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 function sv(id){return parseNum($('#'+id)?.value)}
@@ -5813,7 +5819,7 @@ function snapshotSpec(){
 }
 function specFromSnapshot(d){
  const current=snapshotSpec();
- Object.entries(d||{}).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+ Object.entries(specMigrate(d)||{}).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
  const s=getSpec();
  Object.entries(current).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
  return s;
@@ -5837,7 +5843,7 @@ function getABData(which){
    return {data,name:'저장 '+slot+' · '+savedName,empty:false};
  }
  let data={};
- try{data=JSON.parse(localStorage.getItem('buson2-spec-'+which)||'{}')}catch(e){data={}}
+ try{data=specMigrate(JSON.parse(localStorage.getItem('buson2-spec-'+which)||'{}'))}catch(e){data={}}
  return {
    data,
    name:Object.keys(data).length?'직접 저장한 '+which.toUpperCase()+' 세팅':'저장값 없음',
@@ -6109,7 +6115,7 @@ function specSlotNameKey(slot){return SPEC_SLOT_NAME_PREFIX+slot}
 function readSpecSlot(slot){
  let data={};
  try{data=JSON.parse(localStorage.getItem(specSlotKey(slot))||'{}')}catch(e){}
- return data&&typeof data==='object'?data:{};
+ return data&&typeof data==='object'?specMigrate(data):{};
 }
 
 function readSpecSlotName(slot){
@@ -6615,6 +6621,7 @@ function applySharedTabState(tab, data){
     renderDrivers(Number(data.d_driverCount)===2);
   }
 
+  specMigrate(data);
   Object.entries(data).forEach(([id,v])=>{
     const el=document.getElementById(id);
     if(el) el.value=v;
