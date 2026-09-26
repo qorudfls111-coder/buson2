@@ -8842,10 +8842,21 @@ async function charLoadDaevanionEffects(c, boards, btn) {
     const fmt = (map, pct) => Object.entries(map).sort((a, b) => b[1] - a[1])
       .map(([k, v]) => `<span class="char-dv-chip">${k.replace(' (%)', '')} <b>+${Math.round(v * 100) / 100}${k.endsWith(' (%)') ? '%' : ''}</b></span>`).join('');
     box.innerHTML = `
-      <div class="char-skill-title">스킬 레벨 상승 <span>${Object.keys(r.skills).length}개</span></div>
-      <div class="char-dv-chips">${fmt(r.skills) || '<span class="char-dv-note">없음</span>'}</div>
-      <div class="char-skill-title">스탯 합계</div>
-      <div class="char-dv-chips">${fmt(r.stats) || '<span class="char-dv-note">없음</span>'}</div>`;
+      <button type="button" class="char-skill-go char-dv-toggle" aria-expanded="true">▲ 전체 보드 효과 합계 접기</button>
+      <div class="char-dv-effects-body">
+        <div class="char-skill-title">스킬 레벨 상승 <span>${Object.keys(r.skills).length}개</span></div>
+        <div class="char-dv-chips">${fmt(r.skills) || '<span class="char-dv-note">없음</span>'}</div>
+        <div class="char-skill-title">스탯 합계</div>
+        <div class="char-dv-chips">${fmt(r.stats) || '<span class="char-dv-note">없음</span>'}</div>
+      </div>`;
+    const toggle = box.querySelector('.char-dv-toggle'), body = box.querySelector('.char-dv-effects-body');
+    toggle.addEventListener('click', () => {
+      const open = body.hidden;
+      body.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.textContent = open ? '▲ 전체 보드 효과 합계 접기' : '▼ 전체 보드 효과 합계 펼치기';
+      if (!open) box.closest('.char-dv-box')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
   } catch (e) {
     console.error(e);
     box.innerHTML = '<div class="char-dv-note">데바니온 상세 정보를 불러오지 못했습니다.</div>';
