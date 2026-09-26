@@ -3807,6 +3807,25 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .an-bulk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 14px;font-size:12.5px;color:#a9b6cc}
 .an-bulk-row select{width:auto !important;min-width:56px;padding:4px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff}
 .an-bulk-row button{padding:5px 10px;border:1px solid #365b8a;border-radius:7px;background:#132844;color:#9ec5ff;font-weight:800;font-size:12px;cursor:pointer}
+.char-dv-box{margin-top:6px;margin-bottom:6px}
+.char-dv-sum{font-size:12.5px;color:#8fa3c4;font-weight:700}
+.char-dv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:6px}
+.char-dv{padding:8px 10px;border:1px solid #263d59;border-radius:10px;background:#0d131c}
+.char-dv.full{border-color:#5a4a1d;background:#15130b}
+.char-dv.off{opacity:.45}
+.char-dv-top{display:flex;align-items:center;gap:6px;font-size:13px}
+.char-dv-top img{width:20px;height:20px}
+.char-dv-top b{color:#e6ecf7;flex:1}
+.char-dv-top span{color:#9db8ff;font-weight:800;font-size:12.5px}
+.char-dv-bar{height:5px;border-radius:9px;background:#1b2536;margin-top:6px;overflow:hidden}
+.char-dv-bar i{display:block;height:100%;background:linear-gradient(90deg,#4da1ff,#8df0bd)}
+.char-dv.full .char-dv-bar i{background:linear-gradient(90deg,#ffb020,#ffd980)}
+.char-dv-pct{font-size:11px;color:#8b97ab;margin-top:3px;text-align:right}
+.char-dv-effects{margin-top:10px}
+.char-dv-chips{display:flex;flex-wrap:wrap;gap:6px}
+.char-dv-chip{font-size:12.5px;padding:4px 9px;border:1px solid #263d59;border-radius:999px;background:#0d131c;color:#c9d3e6}
+.char-dv-chip b{color:#8df0bd}
+.char-dv-note{font-size:12.5px;color:#8b97ab}
 .char-skill-box{margin-top:22px}
 .char-skill-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:16px;font-weight:800;color:#fff;margin-bottom:6px}
 .char-skill-go{border:1px solid #2f6b4f;background:#10281d;color:#9ef4bd;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:800;cursor:pointer}
@@ -8712,6 +8731,74 @@ async function charImportToSpec(c, btn) {
 const CHAR_ARCANA_TYPES = [['성배', 'grail'], ['양피지', 'parchment'], ['나침반', 'compass'], ['종', 'bell'], ['거울', 'mirror'], ['천칭', 'scale']];
 // 공식 장비 슬롯 번호 → 아르카나 계산기 장비 칸 (투구·견갑·상의·하의·장갑·망토·신발 / 목걸이·귀걸이1·2 / 반지1·2)
 const CHAR_GEAR_SLOTS = { 3: ['armor', 0], 4: ['armor', 1], 5: ['armor', 2], 6: ['armor', 3], 7: ['armor', 4], 19: ['armor', 5], 8: ['armor', 6], 10: ['accessory', 0], 11: ['accessory', 1], 12: ['accessory', 2], 13: ['ring', 0], 14: ['ring', 1] };
+// 데바니온: 신별 보드 개방 현황 (info 응답에 포함)
+function charDaevanionHtml(boards) {
+  if (!boards.length) return '';
+  const esc = t => String(t ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  const open = boards.filter(b => Number(b.open) > 0);
+  const nodes = open.reduce((t, b) => t + (Number(b.openNodeCount) || 0), 0);
+  const total = boards.reduce((t, b) => t + (Number(b.totalNodeCount) || 0), 0);
+  return `<div class="char-dv-box">
+    <div class="char-skill-head">🌟 데바니온 <span class="char-dv-sum">개방 노드 ${nodes.toLocaleString('ko-KR')} / ${total.toLocaleString('ko-KR')}</span></div>
+    <div class="char-dv-grid">${boards.map(b => {
+      const pct = Math.max(0, Math.min(100, Number(b.openPercent) || 0));
+      const isOpen = Number(b.open) > 0;
+      return `<div class="char-dv ${isOpen ? '' : 'off'} ${pct >= 100 ? 'full' : ''}">
+        <div class="char-dv-top">${b.icon ? `<img src="${esc(b.icon)}" alt="" loading="lazy" onerror="this.remove()">` : ''}<b>${esc(b.name)}</b>
+          <span>${isOpen ? `${b.openNodeCount}/${b.totalNodeCount}` : '잠김'}</span></div>
+        <div class="char-dv-bar"><i style="width:${isOpen ? pct : 0}%"></i></div>
+        <div class="char-dv-pct">${isOpen ? pct + '%' : '-'}</div>
+      </div>`;
+    }).join('')}</div>
+    <div class="char-dv-effects" id="char-dv-effects">
+      <button type="button" id="char-dv-more" class="char-skill-go">데바니온 효과 합계 보기 (스킬 레벨·스탯)</button>
+    </div>
+  </div>`;
+}
+
+// 보드별 상세(개방 노드 효과)를 모아 합산. 중계 함수가 mode=daevanion 을 지원해야 동작한다.
+async function charFetchDaevanion(c, boards) {
+  const cid = charIdOf(c), sid = String(c.serverId);
+  const openBoards = boards.filter(b => Number(b.open) > 0);
+  const details = await charMapLimit(openBoards, 4, b => charApi({ mode: 'daevanion', characterId: cid, serverId: sid, boardId: b.id }));
+  if (!details.some(d => d && (Array.isArray(d.openSkillEffectList) || Array.isArray(d.openStatEffectList)))) return null;
+  const skills = {}, stats = {};
+  const add = (map, desc) => {
+    const m = String(desc || '').match(/^(.*?)\s*\+\s*([\d.,]+)\s*(%?)$/);
+    if (!m) return;
+    const key = m[1].trim() + (m[3] ? ' (%)' : '');
+    map[key] = (map[key] || 0) + Number(m[2].replace(/,/g, ''));
+  };
+  details.forEach(d => {
+    (d?.openSkillEffectList || []).forEach(e => add(skills, e.desc));
+    (d?.openStatEffectList || []).forEach(e => add(stats, e.desc));
+  });
+  return { skills, stats };
+}
+
+async function charLoadDaevanionEffects(c, boards, btn) {
+  const box = document.getElementById('char-dv-effects');
+  if (!box) return;
+  charBusy(btn, true);
+  try {
+    const r = await charFetchDaevanion(c, boards);
+    if (!r) {
+      box.innerHTML = '<div class="char-dv-note">데바니온 상세 효과는 중계 서버 업데이트 후 볼 수 있습니다.</div>';
+      return;
+    }
+    const fmt = (map, pct) => Object.entries(map).sort((a, b) => b[1] - a[1])
+      .map(([k, v]) => `<span class="char-dv-chip">${k.replace(' (%)', '')} <b>+${Math.round(v * 100) / 100}${k.endsWith(' (%)') ? '%' : ''}</b></span>`).join('');
+    box.innerHTML = `
+      <div class="char-skill-title">스킬 레벨 상승 <span>${Object.keys(r.skills).length}개</span></div>
+      <div class="char-dv-chips">${fmt(r.skills) || '<span class="char-dv-note">없음</span>'}</div>
+      <div class="char-skill-title">스탯 합계</div>
+      <div class="char-dv-chips">${fmt(r.stats) || '<span class="char-dv-note">없음</span>'}</div>`;
+  } catch (e) {
+    console.error(e);
+    box.innerHTML = '<div class="char-dv-note">데바니온 상세 정보를 불러오지 못했습니다.</div>';
+  } finally { if (document.body.contains(btn)) charBusy(btn, false); }
+}
+
 // 캐릭터 스킬 레벨 (공식 캐릭터 정보의 skillList: Active / Passive / Dp)
 function charSkillHtml(list) {
   const groups = [['Active', '⚔️ 액티브 스킬'], ['Passive', '🛡️ 패시브 스킬'], ['Dp', '✨ DP 스킬']];
@@ -8777,12 +8864,15 @@ async function charImportToArcana(c, btn) {
       const cnt = arr => arr.reduce((t, a) => t + ((a || []).includes(name) ? 1 : 0), 0);
       return isActive ? cnt(equip.ring) : cnt(equip.armor) + cnt(equip.accessory);
     };
+    let dvExact = null;
+    try { dvExact = await charFetchDaevanion(c, b.info.daevanion?.boardList || []); } catch (e) {}
     const base = {}; let mismatch = 0;
     [...pool.active.map(n => [n, true]), ...pool.passive.map(n => [n, false])].forEach(([n, isActive]) => {
       const official = b.skills.find(s => s.name === n);
       if (!official) return;
       const rest = (Number(official.skillLevel) || 0) - gearCount(n, isActive) - (arcSum[n] || 0);
-      const dv = Math.max(0, Math.min(AN_DV_MAX, rest - AN_SP_MAX));
+      // 데바니온 상세를 받아오면 실제 데바니온 레벨, 아니면 스킬 포인트를 먼저 채운 나머지로 추정
+      const dv = dvExact ? Math.max(0, Math.min(AN_DV_MAX, dvExact.skills[n] || 0)) : Math.max(0, Math.min(AN_DV_MAX, rest - AN_SP_MAX));
       const sp = Math.max(0, Math.min(AN_SP_MAX, rest - dv));
       if (rest < 0 || rest > AN_SP_MAX + AN_DV_MAX) mismatch++;
       base[n] = { sp, dv };
@@ -9426,7 +9516,9 @@ ${stat.value}
 `).join('')}
 
       </div>
+      ${charDaevanionHtml(data.daevanion?.boardList || [])}
     `;
+    document.getElementById('char-dv-more')?.addEventListener('click', function () { charLoadDaevanionEffects(character, data.daevanion?.boardList || [], this); });
     // ===== 캐릭터 장비 정보 =====
     const equipmentParams = new URLSearchParams({
       mode: 'equipment',
