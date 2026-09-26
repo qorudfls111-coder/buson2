@@ -675,19 +675,18 @@ main.wrap{
           <div><label>치명타 적중률 % <span class="muted">최대 80%</span></label><input id="sp_crit_rate" value="80"></div>
           <div><label>전/후방 공격 성공률 %</label><input id="sp_fb_rate" value="80"></div>
           <div><label>보스 강타 저항 %</label><input id="sp_smash_resist" value="30"></div>
-          <div><label>파티 강타 버프</label>
-            <select id="sp_party_smash">
-              <option value="0">없음</option>
-              <option value="5">호법성 +5% (불패의 진언)</option>
-              <option value="10">치유성 +10% (보호의 빛 Lv25 + 대지의 축복)</option>
+          <div><label>힐러 버프 <span class="muted">스킬 Lv25 기준</span></label>
+            <select id="sp_party_healer">
+              <option value="none">없음</option>
+              <option value="hobeop">호법성 (불패의 진언 + 질풍의 권능)</option>
+              <option value="chiyu">치유성 (보호의 빛 + 대지의 축복)</option>
             </select>
+            <div class="muted" id="sp_party_note" style="margin-top:4px"></div>
           </div>
-          <div><label>파티 피해증폭 버프</label>
+          <div><label>수호성 버프</label>
             <select id="sp_party_dmg">
               <option value="0">없음</option>
-              <option value="22.5">치유/호법 Lv25 +22.5%</option>
-              <option value="33.75">수호 격앙 Lv35(고결의 갑주) +33.75%</option>
-              <option value="56.25">치유/호법 + 수호 격앙 +56.25%</option>
+              <option value="33.75">격앙 Lv35(고결의 갑주) 피해 증폭 +33.75%</option>
             </select>
           </div>
         </div>
@@ -1331,14 +1330,42 @@ async function loadOfficialNews(force=false){
 const SPEC_IDS=[
  'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break',
  'sp_dmg','sp_weapon','sp_critdmg','sp_fb','sp_smash','sp_pve','sp_boss',
- 'sp_crit_rate','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_guaranteed_crit_share'
+ 'sp_crit_rate','sp_fb_rate','sp_smash_resist','sp_party_healer','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_guaranteed_crit_share'
 ];
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
+// 파티 버프 (인게임 툴팁 기준, 메인 스펙 계산기와 같은 값)
+// - 격앙 파티 PVE 피해 증폭 = 5% + 레벨당 0.5% (Lv35 22.5%), 수호성은 고결의 갑주를 항상 켜므로 1.5배 33.75%로 본다
+// - 불패의 진언·보호의 빛 Lv25: PVE 피해 증폭 22.5%, 완벽 10% (둘은 중복되지 않는다, 이 페이지는 완벽을 계산하지 않음)
+// - 불패의 진언: 강타 5%, 치명타 피해 증폭 5%
+//   질풍의 권능: 파티원 공격력 10%, 무기 피해 증폭 5% (22.5초 유지·재시전 1분 30초 → 평균 25%로 반영)
+// - 보호의 빛 Lv25 특화: 강타 5%
+//   대지의 축복(대지의 징벌 적중, 유지 30초·재시전 30초): 파티원 강타 5%, 공격력 5%
+const PARTY_HEALER_BUFF={
+ none:{dmg:0,smash:0,perfect:0,critDmg:0,atk:0,weapon:0,note:''},
+ hobeop:{dmg:22.5,smash:5,perfect:10,critDmg:5,atk:10*0.25,weapon:5*0.25,
+  note:'피해 증폭 22.5% · 강타 5% · 완벽 10% · 치명타 피해 증폭 5% + 질풍의 권능 공격력 10% · 무기 피해 증폭 5% (22.5초/1분 30초라 평균 25%로 반영)'},
+ chiyu:{dmg:22.5,smash:10,perfect:10,critDmg:0,atk:5,weapon:0,
+  note:'피해 증폭 22.5% · 강타 10% (보호의 빛 5% + 대지의 축복 5%) · 완벽 10% · 공격력 5%'}
+};
+function partyHealerBuff(){return PARTY_HEALER_BUFF[$('#sp_party_healer')?.value]||PARTY_HEALER_BUFF.none}
+// 예전 저장값(파티 강타 / 파티 피해증폭 선택)을 힐러 버프 / 격앙 버프로 바꿔 불러온다
+const SPEC_OLD_GYEOK=['40','28','33.75','65','53','47.5','56.25','58.75'];
+const SPEC_OLD_HEALER_DMG=['25','22.5','65','53','47.5','56.25','58.75'];
+function specMigrate(d){
+ if(!d||typeof d!=='object'||'sp_party_healer' in d)return d;
+ if(!('sp_party_smash' in d)&&!('sp_party_dmg' in d))return d;
+ const sm=String(d.sp_party_smash??'0'),dm=String(d.sp_party_dmg??'0');
+ d.sp_party_healer=sm==='5'?'hobeop':(sm==='10'||sm==='12')?'chiyu':SPEC_OLD_HEALER_DMG.includes(dm)?'hobeop':'none';
+ d.sp_party_dmg=SPEC_OLD_GYEOK.includes(dm)?'33.75':'0';
+ delete d.sp_party_smash;
+ return d;
+}
 
 function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 function sv(id){return Number($('#'+id)?.value||0)}
 
 function getSpec(){
+ const healer=partyHealerBuff();
  return {
   attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
   destroy:sv('sp_destroy'), power:sv('sp_power'), breakthrough:sv('sp_break'),
@@ -1346,7 +1373,8 @@ function getSpec(){
   fb:sv('sp_fb'), smash:sv('sp_smash'), pve:sv('sp_pve'), boss:sv('sp_boss'),
   critRate:clamp(sv('sp_crit_rate'),0,80), fbRate:clamp(sv('sp_fb_rate'),0,100),
   smashResist:clamp(sv('sp_smash_resist'),0,100),
-  partySmash:sv('sp_party_smash'), partyDmg:sv('sp_party_dmg'),
+  partySmash:healer.smash, partyDmg:healer.dmg+sv('sp_party_dmg'),
+  partyCritDmg:healer.critDmg, partyAtk:healer.atk, partyWeapon:healer.weapon,
   targetCritResist:clamp(sv('sp_target_crit_resist'),0,100),
   targetDmgResist:clamp(sv('sp_target_dmg_resist'),0,100),
   targetCritDmgResist:clamp(sv('sp_target_critdmg_resist'),0,100),
@@ -1367,7 +1395,9 @@ function deriveAttack(s, flatGearAdd=0){
 
  const baseAttack=baseRaw*wornInc;
  const gearAttack=(gearRaw+flatGearAdd)*wornInc;
- const effectiveAttack=baseAttack + gearAttack*(1+s.weapon/100);
+ // 파티 공격력 버프는 공격력 증가 %에 더하고, 파티 무기 피해 증폭은 무피증에 더한다
+ const buffScale=wornInc>0 ? (wornInc+(s.partyAtk||0)/100)/wornInc : 1;
+ const effectiveAttack=(baseAttack + gearAttack*(1+(s.weapon+(s.partyWeapon||0))/100))*buffScale;
 
  return {wornInc,offInc,baseRaw,gearRaw,baseAttack,gearAttack,effectiveAttack};
 }
@@ -1379,7 +1409,7 @@ function totalMultiplier(s, flatGearAdd=0){
  const general=Math.max(0.01,1+effectiveDmgPct/100);
 
  const normalCritChance=clamp(s.critRate-s.targetCritResist,0,80)/100;
- const critBonus=Math.max(0,0.5+(s.critDmg-s.targetCritDmgResist)/100);
+ const critBonus=Math.max(0,0.5+(s.critDmg+(s.partyCritDmg||0)-s.targetCritDmgResist)/100);
  const normalCritExpected=1+normalCritChance*critBonus;
  const guaranteedCritExpected=1+critBonus;
 
@@ -1413,6 +1443,8 @@ function scoreByMode(result,mode){
 function calcSpec(){
  const s=getSpec();
  const base=totalMultiplier(s);
+ const partyNote=$('#sp_party_note');
+ if(partyNote){const n=partyHealerBuff().note;partyNote.textContent=n?n+' · 완벽은 이 페이지에서 계산하지 않음':''}
 
  $('#sp_base_attack').textContent=nf(Math.round(base.attack.baseAttack));
  $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack));
@@ -1486,7 +1518,7 @@ function calcSimulator(){
 function snapshotSpec(){const d={};SPEC_IDS.forEach(id=>d[id]=$('#'+id)?.value??'');return d}
 function specFromSnapshot(d){
  const current=snapshotSpec();
- Object.entries(d||{}).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
+ Object.entries(specMigrate(d)||{}).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
  const s=getSpec();
  Object.entries(current).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
  return s;
@@ -1518,7 +1550,7 @@ function saveSpec(){
 }
 function loadSpec(){
  try{
-  const d=JSON.parse(localStorage.getItem('buson2-stat-efficiency')||'{}');
+  const d=specMigrate(JSON.parse(localStorage.getItem('buson2-stat-efficiency')||'{}'));
   Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
   $('#sp_saved').textContent=Object.keys(d).length?'저장한 스탯을 불러왔습니다.':'저장된 스탯이 없습니다.';
   calcSpec();
