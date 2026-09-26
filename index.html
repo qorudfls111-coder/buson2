@@ -3823,8 +3823,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .char-dv-legend .g-common{color:#dfe6f2}.char-dv-legend .g-rare{color:#3ecf6e}.char-dv-legend .g-legend{color:#4da1ff}.char-dv-legend .g-unique{color:#ffb020}.char-dv-legend .closed{color:#5b6b8c}
 .char-dv-board{margin-top:4px}
 .char-dv-grid-wrap{overflow-x:auto;padding:10px;border:1px solid #1f2a3d;border-radius:12px;background:#0a0f18}
-.char-dv-grid2{display:grid;grid-auto-rows:minmax(46px,auto);gap:5px;min-width:max-content}
-.char-dv-node{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3px 2px;border:1.5px solid #3a465c;border-radius:7px;background:#121a28;font-size:10.5px;line-height:1.2;word-break:keep-all}
+.char-dv-grid2{display:grid;grid-auto-rows:minmax(46px,auto);gap:4px}
+.char-dv-node{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3px 2px;border:1.5px solid #3a465c;border-radius:7px;background:#121a28;font-size:10.5px;line-height:1.2;word-break:keep-all;overflow-wrap:anywhere;min-width:0}
 .char-dv-node span{color:#c9d3e6;font-weight:700}
 .char-dv-node b{color:#fff;font-weight:900;font-size:11px}
 .char-dv-node.g-common.on{border-color:#dfe6f2;background:#1a2230}
@@ -8784,7 +8784,7 @@ function charDvGridHtml(d, boardName) {
       <span>${charDvEsc(label)}</span>${value ? `<b>${charDvEsc(value)}</b>` : ''}</div>`;
   }).join('');
   const skills = (d.openSkillEffectList || []).map(e => e.desc).filter(Boolean);
-  return `<div class="char-dv-grid-wrap"><div class="char-dv-grid2" style="grid-template-columns:repeat(${nc},minmax(52px,1fr))">${cells}</div></div>
+  return `<div class="char-dv-grid-wrap"><div class="char-dv-grid2" style="grid-template-columns:repeat(${nc},minmax(0,1fr));min-width:${nc * 50 + (nc - 1) * 4}px">${cells}</div></div>
     ${skills.length ? `<div class="char-dv-board-skills"><b>${charDvEsc(boardName)}에서 오른 스킬</b> ${skills.map(t => `<span class="char-dv-chip">${charDvEsc(t)}</span>`).join('')}</div>` : ''}`;
 }
 async function charShowDaevanionBoard(c, boardId) {
