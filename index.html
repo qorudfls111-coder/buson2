@@ -3798,6 +3798,9 @@ min-height:56px;
 /* 숫자 입력칸: 위아래 화살표(스피너) 숨김 */
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.char-import-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.char-import-btns button{padding:8px 14px;border:1px solid #2f6b4f;border-radius:8px;background:#10281d;color:#9ef4bd;font-size:13px;font-weight:800;cursor:pointer}
+.char-import-btns button:disabled{opacity:.6;cursor:wait}
 .income-view{margin-top:8px;font-size:13px;font-weight:800;color:#8df0bd}
 /* ===== 강화 시뮬레이터 ===== */
 .en-fields{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
@@ -8524,6 +8527,151 @@ if(document.querySelector('.tab[data-page="enh"]')?.classList.contains('active')
     <script>
 /* ===== BUSON2 공식 AION2 캐릭터 검색 ===== */
 
+const CHAR_API = 'https://gdunbidwaksdddgfkbcw.supabase.co/functions/v1/smooth-api';
+async function charApi(params) {
+  const r = await fetch(CHAR_API + '?' + new URLSearchParams(params).toString());
+  if (!r.ok) throw new Error('캐릭터 조회 실패');
+  return r.json();
+}
+async function charMapLimit(arr, limit, fn) {
+  const out = new Array(arr.length); let next = 0;
+  await Promise.all(Array.from({ length: Math.min(limit, arr.length) }, async () => {
+    while (next < arr.length) { const k = next++; try { out[k] = await fn(arr[k], k); } catch (e) { out[k] = null; } }
+  }));
+  return out;
+}
+async function charSearchServer(keyword, race, serverId) {
+  const json = await charApi({ keyword, race, serverId });
+  if (!json.success) throw new Error('캐릭터 조회 실패');
+  return Array.isArray(json.data?.list) ? json.data.list : [];
+}
+// 서버를 고르지 않으면 해당 종족의 모든 서버를 조회해 합친다
+// (중계 함수가 serverId 없이 검색을 지원하면 한 번의 요청으로 끝난다)
+async function charSearchAllServers(keyword, race, allServers, onProgress) {
+  try {
+    const json = await charApi({ keyword, race });
+    if (json.success && Array.isArray(json.data?.list)) return charSortResults(json.data.list, keyword);
+  } catch (e) {}
+  const servers = allServers.filter(s => s.race === Number(race));
+  let done = 0;
+  const lists = await charMapLimit(servers, 7, async s => {
+    const list = await charSearchServer(keyword, race, s.id);
+    onProgress && onProgress(++done, servers.length);
+    return list;
+  });
+  if (lists.every(l => l === null)) throw new Error('캐릭터 조회 실패');
+  return charSortResults(lists.flat().filter(Boolean), keyword);
+}
+function charSortResults(list, keyword) {
+  const plain = t => String(t || '').replace(/<[^>]+>/g, '');
+  const key = String(keyword).trim();
+  return list.sort((a, b) =>
+    (plain(b.name) === key) - (plain(a.name) === key) ||
+    (Number(b.level) || 0) - (Number(a.level) || 0));
+}
+
+/* 검색한 캐릭터 → 버스온2 계산기 연결 */
+function charIdOf(c) { let id = c.characterId || ''; try { id = decodeURIComponent(id); } catch (e) {} return id; }
+async function charLoadBasics(c) {
+  const cid = charIdOf(c), sid = String(c.serverId);
+  const [info, eq] = await Promise.all([
+    charApi({ mode: 'info', characterId: cid, serverId: sid }),
+    charApi({ mode: 'equipment', characterId: cid, serverId: sid })
+  ]);
+  return { cid, sid, info, list: eq.equipment?.equipmentList || [] };
+}
+function charItemDetail(b, it) {
+  return charApi({ mode: 'item', id: it.id, enchantLevel: it.enchantLevel, characterId: b.cid, serverId: b.sid, slotPos: it.slotPos });
+}
+function charBusy(btn, on, text) {
+  if (on) { btn.dataset.label = btn.textContent; btn.textContent = text || '불러오는 중...'; btn.disabled = true; }
+  else { btn.textContent = btn.dataset.label || btn.textContent; btn.disabled = false; }
+}
+
+async function charImportToSpec(c, btn) {
+  charBusy(btn, true);
+  try {
+    const b = await charLoadBasics(c);
+    const stats = b.info.stat?.statList || [];
+    const statOf = t => Number(stats.find(s => s.type === t)?.value) || 0;
+    let wmin = 0, wmax = 0;
+    const weapon = b.list.find(it => Number(it.slotPos) === 1);
+    if (weapon) {
+      const d = await charItemDetail(b, weapon);
+      const w = (d?.mainStats || []).find(m => m.id === 'WeaponFixingDamage');
+      if (w) { wmin = parseNum(w.minValue); wmax = parseNum(w.value); }
+    }
+    const breaks = [0, 0, 0, 0, 0, 0];
+    b.list.filter(it => Number(it.slotPos) < 40).forEach(it => { const e = Number(it.exceedLevel) || 0; if (e >= 1 && e <= 5) breaks[e]++; });
+    const put = (id, v) => { const el = document.getElementById(id); if (el) { el.value = String(v); if (el.classList.contains('num-comma') || el.classList.contains('money')) formatMoneyInput(el); } };
+    put('sp_power', statOf('STR'));
+    put('sp_destroy', statOf('Destruction'));
+    if (wmin) put('sp_weapon_min', wmin);
+    if (wmax) put('sp_weapon_max', wmax);
+    for (let k = 1; k <= 5; k++) put('sp_break' + k, breaks[k]);
+    document.querySelector('.tab[data-page="spec"]')?.click();
+    try { if (typeof calcSpec === 'function') calcSpec(); } catch (e) { console.warn(e); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    alert(cleanCharName(c.name) + '의 위력 ' + statOf('STR') + ' · 파괴 ' + statOf('Destruction') +
+      (wmin ? ' · 주무기 공격력 ' + wmin + '~' + wmax : '') + ' · 돌파 부위 수를 스펙 계산기에 넣었습니다.\n\n' +
+      '공격력(스탯창)과 피해 증폭·강타 같은 % 옵션은 공식 캐릭터 정보에 없어서 직접 입력해주세요.');
+  } catch (e) {
+    console.error(e);
+    alert('캐릭터 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+  } finally { charBusy(btn, false); }
+}
+
+const CHAR_ARCANA_TYPES = [['성배', 'grail'], ['양피지', 'parchment'], ['나침반', 'compass'], ['종', 'bell'], ['거울', 'mirror'], ['천칭', 'scale']];
+// 공식 장비 슬롯 번호 → 아르카나 계산기 장비 칸 (투구·견갑·상의·하의·장갑·망토·신발 / 목걸이·귀걸이1·2 / 반지1·2)
+const CHAR_GEAR_SLOTS = { 3: ['armor', 0], 4: ['armor', 1], 5: ['armor', 2], 6: ['armor', 3], 7: ['armor', 4], 19: ['armor', 5], 8: ['armor', 6], 10: ['accessory', 0], 11: ['accessory', 1], 12: ['accessory', 2], 13: ['ring', 0], 14: ['ring', 1] };
+function cleanCharName(n) { return String(n || '').replace(/<[^>]+>/g, ''); }
+
+async function charImportToArcana(c, btn) {
+  charBusy(btn, true);
+  try {
+    const b = await charLoadBasics(c);
+    const job = b.info.profile?.className || '';
+    if (typeof ARCANA_JOBS === 'undefined' || !ARCANA_JOBS.includes(job)) { alert('아르카나 계산기에서 지원하지 않는 직업입니다: ' + (job || '알 수 없음')); return; }
+    const cards = b.list
+      .filter(it => Number(it.slotPos) >= 41)
+      .map(it => ({ it, type: (CHAR_ARCANA_TYPES.find(([suffix]) => String(it.name).endsWith(suffix)) || [])[1] }))
+      .filter(x => x.type);
+    const gears = b.list.filter(it => CHAR_GEAR_SLOTS[Number(it.slotPos)]);
+    const targets = [...cards.map(x => x.it), ...gears];
+    let done = 0;
+    const details = await charMapLimit(targets, 6, async it => { const d = await charItemDetail(b, it); btn.textContent = '불러오는 중... (' + (++done) + '/' + targets.length + ')'; return d; });
+
+    const newCards = cards.map((x, i) => {
+      const skills = (details[i]?.subSkills || []).slice(0, 4)
+        .map(s => ({ name: s.name, lv: String(Math.min(AN_SKILL_LEVEL_MAX, Math.max(1, Number(s.level) || 1))) }));
+      return skills.length ? { id: 'c' + Date.now() + i + Math.random().toString(36).slice(2, 6), type: x.type, level: '5', memo: x.it.name, skills } : null;
+    }).filter(Boolean);
+    const equip = anEmptyEquip();
+    gears.forEach((it, j) => {
+      const [cat, idx] = CHAR_GEAR_SLOTS[Number(it.slotPos)];
+      equip[cat][idx] = [...new Set((details[cards.length + j]?.subSkills || []).map(s => s.name).filter(Boolean))];
+    });
+    if (!newCards.length && gears.every((_, j) => !(details[cards.length + j]?.subSkills || []).length)) {
+      alert('불러올 아르카나 카드나 장비 스킬 정보가 없습니다.'); return;
+    }
+    const old = anLoadCards(job);
+    if (old.length && !confirm(job + ' 아르카나 계산기에 저장된 카드 ' + old.length + '장과 장비 스킬 설정을\n' + cleanCharName(c.name) + '의 카드 ' + newCards.length + '장·장비 스킬로 바꿀까요?')) return;
+
+    try { localStorage.setItem(anStorageKey(job), JSON.stringify(newCards)); localStorage.setItem(anEquipKey(job), JSON.stringify(equip)); } catch (e) {}
+    AN_CURRENT_JOB = job;
+    document.querySelector('.tab[data-page="arcana"]')?.click();
+    if (!AN_INITED) anInit();
+    anSwitchJob(job);
+    AN_CARDS = newCards; AN_EQUIP = equip;
+    anRenderCardList(); anRenderEquipPanel(); anRenderCalcTable();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    alert(cleanCharName(c.name) + '(' + job + ')의 아르카나 카드 ' + newCards.length + '장과 장비 스킬을 불러왔습니다.');
+  } catch (e) {
+    console.error(e);
+    alert('캐릭터 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+  } finally { charBusy(btn, false); }
+}
+
 (function () {
 
   const raceEl = document.getElementById('char-race');
@@ -8860,6 +9008,10 @@ card.style.display = 'flex';
   🔗 세팅 공유
 </button>
         </div>
+        <div class="char-import-btns">
+          <button type="button" id="char-to-spec">📊 스펙 계산기로 보내기</button>
+          <button type="button" id="char-to-arcana">🔮 아르카나 계산기로 불러오기</button>
+        </div>
       </div>
     </div>
 
@@ -8910,6 +9062,9 @@ if (shareBtn) {
     }
   });
 }
+
+  document.getElementById('char-to-spec')?.addEventListener('click', function () { charImportToSpec(character, this); });
+  document.getElementById('char-to-arcana')?.addEventListener('click', function () { charImportToArcana(character, this); });
 
   const dataEl = document.getElementById('char-detail-data');
 
@@ -10245,39 +10400,20 @@ async function searchCharacter() {
     return;
   }
 
-  if (!serverId) {
-    statusEl.textContent = '서버를 선택해주세요.';
-    return;
-  }
-
-  statusEl.textContent = 'AION2 공식 캐릭터 정보를 검색하고 있습니다...';
+  statusEl.textContent = serverId
+    ? 'AION2 공식 캐릭터 정보를 검색하고 있습니다...'
+    : '전체 서버에서 "' + keyword + '"을(를) 찾고 있습니다...';
   resultsEl.innerHTML = '';
 
   searchBtn.disabled = true;
   searchBtn.textContent = '검색 중...';
 
   try {
-    const url =
-      'https://gdunbidwaksdddgfkbcw.supabase.co/functions/v1/smooth-api' +
-      '?keyword=' + encodeURIComponent(keyword) +
-      '&race=' + encodeURIComponent(race) +
-      '&serverId=' + encodeURIComponent(serverId);
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error('캐릭터 조회 실패');
-    }
-
-    const json = await response.json();
-
-    if (!json.success) {
-      throw new Error('캐릭터 조회 실패');
-    }
-
-    const list = Array.isArray(json.data?.list)
-      ? json.data.list
-      : [];
+    const list = serverId
+      ? await charSearchServer(keyword, race, serverId)
+      : await charSearchAllServers(keyword, race, AION2_SERVERS, (done, total) => {
+          statusEl.textContent = '전체 서버에서 찾는 중... (' + done + '/' + total + ')';
+        });
 
     renderCharacters(list);
 
@@ -10296,7 +10432,7 @@ async function searchCharacter() {
         '검색 결과 ' + list.length + '명을 찾았습니다.';
     } else {
       statusEl.textContent =
-        '해당 서버에서 "' + keyword + '" 검색 결과가 없습니다.';
+        (serverId ? '해당 서버에서' : '전체 서버에서') + ' "' + keyword + '" 검색 결과가 없습니다.';
     }
 
   } catch (error) {
