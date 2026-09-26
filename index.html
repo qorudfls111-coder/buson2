@@ -3809,29 +3809,30 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .rc-table thead th.en-per{color:#7fc4ff}
 .en-ok{color:#8df0bd;font-weight:800}.en-fail{color:#ff8d8d;font-weight:800}
 @media(max-width:860px){.en-fields{grid-template-columns:1fr 1fr}}
-.ms-help{font-size:13.5px;color:#a9b6cc;margin:-2px 0 12px;line-height:1.7}
-.ms-table{border:1px solid #2c3a55;border-radius:14px;overflow:hidden}
-.ms-row{display:grid;grid-template-columns:170px 1fr 120px;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid #1c2638}
+.ms-help{font-size:13px;color:#a9b6cc;margin:-2px 0 10px;line-height:1.6}
+.ms-table{border:1px solid #2c3a55;border-radius:12px;overflow:hidden}
+.ms-row{display:grid;grid-template-columns:150px auto 1fr;gap:12px;align-items:center;padding:4px 14px;border-bottom:1px solid #1c2638}
 .ms-row:last-child{border-bottom:0}
 .ms-row.on{background:#12203a}
-.ms-row.ms-headrow{font-size:13.5px;font-weight:800;color:#a9c1f0;background:#0f1726;padding:12px 16px}
-.ms-name{font-size:16px;font-weight:800;color:#c9d3e6}
+.ms-row.ms-headrow{font-size:12.5px;font-weight:800;color:#a9c1f0;background:#0f1726;padding:8px 14px}
+.ms-name{font-size:14.5px;font-weight:800;color:#c9d3e6;white-space:nowrap}
 .ms-row.on .ms-name{color:#ffffff}
-.ms-chips{display:grid;grid-template-columns:84px repeat(3,1fr);gap:8px}
-.ms-chip{border:1px solid #2f3c52;background:#0b1018;border-radius:10px;color:#9aa4b2;padding:8px 4px;cursor:pointer;line-height:1.3;text-align:center;transition:border-color .12s,background .12s}
+.ms-chips{display:grid;grid-template-columns:56px repeat(3,132px);gap:6px}
+.ms-chip{display:flex;align-items:baseline;justify-content:center;gap:6px;border:1px solid #2f3c52;background:#0b1018;border-radius:8px;color:#9aa4b2;padding:5px 6px;cursor:pointer;line-height:1.2;text-align:center;transition:border-color .12s,background .12s}
 .ms-chip:hover{border-color:#4a6490}
-.ms-chip b{display:block;font-size:19px;font-weight:900;color:var(--cc,#e6ecf7)}
-.ms-chip small{display:block;font-size:12.5px;font-weight:700;color:#93a3bf;margin-top:2px}
+.ms-chip b{font-size:16px;font-weight:900;color:var(--cc,#e6ecf7)}
+.ms-chip small{font-size:11.5px;font-weight:700;color:#93a3bf}
 .ms-chip.act{background:var(--cc);border-color:var(--cc);color:#0b1018}
 .ms-chip.act b,.ms-chip.act small{color:#0b1018}
 .ms-chip.inc{background:color-mix(in srgb,var(--cc) 22%,#0b1018);border-color:var(--cc)}
 .ms-chip.na{visibility:hidden}
-.ms-chip.none{font-size:18px;font-weight:900;color:#8b97ab}
+.ms-chip.none{font-size:15px;font-weight:900;color:#8b97ab;align-items:center}
 .ms-chip.none.act{background:#3a465c;border-color:#5b6b8c;color:#eef4ff}
-.ms-p{text-align:right;font-size:15px;font-weight:800;color:#9db8ff}
-#ms_result{margin-top:16px}
+.ms-headrow .ms-chips > span{text-align:center}
+.ms-p{text-align:right;font-size:14px;font-weight:800;color:#9db8ff;white-space:nowrap}
+#ms_result{margin-top:14px}
 #ms_main .en-log{font-size:14px;line-height:1.8}
-@media(max-width:860px){.ms-row{grid-template-columns:1fr;gap:8px;padding:10px 12px}.ms-p{text-align:left}.ms-p:empty{display:none}.ms-row:not(.ms-headrow) .ms-p:not(:empty)::before{content:"목표 확률 "}.ms-chips{grid-template-columns:60px repeat(3,1fr);gap:6px}.ms-chip b{font-size:17px}}
+@media(max-width:860px){.ms-row{grid-template-columns:1fr auto;gap:6px 10px;padding:6px 10px}.ms-row .ms-chips{grid-column:1 / -1;grid-template-columns:46px repeat(3,1fr);gap:5px}.ms-row.ms-headrow .ms-chips{order:3}.ms-p:empty{display:none}.ms-chip{padding:6px 4px;gap:4px}.ms-chip b{font-size:15px}.ms-chip small{font-size:11px}}
 /* ===== 종족 이해도 시뮬레이터 ===== */
 .rc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 .rc-stat{border:1px solid #263043;background:#0d131c;border-radius:12px;padding:10px 12px}
