@@ -8887,7 +8887,7 @@ function ccNumRow(label, a, b, unit) {
   return `<tr><th>${label}</th>
     <td class="${ok && na > nb ? 'win' : ''}">${fmt(a)}</td>
     <td class="${ok && nb > na ? 'win' : ''}">${fmt(b)}</td>
-    <td class="cc-diff ${d > 0 ? 'up' : d < 0 ? 'down' : ''}">${d === null ? '' : d === 0 ? '=' : (d > 0 ? '+' : '') + Math.round(d * 100) / 100 + (unit || '')}</td></tr>`;
+    <td class="cc-diff ${d > 0 ? 'up' : d < 0 ? 'down' : ''}">${d === null ? '' : d === 0 ? '=' : (d > 0 ? '+' : '') + (Math.round(d * 100) / 100).toLocaleString('ko-KR') + (unit || '')}</td></tr>`;
 }
 function ccTextRow(label, a, b, scoreA, scoreB) {
   return `<tr><th>${label}</th><td class="${scoreA > scoreB ? 'win' : ''}">${a || '-'}</td><td class="${scoreB > scoreA ? 'win' : ''}">${b || '-'}</td><td></td></tr>`;
