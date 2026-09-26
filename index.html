@@ -597,8 +597,10 @@ main.wrap{
             <select id="sp_party_dmg">
               <option value="0">없음</option>
               <option value="25">치유/호법 +25%</option>
-              <option value="28">수호 격앙 Lv35 +28%</option>
-              <option value="53">둘 다 +53%</option>
+              <option value="22.5">수호 격앙 Lv35 +22.5%</option>
+              <option value="33.75">격앙 Lv35 + 고결의 갑주 +33.75%</option>
+              <option value="47.5">치유/호법 + 격앙 +47.5%</option>
+              <option value="58.75">치유/호법 + 격앙 + 고결의 갑주 +58.75%</option>
             </select>
           </div>
         </div>
@@ -5225,8 +5227,9 @@ const SPEC_IDS=[
  'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
-// 격앙 너프 전 저장값(40/65)을 Lv35 기준(28/53)으로 바꿔 불러온다
-const SPEC_PARTY_DMG_LEGACY={'40':'28','65':'53'};
+// 격앙 파티 PVE 피해 증폭 = 5% + 레벨당 0.5% (Lv35 22.5%, 고결의 갑주 유지 중 1.5배 33.75%)
+// 예전 저장값(너프 전 40/65, 이전 계산 28/53)은 Lv35 기준으로 바꿔 불러온다
+const SPEC_PARTY_DMG_LEGACY={'40':'22.5','65':'47.5','28':'22.5','53':'47.5'};
 function specMigrate(d){
  if(d&&typeof d==='object'&&SPEC_PARTY_DMG_LEGACY[d.sp_party_dmg])d.sp_party_dmg=SPEC_PARTY_DMG_LEGACY[d.sp_party_dmg];
  return d;
