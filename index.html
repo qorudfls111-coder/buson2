@@ -526,12 +526,12 @@ main.wrap{
       <div class="body">
         <div class="subhead">공격력</div>
         <div class="fields">
-          <div><label>공격력 (스탯창, 장비 착용)</label><input id="sp_attack_on" value="0"></div>
-          <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" value="0"></div>
-          <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" value="0"></div>
-          <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
-          <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" value="0"></div>
-          <div><label>주무기 최대 공격력 <span class="muted">예: 641 ~ 709(+350) → 709</span></label><input id="sp_weapon_max" value="0"></div>
+          <div><label>공격력 (스탯창, 장비 착용)</label><input id="sp_attack_on" class="num-comma" inputmode="numeric" value="0"></div>
+          <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" class="num-comma" inputmode="numeric" value="0"></div>
+          <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" class="num-comma" inputmode="numeric" value="0"></div>
+          <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" class="num-comma" inputmode="numeric" value="0"></div>
+          <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" class="num-comma" inputmode="numeric" value="0"></div>
+          <div><label>주무기 최대 공격력 <span class="muted">예: 641 ~ 709(+350) → 709</span></label><input id="sp_weapon_max" class="num-comma" inputmode="numeric" value="0"></div>
           <div class="weapon-input-help" style="grid-column:1/-1;padding:12px 14px;border:1px solid #29405d;border-radius:10px;background:#0b1625;color:#b8c8db;font-size:13px;line-height:1.7"><b style="color:#79c7ff">무기 입력 방법</b>　게임에 <b>641 ~ 709(+350)</b> 이라고 보이면 <b>641 / 709</b>만 입력하세요.<br><b style="color:#ffd166">(+350)은 입력하지 않습니다.</b> 현재 스탯창 공격력에 이미 반영된 강화 수치라 다시 더하면 중복 계산됩니다.<br><span style="color:#8fa6bd">가더의 169(+350), 공격력 150·38 등도 별도 입력하지 않습니다. 현재 총 공격력에 이미 포함된 값으로 처리합니다.</span><br><span style="color:#8fa6bd">※ 현재 BUSON2에서는 ‘완벽’을 <b>무기 최대 공격력</b> 기반으로 계산하며, 가더 공격력은 최대값 기준에 별도로 합산하지 않고 주무기 범위만 사용합니다.</span></div>
           <div class="breakthrough-box">
             <label>장비 돌파 단계별 부위 수 <span class="muted">돌파 단계만큼 공격력 % 적용</span></label>
@@ -833,9 +833,9 @@ main.wrap{
         <div class="gear-side current">
           <div class="gear-side-title"><span>A</span><div><b id="gc_a_title">현재 장비</b><small id="gc_a_sub">지금 착용 중인 한 부위</small></div></div>
           <div class="gear-fields">
-            <div><label>공격력</label><input id="gc_a_attack" value="0"></div>
-            <div><label>추가 공격력</label><input id="gc_a_addatk" value="0"></div>
-            <div><label>최대 공격력</label><input id="gc_a_maxatk" value="0"></div>
+            <div><label>공격력</label><input id="gc_a_attack" class="num-comma" inputmode="numeric" value="0"></div>
+            <div><label>추가 공격력</label><input id="gc_a_addatk" class="num-comma" inputmode="numeric" value="0"></div>
+            <div><label>최대 공격력</label><input id="gc_a_maxatk" class="num-comma" inputmode="numeric" value="0"></div>
             <div><label>피해 증폭 %</label><input id="gc_a_dmg" value="0"></div>
             <div><label>무기 피해 증폭 %</label><input id="gc_a_weapon" value="0"></div>
             <div><label>치명타 피해 증폭 %</label><input id="gc_a_critdmg" value="0"></div>
@@ -854,9 +854,9 @@ main.wrap{
         <div class="gear-side new">
           <div class="gear-side-title"><span>B</span><div><b id="gc_b_title">교체 장비</b><small id="gc_b_sub">바꿀 장비 한 부위</small></div></div>
           <div class="gear-fields">
-            <div><label>공격력</label><input id="gc_b_attack" value="0"></div>
-            <div><label>추가 공격력</label><input id="gc_b_addatk" value="0"></div>
-            <div><label>최대 공격력</label><input id="gc_b_maxatk" value="0"></div>
+            <div><label>공격력</label><input id="gc_b_attack" class="num-comma" inputmode="numeric" value="0"></div>
+            <div><label>추가 공격력</label><input id="gc_b_addatk" class="num-comma" inputmode="numeric" value="0"></div>
+            <div><label>최대 공격력</label><input id="gc_b_maxatk" class="num-comma" inputmode="numeric" value="0"></div>
             <div><label>피해 증폭 %</label><input id="gc_b_dmg" value="0"></div>
             <div><label>무기 피해 증폭 %</label><input id="gc_b_weapon" value="0"></div>
             <div><label>치명타 피해 증폭 %</label><input id="gc_b_critdmg" value="0"></div>
@@ -900,7 +900,7 @@ main.wrap{
     </div>
     <div class="body">
       <div class="fields">
-        <div><label>공격력 (마석·장비)</label><input id="sim_attack" value="0"></div>
+        <div><label>공격력 (마석·장비)</label><input id="sim_attack" class="num-comma" inputmode="numeric" value="0"></div>
         <div><label>무기 피해 증폭 %</label><input id="sim_weapon" value="0"></div>
         <div><label>피해 증폭 %</label><input id="sim_dmg" value="0"></div>
         <div><label>치명타 피해 증폭 %</label><input id="sim_critdmg" value="0"></div>
@@ -1210,8 +1210,8 @@ main.wrap{
     <option value="160">160 오드</option>
   </select>
 </div>
-<div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" value="0"><span class="unit">판</span></div></div>
-<div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" value="0"><span class="unit">오드</span></div></div>
+<div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" class="num-comma" inputmode="numeric" value="0"><span class="unit">판</span></div></div>
+<div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" class="num-comma" inputmode="numeric" value="0"><span class="unit">오드</span></div></div>
   </div></div></div>
 <div class="card"><div class="head"><h2>부캐 버스 결과</h2><p>부캐 버스에서 선택한 같은 던전을 본부로 돌았을 때와 자동 비교합니다.</p></div><div class="body"><div class="metrics" id="s_metrics"></div>
 <button type="button" class="btn primary" style="width:100%;margin-top:14px;" onclick="shareTabResult('sub', this)">🔗 이 계산 결과 공유 링크 복사하기</button>
@@ -1231,7 +1231,7 @@ main.wrap{
         <div>
           <label>비교 기준 오드</label>
           <div class="iwrap">
-            <input id="cmp_ode_budget" value="2000">
+            <input id="cmp_ode_budget" class="num-comma" inputmode="numeric" value="2000">
             <span class="unit">오드</span>
           </div>
         </div>
@@ -1427,7 +1427,7 @@ main.wrap{
         <div><label>장비 레벨</label><select id="en_lv" onchange="enSetLv(this.value)"></select></div>
         <div><label>현재 강화</label><select id="en_from" onchange="enSetRange()"></select></div>
         <div><label>목표 강화</label><select id="en_to" onchange="enSetRange()"></select></div>
-        <div style="display:none"><label id="en_price_label">돌파석 시세 (개당 키나, 선택)</label><input id="en_price" type="number" min="0" placeholder="입력하면 총 비용에 환산" oninput="enCalc()"></div>
+        <div style="display:none"><label id="en_price_label">돌파석 시세 (개당 키나, 선택)</label><input id="en_price" type="text" class="num-comma" inputmode="numeric" placeholder="입력하면 총 비용에 환산" oninput="enCalc()"></div>
       </div>
       <div id="en_result"></div>
       <div class="en-sim">
@@ -1450,7 +1450,7 @@ main.wrap{
         <div class="en-fields">
           <div><label>마석 종류</label><select id="ms_stone" onchange="msSetStone(this.value)"></select></div>
           <div><label>필요 개수</label><input id="ms_need" type="number" min="1" max="100" value="1" oninput="msCalc()"></div>
-          <div><label>마석 개당 가격 (키나, 선택)</label><input id="ms_price" type="number" min="0" placeholder="입력하면 총 비용에 환산" oninput="msCalc()"></div>
+          <div><label>마석 개당 가격 (키나, 선택)</label><input id="ms_price" type="text" class="num-comma" inputmode="numeric" placeholder="입력하면 총 비용에 환산" oninput="msCalc()"></div>
           <div><label>&nbsp;</label><button type="button" class="btn secondary" style="width:100%;padding:10px" onclick="msClear()">목표 전체 해제</button></div>
         </div>
         <div class="ms-help">원하는 옵션마다 최소 등급을 누르세요. 고른 옵션 중 하나가 그 등급 이상으로 나오면 목표 달성입니다. 칸 안의 숫자는 옵션 수치, 아래는 해당 등급으로 나올 확률입니다.</div>
@@ -3922,8 +3922,23 @@ const val=id=>{const el=document.getElementById(id);return el?parseNum(el.value)
 const nf=n=>Math.round(Number(n)||0).toLocaleString('ko-KR');
 const money=n=>nf(n)+' 키나';
 function short(n){const a=Math.abs(n);if(a>=100000000)return(n/100000000).toFixed(a>=1000000000?1:2).replace(/\.0+$/,'')+'억 키나';if(a>=10000)return(n/10000).toFixed(a>=1000000?0:1).replace(/\.0$/,'')+'만 키나';return money(n)}
-function formatMoneyInput(el){const raw=String(el.value).replace(/[^\d-]/g,'');if(raw===''||raw==='-'){el.value=raw;return}const n=Number(raw);if(Number.isFinite(n))el.value=n.toLocaleString('ko-KR')}
+function formatMoneyInput(el){
+ // 숫자만 남겨 천 단위 콤마로 표기하고, 입력 중인 커서 위치(앞쪽 숫자 개수 기준)를 유지
+ const v=String(el.value), focused=document.activeElement===el;
+ const pos=focused&&el.selectionStart!=null?el.selectionStart:v.length;
+ const digitsBefore=v.slice(0,pos).replace(/[^\d]/g,'').length;
+ const neg=el.classList.contains('money')&&v.trim().startsWith('-');
+ const digits=v.replace(/[^\d]/g,'');
+ if(digits===''){el.value=neg?'-':'';return}
+ const out=(neg?'-':'')+Number(digits).toLocaleString('ko-KR');
+ if(out===v)return;
+ el.value=out;
+ if(focused){let i=neg?1:0,d=0;while(i<out.length&&d<digitsBefore){if(/\d/.test(out[i]))d++;i++}try{el.setSelectionRange(i,i)}catch(e){}}
+}
 document.querySelectorAll('.money').forEach(el=>{el.addEventListener('input',()=>formatMoneyInput(el));el.addEventListener('blur',()=>formatMoneyInput(el))});
+// 나중에 그려지는 입력칸까지 포함해 .num-comma 는 모두 자동 콤마 (계산 리스너보다 먼저 처리)
+document.addEventListener('input',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('num-comma'))formatMoneyInput(t)},true);
+window.addEventListener('load',()=>document.querySelectorAll('.num-comma').forEach(formatMoneyInput));
 
 function syncOdeFromDungeon(prefix){
  const incomeSel=$('#'+prefix+'_income');
@@ -4409,7 +4424,7 @@ function renderDrivers(preserve=true){
    <div class="driver-block">
      <b>기사 ${n}</b>
      <label>연속 수금 판수</label>
-     <div class="iwrap"><input id="d_block${n}" data-block-driver="${n}" value="${old[n]??0}"><span class="unit">판</span></div>
+     <div class="iwrap"><input id="d_block${n}" class="num-comma" inputmode="numeric" data-block-driver="${n}" value="${old[n]??0}"><span class="unit">판</span></div>
    </div>`).join('');
    $('#rotationNote').textContent='기사 1이 설정한 판수만큼 수금한 뒤 기사 2가 설정한 판수만큼 수금하고, 다시 1 → 2 순서로 반복합니다.';
    document.querySelectorAll('[data-block-driver]').forEach(x=>x.addEventListener('input',calcDriver));
@@ -5065,7 +5080,7 @@ const SPEC_IDS=[
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
 
 function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
-function sv(id){return Number($('#'+id)?.value||0)}
+function sv(id){return parseNum($('#'+id)?.value)}
 
 function getSpec(){
  return {
@@ -5551,7 +5566,7 @@ document.querySelectorAll('.gc-type').forEach(btn=>btn.addEventListener('click',
 
 function gearCompareRead(side){
  const o={};
- GEAR_COMPARE_FIELDS.forEach(([key])=>{o[key]=Number($('#gc_'+side+'_'+key)?.value||0)});
+ GEAR_COMPARE_FIELDS.forEach(([key])=>{o[key]=parseNum($('#gc_'+side+'_'+key)?.value)});
  return o;
 }
 function gearCompareAdjustedSpec(base,a,b){
@@ -6617,7 +6632,7 @@ function renderPartyRoster(){
       const savedCp=savedChar?.cp || '';
       row+=`<td><input id="pt_p${p}_c${c}_name" placeholder="닉네임" value="${savedName.replace(/"/g,'&quot;')}"></td>`;
       row+=`<td><select id="pt_p${p}_c${c}_job">${ptJobOptions(defaultJob)}</select></td>`;
-      row+=`<td><input id="pt_p${p}_c${c}_cp" placeholder="전투력" inputmode="numeric" value="${savedCp}"></td>`;
+      row+=`<td><input id="pt_p${p}_c${c}_cp" class="num-comma" placeholder="전투력" inputmode="numeric" value="${savedCp}"></td>`;
     }
     row+='</tr>';
     bodyRows+=row;
@@ -8380,7 +8395,7 @@ function enCalc(){
     for(let s=from+1;s<=to;s++){ const r=t[s-1]; let f=0; for(;;){ tt++; kk+=r[2]; if(enRoll(r,f)) break; f++; } }
     T[k]=tt;K[k]=kk; }
   T.sort();K.sort(); const q=(a,f)=>a[Math.min(N-1,Math.floor(N*f))];
-  const bm=EN.mode==='brk'?enBrkMat(mats):null, price=bm?(Number($('#en_price').value)||0):0;
+  const bm=EN.mode==='brk'?enBrkMat(mats):null, price=bm?parseNum($('#en_price').value):0;
   $('#en_result').innerHTML=`<div class="rc-stats">
       <div class="rc-stat"><span>평균 시도 횟수</span><b>${rcNum(tries)}회</b></div>
       <div class="rc-stat"><span>평균 키나</span><b>${rcNum(kina)}</b></div>
@@ -8409,7 +8424,7 @@ function enSimRender(){
   const box=$('#en_sim_stats'); if(!box) return; const t=enTable(); if(!t) return;
   const done=EN_SIM.lv>=EN.to;
   const next=done?null:t[EN_SIM.lv], p=next?Math.min(1,next[0]/100+EN_SIM.fails*next[1]/100):null;
-  const bm=EN.mode==='brk'?enBrkMat(EN_SIM.mats):null, price=bm?(Number($('#en_price').value)||0):0;
+  const bm=EN.mode==='brk'?enBrkMat(EN_SIM.mats):null, price=bm?parseNum($('#en_price').value):0;
   box.innerHTML=`<div class="rc-stats">
     <div class="rc-stat"><span>현재 강화${done?' (목표 달성!)':''}</span><b>+${EN_SIM.lv}</b></div>
     <div class="rc-stat"><span>다음 성공 확률 (실패 ${EN_SIM.fails}회 보정)</span><b>${p===null?'-':(p*100).toFixed(1)+'%'}</b>${next?`<div class="en-next-cost">1회 비용: 키나 ${rcNum(next[2])} · ${(()=>{const m={};enAddMats(m,next,1);return enMatsText(m,' · ');})()}</div>`:''}</div>
@@ -8461,7 +8476,7 @@ function msRender(){
 }
 function msCalc(){
   const box=$('#ms_result'); if(!box||!EN_DATA) return;
-  const p=msProb(), need=Math.max(1,Math.min(100,Math.round(Number($('#ms_need').value)||1))), price=Number($('#ms_price').value)||0;
+  const p=msProb(), need=Math.max(1,Math.min(100,Math.round(Number($('#ms_need').value)||1))), price=parseNum($('#ms_price').value);
   if(!(p>0)){ box.innerHTML='<div class="rc-expect-box"><div class="rc-expect-sub" style="margin:0">위 표에서 원하는 옵션의 최소 등급을 고르면 필요한 마석 개수 기대값을 계산해 드립니다.</div></div>'; msSimRender(); return; }
   const mean=need/p;
   const N=20000, A=new Float64Array(N), lq=Math.log(1-p);
@@ -8495,7 +8510,7 @@ function msTryToTarget(){
 }
 function msSimRender(){
   const box=$('#ms_sim_stats'); if(!box) return;
-  const price=Number($('#ms_price').value)||0, need=Math.max(1,Math.round(Number($('#ms_need').value)||1));
+  const price=parseNum($('#ms_price').value), need=Math.max(1,Math.round(Number($('#ms_need').value)||1));
   box.innerHTML=`<div class="rc-stats">
     <div class="rc-stat"><span>사용한 마석</span><b>${rcNum(MS_SIM.n)}개</b></div>
     <div class="rc-stat"><span>목표 옵션 획득</span><b>${MS_SIM.hits} / ${need}개${MS_SIM.hits>=need?' ✅':''}</b></div>
