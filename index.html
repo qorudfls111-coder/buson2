@@ -346,6 +346,7 @@ main.wrap{
 <button class="tab" data-page="arcana">아르카나</button>
 <button class="tab" data-page="race">펫작 시뮬</button>
 <button class="tab" data-page="enh">강화·마석</button>
+<button class="tab" data-page="soul">영혼 각인</button>
 <button class="tab" data-page="charcmp">캐릭터 비교</button>
 </nav>
 </div></header>
@@ -1498,6 +1499,50 @@ main.wrap{
         </div>
       </div>
       <div id="cc_result"></div>
+    </div>
+  </div>
+</section>
+<section id="page-soul" class="hidden">
+  <div class="card">
+    <div class="head">
+      <h2>🔯 영혼 각인 시뮬레이터</h2>
+      <p>NC 공식 확률정보(영혼 각인 옵션·수치 부여 확률)로 원하는 옵션이 붙을 확률과 필요한 초기화 횟수를 계산하고, 직접 각인·영혼 조율을 굴려볼 수 있습니다.</p>
+    </div>
+    <div class="body">
+      <div class="so-fields">
+        <div><label>분류</label><select id="so_group" onchange="soSetGroup(this.value)"></select></div>
+        <div><label>장비 종류</label><select id="so_kind" onchange="soSetKind(this.value)"></select></div>
+        <div class="so-item-field"><label>아이템 <span class="muted" id="so_item_count"></span></label>
+          <input id="so_item_q" placeholder="이름으로 찾기 (예: 응룡왕)" oninput="soFilterItems()">
+          <select id="so_item" onchange="soSetItem(this.value)"></select></div>
+        <div><label>직업 (스킬 옵션)</label><select id="so_cls" onchange="soSetClass(this.value)"></select></div>
+      </div>
+      <div id="so_info" class="so-info"></div>
+      <div class="so-target-head">
+        <b>🎯 원하는 옵션 고르기</b>
+        <span>선택한 옵션 중 <select id="so_need" onchange="soCalc();soRenderRoll()"></select> 개 이상 붙으면 성공</span>
+        <button type="button" onclick="soClearTargets()">선택 해제</button>
+      </div>
+      <div class="an-calc-wrap"><table class="so-table" id="so_table"></table></div>
+      <div class="so-cost">
+        <label>초기화 1회 비용 (키나, 선택) <input id="so_cost_reset" class="num-comma" inputmode="numeric" placeholder="입력하면 비용 환산" oninput="soCalc();soRenderRoll()"></label>
+        <label>영혼 조율 1회 비용 (키나, 선택) <input id="so_cost_tune" class="num-comma" inputmode="numeric" placeholder="입력하면 비용 환산" oninput="soRenderRoll()"></label>
+      </div>
+      <div id="so_result"></div>
+      <div class="en-sim">
+        <h3>🎲 직접 각인해보기</h3>
+        <div id="so_roll_stats"></div>
+        <div class="rc-actions">
+          <button type="button" class="btn primary" onclick="soRollReset(1)">각인 · 초기화 1회</button>
+          <button type="button" class="btn secondary" onclick="soRollReset(0)">목표까지 초기화 자동</button>
+          <button type="button" class="btn secondary" onclick="soRollClear()">기록 지우기</button>
+        </div>
+        <div id="so_roll"></div>
+      </div>
+      <div class="note" style="margin-top:14px;">
+        기준: NC 아이온2 확률정보 &gt; 영혼 각인 옵션 부여 확률·수치 부여 확률(2026-09-23 갱신본). 옵션 부여 수량만큼 효과가 붙고, '확정 부여' 옵션이 먼저 들어간 뒤 나머지는 표의 확률 비율대로 중복 없이 뽑힌다고 계산합니다(스킬 효과는 최대 스킬 옵션 수량까지).
+        영혼 조율은 공식 설명대로 현재 붙어 있는 효과(조율 대상 포함)를 뺀 나머지 확률로 다시 계산합니다. 초기화·조율 재료와 비용은 공식 확률정보에 없어 직접 입력하도록 했습니다.
+      </div>
     </div>
   </div>
 </section>
@@ -3833,6 +3878,38 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .an-bulk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 14px;font-size:12.5px;color:#a9b6cc}
 .an-bulk-row select{width:auto !important;min-width:56px;padding:4px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff}
 .an-bulk-row button{padding:5px 10px;border:1px solid #365b8a;border-radius:7px;background:#132844;color:#9ec5ff;font-weight:800;font-size:12px;cursor:pointer}
+.so-fields{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+.so-item-field input{margin-bottom:6px}
+.so-info{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.so-info span{font-size:12.5px;padding:5px 10px;border:1px solid #2c3a55;border-radius:999px;background:#0d131c;color:#c9d3e6}
+.so-info b{color:#ffd980}
+.so-target-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:6px 0 8px;font-size:13px;color:#a9b6cc}
+.so-target-head b{color:#fff;font-size:15px}
+.so-target-head select{width:auto !important;padding:4px 8px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff}
+.so-target-head button{padding:5px 10px;border:1px solid #33435a;border-radius:7px;background:#151f2d;color:#bcd0ff;font-weight:700;font-size:12px;cursor:pointer}
+.so-table{border-collapse:collapse;width:100%;min-width:600px;font-size:13px}
+.so-table th,.so-table td{border:1px solid #263043;padding:6px 8px;text-align:center}
+.so-table thead th{background:#111c2e;color:#9db8ff;font-weight:800}
+.so-table td.so-name{text-align:left;font-weight:700;color:#dbe4f3}
+.so-table tr.on td{background:#12203a}
+.so-table tr.guar td{color:#ffd980}
+.so-table tr.skill td.so-name{color:#9ec5ff}
+.so-table input[type=checkbox]{width:18px;height:18px}
+.so-table .so-min{width:80px !important;padding:4px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff;text-align:center}
+.so-sub{font-size:11px;color:#7f8ca3}
+.so-cost{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}
+.so-cost label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:#a9b6cc;flex:1;min-width:220px}
+.so-line{display:grid;grid-template-columns:28px 1fr 120px auto;gap:8px;align-items:center;padding:7px 10px;border:1px solid #263d59;border-radius:10px;background:#0d131c;margin-top:6px}
+.so-line.hit{border-color:#2e8a55;background:#0f2418}
+.so-line.guar{border-color:#5a4a1d}
+.so-line .n{font-weight:900;color:#9db8ff;text-align:center}
+.so-line select{padding:5px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff;width:100%}
+.so-line .v{font-weight:900;color:#ffd980;text-align:right;white-space:nowrap}
+.so-line .tune{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.so-line .tune button{padding:5px 10px;border:1px solid #365b8a;border-radius:7px;background:#132844;color:#9ec5ff;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap}
+.so-line .tune small{font-size:11px;color:#8fa3c4;white-space:nowrap}
+.so-ok{margin-top:10px;font-weight:900;color:#8df0bd}
+@media(max-width:860px){.so-fields{grid-template-columns:1fr 1fr}.so-line{grid-template-columns:24px 1fr 100px}.so-line .tune{grid-column:1 / -1}}
 .cc-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .cc-slot{border:1px solid #263043;border-radius:14px;background:#0d131c;padding:14px}
 .cc-slot-title{font-size:15px;font-weight:900;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -6465,7 +6542,7 @@ function escapeHtml(text){
  return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','compare','party','arcana','race','enh','charcmp'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party'&&typeof renderPartyRoster==='function')renderPartyRoster();if(b.dataset.page==='arcana'&&typeof anInit==='function')anInit();if(b.dataset.page==='race'&&typeof rcInit==='function')rcInit();if(b.dataset.page==='enh'&&typeof enInit==='function')enInit()}));
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['home','noticehub','dungeon','spec','driver','sub','compare','party','arcana','race','enh','soul','charcmp'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB();if(b.dataset.page==='party'&&typeof renderPartyRoster==='function')renderPartyRoster();if(b.dataset.page==='arcana'&&typeof anInit==='function')anInit();if(b.dataset.page==='race'&&typeof rcInit==='function')rcInit();if(b.dataset.page==='enh'&&typeof enInit==='function')enInit();if(b.dataset.page==='soul'&&typeof soInit==='function')soInit()}));
 $('#d_driverCount').addEventListener('change',()=>{syncDriverPartySettings();renderDrivers(true)});$('#d_myDriver').addEventListener('change',calcDriver);
 function openTabFromHash(){
   const page = location.hash.replace("#", "");
@@ -8512,6 +8589,219 @@ if(document.querySelector('.tab[data-page="race"]')?.classList.contains('active'
 <script>
 /* 숫자 입력칸에서 마우스 휠로 값이 바뀌지 않게 */
 document.addEventListener('wheel',e=>{ const t=e.target; if(t&&t.tagName==='INPUT'&&t.type==='number'&&document.activeElement===t) t.blur(); },{passive:true});
+</script>
+<script>
+/* ===== 영혼 각인 시뮬레이터 ===== */
+let SO_DATA = null, SO_LOADING = null;
+const SO = { group: '무기', kind: '', item: -1, cls: '', targets: {}, need: 1 };
+let SO_ROLL = { lines: [], resets: 0, tunes: 0 };
+function soLoad() {
+  if (SO_DATA) return Promise.resolve(SO_DATA);
+  if (!SO_LOADING) SO_LOADING = fetch('/data/soul.json?v=20260926').then(r => r.json()).then(d => SO_DATA = d).catch(() => { SO_LOADING = null; return null; });
+  return SO_LOADING;
+}
+function soEsc(t) { return String(t ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch])); }
+async function soInit() {
+  const d = await soLoad();
+  if (!d) { $('#so_info').innerHTML = '<span>데이터를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.</span>'; return; }
+  if (!$('#so_group').options.length) {
+    $('#so_group').innerHTML = Object.keys(d.kinds).map(g => `<option ${g === SO.group ? 'selected' : ''}>${g}</option>`).join('');
+    soSetGroup(SO.group);
+  }
+}
+function soSetGroup(g) { SO.group = g; const kinds = SO_DATA.kinds[g] || []; if (!kinds.includes(SO.kind)) SO.kind = kinds[0]; $('#so_kind').innerHTML = kinds.map(k => `<option ${k === SO.kind ? 'selected' : ''}>${k}</option>`).join(''); soSetKind(SO.kind); }
+function soSetKind(k) { SO.kind = k; $('#so_item_q').value = ''; soFilterItems(true); }
+function soFilterItems(pickFirst) {
+  const q = ($('#so_item_q').value || '').trim().replace(/\s+/g, '');
+  const list = SO_DATA.items.map((it, i) => [it, i]).filter(([it]) => it[1] === SO.kind && (!q || it[0].replace(/\s+/g, '').includes(q)));
+  list.sort((a, b) => b[0][2] - a[0][2] || a[0][0].localeCompare(b[0][0], 'ko'));
+  $('#so_item_count').textContent = list.length + '개';
+  $('#so_item').innerHTML = list.map(([it, i]) => `<option value="${i}" ${i === SO.item ? 'selected' : ''}>${soEsc(it[0])} (옵션 ${it[2]}개)</option>`).join('');
+  if (list.length && (pickFirst || !list.some(([, i]) => i === SO.item))) soSetItem(list[0][1]);
+}
+function soItem() { return SO_DATA.items[SO.item]; }
+function soSetItem(i) {
+  SO.item = Number(i); SO.targets = {}; SO.need = 1;
+  const it = soItem(), opt = SO_DATA.opt[it[4]];
+  const classes = Object.keys(opt.c || {});
+  if (!classes.includes(SO.cls)) SO.cls = classes[0] || '';
+  $('#so_cls').innerHTML = classes.length ? classes.map(c => `<option ${c === SO.cls ? 'selected' : ''}>${c}</option>`).join('') : '<option value="">공통 (스킬 옵션 없음)</option>';
+  $('#so_cls').disabled = !classes.length;
+  soRollClear(); soRender();
+}
+function soSetClass(c) { SO.cls = c; SO.targets = {}; SO.need = 1; soRollClear(); soRender(); }
+
+// 이 아이템·직업의 후보 옵션: {name, w(확률%, -1=확정), skill, vals, probs, pct}
+function soPool() {
+  const it = soItem(), opt = SO_DATA.opt[it[4]], vt = SO_DATA.val[it[5]] || {};
+  const out = [];
+  (opt.g || []).forEach(([n, w]) => out.push({ name: n, w, skill: false, ...soValues(vt[n]) }));
+  const ski = opt.c && SO.cls ? opt.c[SO.cls] : undefined;
+  if (ski !== undefined) (SO_DATA.sk[ski] || []).forEach(([n, w]) => out.push({ name: n, w, skill: true, vals: null, probs: null, pct: false }));
+  return out;
+}
+function soValues(row) {
+  if (!row) return { vals: null, probs: null, pct: false };
+  const probs = SO_DATA.shapes[row[0]], mode = row[1];
+  let vals;
+  if (mode === 0) vals = Array.from({ length: row[3] - row[2] + 1 }, (_, i) => row[2] + i);
+  else if (mode === 1) vals = probs.map((_, i) => Math.round((row[2] + (row[3] - row[2]) * i / Math.max(1, probs.length - 1)) * 100) / 100);
+  else vals = row.slice(2);
+  const sum = probs.reduce((t, p) => t + p, 0) || 1;
+  return { vals, probs: probs.map(p => p / sum), pct: mode === 1 || mode === 3 };
+}
+function soFmt(o, v) { return v === null || v === undefined ? (o.skill ? 'Lv+1' : '') : (o.pct ? Number(v).toFixed(2) + '%' : String(v)); }
+function soPAtLeast(o, min) {
+  if (!o.vals || !(min > 0)) return 1;
+  let p = 0; o.vals.forEach((v, i) => { if (v >= min - 1e-9) p += o.probs[i]; }); return p;
+}
+function soRollValue(o) {
+  if (!o.vals) return null;
+  let r = Math.random(), acc = 0;
+  for (let i = 0; i < o.vals.length; i++) { acc += o.probs[i]; if (r < acc) return o.vals[i]; }
+  return o.vals[o.vals.length - 1];
+}
+// 한 번의 각인(초기화): 확정 옵션 → 나머지는 확률 비율대로 중복 없이, 스킬은 최대 스킬 옵션 수량까지
+function soRollAll(pool, n, maxSkill) {
+  const lines = pool.filter(o => o.w === -1).map(o => ({ o, v: soRollValue(o) }));
+  const used = new Set(lines.map(l => l.o.name));
+  let skills = lines.filter(l => l.o.skill).length;
+  while (lines.length < n) {
+    const cand = pool.filter(o => o.w > 0 && !used.has(o.name) && (!o.skill || skills < maxSkill));
+    const tot = cand.reduce((t, o) => t + o.w, 0); if (!(tot > 0)) break;
+    let r = Math.random() * tot, pick = cand[cand.length - 1];
+    for (const o of cand) { r -= o.w; if (r < 0) { pick = o; break; } }
+    used.add(pick.name); if (pick.skill) skills++;
+    lines.push({ o: pick, v: soRollValue(pick) });
+  }
+  return lines;
+}
+function soTargetList() { return Object.entries(SO.targets); }
+function soLineHits(l) { const t = SO.targets[l.o.name]; return t !== undefined && (!l.o.vals || (l.v ?? 0) >= (t || 0) - 1e-9); }
+function soSuccess(lines) { return soTargetList().length > 0 && lines.filter(soLineHits).length >= SO.need; }
+
+function soRender() {
+  const it = soItem(), pool = soPool();
+  const guar = pool.filter(o => o.w === -1);
+  $('#so_info').innerHTML = `<span>옵션 부여 수량 <b>${it[2]}</b>개</span><span>최대 스킬 옵션 <b>${it[3]}</b>개</span>` +
+    (guar.length ? `<span>확정 부여: <b>${guar.map(o => soEsc(o.name)).join(', ')}</b></span>` : '') +
+    `<span>후보 옵션 <b>${pool.filter(o => o.w > 0).length}</b>개</span>`;
+  $('#so_table').innerHTML = `<thead><tr><th>목표</th><th>옵션</th><th>1회 뽑힐 확률</th><th>수치 범위</th><th>최소 수치</th><th>각인 1회에 붙을 확률</th></tr></thead><tbody>${pool.map((o, i) => {
+    const on = SO.targets[o.name] !== undefined;
+    const range = o.vals ? `${soFmt(o, o.vals[0])} ~ ${soFmt(o, o.vals[o.vals.length - 1])}` : (o.skill ? 'Lv+1' : '-');
+    return `<tr class="${on ? 'on' : ''} ${o.w === -1 ? 'guar' : ''} ${o.skill ? 'skill' : ''}">
+      <td><input type="checkbox" ${on ? 'checked' : ''} ${o.w === -1 ? 'disabled' : ''} onchange="soToggle(${i}, this.checked)"></td>
+      <td class="so-name">${o.skill ? '<span class="so-sub">스킬</span> ' : ''}${soEsc(o.name)}</td>
+      <td>${o.w === -1 ? '확정' : o.w + '%'}</td>
+      <td>${range}</td>
+      <td>${o.vals && on ? `<input class="so-min" type="text" inputmode="decimal" placeholder="${soFmt(o, o.vals[0])}" value="${SO.targets[o.name] || ''}" onchange="soSetMin(${i}, this.value)">` : '<span class="so-sub">-</span>'}</td>
+      <td id="so_app_${i}">-</td></tr>`;
+  }).join('')}</tbody>`;
+  const k = soTargetList().length;
+  SO.need = Math.max(1, Math.min(SO.need, Math.max(1, k)));
+  $('#so_need').innerHTML = Array.from({ length: Math.max(1, Math.min(k || 1, it[2])) }, (_, i) => `<option value="${i + 1}" ${i + 1 === SO.need ? 'selected' : ''}>${i + 1}</option>`).join('');
+  soCalc(); soRenderRoll();
+}
+function soToggle(i, on) {
+  const o = soPool()[i], before = soTargetList().length;
+  if (on) SO.targets[o.name] = 0; else delete SO.targets[o.name];
+  // 모두 붙어야 하는 설정(필요 개수 = 선택 수)이었다면 새 선택에도 맞춰 늘려 준다
+  if (on && SO.need === before) SO.need = before + 1;
+  soRender();
+}
+function soSetMin(i, v) {
+  const o = soPool()[i]; const n = parseFloat(String(v).replace(/[^\d.]/g, ''));
+  SO.targets[o.name] = Number.isFinite(n) ? n : 0; soCalc(); soRenderRoll();
+}
+function soClearTargets() { SO.targets = {}; SO.need = 1; soRender(); }
+
+function soCalc() {
+  if (!SO_DATA || SO.item < 0) return;
+  SO.need = Number($('#so_need').value) || SO.need || 1;
+  const it = soItem(), pool = soPool(), N = 20000;
+  const app = new Array(pool.length).fill(0); let ok = 0;
+  const idx = new Map(pool.map((o, i) => [o.name, i]));
+  for (let k = 0; k < N; k++) {
+    const lines = soRollAll(pool, it[2], it[3]);
+    lines.forEach(l => app[idx.get(l.o.name)]++);
+    if (soSuccess(lines)) ok++;
+  }
+  pool.forEach((o, i) => { const el = document.getElementById('so_app_' + i); if (el) el.textContent = (app[i] / N * 100).toFixed(2) + '%'; });
+  const box = $('#so_result');
+  if (!soTargetList().length) { box.innerHTML = '<div class="rc-expect-box"><div class="rc-expect-sub" style="margin:0">위 표에서 원하는 옵션에 체크하면 각인·초기화 1회에 성공할 확률과 필요한 횟수를 계산합니다.</div></div>'; return; }
+  const p = ok / N, cost = parseNum($('#so_cost_reset').value);
+  const q = f => p > 0 ? Math.max(1, Math.ceil(Math.log(1 - f) / Math.log(1 - p))) : Infinity;
+  const fmtN = n => Number.isFinite(n) ? Math.round(n).toLocaleString('ko-KR') : '∞';
+  box.innerHTML = `<div class="rc-stats">
+      <div class="rc-stat"><span>초기화 1회 성공 확률</span><b>${p > 0 ? (p * 100).toFixed(p < 0.01 ? 3 : 2) + '%' : '0.005% 미만'}</b></div>
+      <div class="rc-stat"><span>평균 필요 횟수</span><b>${p > 0 ? fmtN(1 / p) + '회' : '2만 회 이상'}</b></div>
+      <div class="rc-stat"><span>운이 나쁠 때 (상위 10% / 5%)</span><b>${p > 0 ? fmtN(q(0.9)) + '회 / ' + fmtN(q(0.95)) + '회' : '-'}</b></div>
+      <div class="rc-stat"><span>${cost ? '평균 비용' : '비용 입력 시 평균 비용'}</span><b>${cost && p > 0 ? fmtN(cost / p) : '-'}</b></div>
+    </div>
+    <div class="rc-expect-sub" style="margin:0">목표: ${soTargetList().map(([n, m]) => soEsc(n) + (m ? ' ' + m + ' 이상' : '')).join(', ')} 중 ${SO.need}개 이상 · 초기화 확률은 시뮬레이션 2만 회로 계산해 소수점 오차가 있을 수 있습니다.</div>`;
+}
+
+/* 직접 각인 · 영혼 조율 */
+function soRollClear() { SO_ROLL = { lines: [], resets: 0, tunes: 0 }; soRenderRoll(); }
+function soRollReset(n) {
+  const it = soItem(), pool = soPool();
+  if (n === 0 && !soTargetList().length) { alert('목표 옵션을 먼저 골라주세요.'); return; }
+  let g = 0;
+  do { SO_ROLL.lines = soRollAll(pool, it[2], it[3]); SO_ROLL.resets++; g++; } while (n === 0 && !soSuccess(SO_ROLL.lines) && g < 200000);
+  if (n === 0 && !soSuccess(SO_ROLL.lines)) alert('20만 회 안에 목표가 나오지 않아 멈췄습니다.');
+  soRenderRoll();
+}
+// 조율: 현재 붙은 효과(조율 대상 포함)를 뺀 후보에서 다시 뽑는다
+function soTuneCandidates(i) {
+  const it = soItem(), pool = soPool(), lines = SO_ROLL.lines;
+  const used = new Set(lines.map(l => l.o.name));
+  const skillsOther = lines.filter((l, j) => j !== i && l.o.skill).length;
+  return pool.filter(o => o.w > 0 && !used.has(o.name) && (!o.skill || skillsOther < it[3]));
+}
+function soTuneSuccessProb(i) {
+  const lines = SO_ROLL.lines, cand = soTuneCandidates(i);
+  const tot = cand.reduce((t, o) => t + o.w, 0); if (!(tot > 0) || !soTargetList().length) return 0;
+  const hitsOther = lines.filter((l, j) => j !== i && soLineHits(l)).length;
+  if (hitsOther >= SO.need) return 1;
+  if (hitsOther + 1 < SO.need) return 0;
+  return cand.reduce((t, o) => SO.targets[o.name] !== undefined ? t + o.w / tot * soPAtLeast(o, SO.targets[o.name]) : t, 0);
+}
+function soTune(i) {
+  const cand = soTuneCandidates(i), tot = cand.reduce((t, o) => t + o.w, 0);
+  if (!(tot > 0)) return;
+  let r = Math.random() * tot, pick = cand[cand.length - 1];
+  for (const o of cand) { r -= o.w; if (r < 0) { pick = o; break; } }
+  SO_ROLL.lines[i] = { o: pick, v: soRollValue(pick) }; SO_ROLL.tunes++;
+  soRenderRoll();
+}
+function soSetLine(i, name) {
+  const o = soPool().find(x => x.name === name); if (!o) return;
+  SO_ROLL.lines[i] = { o, v: o.vals ? o.vals[o.vals.length - 1] : null };
+  soRenderRoll();
+}
+function soSetLineValue(i, v) { const l = SO_ROLL.lines[i]; if (!l || !l.o.vals) return; const n = parseFloat(v); if (Number.isFinite(n)) l.v = n; soRenderRoll(); }
+function soRenderRoll() {
+  const box = $('#so_roll'); if (!box || !SO_DATA || SO.item < 0) return;
+  const lines = SO_ROLL.lines, pool = soPool();
+  const cr = parseNum($('#so_cost_reset').value), ct = parseNum($('#so_cost_tune').value);
+  $('#so_roll_stats').innerHTML = `<div class="rc-stats">
+    <div class="rc-stat"><span>각인·초기화</span><b>${SO_ROLL.resets.toLocaleString('ko-KR')}회</b></div>
+    <div class="rc-stat"><span>영혼 조율</span><b>${SO_ROLL.tunes.toLocaleString('ko-KR')}회</b></div>
+    <div class="rc-stat"><span>목표 옵션</span><b>${lines.filter(soLineHits).length} / ${SO.need}개</b></div>
+    <div class="rc-stat"><span>누적 비용</span><b>${cr || ct ? (SO_ROLL.resets * cr + SO_ROLL.tunes * ct).toLocaleString('ko-KR') : '-'}</b></div></div>`;
+  if (!lines.length) { box.innerHTML = '<div class="cc-empty">"각인 · 초기화 1회"를 누르세요. 굴린 뒤 줄마다 옵션과 수치를 바꾸면 내 장비의 현재 옵션을 그대로 맞춰 넣고 영혼 조율 확률을 볼 수 있습니다.</div>'; return; }
+  box.innerHTML = lines.map((l, i) => {
+    const guar = l.o.w === -1, p = guar ? 0 : soTuneSuccessProb(i);
+    const opts = pool.filter(o => o.w > 0 && (o.name === l.o.name || !lines.some(x => x.o.name === o.name)));
+    return `<div class="so-line ${soLineHits(l) ? 'hit' : ''} ${guar ? 'guar' : ''}">
+      <span class="n">${i + 1}</span>
+      ${guar ? `<span>${soEsc(l.o.name)} <small class="so-sub">확정</small></span>` : `<select onchange="soSetLine(${i}, this.value)">${opts.map(o => `<option ${o.name === l.o.name ? 'selected' : ''}>${soEsc(o.name)}</option>`).join('')}</select>`}
+      ${l.o.vals ? `<select onchange="soSetLineValue(${i}, this.value)">${l.o.vals.map(v => `<option value="${v}" ${Math.abs(v - (l.v ?? -1)) < 1e-9 ? 'selected' : ''}>${soFmt(l.o, v)}</option>`).join('')}</select>` : `<span class="v">${soFmt(l.o, l.v)}</span>`}
+      <span class="tune">${guar ? '' : `<small>조율 시 목표 ${soTargetList().length ? (p * 100).toFixed(2) + '%' : '-'}</small><button type="button" onclick="soTune(${i})">영혼 조율</button>`}</span>
+    </div>`;
+  }).join('') + (soSuccess(lines) ? '<div class="so-ok">✅ 목표 달성!</div>' : '');
+}
+if (document.querySelector('.tab[data-page="soul"]')?.classList.contains('active')) soInit();
 </script>
 <script>
 /* ===== 강화 시뮬레이터 ===== */
