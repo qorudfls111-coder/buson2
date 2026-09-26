@@ -525,6 +525,7 @@ main.wrap{
         <p>현재 스탯을 기준으로 각 옵션을 올렸을 때의 예상 실딜 상승률을 비교합니다.</p>
       </div>
       <div class="body">
+        <div id="sp_import_report"></div>
         <div class="subhead">공격력</div>
         <div class="fields">
           <div><label>공격력 (스탯창, 장비 착용)</label><input id="sp_attack_on" class="num-comma" inputmode="numeric" value="0"></div>
@@ -3929,6 +3930,18 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .char-skill-lv{font-size:13.5px;font-weight:900;white-space:nowrap}
 .char-skill-lv.hi{color:#ffd980}.char-skill-lv.mid{color:#8df0bd}.char-skill-lv.lo{color:#9db8ff}.char-skill-lv.zero{color:#6f7d96}
 .char-skill.off{opacity:.45}
+.sp-imp{margin-bottom:16px;border:1px solid #2f6b4f;border-radius:12px;background:#0d1712;padding:12px 14px}
+.sp-imp-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.sp-imp-head b{color:#9ef4bd;font-size:14.5px}
+.sp-imp-head button{border:1px solid #33435a;background:#151f2d;color:#bcd0ff;border-radius:7px;padding:4px 10px;font-size:12px;cursor:pointer}
+.sp-imp-table{border-collapse:collapse;width:100%;min-width:520px;font-size:12.5px}
+.sp-imp-table th,.sp-imp-table td{border:1px solid #1f3a2c;padding:5px 8px;text-align:left}
+.sp-imp-table thead th{background:#10261a;color:#8df0bd}
+.sp-imp-table td b{color:#fff}
+.sp-imp-src{display:flex;flex-wrap:wrap;gap:4px}
+.sp-imp-src span{padding:2px 7px;border-radius:999px;background:#12281c;border:1px solid #24503a;color:#c9f5da;font-size:11.5px}
+.sp-imp-src span.none{background:transparent;border-color:transparent;color:#6f7d96}
+.sp-imp-note{margin-top:8px;font-size:12px;color:#a9b6cc;line-height:1.7}
 .char-import-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .char-import-btns button{padding:8px 14px;border:1px solid #2f6b4f;border-radius:8px;background:#10281d;color:#9ef4bd;font-size:13px;font-weight:800;cursor:pointer}
 .char-import-btns button:disabled{opacity:.6;cursor:wait}
@@ -8785,6 +8798,75 @@ function charBusy(btn, on, text) {
   else { btn.textContent = btn.dataset.label || btn.textContent; btn.disabled = false; }
 }
 
+// 스펙 계산기의 % 입력칸 ← 공식 스탯 이름
+const SPEC_IMPORT_FIELDS = [
+  ['sp_dmg', '피해 증폭'], ['sp_weapon', '무기 피해 증폭'], ['sp_critdmg', '치명타 피해 증폭'],
+  ['sp_front', '전방 피해 증폭'], ['sp_back', '후방 피해 증폭'], ['sp_smash', '강타'],
+  ['sp_perfect', '완벽'], ['sp_multihit', '다단 히트 적중'], ['sp_pve', 'PVE 피해 증폭'], ['sp_boss', '보스 피해 증폭']
+];
+const SPEC_IMPORT_STATS = new Set(SPEC_IMPORT_FIELDS.map(f => f[1]));
+function specNum(v) { const n = parseFloat(String(v ?? '').replace(/[^\d.\-]/g, '')); return Number.isFinite(n) ? n : 0; }
+// "피해 증폭 +10%" / "PVE 피해 증폭 +5.5%" 형태
+function specParsePlus(desc) { const m = String(desc || '').match(/^(.*?)\s*\+\s*([\d.,]+)\s*%$/); return m ? [m[1].trim(), specNum(m[2])] : null; }
+
+// 장비·마석·데바니온·칭호·아르카나 세트·주신 스탯에서 % 스탯을 모은다 (출처별 내역 포함)
+async function specCollectStats(c, b, onProgress) {
+  const sum = {}; const add = (stat, src, v) => {
+    if (!SPEC_IMPORT_STATS.has(stat) || !v) return;
+    sum[stat] = sum[stat] || { total: 0, src: {} };
+    sum[stat].total += v; sum[stat].src[src] = (sum[stat].src[src] || 0) + v;
+  };
+  const skipped = [];
+  const gear = b.list.filter(it => Number(it.slotPos) < 40);
+  const arcana = b.list.filter(it => Number(it.slotPos) >= 41);
+  let done = 0; const total = gear.length + arcana.length;
+  const details = await charMapLimit([...gear, ...arcana], 6, async it => { const d = await charItemDetail(b, it); onProgress && onProgress(++done, total); return d; });
+  gear.forEach((it, i) => {
+    const d = details[i]; if (!d) return;
+    (d.mainStats || []).forEach(m => { if (String(m.value).includes('%') || String(m.extra).includes('%')) add(m.name, '장비 기본', specNum(m.value) + specNum(m.extra)); });
+    (d.subStats || []).forEach(m => { if (String(m.value).includes('%')) add(m.name, '영혼 각인', specNum(m.value)); });
+    // 마석의 증폭 계열 수치는 +100 = 1%
+    (d.magicStoneStat || []).forEach(m => { if (/증폭/.test(m.name)) add(m.name, '마석', specNum(m.value) / 100); });
+  });
+  const sets = new Map();
+  arcana.forEach((it, i) => { const s = details[gear.length + i]?.set; if (s && s.id && !sets.has(s.id)) sets.set(s.id, s); });
+  sets.forEach(s => (s.bonuses || []).forEach(bn => {
+    if (Number(bn.degree) > Number(s.equippedCount)) return;
+    (bn.descriptions || []).join(', ').split(',').map(x => x.trim()).forEach(part => {
+      const m = part.match(/^(.*?)\s*([\d.]+)%\s*증가$/);
+      if (!m) return;
+      if (/때|동안|시 /.test(m[1])) { if (SPEC_IMPORT_STATS.has(m[1].replace(/^.*(?:때|동안)\s*/, ''))) skipped.push(`${s.name} ${bn.degree}세트: ${part} (조건부라 제외)`); return; }
+      add(m[1].trim(), '아르카나 세트', specNum(m[2]));
+    });
+  }));
+  (b.info.title?.titleList || []).forEach(t => [...(t.equipStatList || []), ...(t.statList || [])].forEach(e => { const p = specParsePlus(e.desc); if (p) add(p[0], '칭호', p[1]); }));
+  (b.info.stat?.statList || []).forEach(st => (st.statSecondList || []).forEach(x => { const p = specParsePlus(x); if (p) add(p[0], '주신 스탯', p[1]); }));
+  try {
+    const dv = await charFetchDaevanion(c, b.info.daevanion?.boardList || []);
+    if (dv) Object.entries(dv.stats).forEach(([k, v]) => { if (k.endsWith(' (%)')) add(k.replace(' (%)', ''), '데바니온', v); });
+    else skipped.push('데바니온 효과 (불러오기 실패)');
+  } catch (e) { skipped.push('데바니온 효과 (불러오기 실패)'); }
+  return { sum, skipped };
+}
+
+function specRenderImportReport(name, r) {
+  const box = document.getElementById('sp_import_report'); if (!box) return;
+  const round = v => Math.round(v * 100) / 100;
+  const rows = SPEC_IMPORT_FIELDS.map(([id, stat]) => {
+    const s = r.sum[stat];
+    const detail = s ? Object.entries(s.src).map(([k, v]) => `<span>${k} ${round(v)}%</span>`).join('') : '<span class="none">해당 없음</span>';
+    return `<tr><th>${stat}</th><td><b>${s ? round(s.total) : 0}%</b></td><td class="sp-imp-src">${detail}</td></tr>`;
+  }).join('');
+  box.innerHTML = `<div class="sp-imp">
+    <div class="sp-imp-head"><b>📥 ${charDvEsc(name)} 불러온 % 스탯 (베타)</b><button type="button" onclick="document.getElementById('sp_import_report').innerHTML=''">닫기</button></div>
+    <div class="an-calc-wrap"><table class="sp-imp-table"><thead><tr><th>스탯</th><th>합계</th><th>출처별 내역</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="sp-imp-note">
+      <b>게임 스탯창 값과 한 번 비교해주세요.</b> 공식 캐릭터 정보에 없는 <b>펫(종족 이해도) 옵션, 날개 효과, 스킬 패시브 효과, 장착하지 않은 칭호의 보유 효과</b>는 포함되지 않아 실제보다 낮게 나올 수 있습니다. 다르면 입력칸에서 바로 고치면 됩니다.<br>
+      마석의 증폭 수치는 +100 = 1%로 계산했습니다. 신석 효과(확률 발동)도 제외했습니다.
+      ${r.skipped.length ? '<br>제외: ' + r.skipped.map(charDvEsc).join(' · ') : ''}
+    </div></div>`;
+}
+
 async function charImportToSpec(c, btn) {
   charBusy(btn, true);
   try {
@@ -8800,18 +8882,21 @@ async function charImportToSpec(c, btn) {
     }
     const breaks = [0, 0, 0, 0, 0, 0];
     b.list.filter(it => Number(it.slotPos) < 40).forEach(it => { const e = Number(it.exceedLevel) || 0; if (e >= 1 && e <= 5) breaks[e]++; });
+    const r = await specCollectStats(c, b, (d, t) => { btn.textContent = '장비 옵션 모으는 중... (' + d + '/' + t + ')'; });
     const put = (id, v) => { const el = document.getElementById(id); if (el) { el.value = String(v); if (el.classList.contains('num-comma') || el.classList.contains('money')) formatMoneyInput(el); } };
     put('sp_power', statOf('STR'));
     put('sp_destroy', statOf('Destruction'));
     if (wmin) put('sp_weapon_min', wmin);
     if (wmax) put('sp_weapon_max', wmax);
     for (let k = 1; k <= 5; k++) put('sp_break' + k, breaks[k]);
+    SPEC_IMPORT_FIELDS.forEach(([id, stat]) => put(id, Math.round((r.sum[stat]?.total || 0) * 100) / 100));
+    const name = cleanCharName(c.name);
+    specRenderImportReport(name, r);
     document.querySelector('.tab[data-page="spec"]')?.click();
     try { if (typeof calcSpec === 'function') calcSpec(); } catch (e) { console.warn(e); }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    alert(cleanCharName(c.name) + '의 위력 ' + statOf('STR') + ' · 파괴 ' + statOf('Destruction') +
-      (wmin ? ' · 주무기 공격력 ' + wmin + '~' + wmax : '') + ' · 돌파 부위 수를 스펙 계산기에 넣었습니다.\n\n' +
-      '공격력(스탯창)과 피해 증폭·강타 같은 % 옵션은 공식 캐릭터 정보에 없어서 직접 입력해주세요.');
+    document.getElementById('sp_import_report')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    alert(name + '의 위력·파괴·주무기 공격력·돌파 부위 수와 피해 증폭·강타 등 % 스탯을 스펙 계산기에 넣었습니다.\n\n' +
+      '스탯창 공격력은 공식 정보에 없어 직접 입력해주세요. % 스탯은 펫·날개·스킬 효과가 빠져 실제보다 낮을 수 있으니, 아래 내역을 게임 스탯창과 비교해주세요.');
   } catch (e) {
     console.error(e);
     alert('캐릭터 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
