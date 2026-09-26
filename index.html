@@ -3807,7 +3807,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .an-bulk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 14px;font-size:12.5px;color:#a9b6cc}
 .an-bulk-row select{width:auto !important;min-width:56px;padding:4px 6px;background:#0b1018;border:1px solid #2c3a55;border-radius:6px;color:#eef4ff}
 .an-bulk-row button{padding:5px 10px;border:1px solid #365b8a;border-radius:7px;background:#132844;color:#9ec5ff;font-weight:800;font-size:12px;cursor:pointer}
-.char-dv-box{margin-top:6px;margin-bottom:6px}
+.char-dv-box{margin-top:22px;padding-top:18px;border-top:1px solid #263043}
 .char-dv-sum{font-size:12.5px;color:#8fa3c4;font-weight:700}
 .char-dv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:6px}
 .char-dv{padding:8px 10px;border:1px solid #263d59;border-radius:10px;background:#0d131c}
@@ -9516,8 +9516,8 @@ ${stat.value}
 `).join('')}
 
       </div>
-      ${charDaevanionHtml(data.daevanion?.boardList || [])}
     `;
+    dataEl.insertAdjacentHTML('beforeend', charDaevanionHtml(data.daevanion?.boardList || []));
     document.getElementById('char-dv-more')?.addEventListener('click', function () { charLoadDaevanionEffects(character, data.daevanion?.boardList || [], this); });
     // ===== 캐릭터 장비 정보 =====
     const equipmentParams = new URLSearchParams({
