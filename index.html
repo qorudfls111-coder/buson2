@@ -8797,7 +8797,7 @@ function soRenderRoll() {
       <span class="n">${i + 1}</span>
       ${guar ? `<span>${soEsc(l.o.name)} <small class="so-sub">확정</small></span>` : `<select onchange="soSetLine(${i}, this.value)">${opts.map(o => `<option ${o.name === l.o.name ? 'selected' : ''}>${soEsc(o.name)}</option>`).join('')}</select>`}
       ${l.o.vals ? `<select onchange="soSetLineValue(${i}, this.value)">${l.o.vals.map(v => `<option value="${v}" ${Math.abs(v - (l.v ?? -1)) < 1e-9 ? 'selected' : ''}>${soFmt(l.o, v)}</option>`).join('')}</select>` : `<span class="v">${soFmt(l.o, l.v)}</span>`}
-      <span class="tune">${guar ? '' : `<small>조율 시 목표 ${soTargetList().length ? (p * 100).toFixed(2) + '%' : '-'}</small><button type="button" onclick="soTune(${i})">영혼 조율</button>`}</span>
+      <span class="tune">${guar ? '' : `<small>${!soTargetList().length ? '목표 미선택' : soSuccess(lines) ? (soLineHits(l) ? '목표 줄 · 조율하면 바뀜' : '달성 유지') : '조율 시 목표 ' + (p * 100).toFixed(2) + '%'}</small><button type="button" onclick="soTune(${i})">영혼 조율</button>`}</span>
     </div>`;
   }).join('') + (soSuccess(lines) ? '<div class="so-ok">✅ 목표 달성!</div>' : '');
 }
