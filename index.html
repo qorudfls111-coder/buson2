@@ -3798,6 +3798,19 @@ min-height:56px;
 /* 숫자 입력칸: 위아래 화살표(스피너) 숨김 */
 input[type=number]{-moz-appearance:textfield;appearance:textfield}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.char-skill-box{margin-top:22px}
+.char-skill-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:16px;font-weight:800;color:#fff;margin-bottom:6px}
+.char-skill-go{border:1px solid #2f6b4f;background:#10281d;color:#9ef4bd;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:800;cursor:pointer}
+.char-skill-title{font-size:13.5px;font-weight:800;color:#a9c1f0;margin:14px 0 8px}
+.char-skill-title span{color:#6f7d96;font-weight:700;font-size:12px}
+.char-skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.char-skill{display:flex;align-items:center;gap:8px;padding:6px 9px;border:1px solid #263d59;border-radius:10px;background:#0d131c;min-width:0}
+.char-skill img{width:28px;height:28px;border-radius:6px;flex:0 0 28px;background:#0b1018}
+.char-skill-name{flex:1;min-width:0;font-size:13px;font-weight:700;color:#dbe4f3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.char-skill-name small{display:block;font-size:10.5px;color:#7f8ca3;font-weight:700}
+.char-skill-lv{font-size:13.5px;font-weight:900;white-space:nowrap}
+.char-skill-lv.hi{color:#ffd980}.char-skill-lv.mid{color:#8df0bd}.char-skill-lv.lo{color:#9db8ff}.char-skill-lv.zero{color:#6f7d96}
+.char-skill.off{opacity:.45}
 .char-import-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .char-import-btns button{padding:8px 14px;border:1px solid #2f6b4f;border-radius:8px;background:#10281d;color:#9ef4bd;font-size:13px;font-weight:800;cursor:pointer}
 .char-import-btns button:disabled{opacity:.6;cursor:wait}
@@ -8624,6 +8637,33 @@ async function charImportToSpec(c, btn) {
 const CHAR_ARCANA_TYPES = [['성배', 'grail'], ['양피지', 'parchment'], ['나침반', 'compass'], ['종', 'bell'], ['거울', 'mirror'], ['천칭', 'scale']];
 // 공식 장비 슬롯 번호 → 아르카나 계산기 장비 칸 (투구·견갑·상의·하의·장갑·망토·신발 / 목걸이·귀걸이1·2 / 반지1·2)
 const CHAR_GEAR_SLOTS = { 3: ['armor', 0], 4: ['armor', 1], 5: ['armor', 2], 6: ['armor', 3], 7: ['armor', 4], 19: ['armor', 5], 8: ['armor', 6], 10: ['accessory', 0], 11: ['accessory', 1], 12: ['accessory', 2], 13: ['ring', 0], 14: ['ring', 1] };
+// 캐릭터 스킬 레벨 (공식 캐릭터 정보의 skillList: Active / Passive / Dp)
+function charSkillHtml(list) {
+  const groups = [['Active', '⚔️ 액티브 스킬'], ['Passive', '🛡️ 패시브 스킬'], ['Dp', '✨ DP 스킬']];
+  const esc = t => String(t ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  const body = groups.map(([cat, title]) => {
+    const skills = list.filter(s => s.category === cat);
+    if (!skills.length) return '';
+    return `<div class="char-skill-title">${title} <span>${skills.length}개</span></div>
+      <div class="char-skill-grid">${skills.map(s => {
+        const lv = Number(s.skillLevel) || 0;
+        const tier = lv >= 20 ? 'hi' : lv >= 15 ? 'mid' : lv > 0 ? 'lo' : 'zero';
+        const off = !Number(s.acquired) || lv === 0;
+        const unequipped = cat !== 'Passive' && Number(s.acquired) && !Number(s.equip);
+        return `<div class="char-skill ${off ? 'off' : ''}" title="${esc(s.name)} Lv.${lv}${unequipped ? ' · 미장착' : ''}">
+          ${s.icon ? `<img src="${esc(s.icon)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+          <span class="char-skill-name">${esc(s.name)}${unequipped ? '<small>미장착</small>' : ''}</span>
+          <b class="char-skill-lv ${tier}">${off && !Number(s.acquired) ? '미습득' : 'Lv.' + lv}</b>
+        </div>`;
+      }).join('')}</div>`;
+  }).join('');
+  if (!body) return '';
+  return `<div class="char-skill-box">
+    <div class="char-skill-head">📜 스킬 레벨 <button type="button" class="char-skill-go" onclick="document.getElementById('char-to-arcana')?.click()">아르카나 계산기로 불러오기 →</button></div>
+    ${body}
+  </div>`;
+}
+
 function cleanCharName(n) { return String(n || '').replace(/<[^>]+>/g, ''); }
 
 async function charImportToArcana(c, btn) {
@@ -9552,6 +9592,7 @@ background:#0d131c;
 `
 }
 </div>
+${charSkillHtml(equipmentData.skill?.skillList || [])}
           </div>
         `
       );
