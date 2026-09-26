@@ -586,19 +586,18 @@ main.wrap{
           </div>
           <div><label>주 방향 유지율 %</label><input id="sp_fb_rate" value="80"></div>
           <div><label>보스 강타 저항 %</label><input id="sp_smash_resist" value="30"></div>
-          <div><label>파티 강타 버프</label>
-            <select id="sp_party_smash">
-              <option value="0">없음</option>
-              <option value="5">호법성 +5% (불패의 진언)</option>
-              <option value="10">치유성 +10% (보호의 빛 Lv25 + 대지의 축복)</option>
+          <div><label>힐러 버프 <span class="muted">스킬 Lv25 기준</span></label>
+            <select id="sp_party_healer">
+              <option value="none">없음</option>
+              <option value="hobeop">호법성 (불패의 진언 + 질풍의 권능)</option>
+              <option value="chiyu">치유성 (보호의 빛 + 대지의 축복)</option>
             </select>
+            <div class="muted" id="sp_party_note" style="margin-top:4px"></div>
           </div>
-          <div><label>파티 피해증폭 버프</label>
+          <div><label>수호성 버프</label>
             <select id="sp_party_dmg">
               <option value="0">없음</option>
-              <option value="22.5">치유/호법 Lv25 +22.5%</option>
-              <option value="33.75">수호 격앙 Lv35(고결의 갑주) +33.75%</option>
-              <option value="56.25">치유/호법 + 수호 격앙 +56.25%</option>
+              <option value="33.75">격앙 Lv35(고결의 갑주) 피해 증폭 +33.75%</option>
             </select>
           </div>
         </div>
@@ -5222,20 +5221,34 @@ async function loadOfficialNews(force=false){
 const SPEC_IDS=[
  'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
  'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_perfect','sp_multihit','sp_pve','sp_boss',
- 'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_smash','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
+ 'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_healer','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
 // 파티 버프 (인게임 툴팁 기준)
 // - 격앙 파티 PVE 피해 증폭 = 5% + 레벨당 0.5% (Lv35 22.5%), 수호성은 고결의 갑주를 항상 켜므로 1.5배 33.75%로 본다
-// - 보호의 빛·불패의 진언 피해 증폭 = 10% + 레벨당 0.5% (Lv25 22.5%), 둘은 중복되지 않는다
-// - 파티 강타: 호법성 불패의 진언 5%, 치유성 보호의 빛 Lv25 특화 5% + 대지의 축복 5%
-// 예전 저장값은 이 기준으로 바꿔 불러온다
-const SPEC_PARTY_LEGACY={
- sp_party_dmg:{'25':'22.5','40':'33.75','28':'33.75','65':'56.25','53':'56.25','47.5':'56.25','58.75':'56.25'},
- sp_party_smash:{'12':'10'}
+// - 불패의 진언·보호의 빛 Lv25: PVE 피해 증폭 22.5%, 완벽 10% (둘은 중복되지 않는다)
+// - 불패의 진언: 강타 5%, 치명타 피해 증폭 5%
+//   질풍의 권능: 파티원 공격력 10%, 무기 피해 증폭 5% (22.5초 유지·재시전 1분 30초 → 평균 25%로 반영)
+// - 보호의 빛 Lv25 특화: 강타 5%
+//   대지의 축복(대지의 징벌 적중, 유지 30초·재시전 30초): 파티원 강타 5%, 공격력 5%
+const PARTY_HEALER_BUFF={
+ none:{dmg:0,smash:0,perfect:0,critDmg:0,atk:0,weapon:0,note:''},
+ hobeop:{dmg:22.5,smash:5,perfect:10,critDmg:5,atk:10*0.25,weapon:5*0.25,
+  note:'피해 증폭 22.5% · 강타 5% · 완벽 10% · 치명타 피해 증폭 5% + 질풍의 권능 공격력 10% · 무기 피해 증폭 5% (22.5초/1분 30초라 평균 25%로 반영)'},
+ chiyu:{dmg:22.5,smash:10,perfect:10,critDmg:0,atk:5,weapon:0,
+  note:'피해 증폭 22.5% · 강타 10% (보호의 빛 5% + 대지의 축복 5%) · 완벽 10% · 공격력 5%'}
 };
+function partyHealerBuff(){return PARTY_HEALER_BUFF[$('#sp_party_healer')?.value]||PARTY_HEALER_BUFF.none}
+// 예전 저장값(파티 강타 / 파티 피해증폭 선택)을 힐러 버프 / 격앙 버프로 바꿔 불러온다
+const SPEC_OLD_GYEOK=['40','28','33.75','65','53','47.5','56.25','58.75'];
+const SPEC_OLD_HEALER_DMG=['25','22.5','65','53','47.5','56.25','58.75'];
 function specMigrate(d){
- if(d&&typeof d==='object')Object.entries(SPEC_PARTY_LEGACY).forEach(([id,map])=>{if(map[d[id]])d[id]=map[d[id]]});
+ if(!d||typeof d!=='object'||'sp_party_healer' in d)return d;
+ if(!('sp_party_smash' in d)&&!('sp_party_dmg' in d))return d;
+ const sm=String(d.sp_party_smash??'0'),dm=String(d.sp_party_dmg??'0');
+ d.sp_party_healer=sm==='5'?'hobeop':(sm==='10'||sm==='12')?'chiyu':SPEC_OLD_HEALER_DMG.includes(dm)?'hobeop':'none';
+ d.sp_party_dmg=SPEC_OLD_GYEOK.includes(dm)?'33.75':'0';
+ delete d.sp_party_smash;
  return d;
 }
 
@@ -5243,6 +5256,7 @@ function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 function sv(id){return parseNum($('#'+id)?.value)}
 
 function getSpec(){
+ const healer=partyHealerBuff();
  return {
   attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
   destroy:sv('sp_destroy'), power:sv('sp_power'), weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), weaponEnhance:0,
@@ -5260,7 +5274,8 @@ pve:sv('sp_pve'),
 boss:sv('sp_boss'),
   critRate:clamp(sv('sp_crit_rate'),0,80), direction:($('#sp_direction')?.value||'back'), fbRate:clamp(sv('sp_fb_rate'),0,100),
   smashResist:clamp(sv('sp_smash_resist'),0,100),
-  partySmash:sv('sp_party_smash'), partyDmg:sv('sp_party_dmg'),
+  partySmash:healer.smash, partyDmg:healer.dmg+sv('sp_party_dmg'),
+  partyPerfect:healer.perfect, partyCritDmg:healer.critDmg, partyAtk:healer.atk, partyWeapon:healer.weapon,
   targetCritResist:clamp(sv('sp_target_crit_resist'),0,100),
   targetDmgResist:clamp(sv('sp_target_dmg_resist'),0,100),
   targetCritDmgResist:clamp(sv('sp_target_critdmg_resist'),0,100),
@@ -5283,7 +5298,7 @@ function perfectData(s){
 
   const chance=
     clamp(
-      (s.perfect||0)-(s.targetPerfectResist||0),
+      (s.perfect||0)+(s.partyPerfect||0)-(s.targetPerfectResist||0),
       0,
       100
     )/100;
@@ -5367,16 +5382,20 @@ function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=
  const gearAttack=(gearRaw+flatGearAdd)*wornInc;
  const perfect=perfectData(s);
 
+ // 파티 공격력 버프는 공격력 증가 %에 더하고, 파티 무기 피해 증폭은 무피증에 더한다
+ const buffScale=wornInc>0 ? (wornInc+(s.partyAtk||0)/100)/wornInc : 1;
+ const weaponMul=1+(s.weapon+(s.partyWeapon||0))/100;
+
  // 기존 계산기의 공격력 비교값
- const coreAttack=baseAttack + gearAttack*(1+s.weapon/100);
+ const coreAttack=(baseAttack + gearAttack*weaponMul)*buffScale;
 
  // 추가 공격력: 공증 적용, 무피증은 적용하지 않는 비교 모델
- const additionalDelta=extraAdditionalAttack*wornInc;
+ const additionalDelta=extraAdditionalAttack*wornInc*buffScale;
 
 // 최대 공격력: 비완벽 구간에서는 평균적으로 절반 기여,
 // 완벽 발동 구간에서는 최대공격력 전부에 추가피해 5%까지 반영.
 const maxWeight=0.5+(0.55*perfect.chance);
-const maxDelta=extraMaxAttack*wornInc*maxWeight*(1+s.weapon/100);
+const maxDelta=extraMaxAttack*wornInc*buffScale*maxWeight*weaponMul;
 
 // 완벽은 무기 최소~최대 평균 대비
 // 최대공격력 기반 데미지 × 1.05가 발동할 확률로 기대값을 계산.
@@ -5398,7 +5417,7 @@ function totalMultiplier(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAtta
  const general=Math.max(0.01,1+effectiveDmgPct/100);
 
  const normalCritChance=clamp(s.critRate-s.targetCritResist,0,80)/100;
- const critBonus=Math.max(0,0.5+(s.critDmg-s.targetCritDmgResist)/100);
+ const critBonus=Math.max(0,0.5+(s.critDmg+(s.partyCritDmg||0)-s.targetCritDmgResist)/100);
  const normalCritExpected=1+normalCritChance*critBonus;
  const guaranteedCritExpected=1+critBonus;
 
@@ -5434,6 +5453,8 @@ function scoreByMode(result,mode){
 function calcSpec(){
  const s=getSpec();
  const base=totalMultiplier(s);
+ const partyNote=$('#sp_party_note');
+ if(partyNote)partyNote.textContent=partyHealerBuff().note;
 
  const breakParts=
    sv('sp_break5')+sv('sp_break4')+sv('sp_break3')+sv('sp_break2')+sv('sp_break1');
@@ -5899,8 +5920,7 @@ const AB_DIFF_FIELDS=[
  {id:'sp_crit_rate',label:'치명타율',type:'percent',digits:1},
  {id:'sp_fb_rate',label:'방향 유지율',type:'percent',digits:1},
  {id:'sp_smash_resist',label:'강타 저항',type:'percent',digits:1},
- {id:'sp_party_smash',label:'파티 강타',type:'percent',digits:1},
- {id:'sp_party_dmg',label:'파티 피증',type:'percent',digits:1},
+ {id:'sp_party_dmg',label:'격앙 버프',type:'percent',digits:2},
  {id:'sp_target_crit_resist',label:'치명 저항',type:'percent',digits:1},
  {id:'sp_target_dmg_resist',label:'피해 내성',type:'percent',digits:1},
  {id:'sp_target_critdmg_resist',label:'치피 내성',type:'percent',digits:1},
@@ -5933,6 +5953,16 @@ function renderABDifferences(aData,bData){
 
     changes.push(
       `<span class="ab-diff-chip change">방향 ${name(dirA)} → ${name(dirB)}</span>`
+    );
+  }
+
+  /* 힐러 버프가 바뀐 경우 */
+  const healerA=aData?.sp_party_healer||'none';
+  const healerB=bData?.sp_party_healer||'none';
+  if(healerA!==healerB){
+    const name=v=>v==='hobeop'?'호법성':v==='chiyu'?'치유성':'없음';
+    changes.push(
+      `<span class="ab-diff-chip change">힐러 버프 ${name(healerA)} → ${name(healerB)}</span>`
     );
   }
 
