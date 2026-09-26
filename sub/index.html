@@ -657,7 +657,10 @@ main.wrap{
           <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" value="0"></div>
           <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
           <div><label>장비 돌파 부위 수 <span class="muted">부위당 +5%</span></label><input id="sp_break" value="0"></div>
+          <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" value="0"></div>
+          <div><label>주무기 최대 공격력 <span class="muted">예: 641 ~ 709(+350) → 709</span></label><input id="sp_weapon_max" value="0"></div>
         </div>
+        <div class="muted" style="margin-top:6px">완벽은 주무기 최소~최대 공격력으로 계산합니다. 괄호 안 (+350) 같은 강화 수치는 스탯창 공격력에 이미 들어 있으니 입력하지 않습니다.</div>
 
         <div class="subhead">증폭 스탯</div>
         <div class="fields">
@@ -666,6 +669,7 @@ main.wrap{
           <div><label>치명타 피해 증폭 %</label><input id="sp_critdmg" value="0"></div>
           <div><label>전방/후방 피해 증폭 %</label><input id="sp_fb" value="0"></div>
           <div><label>강타 %</label><input id="sp_smash" value="0"></div>
+          <div><label>완벽 % <span class="muted">최대 공격력 기반 + 추가 피해 5%</span></label><input id="sp_perfect" value="0"></div>
           <div><label>PVE 피해 증폭 %</label><input id="sp_pve" value="0"></div>
           <div><label>보스 피해 증폭 %</label><input id="sp_boss" value="0"></div>
         </div>
@@ -697,6 +701,7 @@ main.wrap{
           <div><label>대상 치명타 저항 %</label><input id="sp_target_crit_resist" value="0"></div>
           <div><label>대상 피해 내성 %</label><input id="sp_target_dmg_resist" value="0"></div>
           <div><label>대상 치명타 피해 내성 %</label><input id="sp_target_critdmg_resist" value="0"></div>
+          <div><label>대상 완벽 저항 % <span class="muted">실효 완벽 차감용</span></label><input id="sp_target_perfect_resist" value="0"></div>
           <div><label>확정 치명 스킬 비중 %</label><input id="sp_guaranteed_crit_share" value="0"></div>
         </div>
 
@@ -1328,14 +1333,14 @@ async function loadOfficialNews(force=false){
 
 
 const SPEC_IDS=[
- 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break',
- 'sp_dmg','sp_weapon','sp_critdmg','sp_fb','sp_smash','sp_pve','sp_boss',
- 'sp_crit_rate','sp_fb_rate','sp_smash_resist','sp_party_healer','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_guaranteed_crit_share'
+ 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break','sp_weapon_min','sp_weapon_max',
+ 'sp_dmg','sp_weapon','sp_critdmg','sp_fb','sp_smash','sp_perfect','sp_pve','sp_boss',
+ 'sp_crit_rate','sp_fb_rate','sp_smash_resist','sp_party_healer','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
 const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
 // 파티 버프 (인게임 툴팁 기준, 메인 스펙 계산기와 같은 값)
 // - 격앙 파티 PVE 피해 증폭 = 5% + 레벨당 0.5% (Lv35 22.5%), 수호성은 고결의 갑주를 항상 켜므로 1.5배 33.75%로 본다
-// - 불패의 진언·보호의 빛 Lv25: PVE 피해 증폭 22.5%, 완벽 10% (둘은 중복되지 않는다, 이 페이지는 완벽을 계산하지 않음)
+// - 불패의 진언·보호의 빛 Lv25: PVE 피해 증폭 22.5%, 완벽 10% (둘은 중복되지 않는다)
 // - 불패의 진언: 강타 5%, 치명타 피해 증폭 5%
 //   질풍의 권능: 파티원 공격력 10%, 무기 피해 증폭 5% (22.5초 유지·재시전 1분 30초 → 평균 25%로 반영)
 // - 보호의 빛 Lv25 특화: 강타 5%
@@ -1374,7 +1379,9 @@ function getSpec(){
   critRate:clamp(sv('sp_crit_rate'),0,80), fbRate:clamp(sv('sp_fb_rate'),0,100),
   smashResist:clamp(sv('sp_smash_resist'),0,100),
   partySmash:healer.smash, partyDmg:healer.dmg+sv('sp_party_dmg'),
-  partyCritDmg:healer.critDmg, partyAtk:healer.atk, partyWeapon:healer.weapon,
+  partyPerfect:healer.perfect, partyCritDmg:healer.critDmg, partyAtk:healer.atk, partyWeapon:healer.weapon,
+  weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), perfect:sv('sp_perfect'),
+  targetPerfectResist:clamp(sv('sp_target_perfect_resist'),0,100),
   targetCritResist:clamp(sv('sp_target_crit_resist'),0,100),
   targetDmgResist:clamp(sv('sp_target_dmg_resist'),0,100),
   targetCritDmgResist:clamp(sv('sp_target_critdmg_resist'),0,100),
@@ -1385,6 +1392,18 @@ function getSpec(){
 // 공개된 계산 구조를 참고한 독립 구현.
 // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 돌파 5%p.
 // 돌파분은 장비 귀속으로 보고 장비 해제 공격력에는 제외.
+// 완벽: 주무기 최소~최대 평균 대비, 발동 시 최대 공격력 기반 데미지 × 1.05 (메인 스펙 계산기와 같은 방식)
+function perfectData(s){
+ const min=Math.max(0,s.weaponMin||0);
+ const max=Math.max(min,s.weaponMax||0);
+ const hasRange=max>min && min>0;
+ const chance=clamp((s.perfect||0)+(s.partyPerfect||0)-(s.targetPerfectResist||0),0,100)/100;
+ if(!hasRange)return {hasRange:false,chance,factor:1};
+ const avg=(min+max)/2;
+ const expected=avg*(1-chance)+max*1.05*chance;
+ return {hasRange:true,chance,factor:avg>0?expected/avg:1};
+}
+
 function deriveAttack(s, flatGearAdd=0){
  const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthrough*5)/100;
  const offInc=1+(s.destroy*0.2+s.power*0.1)/100;
@@ -1397,9 +1416,10 @@ function deriveAttack(s, flatGearAdd=0){
  const gearAttack=(gearRaw+flatGearAdd)*wornInc;
  // 파티 공격력 버프는 공격력 증가 %에 더하고, 파티 무기 피해 증폭은 무피증에 더한다
  const buffScale=wornInc>0 ? (wornInc+(s.partyAtk||0)/100)/wornInc : 1;
- const effectiveAttack=(baseAttack + gearAttack*(1+(s.weapon+(s.partyWeapon||0))/100))*buffScale;
+ const perfect=perfectData(s);
+ const effectiveAttack=(baseAttack + gearAttack*(1+(s.weapon+(s.partyWeapon||0))/100))*buffScale*perfect.factor;
 
- return {wornInc,offInc,baseRaw,gearRaw,baseAttack,gearAttack,effectiveAttack};
+ return {wornInc,offInc,baseRaw,gearRaw,baseAttack,gearAttack,effectiveAttack,perfect};
 }
 
 function totalMultiplier(s, flatGearAdd=0){
@@ -1426,7 +1446,7 @@ function totalMultiplier(s, flatGearAdd=0){
  const mixedTotal=normalTotal*(1-share)+guaranteedTotal*share;
 
  return {
-  attack:a,general,fbExpected,smashExpected,smashChance,
+  attack:a,general,fbExpected,smashExpected,smashChance,perfectExpected:a.perfect.factor,perfectChance:a.perfect.chance,
   normalCritChance,normalCritExpected,guaranteedCritExpected,
   normalTotal,guaranteedTotal,mixedTotal,total:mixedTotal
  };
@@ -1444,7 +1464,7 @@ function calcSpec(){
  const s=getSpec();
  const base=totalMultiplier(s);
  const partyNote=$('#sp_party_note');
- if(partyNote){const n=partyHealerBuff().note;partyNote.textContent=n?n+' · 완벽은 이 페이지에서 계산하지 않음':''}
+ if(partyNote)partyNote.textContent=partyHealerBuff().note;
 
  $('#sp_base_attack').textContent=nf(Math.round(base.attack.baseAttack));
  $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack));
@@ -1462,6 +1482,9 @@ function calcSpec(){
    `일반 치명 × ${base.normalCritExpected.toFixed(3)} (${(base.normalCritChance*100).toFixed(1)}%)`,
    `확정 치명 × ${base.guaranteedCritExpected.toFixed(3)}`,
    `강타 × ${base.smashExpected.toFixed(3)} (실발동 ${(base.smashChance*100).toFixed(1)}%)`,
+   base.attack.perfect.hasRange
+     ? `완벽 × ${base.perfectExpected.toFixed(3)} (실발동 ${(base.perfectChance*100).toFixed(1)}%)`
+     : `완벽 계산: 주무기 최소/최대 공격력 입력 필요`,
    `전/후방 × ${base.fbExpected.toFixed(3)}`
  ].map(x=>`<span class="pill">${x}</span>`).join('');
 
@@ -1476,6 +1499,7 @@ function renderRankings(){
  const tests=[
    {name:'전/후방 피해 증폭', apply:t=>({...t,fb:t.fb+1})},
    {name:'강타', apply:t=>({...t,smash:t.smash+1})},
+   {name:'완벽', apply:t=>({...t,perfect:t.perfect+1})},
    {name:'무기 피해 증폭', apply:t=>({...t,weapon:t.weapon+1})},
    {name:'치명타 피해 증폭', apply:t=>({...t,critDmg:t.critDmg+1})},
    {name:'피해 증폭', apply:t=>({...t,dmg:t.dmg+1})},
