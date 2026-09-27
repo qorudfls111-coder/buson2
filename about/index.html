@@ -275,50 +275,82 @@
     <div class="tools">
 
       <div class="tool">
-        <strong>아이온2 스펙 계산</strong>
+        <strong><a href="/character/" style="color:inherit;text-decoration:none">캐릭터 검색 · 비교</a></strong>
         <span>
-          캐릭터의 주요 스탯과 조건을 입력하여
-          서로 다른 세팅의 예상 효율을 비교합니다.
+          전체 서버에서 캐릭터를 찾아 장비·스킬 레벨·데바니온·칭호를 확인하고,
+          두 캐릭터를 비교하거나 계산기로 불러옵니다.
         </span>
       </div>
 
       <div class="tool">
-        <strong>장비 및 옵션 비교</strong>
+        <strong><a href="/spec/" style="color:inherit;text-decoration:none">스펙 계산기</a></strong>
         <span>
-          장비, 펫 등에서 선택할 수 있는 여러 옵션의
-          효율 차이를 비교하는 데 활용할 수 있습니다.
+          공격력·강타·완벽·피해 증폭 등을 올렸을 때의 실딜 상승률을
+          파티 버프까지 반영해 비교합니다.
         </span>
       </div>
 
       <div class="tool">
-        <strong>던전 효율 계산</strong>
+        <strong><a href="/driver/" style="color:inherit;text-decoration:none">버스 기사 수익 계산</a></strong>
         <span>
-          오드 사용량, 획득 키나, 소요시간 등을 기준으로
-          던전 및 파밍 방식의 효율을 비교합니다.
+          던전·소비 오드·손님 수·기사 수와 월드 거래소 수수료를 반영해
+          판당·시간당 순수익을 계산합니다.
         </span>
       </div>
 
       <div class="tool">
-        <strong>버스 수익 계산</strong>
+        <strong><a href="/sub/" style="color:inherit;text-decoration:none">부캐 버스 계산</a></strong>
         <span>
-          버스 기사 및 관련 플레이 방식에서 발생하는
-          예상 수익과 비용을 계산할 수 있습니다.
+          버스비를 뺀 부캐 버스 순수익을 계산하고
+          같은 던전을 본부로 돌았을 때와 비교합니다.
         </span>
       </div>
 
       <div class="tool">
-        <strong>부캐 육성 효율 비교</strong>
+        <strong><a href="/dungeon/" style="color:inherit;text-decoration:none">던전 파밍 DB</a></strong>
         <span>
-          부캐 육성 과정에서 발생하는 비용과 획득량을 기준으로
-          여러 육성 방식의 효율을 비교합니다.
+          원정·초월 던전을 한 판 키나, 오드 효율, 시간당 수익 기준으로
+          정렬해 비교합니다.
         </span>
       </div>
 
       <div class="tool">
-        <strong>파밍 효율 비교</strong>
+        <strong><a href="/compare/" style="color:inherit;text-decoration:none">파밍 비교</a></strong>
         <span>
-          같은 시간이나 자원을 사용했을 때
-          어떤 방식이 상대적으로 효율적인지 확인할 수 있습니다.
+          버스 기사와 부캐 버스를 같은 오드 기준으로 환산해
+          지금 더 효율적인 방식을 보여줍니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong><a href="/#party" style="color:inherit;text-decoration:none">성역 파티 배치</a></strong>
+        <span>
+          포스 인원의 본캐·부캐 직업과 전투력을 넣으면 필수 역할을 채우며
+          두 파티의 전투력을 균형 있게 나눕니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong><a href="/arcana/" style="color:inherit;text-decoration:none">아르카나 계산기</a></strong>
+        <span>
+          아르카나 카드와 스킬 포인트·데바니온·장비 스킬을 합쳐
+          스킬 레벨과 목표 대비 부족한 스킬을 계산합니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong><a href="/pet/" style="color:inherit;text-decoration:none">펫작 시뮬레이터</a></strong>
+        <span>
+          종족 이해도 LV10 분석을 굴려보고 목표 옵션까지 필요한
+          영혼 결정·골드 기대값을 계산합니다.
+        </span>
+      </div>
+
+      <div class="tool">
+        <strong><a href="/enhance/" style="color:inherit;text-decoration:none">강화·돌파·마석 시뮬레이터</a></strong>
+        <span>
+          NC 공식 확률로 강화·돌파 비용과 원하는 마석 옵션까지
+          필요한 개수의 기대값을 계산합니다.
         </span>
       </div>
 
@@ -331,6 +363,12 @@
       공개적으로 확인 가능한 정보를 바탕으로 계산합니다.
       계산 과정에 가정값이 필요한 경우에는 가능한 한 계산기 내부에서
       해당 조건을 확인할 수 있도록 안내하는 것을 원칙으로 합니다.
+    </p>
+
+    <p>
+      강화·돌파·마석 시뮬레이터와 펫작 시뮬레이터는 NC 아이온2 확률정보를,
+      캐릭터 검색은 아이온2 공식 캐릭터 정보를, 스펙 계산기의 파티 버프는
+      인게임 스킬 툴팁 수치를 기준으로 합니다.
     </p>
 
     <p>
@@ -377,10 +415,42 @@
 
 </main>
 
-<footer>
-  <div class="wrap">
-    © BUSON2 · 아이온2 효율 계산을 위한 비공식 팬 도구
-  </div>
+<footer class="bo-foot">
+  <style>
+    footer.bo-foot{max-width:1100px;margin:48px auto 0;padding:24px 16px 36px;border-top:1px solid #1d2633;color:#8a9ab0;font-size:13px;line-height:1.7;text-align:left}
+    footer.bo-foot .bo-foot-title{margin:0 0 6px;color:#c9d6ea;font-size:13px;font-weight:800}
+    footer.bo-foot nav{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 14px}
+    footer.bo-foot a{color:#91a7ff;text-decoration:none}
+    footer.bo-foot a:hover{text-decoration:underline}
+    footer.bo-foot p{margin:0;color:#718096;font-size:12px}
+  </style>
+  <div class="bo-foot-title">BUSON2 계산기</div>
+  <nav aria-label="계산기">
+    <a href="/">메인</a>
+    <a href="/character/">캐릭터 검색·비교</a>
+    <a href="/spec/">스펙 계산기</a>
+    <a href="/driver/">버스 기사</a>
+    <a href="/sub/">부캐 버스</a>
+    <a href="/dungeon/">던전 파밍 DB</a>
+    <a href="/compare/">파밍 비교</a>
+    <a href="/#party">성역 파티 배치</a>
+    <a href="/arcana/">아르카나</a>
+    <a href="/pet/">펫작 시뮬</a>
+    <a href="/enhance/">강화·마석</a>
+  </nav>
+  <div class="bo-foot-title">가이드 · 안내</div>
+  <nav aria-label="가이드와 안내">
+    <a href="/guide/bus-profit/">버스 수익 가이드</a>
+    <a href="/guide/od-efficiency/">오드 효율 가이드</a>
+    <a href="/guide/spec-efficiency/">스펙 효율 가이드</a>
+    <a href="/guide/dungeon-efficiency/">던전 효율 가이드</a>
+    <a href="/guide/sub-bus-vs-hq/">부캐 버스 vs 본부</a>
+    <a href="/about/">소개</a>
+    <a href="/notes/">운영일지</a>
+    <a href="/contact/">문의</a>
+    <a href="/privacy/">개인정보처리방침</a>
+  </nav>
+  <p>© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구이며 NCSOFT·아이온2 공식 서비스와 무관합니다. 계산 결과는 참고용입니다.</p>
 </footer>
 
 </body>

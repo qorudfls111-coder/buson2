@@ -192,6 +192,114 @@
   </header>
 
   <article class="entry">
+    <span class="entry-date">2026-09-27</span>
+    <h2>스펙 계산기 파티 버프를 인게임 툴팁 기준으로 다시 맞췄습니다</h2>
+    <p>
+      수호성 격앙이 너프된 뒤에도 스펙 계산기에는 예전 값(+40%)이 그대로 남아 있었습니다.
+      이용자분이 보내주신 툴팁으로 확인해보니 격앙의 파티 PVE 피해 증폭은 "5% + 레벨당 0.5%"라 Lv35에서 22.5%이고,
+      수호성은 격앙 효과를 1.5배로 올려주는 고결의 갑주를 항상 켜두기 때문에 33.75%로 넣었습니다.
+    </p>
+    <p>
+      치유성·호법성 버프도 같이 확인했습니다. 불패의 진언과 보호의 빛은 Lv25 기준 피해 증폭 22.5%·완벽 10%이고 서로 중복되지 않습니다.
+      파티 강타는 호법성 5%, 치유성 10%(보호의 빛 Lv25 특화 5% + 대지의 축복 5%)로 고쳤습니다. 치유성을 12%로 적어뒀던 건 잘못된 값이었습니다.
+    </p>
+    <p>
+      그리고 "파티 강타"와 "파티 피해증폭"을 따로 고르던 칸을 힐러 버프(호법성/치유성)와 수호성 버프로 나눠서,
+      직업을 고르면 완벽, 치명타 피해 증폭, 질풍의 권능·대지의 축복의 공격력까지 한꺼번에 계산에 들어가도록 바꿨습니다.
+      예전에 저장해둔 스펙은 불러올 때 새 기준으로 자동으로 바뀝니다.
+    </p>
+    <p>
+      예전 사이트를 통째로 복사해 두었던 <a href="/sub/">/sub/</a> 페이지는 부캐 버스 소개 페이지로 정리했습니다.
+      계산기는 이제 메인 한 곳에서만 관리해서 페이지마다 값이 달라지는 일이 없게 했습니다.
+    </p>
+  </article>
+
+  <article class="entry">
+    <span class="entry-date">2026-09-26</span>
+    <h2>캐릭터 검색과 캐릭터 비교를 만들었습니다</h2>
+    <p>
+      닉네임만 알면 서버를 몰라도 전체 서버에서 캐릭터를 찾을 수 있게 했고,
+      상세 화면에서 장비, 스킬 레벨, 데바니온 보드 개방 현황, 칭호, 펫·날개까지 볼 수 있습니다.
+      두 캐릭터를 나란히 놓고 보는 <a href="/character/">캐릭터 비교</a> 탭도 같이 추가했습니다.
+    </p>
+    <p>
+      검색한 캐릭터는 스펙 계산기와 아르카나 계산기로 바로 불러올 수 있습니다.
+      처음에는 피해 증폭·강타 같은 % 스탯도 자동으로 채웠는데, 게임 스탯창과 비교해보니
+      스킬 패시브·펫·날개 효과가 공식 정보에 없어서 실제보다 낮게 나왔습니다.
+      그래서 % 스탯은 자동 입력 대신 출처별 참고표로만 보여주도록 바꿨습니다.
+    </p>
+    <p>
+      아르카나 계산기도 기본 스킬 레벨 14를 스킬 포인트(0~10)와 데바니온(0~4)으로 나눠서
+      불러온 캐릭터의 실제 스킬 레벨과 맞게 했고, 부족한 스킬을 채울 카드를 추천할 때
+      이미 스킬 레벨 4로 꽉 찬 카드는 빼도록 고쳤습니다.
+    </p>
+  </article>
+
+  <article class="entry">
+    <span class="entry-date">2026-09-26</span>
+    <h2>잘 쓰지 않는 탭을 정리했습니다</h2>
+    <p>
+      본부 탭은 부캐 버스 결과에서 같은 던전을 본부로 돌았을 때와 자동으로 비교되기 때문에 따로 둘 이유가 없어서 내렸고,
+      파밍 비교도 버스 기사·부캐 버스 두 가지로 정리했습니다. 기사 조회 탭도 생각보다 쓰임이 적어서 내렸습니다.
+      예전 주소(/main/, /driver-lookup/)로 들어오면 메인으로 연결됩니다.
+    </p>
+    <p>
+      제작 이득 계산기와 영혼 각인 시뮬레이터도 만들어봤다가, 실제로 자주 쓰지 않을 것 같아 다시 내렸습니다.
+      대신 버스 기사·부캐 버스의 던전 목록을 던전별 한 줄로 줄이고 최신 던전순으로 정렬해서,
+      소비 오드만 고르면 한 판 키나가 자동으로 정해지게 했습니다.
+    </p>
+  </article>
+
+  <article class="entry">
+    <span class="entry-date">2026-09-25</span>
+    <h2>강화·돌파·마석 시뮬레이터를 추가했습니다</h2>
+    <p>
+      NC 공식 확률정보를 기준으로 장비 강화, 돌파 강화, 마석·영석 뽑기를 계산하는
+      <a href="/enhance/">강화 시뮬레이터</a>를 만들었습니다. 아이온2는 강화에 실패해도 단계가 내려가거나 파괴되지 않고,
+      실패할 때마다 보정 확률이 더해지는 구조라 그대로 반영했습니다.
+    </p>
+    <p>
+      강화석은 거래가 안 되니 시세 입력을 빼고 개수로만 보여주고, 단계별로 한 번 누를 때 드는 키나와 재료도 표시했습니다.
+      이 무렵 숫자 입력칸의 위아래 화살표를 없애고, 큰 숫자에는 천 단위 콤마가 자동으로 붙게 했습니다.
+    </p>
+  </article>
+
+  <article class="entry">
+    <span class="entry-date">2026-09-24</span>
+    <h2>펫작 시뮬레이터를 만들었습니다</h2>
+    <p>
+      종족 이해도 LV10 분석을 그대로 굴려보는 <a href="/pet/">펫작 시뮬레이터</a>를 추가했습니다.
+      처음에는 슬롯마다 목표 하나만 정하는 방식이었는데, 실제로는 인게임 자동 분석처럼 여러 옵션을 걸어두고
+      그중 하나가 뜨면 잠그는 식으로 쓴다는 이야기를 듣고 옵션별 최소 등급·최소 수치를 여러 개 고르는 방식으로 바꿨습니다.
+      등급 확률과 슬롯별 옵션·수치는 NC 공식 확률정보와 전부 대조했습니다.
+    </p>
+  </article>
+
+  <article class="entry">
+    <span class="entry-date">2026-09-22</span>
+    <h2>아르카나 계산기를 추가했습니다</h2>
+    <p>
+      직업별로 보유한 아르카나 카드를 등록하고 장비 스킬과 합쳐 스킬 레벨을 계산하는
+      <a href="/arcana/">아르카나 계산기</a>를 만들었습니다. 카드 종류마다 고를 수 있는 스킬이 정해져 있고
+      카드당 스킬 레벨 합 9(스킬당 최대 4)라는 실제 제한도 그대로 넣었습니다.
+      목표 레벨을 정하면 부족한 스킬과 그걸 채울 수 있는 카드 종류를 함께 보여줍니다.
+    </p>
+  </article>
+
+  <article class="entry">
+    <span class="entry-date">2026-09-21</span>
+    <h2>성역 파티 배치를 성역별로 나누고 상단 메뉴를 정리했습니다</h2>
+    <p>
+      성역 파티 배치는 성역마다 인원 명단을 따로 저장할 수 있게 나눴고,
+      명단을 채우는 동안 탱커·치유 같은 필수 역할이 빠졌는지 바로 보이게 했습니다.
+    </p>
+    <p>
+      상단 메뉴가 길어져서 던전·파밍 비교 탭은 메뉴에서 숨기고,
+      <a href="/dungeon/">/dungeon/</a>과 <a href="/compare/">/compare/</a> 페이지에서 바로 열 수 있게 했습니다.
+    </p>
+  </article>
+
+  <article class="entry">
     <span class="entry-date">2026-09-14</span>
     <h2>성역 신규 던전 "비탄의 설원" 추가, 오드 효율 순위 다시 계산했습니다</h2>
     <p>
@@ -277,9 +385,43 @@
     </p>
   </article>
 
-  <footer>
-    BUSON2 · 아이온2 던전·버스·파밍·스펙 효율 계산
-  </footer>
+  <footer class="bo-foot">
+  <style>
+    footer.bo-foot{max-width:1100px;margin:48px auto 0;padding:24px 16px 36px;border-top:1px solid #1d2633;color:#8a9ab0;font-size:13px;line-height:1.7;text-align:left}
+    footer.bo-foot .bo-foot-title{margin:0 0 6px;color:#c9d6ea;font-size:13px;font-weight:800}
+    footer.bo-foot nav{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 14px}
+    footer.bo-foot a{color:#91a7ff;text-decoration:none}
+    footer.bo-foot a:hover{text-decoration:underline}
+    footer.bo-foot p{margin:0;color:#718096;font-size:12px}
+  </style>
+  <div class="bo-foot-title">BUSON2 계산기</div>
+  <nav aria-label="계산기">
+    <a href="/">메인</a>
+    <a href="/character/">캐릭터 검색·비교</a>
+    <a href="/spec/">스펙 계산기</a>
+    <a href="/driver/">버스 기사</a>
+    <a href="/sub/">부캐 버스</a>
+    <a href="/dungeon/">던전 파밍 DB</a>
+    <a href="/compare/">파밍 비교</a>
+    <a href="/#party">성역 파티 배치</a>
+    <a href="/arcana/">아르카나</a>
+    <a href="/pet/">펫작 시뮬</a>
+    <a href="/enhance/">강화·마석</a>
+  </nav>
+  <div class="bo-foot-title">가이드 · 안내</div>
+  <nav aria-label="가이드와 안내">
+    <a href="/guide/bus-profit/">버스 수익 가이드</a>
+    <a href="/guide/od-efficiency/">오드 효율 가이드</a>
+    <a href="/guide/spec-efficiency/">스펙 효율 가이드</a>
+    <a href="/guide/dungeon-efficiency/">던전 효율 가이드</a>
+    <a href="/guide/sub-bus-vs-hq/">부캐 버스 vs 본부</a>
+    <a href="/about/">소개</a>
+    <a href="/notes/">운영일지</a>
+    <a href="/contact/">문의</a>
+    <a href="/privacy/">개인정보처리방침</a>
+  </nav>
+  <p>© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구이며 NCSOFT·아이온2 공식 서비스와 무관합니다. 계산 결과는 참고용입니다.</p>
+</footer>
 
 </main>
 

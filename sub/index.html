@@ -10,1098 +10,604 @@
 
   gtag('config', 'G-D4LT1W5QL2');
 </script>
-<meta charset="utf-8">
+  <meta charset="utf-8">
 <link rel="icon" type="image/png" sizes="32x32" href="https://buson2.com/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://buson2.com/assets/favicon-16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://buson2.com/assets/apple-touch-icon.png">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>아이온2 부캐 버스 계산기 | 키나·오드 효율</title>
-<meta name="description" content="아이온2 부캐 버스의 키나 수익과 소비 오드를 계산해 시간당 효율을 비교하세요.">
+<meta name="description" content="아이온2 부캐 버스 계산기로 던전·소비 오드·버스비·판수를 입력해 한 판 순수익과 오드 1당·시간당 순수익을 계산하고, 같은 던전을 본부로 돌았을 때와 비교하세요.">
 
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://buson2.com/sub/">
+  <meta name="robots" content="index, follow">
 
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://buson2.com/sub/">
-<meta property="og:title" content="아이온2 부캐 버스 계산기 | 키나 수익·오드 효율 계산 - BUSON2">
-<meta property="og:description" content="아이온2 부캐 버스 계산기로 판당 획득 키나, 소비 오드, 소요시간을 입력해 순수익과 시간당 수익, 오드 효율을 간편하게 계산하고 비교해보세요.">
-<meta property="og:image" content="https://buson2.com/assets/og-image.png">
+  <link rel="canonical" href="https://buson2.com/sub/">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="아이온2 부캐 버스 계산기 | 키나 수익·오드 효율 계산 - BUSON2">
-<meta name="twitter:description" content="아이온2 부캐 버스 계산기로 판당 획득 키나, 소비 오드, 소요시간을 입력해 순수익과 시간당 수익, 오드 효율을 간편하게 계산하고 비교해보세요.">
-<meta name="twitter:image" content="https://buson2.com/assets/og-image.png">
+  <meta property="og:type" content="website">
+   <meta property="og:site_name" content="버스온2">
+  <meta property="og:url" content="https://buson2.com/sub/">
+  <meta property="og:title" content="아이온2 부캐 버스 계산기 | 키나 수익·오드 효율 계산 - 버스온2">
+  <meta property="og:description" content="부캐 버스의 버스비를 뺀 한 판 순수익, 오드 1당·시간당 순수익, 보유 오드 기준 예상 수익을 계산하고 같은 던전을 본부로 돌았을 때와 비교합니다.">
+  <meta property="og:image" content="https://buson2.com/assets/og-image.png">
 
-<script type="application/ld+json">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://buson2.com/assets/og-image.png">
+
+  <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
+  "@type": "WebPage",
   "name": "아이온2 부캐 버스 계산기",
-  "alternateName": "BUSON2 부캐 버스 계산기",
   "url": "https://buson2.com/sub/",
-  "description": "아이온2 부캐 버스 계산기로 판당 획득 키나, 소비 오드, 소요시간을 입력해 순수익과 시간당 수익, 오드 효율을 계산하고 비교할 수 있습니다.",
-  "applicationCategory": "GameApplication",
-  "operatingSystem": "Web",
+  "description": "부캐 버스의 버스비를 뺀 한 판 순수익, 오드 1당·시간당 순수익, 보유 오드 기준 예상 수익을 계산하고 같은 던전을 본부로 돌았을 때와 비교합니다.",
+  "inLanguage": "ko-KR",
   "isPartOf": {
     "@type": "WebSite",
-    "name": "BUSON2",
+    "name": "버스온2",
+    "alternateName": "BUSON2",
     "url": "https://buson2.com/"
   }
 }
 </script>
-<style>
-:root{--bg:#090b10;--panel:#111621;--line:#263043;--text:#eef4ff;--muted:#93a0b5;--green:#8df0bd;--gold:#ffd980}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#12192a,#090b10 43%);color:var(--text);font-family:Inter,system-ui,-apple-system,"Pretendard","Malgun Gothic",sans-serif}
-button,input,select{font:inherit}.wrap{max-width:1180px;margin:auto;padding:0 18px}
-header{position:sticky;top:0;z-index:10;background:rgba(9,11,16,.9);backdrop-filter:blur(14px);border-bottom:1px solid #1d2430}
-.top{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;align-items:center;gap:12px}
-.logo{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:900;overflow:hidden}
-.logo img{width:100%;height:100%;object-fit:cover}
-.brand b{font-size:21px}.brand small{display:block;color:var(--muted);margin-top:2px}
-nav{display:flex;gap:8px;flex-wrap:wrap}.tab{border:1px solid var(--line);background:#111621;color:#aab5c7;border-radius:10px;padding:9px 13px;cursor:pointer}.tab.active{color:#fff;background:#1d2940;border-color:#5574a7}
-main{padding:40px 0 70px}.hero{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}.hero h1{font-size:38px;line-height:1.15;margin:7px 0 10px}.hero p{margin:0;color:var(--muted);line-height:1.7}
-.eyebrow{color:var(--green);font-weight:800;letter-spacing:.08em;font-size:13px}.ver{padding:8px 11px;border-radius:999px;background:#112218;border:1px solid #315240;color:#9df4bd;font-size:12px;white-space:nowrap}
-.card{background:linear-gradient(180deg,#171e2b,#0f141d);border:1px solid var(--line);border-radius:18px;overflow:hidden}.head{padding:18px 20px;border-bottom:1px solid var(--line)}.head h2{margin:0;font-size:18px}.head p{margin:6px 0 0;color:var(--muted);font-size:13px}.body{padding:20px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}label{display:block;color:#cad4e3;font-size:13px;margin-bottom:7px}.iwrap{position:relative}
-input,select{width:100%;background:#0c1119;color:#fff;border:1px solid #2b3548;border-radius:11px;padding:12px 62px 12px 13px;outline:none}select{padding-right:12px}
-input:focus,select:focus{border-color:#5787d3;box-shadow:0 0 0 3px rgba(87,135,211,.12)}.unit{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:12px;color:#718096}
-.driver-config{margin-top:15px;padding:15px;border:1px dashed #3a4a63;border-radius:14px;background:#0b1018}.driver-config h3{margin:0 0 13px;font-size:15px}
-.driver-blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.driver-block{padding:12px;border:1px solid #283449;border-radius:12px;background:#101722}.driver-block b{display:block;margin-bottom:9px}
-.actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer}.primary{color:#fff;background:linear-gradient(135deg,#6fa4ff,#7d72ff)}.secondary{color:#d3def0;background:#151c28;border:1px solid #303a4d}.success{background:#163321;color:#9ef4bd;border:1px solid #315b40}
-.saved{margin-top:10px;min-height:18px;font-size:12px;color:var(--green)}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px}.metric{background:#0d131c;border:1px solid #293347;border-radius:14px;padding:15px}.metric .k{font-size:12px;color:var(--muted);margin-bottom:7px}.metric .v{font-size:22px;font-weight:900}.metric .s{font-size:12px;color:#8495ad;margin-top:5px}.green{color:var(--green)}.gold{color:var(--gold)}
-.note{margin-top:14px;padding:13px 14px;border:1px solid #283449;background:#0b1018;border-radius:12px;color:#96a5bb;font-size:12px;line-height:1.65}
-table{width:100%;border-collapse:collapse;margin-top:14px}th,td{padding:11px;border-bottom:1px solid #252e3e;text-align:left;font-size:13px}th{color:#8fa0b8}.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;background:#182943;color:#a9c8ff}
-.hidden{display:none!important}.coming{padding:48px;text-align:center;color:var(--muted)}.coming b{display:block;color:#fff;font-size:24px;margin-bottom:8px}footer{border-top:1px solid #1e2632;padding:24px 0 40px;color:#728097;font-size:12px}
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090b10;
+      --panel: #111621;
+      --line: #263043;
+      --text: #eef4ff;
+      --muted: #9cabc2;
+    }
 
+    * {
+      box-sizing: border-box;
+    }
 
-.subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.subtab{border:1px solid var(--line);background:#101722;color:#aab5c7;border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:800}
-.subtab.active{background:#1d2940;border-color:#5574a7;color:#fff}
-.news-panel.hidden{display:none!important}
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top, #12192a 0, #090b10 48%);
+      color: var(--text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        "Pretendard",
+        "Malgun Gothic",
+        sans-serif;
+    }
 
-.news-tools{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-.news-source{color:#8fa0b8;font-size:12px}
-.news-source a{color:#a9c8ff;text-decoration:none}
-.news-source a:hover{text-decoration:underline}
-.news-list{display:grid;gap:10px}
-.news-item{display:block;padding:15px 16px;border:1px solid #293347;background:#0d131c;border-radius:13px;text-decoration:none;color:inherit;transition:.15s}
-.news-item:hover{transform:translateY(-1px);border-color:#4a638a;background:#111a28}
-.news-title{font-weight:800;line-height:1.45}
-.news-meta{display:flex;gap:10px;align-items:center;margin-top:7px;color:#8798b0;font-size:12px}
-.news-empty{padding:38px 16px;text-align:center;color:#8fa0b8}
-.news-updated{font-size:12px;color:#718096}
+    .wrap {
+      max-width: 1000px;
+      margin: auto;
+      padding: 56px 20px;
+    }
 
+    .brand {
+      font-weight: 900;
+      letter-spacing: .04em;
+      color: #91a7ff;
+    }
 
-.dungeon-toolbar{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:10px;margin-bottom:16px}
-.dungeon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.dungeon-card{border:1px solid #293347;background:#0d131c;border-radius:14px;padding:16px}
-.dungeon-card h3{margin:0 0 7px;font-size:17px}
-.dungeon-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.dungeon-tag{font-size:11px;padding:4px 8px;border-radius:999px;background:#182943;color:#a9c8ff}
-.dungeon-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.dungeon-stat{padding:10px;border:1px solid #263043;border-radius:10px;background:#0b1018}
-.dungeon-stat .k{font-size:11px;color:#7f8ea5;margin-bottom:4px}
-.dungeon-stat .v{font-weight:800}
-.dungeon-rank{margin-top:14px;padding:11px;border-radius:10px;background:#101722;border:1px solid #2d3b52;color:#a8b7cc;font-size:12px}
-.dungeon-empty{grid-column:1/-1;padding:36px;text-align:center;color:#8fa0b8}
+    .hero {
+      padding: 48px 0 30px;
+    }
 
-.dungeon-extra{margin-top:10px;padding-top:10px;border-top:1px solid #243044}
-.dungeon-extra label{margin-top:8px}
-.dungeon-extra input{padding-right:12px}
-.source-badge{display:inline-block;margin-left:6px;padding:3px 7px;border-radius:999px;font-size:10px;background:#173225;color:#9ef4bd}
-.source-badge.user{background:#30281a;color:#ffd98a}
+    h1 {
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.18;
+      margin: 12px 0 18px;
+    }
 
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
 
-.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.spec-result-list{display:grid;gap:10px}
-.spec-result{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:14px;border:1px solid #293347;background:#0d131c;border-radius:12px}
-.spec-result .name{font-weight:800}
-.spec-result .req{font-size:12px;color:#8798b0;margin-top:4px}
-.spec-ok{color:#8ff0b0;font-weight:900}
-.spec-warn{color:#ffd98a;font-weight:900}
-.spec-bad{color:#ff9a9a;font-weight:900}
-.spec-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.spec-summary .box{padding:13px;border:1px solid #293347;border-radius:12px;background:#0d131c}
-.spec-summary .k{font-size:11px;color:#8798b0;margin-bottom:5px}
-.spec-summary .v{font-size:18px;font-weight:900}
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
 
-.subhead{margin:18px 0 10px;padding-top:10px;border-top:1px dashed #2a3549;font-weight:900;color:#f6b94f}
-.subhead:first-child{margin-top:0;padding-top:0;border-top:0}
-.muted{color:#7e8ea7;font-size:11px;font-weight:500}
-.pill-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
-.pill-row .pill{padding:7px 10px;border:1px solid #2b3548;background:#101722;border-radius:999px;font-size:12px;color:#b9c6d9}
-.eff-list{display:grid;gap:9px}
-.eff-row{display:grid;grid-template-columns:150px 1fr 86px;gap:12px;align-items:center}
-.eff-label{font-weight:800;text-align:right}
-.eff-track{height:28px;border-radius:8px;background:#0c111a;overflow:hidden;border:1px solid #202a3a}
-.eff-fill{height:100%;min-width:2px;border-radius:7px;background:linear-gradient(90deg,#7e5ca8,#e24968)}
-.eff-value{font-weight:900}
-.sim-result{margin-top:16px;border:1px solid #e84465;border-radius:14px;padding:18px;text-align:center;background:#121621}
-.sim-result .k{font-size:13px;color:#c3cee0}
-.sim-result .big{font-size:32px;font-weight:1000;color:#ff496e;margin-top:6px}
-.sim-result .s{font-size:12px;color:#8798b0;margin-top:6px}
+    .btn {
+      display: inline-block;
+      padding: 14px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      border: 1px solid var(--line);
+    }
 
-.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
-.mode-box{padding:15px;border:1px solid #2a3448;border-radius:12px;background:#0d131c}
-.mode-box.accent{border-color:#5c4b86;background:#121526}
-.mode-title{font-size:12px;color:#aab7ca;font-weight:800}
-.mode-big{font-size:23px;font-weight:1000;margin:7px 0;color:#f1bd55}
-.mode-desc{font-size:11px;color:#7f8fa8}
-.rank-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 12px}
-.rank-tab{border:1px solid #2b3548;background:#101722;color:#aab5c7;border-radius:9px;padding:8px 12px;font-weight:800;cursor:pointer}
-.rank-tab.active{background:#263651;color:#fff;border-color:#5b77a7}
-.ab-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.ab-box,.ab-result{padding:15px;border:1px solid #2a3448;border-radius:12px;background:#0d131c}
-.ab-box button{margin-top:10px}
-.ab-status{font-size:12px;color:#8392a8;margin-top:6px;min-height:18px}
-.ab-result{text-align:center}
-.ab-result .k{font-size:12px;color:#8797ad}
-.ab-result .big{font-size:28px;font-weight:1000;color:#ff5977;margin-top:6px}
-.ab-result .s{font-size:11px;color:#7d8da5}
+    .primary {
+      background: linear-gradient(135deg, #6f8cff, #7d72ff);
+      color: white;
+    }
 
-.spec-action-buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.spec-action-buttons button{
-  min-height:46px;
-  padding:0 18px;
-  border-radius:11px;
-  font-size:15px;
-  font-weight:900;
-}
-.spec-action-buttons #sp_calc{
-  background:linear-gradient(135deg,#6f8cff,#7a6bff);
-  border-color:transparent;
-  color:#fff;
-}
-.spec-action-buttons #sp_save{
-  background:#121a27;
-  border:1px solid #33415a;
-  color:#f1f5ff;
-}
-.spec-action-buttons #sp_load{
-  background:#12331f;
-  border:1px solid #285f3d;
-  color:#92f2ad;
-}
-.spec-action-buttons button:hover{transform:translateY(-1px);filter:brightness(1.05)}
+    .secondary {
+      background: #111621;
+      color: #dce6f8;
+    }
 
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 38px;
+    }
 
-.ab-save-btn{
-  min-height:42px;
-  padding:0 16px;
-  border-radius:10px;
-  border:1px solid #33415a;
-  background:#121a27;
-  color:#f1f5ff;
-  font-size:14px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.15s ease;
-}
-.ab-save-btn:hover{
-  transform:translateY(-1px);
-  filter:brightness(1.08);
-  border-color:#52627f;
-}
+    .card,
+    .info {
+      background: #111621;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+    }
 
-@media(max-width:860px){.mode-grid,.ab-grid{grid-template-columns:1fr}}
+    .card h2 {
+      font-size: 18px;
+      margin: 0 0 9px;
+    }
 
-@media(max-width:860px){.eff-row{grid-template-columns:1fr}.eff-label{text-align:left}}
+    .card p,
+    .info p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
 
-@media(max-width:860px){.spec-grid,.spec-summary{grid-template-columns:1fr}}
+    .info {
+      margin-top: 38px;
+    }
 
-@media(max-width:860px){.dungeon-toolbar,.dungeon-grid{grid-template-columns:1fr}}
+    .info h2 {
+      margin-top: 0;
+    }
 
-@media(max-width:860px){.grid2,.fields{grid-template-columns:1fr}.driver-blocks{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.top{padding:14px 0;align-items:flex-start;flex-direction:column}nav{width:100%;overflow:auto;flex-wrap:nowrap}.tab{white-space:nowrap}.hero h1{font-size:31px}}
-/* PC 레이아웃 복구 */
-main.wrap{
-  display:block !important;
-}
+    table.od-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 13px;
+    }
 
-.hero{
-  display:block !important;
-  width:100% !important;
-  max-width:none !important;
-  margin:0 0 20px 0 !important;
-}
+    table.od-table th,
+    table.od-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      color: var(--muted);
+    }
 
-#page-noticehub,
-#page-dungeon,
-#page-spec,
-#page-driver,
-#page-sub,
-#page-main,
-#page-compare{
-  width:100% !important;
-  max-width:none !important;
-}
+    table.od-table th {
+      color: #dce6f8;
+      font-weight: 800;
+    }
 
-.card{
-  box-sizing:border-box;
-}
-  /* ===== BUSON2 부캐 버스 가이드 디자인 ===== */
+    table.od-table td.num {
+      color: #8df0bd;
+      font-weight: 700;
+      text-align: right;
+    }
 
-.sub-guide{
+    footer {
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .wrap {
+        padding: 34px 16px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      table.od-table {
+        font-size: 12px;
+      }
+    }
+     /* ===== BUSON2 DRIVER GUIDE ===== */
+
+.spec-guide{
   margin-top:28px;
-  padding:24px;
-  border:1px solid #304563;
-  border-radius:16px;
-  background:linear-gradient(135deg,#142239 0%,#101a2a 100%);
+  padding:26px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top right,rgba(59,130,246,.10),transparent 35%),
+    linear-gradient(180deg,#111c2e,#0e1726);
 }
 
-.sub-guide-head{
-  margin-bottom:20px;
+.spec-guide-head{
+  margin-bottom:24px;
 }
 
-.sub-guide-badge{
+.spec-guide-badge{
   display:inline-block;
-  margin-bottom:9px;
-  padding:5px 9px;
-  border:1px solid #3478d4;
+  padding:5px 10px;
+  margin-bottom:12px;
+  border:1px solid #3577d4;
   border-radius:999px;
-  background:#10284b;
-  color:#58a6ff;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.4px;
+  color:#60a5fa;
+  background:#0b1a2f;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
 }
 
-.sub-guide-head h2{
-  margin:0 0 8px;
-  color:#f4f8ff;
-  font-size:21px;
+.spec-guide-head h2{
+  margin:0 0 10px;
+  color:#f8fafc;
+  font-size:24px;
   line-height:1.35;
 }
 
-.sub-guide-head p{
+.spec-guide-head p{
   margin:0;
-  color:#9fb6ce;
+  max-width:900px;
+  color:#9fb0c8;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.spec-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.spec-guide-card{
+  min-height:250px;
+  padding:22px 18px;
+  border:1px solid #293b55;
+  border-radius:14px;
+  background:linear-gradient(180deg,#142033,#0e1725);
+  transition:transform .18s ease,border-color .18s ease;
+}
+
+.spec-guide-card:hover{
+  transform:translateY(-3px);
+  border-color:#3b82f6;
+}
+
+.spec-guide-icon{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:18px;
+  border-radius:13px;
+  color:white;
+  font-size:23px;
+  font-weight:900;
+}
+
+.spec-guide-card.purple .spec-guide-icon{
+  background:linear-gradient(135deg,#7c3aed,#6366f1);
+  box-shadow:0 0 22px rgba(124,58,237,.35);
+}
+
+.spec-guide-card.green .spec-guide-icon{
+  background:linear-gradient(135deg,#059669,#22c55e);
+  box-shadow:0 0 22px rgba(34,197,94,.30);
+}
+
+.spec-guide-card.orange .spec-guide-icon{
+  background:linear-gradient(135deg,#d97706,#f59e0b);
+  box-shadow:0 0 22px rgba(245,158,11,.30);
+}
+
+.spec-guide-card.blue .spec-guide-icon{
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  box-shadow:0 0 22px rgba(59,130,246,.30);
+}
+
+.spec-guide-card h3{
+  margin:0 0 12px;
+  color:#f8fafc;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.spec-guide-card p{
+  margin:0;
+  color:#9fb0c8;
   font-size:13px;
   line-height:1.75;
 }
 
-.sub-guide-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
+
+/* FAQ */
+
+.spec-faq{
   margin-top:18px;
+  padding:24px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top left,rgba(59,130,246,.08),transparent 30%),
+    #111c2e;
 }
 
-.sub-guide-card{
-  min-width:0;
-  padding:15px;
-  border:1px solid #314762;
-  border-radius:12px;
-  background:#101b2c;
-  transition:.18s ease;
-}
-
-.sub-guide-card:hover{
-  transform:translateY(-3px);
-  border-color:#4d6d93;
-  background:#132238;
-}
-
-.sub-guide-icon{
+.spec-faq-title{
   display:flex;
   align-items:center;
-  justify-content:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.spec-faq-title > span{
   width:38px;
   height:38px;
-  margin-bottom:12px;
-  border-radius:10px;
-  color:#fff;
-  font-size:18px;
-  font-weight:900;
-  box-shadow:0 0 18px rgba(55,130,255,.25);
-}
-
-.sub-guide-card.purple .sub-guide-icon{
-  background:linear-gradient(135deg,#725cff,#5546df);
-}
-
-.sub-guide-card.green .sub-guide-icon{
-  background:linear-gradient(135deg,#20c77a,#11a967);
-}
-
-.sub-guide-card.orange .sub-guide-icon{
-  background:linear-gradient(135deg,#ffa600,#e88600);
-}
-
-.sub-guide-card.blue .sub-guide-icon{
-  background:linear-gradient(135deg,#4098ff,#2876dc);
-}
-
-.sub-guide-card h3{
-  margin:0 0 8px;
-  color:#f3f7ff;
-  font-size:14px;
-  line-height:1.4;
-}
-
-.sub-guide-card p{
-  margin:0;
-  color:#9eb4ca;
-  font-size:12px;
-  line-height:1.7;
-}
-
-
-/* ===== 사용 방법 ===== */
-
-.sub-steps{
-  margin-top:14px;
-  padding:18px 20px;
-  border:1px solid #304563;
-  border-radius:14px;
-  background:#142136;
-}
-
-.sub-steps-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.sub-steps-icon{
   display:flex;
   align-items:center;
   justify-content:center;
-  flex:0 0 34px;
-  width:34px;
-  height:34px;
-  border-radius:9px;
-  background:#2f88f5;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
   color:#fff;
+  font-size:20px;
   font-weight:900;
 }
 
-.sub-steps-title h2{
-  margin:0 0 3px;
-  color:#f5f8ff;
-  font-size:16px;
-}
-
-.sub-steps-title p{
-  margin:0;
-  color:#8fa9c5;
-  font-size:11px;
-}
-
-.sub-step-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.sub-step-grid div{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:10px 12px;
-  border:1px solid #304563;
-  border-radius:8px;
-  background:#101b2c;
-  color:#dbe9f8;
-  font-size:11px;
-  font-weight:700;
-}
-
-.sub-step-grid b{
-  color:#4d9cff;
-  font-size:11px;
-}
-
-
-/* ===== FAQ ===== */
-
-.sub-faq{
-  margin-top:14px;
-  padding:20px;
-  border:1px solid #304563;
-  border-radius:14px;
-  background:#142136;
-}
-
-.sub-faq-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-.sub-faq-icon{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex:0 0 34px;
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:#2f88f5;
-  color:#fff;
-  font-size:16px;
-  font-weight:900;
-}
-
-.sub-faq-title small{
+.spec-faq-title small{
   display:block;
   margin-bottom:2px;
-  color:#6daeff;
-  font-size:9px;
-  font-weight:900;
+  color:#60a5fa;
+  font-size:10px;
+  font-weight:800;
 }
 
-.sub-faq-title h2{
+.spec-faq-title h2{
   margin:0;
-  color:#f5f8ff;
-  font-size:18px;
+  color:#f8fafc;
+  font-size:20px;
 }
 
-.sub-faq details{
-  margin-top:7px;
+.spec-faq details{
+  margin-top:9px;
   overflow:hidden;
-  border:1px solid #304563;
-  border-radius:9px;
-  background:#101b2c;
+  border:1px solid #293d5a;
+  border-radius:12px;
+  background:#0c1624;
 }
 
-.sub-faq summary{
+.spec-faq summary{
+  min-height:54px;
   display:flex;
   align-items:center;
-  gap:9px;
-  padding:11px 12px;
-  color:#edf5ff;
-  font-size:12px;
-  font-weight:800;
+  gap:10px;
+  padding:0 16px;
+  color:#f1f5f9;
+  font-size:13px;
+  font-weight:700;
   cursor:pointer;
   list-style:none;
 }
 
-.sub-faq summary::-webkit-details-marker{
+.spec-faq summary::-webkit-details-marker{
   display:none;
 }
 
-.sub-faq summary::after{
-  content:"⌄";
+.spec-faq summary b{
   margin-left:auto;
-  color:#58a6ff;
-  font-size:15px;
-  transition:.2s;
+  color:#60a5fa;
+  transition:transform .2s ease;
 }
 
-.sub-faq details[open] summary::after{
+.spec-faq details[open] summary b{
   transform:rotate(180deg);
 }
 
-.sub-q{
+.faq-number{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
   display:flex;
   align-items:center;
   justify-content:center;
-  flex:0 0 27px;
-  width:27px;
-  height:27px;
   border-radius:50%;
-  background:#287de7;
+  background:#2563eb;
   color:#fff;
-  font-size:9px;
+  font-size:10px;
   font-weight:900;
 }
 
-.sub-answer{
-  padding:0 15px 14px 48px;
-  color:#9fb5cc;
-  font-size:12px;
-  line-height:1.7;
+.faq-answer{
+  padding:0 56px 17px;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
 }
 
 
-/* ===== 모바일 ===== */
+/* 모바일 */
 
-@media(max-width:860px){
+@media(max-width:850px){
 
-  .sub-guide{
-    padding:18px 14px;
+  .spec-guide-grid{
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .sub-guide-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .sub-step-grid{
-    grid-template-columns:1fr;
-  }
 }
 
 @media(max-width:600px){
 
-  .sub-guide-grid{
+  .spec-guide{
+    padding:18px 14px;
+    border-radius:14px;
+  }
+
+  .spec-guide-head h2{
+    font-size:20px;
+  }
+
+  .spec-guide-grid{
     grid-template-columns:1fr;
   }
 
-  .sub-guide-head h2{
-    font-size:18px;
+  .spec-guide-card{
+    min-height:auto;
   }
 
-  .sub-faq{
-    padding:16px 12px;
+  .spec-faq{
+    padding:18px 14px;
   }
 
-  .sub-answer{
-    padding:0 12px 13px;
+  .spec-faq-title h2{
+    font-size:17px;
   }
+
+  .faq-answer{
+    padding:0 16px 16px;
+  }
+
 }
-</style>
-  
+  </style>
 </head>
+
 <body>
-<header><div class="wrap top">
-<div class="brand"><div class="logo"><img src="https://buson2.com/assets/icon-192.png" alt="BUS ON2" width="40" height="40" loading="eager"></div><div><b>BUSON2</b><small>버스온2 · 아이온2 효율 연구소</small></div></div>
-<nav>
-<button class="tab" data-page="noticehub">공지</button>
-<button class="tab" data-page="dungeon">던전</button>
-<button class="tab" data-page="spec">스펙 계산기</button>
-<button class="tab" data-page="driver">버스 기사</button>
-<button class="tab active" data-page="sub">부캐 버스</button>
-<button class="tab" data-page="main">본부</button>
-<button class="tab" data-page="compare">파밍 비교</button>
-</nav>
-</div></header>
 
 <main class="wrap">
-<section class="hero"><div><div class="eyebrow">BUSON2.COM</div><h1>버스온2(BUSON2) - 아이온2 계산기 · 스펙 계산 · 버스 수익 · 던전 오드 효율</h1><p>버스온2(BUSON2)에서 아이온2 스펙 계산기, 버스 기사·부캐 버스·본부 수익 계산, 던전 키나와 오드 효율을 한곳에서 비교하세요.</p></div></section>
-<section id="page-noticehub" class="hidden">
-  <div class="card">
-    <div class="head">
-      <h2>📣 아이온2 공식 소식</h2>
-      <p>공지, 업데이트, CM아지트를 한 곳에서 확인하세요.</p>
-    </div>
-    <div class="body">
-      <div class="subtabs">
-        <button class="subtab active" data-news-key="notice">공지</button>
-        <button class="subtab" data-news-key="update">업데이트</button>
-        <button class="subtab" data-news-key="cm">CM아지트</button>
-      </div>
 
-      <div class="news-panel" id="panel-notice">
-        <div class="news-tools">
-          <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/notice/list" target="_blank" rel="noopener">AION2 공식 공지</a></div>
-          <div class="news-updated" id="updated-notice">불러오는 중...</div>
-        </div>
-        <div class="news-list" id="news-notice"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
-      </div>
-
-      <div class="news-panel hidden" id="panel-update">
-        <div class="news-tools">
-          <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/update/list" target="_blank" rel="noopener">AION2 공식 업데이트</a></div>
-          <div class="news-updated" id="updated-update">불러오는 중...</div>
-        </div>
-        <div class="news-list" id="news-update"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
-      </div>
-
-      <div class="news-panel hidden" id="panel-cm">
-        <div class="news-tools">
-          <div class="news-source">출처: <a href="https://aion2.plaync.com/ko-kr/board/cm_story/list" target="_blank" rel="noopener">AION2 공식 CM아지트</a></div>
-          <div class="news-updated" id="updated-cm">불러오는 중...</div>
-        </div>
-        <div class="news-list" id="news-cm"><div class="news-empty">게시물을 불러오는 중입니다.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section id="page-dungeon" class="hidden">
-  <div class="card">
-    <div class="head">
-      <h2>🗺️ 던전 · 파밍 DB</h2>
-      <p>던전별 오드, 기본 키나, 시간당 수익과 오드 효율을 한눈에 비교하세요.</p>
-    </div>
-    <div class="body">
-      <div class="dungeon-toolbar">
-        <select id="dg_filter">
-          <option value="all">전체 던전</option>
-          <option value="타데바">타데바</option>
-          <option value="푸섬">푸섬</option>
-          <option value="환영">환영</option>
-          <option value="연심">연심</option>
-          <option value="암굴">암굴</option>
-        </select>
-        <select id="dg_sort">
-          <option value="kina">한 판 키나순</option>
-          <option value="ode">오드 효율순</option>
-          <option value="hour">시간당 수익순</option>
-        </select>
-        <div class="iwrap"><input id="dg_minutes" value="7"><span class="unit">분/판</span></div>
-      </div>
-      <div class="note">공식 업데이트에서 확인된 정보는 '공식 확인'으로 표시하고, 나머지는 현재 BUSON2 설정값으로 표시합니다. 평균 클리어 시간과 추가 보상 메모는 직접 입력해 저장할 수 있습니다.</div>
-      <div class="dungeon-grid" id="dungeonGrid"></div>
-    </div>
-  </div>
-</section>
-
-
-
-<section id="page-spec" class="hidden">
-  <div class="spec-grid">
-    <div class="card">
-      <div class="head">
-        <h2>⚔️ 내 스탯 입력</h2>
-        <p>현재 스탯을 기준으로 각 옵션을 올렸을 때의 예상 실딜 상승률을 비교합니다.</p>
-      </div>
-      <div class="body">
-        <div class="subhead">공격력</div>
-        <div class="fields">
-          <div><label>공격력 (스탯창, 장비 착용)</label><input id="sp_attack_on" value="0"></div>
-          <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" value="0"></div>
-          <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" value="0"></div>
-          <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" value="0"></div>
-          <div><label>장비 돌파 부위 수 <span class="muted">부위당 +5%</span></label><input id="sp_break" value="0"></div>
-          <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" value="0"></div>
-          <div><label>주무기 최대 공격력 <span class="muted">예: 641 ~ 709(+350) → 709</span></label><input id="sp_weapon_max" value="0"></div>
-        </div>
-        <div class="muted" style="margin-top:6px">완벽은 주무기 최소~최대 공격력으로 계산합니다. 괄호 안 (+350) 같은 강화 수치는 스탯창 공격력에 이미 들어 있으니 입력하지 않습니다.</div>
-
-        <div class="subhead">증폭 스탯</div>
-        <div class="fields">
-          <div><label>피해 증폭 %</label><input id="sp_dmg" value="0"></div>
-          <div><label>무기 피해 증폭 %</label><input id="sp_weapon" value="0"></div>
-          <div><label>치명타 피해 증폭 %</label><input id="sp_critdmg" value="0"></div>
-          <div><label>전방/후방 피해 증폭 %</label><input id="sp_fb" value="0"></div>
-          <div><label>강타 %</label><input id="sp_smash" value="0"></div>
-          <div><label>완벽 % <span class="muted">최대 공격력 기반 + 추가 피해 5%</span></label><input id="sp_perfect" value="0"></div>
-          <div><label>PVE 피해 증폭 %</label><input id="sp_pve" value="0"></div>
-          <div><label>보스 피해 증폭 %</label><input id="sp_boss" value="0"></div>
-        </div>
-
-        <div class="subhead">전투 환경 가정</div>
-        <div class="fields">
-          <div><label>치명타 적중률 % <span class="muted">최대 80%</span></label><input id="sp_crit_rate" value="80"></div>
-          <div><label>전/후방 공격 성공률 %</label><input id="sp_fb_rate" value="80"></div>
-          <div><label>보스 강타 저항 %</label><input id="sp_smash_resist" value="30"></div>
-          <div><label>힐러 버프 <span class="muted">스킬 Lv25 기준</span></label>
-            <select id="sp_party_healer">
-              <option value="none">없음</option>
-              <option value="hobeop">호법성 (불패의 진언 + 질풍의 권능)</option>
-              <option value="chiyu">치유성 (보호의 빛 + 대지의 축복)</option>
-            </select>
-            <div class="muted" id="sp_party_note" style="margin-top:4px"></div>
-          </div>
-          <div><label>수호성 버프</label>
-            <select id="sp_party_dmg">
-              <option value="0">없음</option>
-              <option value="33.75">격앙 Lv35(고결의 갑주) 피해 증폭 +33.75%</option>
-            </select>
-          </div>
-        </div>
-
-
-        <div class="subhead">상대 / 스킬 조건</div>
-        <div class="fields">
-          <div><label>대상 치명타 저항 %</label><input id="sp_target_crit_resist" value="0"></div>
-          <div><label>대상 피해 내성 %</label><input id="sp_target_dmg_resist" value="0"></div>
-          <div><label>대상 치명타 피해 내성 %</label><input id="sp_target_critdmg_resist" value="0"></div>
-          <div><label>대상 완벽 저항 % <span class="muted">실효 완벽 차감용</span></label><input id="sp_target_perfect_resist" value="0"></div>
-          <div><label>확정 치명 스킬 비중 %</label><input id="sp_guaranteed_crit_share" value="0"></div>
-        </div>
-
-        <div class="actions spec-action-buttons" style="margin-top:14px">
-          <button class="primary" id="sp_calc">계산하기</button>
-          <button id="sp_save">스펙 저장</button>
-          <button class="green" id="sp_load">스펙 불러오기</button>
-        </div>
-        <div class="saved" id="sp_saved"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="head">
-        <h2>📊 실전 효율 분석</h2>
-        <p>현재 스펙을 일반 스킬 / 확정 치명 스킬 / 실제 딜사이클 혼합 기준으로 나눠 비교합니다.</p>
-      </div>
-      <div class="body">
-        <div class="spec-summary">
-          <div class="box"><div class="k">기본 공격력</div><div class="v gold" id="sp_base_attack">0</div><div class="s" id="sp_base_mult">× 1.00</div></div>
-          <div class="box"><div class="k">장비 공격력</div><div class="v gold" id="sp_gear_attack">0</div><div class="s" id="sp_gear_mult">× 1.00</div></div>
-          <div class="box"><div class="k">실효 공격력</div><div class="v green" id="sp_effective_attack">0</div><div class="s">공격력 계열 비교값</div></div>
-        </div>
-
-        <div class="mode-grid">
-          <div class="mode-box">
-            <div class="mode-title">① 일반 스킬</div>
-            <div class="mode-big" id="sp_normal_score">0</div>
-            <div class="mode-desc">치명 저항 반영 · 치명 확률 최대 80%</div>
-          </div>
-          <div class="mode-box">
-            <div class="mode-title">② 확정 치명 스킬</div>
-            <div class="mode-big" id="sp_guaranteed_score">0</div>
-            <div class="mode-desc">치명 발생률 100% 고정</div>
-          </div>
-          <div class="mode-box accent">
-            <div class="mode-title">③ 내 딜사이클 혼합</div>
-            <div class="mode-big" id="sp_mixed_score">0</div>
-            <div class="mode-desc" id="sp_mixed_desc">확정 치명 비중 0%</div>
-          </div>
-        </div>
-
-        <div class="pill-row" id="sp_expectations"></div>
-
-        <div class="rank-tabs">
-          <button class="rank-tab active" data-rank-mode="mixed">내 딜사이클</button>
-          <button class="rank-tab" data-rank-mode="normal">일반 스킬</button>
-          <button class="rank-tab" data-rank-mode="guaranteed">확정 치명</button>
-        </div>
-        <div id="sp_rankings" class="eff-list"></div>
-
-        <div class="note" style="margin-top:14px">
-          표시값은 절대 데미지가 아니라 현재 세팅에서 어떤 옵션을 더 올렸을 때 상대적으로 효율이 높은지 비교하기 위한 지표입니다.
-        </div>
-      </div>
-    </div>
+  <div class="brand">
+    BUSON2 · 아이온2 효율 계산기
   </div>
 
-  <div class="card compare-card" style="margin-top:18px">
-    <div class="head">
-      <h2>🔁 스탯 A/B 비교</h2>
-      <p>현재 세팅을 A와 B에 저장해 두고 장비 교체 전후 효율을 빠르게 비교합니다.</p>
+  <section class="hero">
+
+    <h1>아이온2 부캐 버스 계산기</h1>
+
+    <p class="lead">
+      부캐로 버스를 탈 때 던전과 한 판 소비 오드를 고르면 기본 키나가 자동으로 정해집니다.
+      버스비와 판수, 보유 오드를 넣으면 한 판 순수익과 오드 1당·시간당 순수익을 계산하고,
+      같은 던전을 본부로 돌았을 때보다 이득인지 손해인지 바로 비교해줍니다.
+    </p>
+
+    <div class="actions">
+
+      <a class="btn primary" href="/#sub">
+        부캐 버스 계산기 사용하기
+      </a>
+
+      <a class="btn secondary" href="/">
+        BUSON2 메인으로
+      </a>
+
     </div>
-    <div class="body">
-      <div class="ab-grid">
-        <div class="ab-box">
-          <b>A 세팅</b>
-          <div id="sp_ab_a" class="ab-status">저장값 없음</div>
-          <button class="ab-save-btn" id="sp_save_a">현재값 A 저장</button>
-        </div>
-        <div class="ab-box">
-          <b>B 세팅</b>
-          <div id="sp_ab_b" class="ab-status">저장값 없음</div>
-          <button class="ab-save-btn" id="sp_save_b">현재값 B 저장</button>
-        </div>
-        <div class="ab-result">
-          <div class="k">B가 A보다</div>
-          <div class="big" id="sp_ab_gain">—</div>
-          <div class="s">내 딜사이클 혼합 기준</div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="card" style="margin-top:18px">
-    <div class="head">
-      <h2>🧪 옵션 시뮬레이터</h2>
-      <p>새 장비/마석 옵션을 넣었을 때 현재 스펙 대비 예상 실딜 상승률을 계산합니다.</p>
-    </div>
-    <div class="body">
-      <div class="fields">
-        <div><label>공격력 (마석·장비)</label><input id="sim_attack" value="0"></div>
-        <div><label>무기 피해 증폭 %</label><input id="sim_weapon" value="0"></div>
-        <div><label>피해 증폭 %</label><input id="sim_dmg" value="0"></div>
-        <div><label>치명타 피해 증폭 %</label><input id="sim_critdmg" value="0"></div>
-        <div><label>전방/후방 피해 증폭 %</label><input id="sim_fb" value="0"></div>
-        <div><label>강타 %</label><input id="sim_smash" value="0"></div>
-      </div>
-      <div class="sim-result">
-        <div class="k">이 옵션 조합의 예상 실딜 상승</div>
-        <div class="big" id="sim_gain">+0.00%</div>
-        <div class="s" id="sim_effective">실효 공격력 0 → 0</div>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="page-driver" class="hidden">
-<div class="grid2">
-<div class="card"><div class="head"><h2>🚌 버스 기사 설정</h2><p>던전을 선택하면 한 판 기본 키나와 소비 오드가 자동으로 함께 설정됩니다.</p></div><div class="body">
-<div class="fields">
-<div><label>한 판 기본 획득 키나</label><select id="d_income">
-<option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">타데바 보통 - 201만</option>
-<option value="1800000" data-ode="60">타데바 어려움 - 180만</option>
-<option value="3600000" data-ode="120">타데바 어려움 - 360만</option>
-<option value="810000" data-ode="40">푸섬, 환영 보통 - 81만</option>
-<option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
-<option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
-<option value="750000" data-ode="40">붉은 연심의 거울 1단 - 75만</option>
-<option value="1500000" data-ode="80">붉은 연심의 거울 1단 - 150만</option>
-<option value="855000" data-ode="40">붉은 연심의 거울 2단 - 85.5만</option>
-<option value="1710000" data-ode="80">붉은 연심의 거울 2단 - 171만</option>
-<option value="1005000" data-ode="40">붉은 연심의 거울 3단 - 100.5만</option>
-<option value="2010000" data-ode="80">붉은 연심의 거울 3단 - 201만</option>
-<option value="1200000" data-ode="40">붉은 연심의 거울 4단 - 120만</option>
-<option value="2400000" data-ode="80">붉은 연심의 거울 4단 - 240만</option>
-<option value="855000" data-ode="40">심연의 뿔 암굴 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">심연의 뿔 암굴 1단 - 171만</option>
-<option value="1005000" data-ode="40">심연의 뿔 암굴 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
-<option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
-<option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
-<option value="2100000" data-ode="40">심연의 뿔 암굴 4단 - 210만</option>
-<option value="4200000" data-ode="80">심연의 뿔 암굴 4단 - 420만</option>
-  <option value="1005000" data-ode="40">데우스 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">데우스 보통 - 201만</option>
-<option value="1800000" data-ode="60">데우스 어려움 - 180만</option>
-<option value="3600000" data-ode="120">데우스 어려움 - 360만</option>
+  </section>
 
-<option value="855000" data-ode="40">노이란 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">노이란 1단 - 171만</option>
-<option value="1005000" data-ode="40">노이란 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">노이란 2단 - 201만</option>
-<option value="1200000" data-ode="40">노이란 3단 - 120만</option>
-<option value="2400000" data-ode="80">노이란 3단 - 240만</option>
-<option value="2100000" data-ode="60">노이란 4단 - 210만</option>
-<option value="4200000" data-ode="120">노이란 4단 - 420만</option>
-</select></div>
-<div><label>한 판 소비 키나</label><div class="iwrap"><input id="d_cost" class="money" value="0"><span class="unit">키나</span></div></div>
-<div><label>한 판 소비 오드</label><select id="d_ode">
-<option value="0" selected>0 오드</option>
-<option value="40">40 오드</option>
-<option value="60">60 오드</option>
-<option value="80">80 오드</option>
-<option value="120">120 오드</option>
-</select></div>
-<div><label>한 판 소요시간</label><div class="iwrap"><input id="d_minutes" value="0"><span class="unit">분</span></div></div>
-<div><label>손님 1명당 버스비</label><div class="iwrap"><input id="d_fare" class="money" value="0"><span class="unit">키나</span></div></div>
-<div><label>손님 수</label><div class="iwrap"><input id="d_passengers" value="0"><span class="unit">명</span></div></div>
-<div><label>기사 수</label><select id="d_driverCount"><option value="1" selected>1명</option><option value="2">2명</option><option value="3">3명</option></select></div>
-<div><label>내 기사</label><select id="d_myDriver"></select></div>
-<div><label>계산할 총 판수</label><div class="iwrap"><input id="d_runs" value="0"><span class="unit">판</span></div></div>
-<div><label>보유 오드</label><div class="iwrap"><input id="d_ownedOde" value="0"><span class="unit">오드</span></div></div>
-</div>
 
-<div class="driver-config">
-<h3>🔁 기사별 수금 판수 설정</h3>
-<div id="driverBlocks" class="driver-blocks"></div>
-<div class="note" id="rotationNote"></div>
-</div>
+  <section class="grid">
 
-<div class="actions"><button class="btn primary" onclick="calcDriver()">계산하기</button><button class="btn secondary" onclick="saveTab('driver')">버스 기사 저장</button><button class="btn success" onclick="loadTab('driver')">버스 기사 불러오기</button></div>
-<div class="saved" id="msg_driver"></div>
-</div></div>
+    <article class="card">
+      <h2>던전·오드 자동 매칭</h2>
+      <p>
+        원정·초월·성역 던전을 최신 던전순으로 고르고 한 판 소비 오드를 선택하면
+        그 조건의 기본 획득 키나가 자동으로 들어갑니다.
+      </p>
+    </article>
 
-<div class="card"><div class="head"><h2>버스 기사 결과</h2><p>선택한 기사 기준으로 계산합니다.</p></div><div class="body">
-<div class="metrics">
-<div class="metric"><div class="k">평균 한 판 순수익</div><div class="v green" id="d_avg">-</div><div class="s" id="d_avg_short"></div></div>
-<div class="metric"><div class="k">설정 판수 총 순수익</div><div class="v" id="d_total">-</div><div class="s" id="d_total_short"></div></div>
-<div class="metric"><div class="k">오드 1당 순수익</div><div class="v" id="d_perOde">-</div><div class="s">평균 기준</div></div>
-<div class="metric"><div class="k">시간당 순수익</div><div class="v gold" id="d_hour">-</div><div class="s" id="d_hour_short"></div></div>
-<div class="metric"><div class="k">내가 수금하는 판수</div><div class="v" id="d_paidRuns">-</div><div class="s">설정 판수 내</div></div>
-<div class="metric"><div class="k">총 수금 버스비</div><div class="v" id="d_fareTotal">-</div><div class="s">선택 기사 기준</div></div>
-</div>
-<table><thead><tr><th>판</th><th>수금 기사</th><th>내 버스비 수금</th><th>내 순수익</th></tr></thead><tbody id="d_table"></tbody></table>
-</div></div>
-</div>
-</section>
 
-<section id="page-main" class="hidden">
-<div class="grid2">
-<div class="card"><div class="head"><h2>⚔️ 본부 설정</h2></div><div class="body"><div class="fields">
-<div><label>한 판 획득 기본 키나</label><select id="m_income">
-<option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">타데바 보통 - 201만</option>
-<option value="1800000" data-ode="60">타데바 어려움 - 180만</option>
-<option value="3600000" data-ode="120">타데바 어려움 - 360만</option>
-<option value="810000" data-ode="40">푸섬, 환영 보통 - 81만</option>
-<option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
-<option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+    <article class="card">
+      <h2>버스비 반영 순수익</h2>
+      <p>
+        총 버스비와 판수를 입력하면 1판당 버스비를 자동으로 나눠
+        한 판 순수익, 오드 1당 순수익, 시간당 순수익을 계산합니다.
+      </p>
+    </article>
 
-<option value="750000" data-ode="40">붉은 연심의 거울 1단 - 75만</option>
-<option value="1500000" data-ode="80">붉은 연심의 거울 1단 - 150만</option>
-<option value="855000" data-ode="40">붉은 연심의 거울 2단 - 85.5만</option>
-<option value="1710000" data-ode="80">붉은 연심의 거울 2단 - 171만</option>
-<option value="1005000" data-ode="40">붉은 연심의 거울 3단 - 100.5만</option>
-<option value="2010000" data-ode="80">붉은 연심의 거울 3단 - 201만</option>
-<option value="1200000" data-ode="40">붉은 연심의 거울 4단 - 120만</option>
-<option value="2400000" data-ode="80">붉은 연심의 거울 4단 - 240만</option>
-<option value="855000" data-ode="40">심연의 뿔 암굴 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">심연의 뿔 암굴 1단 - 171만</option>
-<option value="1005000" data-ode="40">심연의 뿔 암굴 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
-<option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
-<option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
-<option value="2100000" data-ode="60">심연의 뿔 암굴 4단 - 210만</option>
-<option value="4200000" data-ode="120">심연의 뿔 암굴 4단 - 420만</option>
-<option value="1005000" data-ode="40">데우스 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">데우스 보통 - 201만</option>
-<option value="1800000" data-ode="60">데우스 어려움 - 180만</option>
-<option value="3600000" data-ode="120">데우스 어려움 - 360만</option>
-<option value="855000" data-ode="40">노이란 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">노이란 1단 - 171만</option>
-<option value="1005000" data-ode="40">노이란 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">노이란 2단 - 201만</option>
-<option value="1200000" data-ode="40">노이란 3단 - 120만</option>
-<option value="2400000" data-ode="80">노이란 3단 - 240만</option>
-<option value="2100000" data-ode="60">노이란 4단 - 210만</option>
-<option value="4200000" data-ode="120">노이란 4단 - 420만</option>
-</select></div>
-<div><label>한 판 소비 키나</label><div class="iwrap"><input id="m_cost" class="money" value="0"><span class="unit">키나</span></div></div>
-<div><label>한 판 소비 오드</label><select id="m_ode">
-<option value="0" selected>0 오드</option>
-<option value="40">40 오드</option>
-<option value="60">60 오드</option>
-<option value="80">80 오드</option>
-<option value="120">120 오드</option>
-</select></div>
-<div><label>한 판 소요시간</label><div class="iwrap"><input id="m_minutes" value="0"><span class="unit">분</span></div></div>
-<div><label>계산할 판수</label><div class="iwrap"><input id="m_runs" value="0"><span class="unit">판</span></div></div>
-<div><label>보유 오드</label><div class="iwrap"><input id="m_ownedOde" value="0"><span class="unit">오드</span></div></div>
-</div><div class="actions"><button class="btn primary" onclick="calcSimple('m')">계산하기</button><button class="btn secondary" onclick="saveTab('main')">본부 저장</button><button class="btn success" onclick="loadTab('main')">본부 불러오기</button></div><div class="saved" id="msg_main"></div></div></div>
-<div class="card"><div class="head"><h2>본부 결과</h2></div><div class="body"><div class="metrics" id="m_metrics"></div></div></div>
-</div></section>
 
-<section id="page-sub">
-<div class="grid2">
-<div class="card"><div class="head"><h2>🎒 부캐 버스 설정</h2></div><div class="body"><div class="fields">
-<div><label>한 판 획득 기본 키나</label><select id="s_income">
-<option value="1005000" data-ode="40" selected>타데바 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">타데바 보통 - 201만</option>
-<option value="1800000" data-ode="60">타데바 어려움 - 180만</option>
-<option value="3600000" data-ode="120">타데바 어려움 - 360만</option>
-<option value="810000" data-ode="40">푸섬, 환영 보통 - 81만</option>
-<option value="1620000" data-ode="80">푸섬, 환영 어려움 - 162만</option>
-<option value="1005000" data-ode="40">푸섬, 환영 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">푸섬, 환영 어려움 - 201만</option>
+    <article class="card">
+      <h2>보유 오드 기준 예상</h2>
+      <p>
+        지금 가진 오드로 몇 판을 돌 수 있는지와
+        그만큼 돌았을 때의 예상 순수익을 함께 보여줍니다.
+      </p>
+    </article>
 
-<option value="750000" data-ode="40">붉은 연심의 거울 1단 - 75만</option>
-<option value="1500000" data-ode="80">붉은 연심의 거울 1단 - 150만</option>
-<option value="855000" data-ode="40">붉은 연심의 거울 2단 - 85.5만</option>
-<option value="1710000" data-ode="80">붉은 연심의 거울 2단 - 171만</option>
-<option value="1005000" data-ode="40">붉은 연심의 거울 3단 - 100.5만</option>
-<option value="2010000" data-ode="80">붉은 연심의 거울 3단 - 201만</option>
-<option value="1200000" data-ode="40">붉은 연심의 거울 4단 - 120만</option>
-<option value="2400000" data-ode="80">붉은 연심의 거울 4단 - 240만</option>
-<option value="855000" data-ode="40">심연의 뿔 암굴 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">심연의 뿔 암굴 1단 - 171만</option>
-<option value="1005000" data-ode="40">심연의 뿔 암굴 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">심연의 뿔 암굴 2단 - 201만</option>
-<option value="1200000" data-ode="40">심연의 뿔 암굴 3단 - 120만</option>
-<option value="2400000" data-ode="80">심연의 뿔 암굴 3단 - 240만</option>
-<option value="2100000" data-ode="60">심연의 뿔 암굴 4단 - 210만</option>
-<option value="4200000" data-ode="120">심연의 뿔 암굴 4단 - 420만</option>
-<option value="1005000" data-ode="40">데우스 보통 - 100.5만</option>
-<option value="2010000" data-ode="80">데우스 보통 - 201만</option>
-<option value="1800000" data-ode="60">데우스 어려움 - 180만</option>
-<option value="3600000" data-ode="120">데우스 어려움 - 360만</option>
-<option value="855000" data-ode="40">노이란 1단 - 85.5만</option>
-<option value="1710000" data-ode="80">노이란 1단 - 171만</option>
-<option value="1005000" data-ode="40">노이란 2단 - 100.5만</option>
-<option value="2010000" data-ode="80">노이란 2단 - 201만</option>
-<option value="1200000" data-ode="40">노이란 3단 - 120만</option>
-<option value="2400000" data-ode="80">노이란 3단 - 240만</option>
-<option value="2100000" data-ode="60">노이란 4단 - 210만</option>
-<option value="4200000" data-ode="120">노이란 4단 - 420만</option>
-</select></div>
-<div><label>한 판 버스비/소비 키나</label><div class="iwrap"><input id="s_cost" class="money" value="0"><span class="unit">키나</span></div></div>
-<div><label>한 판 소비 오드</label><select id="s_ode">
-<option value="0" selected>0 오드</option>
-<option value="40">40 오드</option>
-<option value="60">60 오드</option>
-<option value="80">80 오드</option>
-<option value="120">120 오드</option>
-</select></div>
-<div><label>한 판 소요시간</label><div class="iwrap"><input id="s_minutes" value="0"><span class="unit">분</span></div></div>
-<div><label>계산할 판수</label><div class="iwrap"><input id="s_runs" value="0"><span class="unit">판</span></div></div>
-<div><label>보유 오드</label><div class="iwrap"><input id="s_ownedOde" value="0"><span class="unit">오드</span></div></div>
-</div><div class="actions"><button class="btn primary" onclick="calcSimple('s')">계산하기</button><button class="btn secondary" onclick="saveTab('sub')">부캐 버스 저장</button><button class="btn success" onclick="loadTab('sub')">부캐 버스 불러오기</button></div><div class="saved" id="msg_sub"></div></div></div>
-<div class="card"><div class="head"><h2>부캐 버스 결과</h2><p>부캐 버스에서 선택한 같은 던전을 본부로 돌았을 때와 자동 비교합니다.</p></div><div class="body"><div class="metrics" id="s_metrics"></div></div></div>
-</div></section>
 
-<section id="page-compare" class="hidden"><div class="card"><div class="head"><h2>📊 파밍 비교</h2><p>각 탭에 저장된 값을 기준으로 비교합니다.</p></div><div class="body"><div class="actions"><button class="btn primary" onclick="buildCompare()">저장된 값으로 비교</button></div><div id="compareBox"></div></div></div></section>
+    <article class="card">
+      <h2>본부와 자동 비교</h2>
+      <p>
+        같은 던전을 버스 없이 본부로 돌았을 때와 비교해
+        버스비를 내고 타는 쪽이 이득인지 손해인지 바로 표시합니다.
+      </p>
+    </article>
 
-<!-- ===== BUSON2 부캐 버스 가이드 시작 ===== -->
+  </section>
 
-<section class="sub-guide">
 
-  <div class="sub-guide-head">
-    <span class="sub-guide-badge">BUSON2 GUIDE</span>
-    <h2>아이온2 부캐 버스·오드 효율 계산 가이드</h2>
+ <!-- ===== 부캐 버스 계산기 가이드 영역 시작 ===== -->
+
+<section class="spec-guide">
+
+  <div class="spec-guide-head">
+    <span class="spec-guide-badge">BUSON2 GUIDE</span>
+    <h2>부캐 버스, 기본 키나보다 순수익을 보세요</h2>
     <p>
-      부캐 버스를 탈 때 사용하는 키나와 오드, 획득 키나, 소요시간을 함께 계산해
-      실제 순수익과 오드 효율을 비교할 수 있습니다.
-      여러 육성 방식 중 어떤 방법이 더 효율적인지 확인해보세요.
+      부캐로 버스를 타면 기본 키나는 그대로 받지만 버스비가 빠집니다.
+      버스비를 뺀 한 판 순수익과, 같은 오드·시간으로 본부를 돌았을 때의 차이를 함께 봐야
+      부캐 버스가 실제로 이득인지 판단할 수 있습니다.
     </p>
   </div>
 
-  <div class="sub-guide-grid">
+  <div class="spec-guide-grid">
 
-    <div class="sub-guide-card purple">
-      <div class="sub-guide-icon">₭</div>
-      <h3>부캐 버스 순수익</h3>
+    <div class="spec-guide-card purple">
+      <div class="spec-guide-icon">①</div>
+      <h3>총 버스비는 판수로 나눠 보세요</h3>
       <p>
-        던전에서 획득하는 키나에서 버스비를 제외해
-        실제로 남는 판당 순수익을 확인할 수 있습니다.
+        여러 판을 묶어서 내는 버스비는 1판당 금액으로 바꿔야
+        던전 기본 키나와 바로 비교할 수 있습니다. 계산기가 자동으로 나눠줍니다.
       </p>
     </div>
 
-    <div class="sub-guide-card green">
-      <div class="sub-guide-icon">◆</div>
-      <h3>오드 사용 효율</h3>
+    <div class="spec-guide-card green">
+      <div class="spec-guide-icon">②</div>
+      <h3>오드가 적다면 오드 1당 순수익</h3>
       <p>
-        판당 소비되는 오드를 기준으로
-        같은 오드를 사용했을 때 어떤 방식이 더 많은 키나를
-        얻는지 비교할 수 있습니다.
+        보유 오드가 한정적이면 한 판 순수익보다 오드 1당 순수익이 더 중요합니다.
+        같은 던전도 소비 오드에 따라 효율이 달라집니다.
       </p>
     </div>
 
-    <div class="sub-guide-card orange">
-      <div class="sub-guide-icon">⇄</div>
-      <h3>버스비까지 반영</h3>
+    <div class="spec-guide-card orange">
+      <div class="spec-guide-icon">③</div>
+      <h3>본부보다 이득인지 확인하세요</h3>
       <p>
-        단순 던전 보상만 비교하지 않고 실제로 지불하는 버스비까지 포함하여
-        부캐 육성에 들어가는 비용을 계산합니다.
+        버스비가 비싸면 직접 본부로 도는 편이 나을 수 있습니다.
+        결과 화면에서 같은 던전을 본부로 돌았을 때와의 차이를 확인하세요.
       </p>
     </div>
 
-    <div class="sub-guide-card blue">
-      <div class="sub-guide-icon">▦</div>
-      <h3>시간당 효율 비교</h3>
+    <div class="spec-guide-card blue">
+      <div class="spec-guide-icon">④</div>
+      <h3>버스 기사와도 비교해보세요</h3>
       <p>
-        판당 소요시간과 반복 횟수를 고려해
-        총 키나뿐 아니라 시간당 수익과 육성 효율도 비교할 수 있습니다.
+        본캐로 버스 기사를 하는 경우와 비교하고 싶다면
+        <a href="/compare/" style="color:#91a7ff">파밍 비교</a>에서 같은 오드 기준으로 두 방식을 나란히 볼 수 있습니다.
       </p>
     </div>
 
   </div>
-
 </section>
 
 
-<section class="sub-steps">
+<!-- FAQ -->
+<section class="spec-faq">
 
-  <div class="sub-steps-title">
-    <span class="sub-steps-icon">✓</span>
-    <div>
-      <h2>부캐 버스 계산기 사용 방법</h2>
-      <p>현재 부캐 버스 조건에 맞는 값을 입력하면 자동으로 결과가 계산됩니다.</p>
-    </div>
-  </div>
-
-  <div class="sub-step-grid">
-
-    <div>
-      <b>01</b>
-      <span>획득 키나·버스비 입력</span>
-    </div>
-
-    <div>
-      <b>02</b>
-      <span>오드·소요시간 입력</span>
-    </div>
-
-    <div>
-      <b>03</b>
-      <span>순수익·효율 확인</span>
-    </div>
-
-  </div>
-
-</section>
-
-
-<section class="sub-faq">
-
-  <div class="sub-faq-title">
-    <span class="sub-faq-icon">?</span>
+  <div class="spec-faq-title">
+    <span>?</span>
     <div>
       <small>FAQ</small>
       <h2>아이온2 부캐 버스 계산기 자주 묻는 질문</h2>
@@ -1110,631 +616,97 @@ main.wrap{
 
   <details>
     <summary>
-      <span class="sub-q">Q1</span>
-      부캐 버스 순수익은 어떻게 계산하나요?
+      <span class="faq-number">Q1</span>
+      던전을 고르면 키나가 자동으로 바뀌는 이유는 무엇인가요?
+      <b>⌄</b>
     </summary>
-    <div class="sub-answer">
-      던전에서 획득하는 키나에서 실제로 지불하는 버스비를 제외해
-      예상 판당 순수익을 계산합니다.
+    <div class="faq-answer">
+      던전별 기본 획득 키나와 소비 오드는 BUSON2에 미리 등록된 값입니다.
+      던전과 한 판 소비 오드를 고르면 그 조건의 기본 키나가 자동으로 정해집니다.
+      새 던전이 나오거나 수치가 바뀌면 계산기 목록도 함께 갱신합니다.
     </div>
   </details>
 
   <details>
     <summary>
-      <span class="sub-q">Q2</span>
-      키나만 비교하면 안 되나요?
+      <span class="faq-number">Q2</span>
+      본부 비교는 어떤 기준인가요?
+      <b>⌄</b>
     </summary>
-    <div class="sub-answer">
-      같은 키나를 벌더라도 사용하는 오드와 소요시간이 다르면 효율도 달라질 수 있습니다.
-      키나, 오드, 시간을 함께 비교하는 것이 좋습니다.
+    <div class="faq-answer">
+      부캐 버스에서 고른 것과 같은 던전·소비 오드를 버스 없이 직접 돌았을 때를 기준으로,
+      버스비를 낸 부캐 버스의 순수익이 그보다 높은지 낮은지를 보여줍니다.
     </div>
   </details>
 
   <details>
     <summary>
-      <span class="sub-q">Q3</span>
-      어떤 부캐 육성 방식이 가장 효율적인가요?
+      <span class="faq-number">Q3</span>
+      버스 기사 계산기와는 무엇이 다른가요?
+      <b>⌄</b>
     </summary>
-    <div class="sub-answer">
-      현재 버스비, 획득 키나, 오드 소비량과 플레이 시간에 따라 달라집니다.
-      각각의 조건을 입력해 실제 순수익과 시간당 효율을 비교해보세요.
+    <div class="faq-answer">
+      버스 기사 계산기는 손님을 태우는 기사 입장의 버스비 수익을 계산하고,
+      부캐 버스 계산기는 버스비를 내고 타는 부캐 입장의 순수익을 계산합니다.
+      자세한 차이는 <a href="/guide/sub-bus-vs-hq/" style="color:#91a7ff">부캐 버스 vs 본부 비교 가이드</a>에 정리해두었습니다.
     </div>
   </details>
 
   <details>
     <summary>
-      <span class="sub-q">Q4</span>
-      계산 결과가 실제 수익과 완전히 같나요?
+      <span class="faq-number">Q4</span>
+      계산 결과를 다른 사람에게 보낼 수 있나요?
+      <b>⌄</b>
     </summary>
-    <div class="sub-answer">
-      계산 결과는 입력한 값을 기준으로 한 예상치입니다.
-      실제 게임에서는 클리어 시간, 버스비, 파티 구성과 운영 방식에 따라 달라질 수 있습니다.
+    <div class="faq-answer">
+      네. 결과 아래의 공유 링크 복사 버튼을 누르면 지금 입력한 값이 담긴 링크가 복사되어,
+      받는 사람도 같은 조건으로 결과를 바로 볼 수 있습니다.
     </div>
   </details>
 
 </section>
 
-<!-- ===== BUSON2 부캐 버스 가이드 끝 ===== -->
+<!-- ===== 부캐 버스 계산기 가이드 영역 끝 ===== -->
+
+  <footer class="bo-foot">
+  <style>
+    footer.bo-foot{max-width:1100px;margin:48px auto 0;padding:24px 16px 36px;border-top:1px solid #1d2633;color:#8a9ab0;font-size:13px;line-height:1.7;text-align:left}
+    footer.bo-foot .bo-foot-title{margin:0 0 6px;color:#c9d6ea;font-size:13px;font-weight:800}
+    footer.bo-foot nav{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 14px}
+    footer.bo-foot a{color:#91a7ff;text-decoration:none}
+    footer.bo-foot a:hover{text-decoration:underline}
+    footer.bo-foot p{margin:0;color:#718096;font-size:12px}
+  </style>
+  <div class="bo-foot-title">BUSON2 계산기</div>
+  <nav aria-label="계산기">
+    <a href="/">메인</a>
+    <a href="/character/">캐릭터 검색·비교</a>
+    <a href="/spec/">스펙 계산기</a>
+    <a href="/driver/">버스 기사</a>
+    <a href="/sub/">부캐 버스</a>
+    <a href="/dungeon/">던전 파밍 DB</a>
+    <a href="/compare/">파밍 비교</a>
+    <a href="/#party">성역 파티 배치</a>
+    <a href="/arcana/">아르카나</a>
+    <a href="/pet/">펫작 시뮬</a>
+    <a href="/enhance/">강화·마석</a>
+  </nav>
+  <div class="bo-foot-title">가이드 · 안내</div>
+  <nav aria-label="가이드와 안내">
+    <a href="/guide/bus-profit/">버스 수익 가이드</a>
+    <a href="/guide/od-efficiency/">오드 효율 가이드</a>
+    <a href="/guide/spec-efficiency/">스펙 효율 가이드</a>
+    <a href="/guide/dungeon-efficiency/">던전 효율 가이드</a>
+    <a href="/guide/sub-bus-vs-hq/">부캐 버스 vs 본부</a>
+    <a href="/about/">소개</a>
+    <a href="/notes/">운영일지</a>
+    <a href="/contact/">문의</a>
+    <a href="/privacy/">개인정보처리방침</a>
+  </nav>
+  <p>© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구이며 NCSOFT·아이온2 공식 서비스와 무관합니다. 계산 결과는 참고용입니다.</p>
+</footer>
+
 </main>
 
-<footer><div class="wrap">BUSON2 · 계산 결과는 입력값과 실제 게임 운영 방식에 따라 달라질 수 있습니다.</div></footer>
-
-<script>
-const $=s=>document.querySelector(s);
-const parseNum=v=>Number(String(v ?? '').replace(/,/g,''))||0;
-const val=id=>{const el=document.getElementById(id);return el?parseNum(el.value):0};
-const nf=n=>Math.round(Number(n)||0).toLocaleString('ko-KR');
-const money=n=>nf(n)+' 키나';
-function short(n){const a=Math.abs(n);if(a>=100000000)return(n/100000000).toFixed(a>=1000000000?1:2).replace(/\.0+$/,'')+'억 키나';if(a>=10000)return(n/10000).toFixed(a>=1000000?0:1).replace(/\.0$/,'')+'만 키나';return money(n)}
-function formatMoneyInput(el){const raw=String(el.value).replace(/[^\d-]/g,'');if(raw===''||raw==='-'){el.value=raw;return}const n=Number(raw);if(Number.isFinite(n))el.value=n.toLocaleString('ko-KR')}
-document.querySelectorAll('.money').forEach(el=>{el.addEventListener('input',()=>formatMoneyInput(el));el.addEventListener('blur',()=>formatMoneyInput(el))});
-
-function syncOdeFromDungeon(prefix){
- const incomeSel=$('#'+prefix+'_income');
- const odeSel=$('#'+prefix+'_ode');
- if(!incomeSel||!odeSel)return;
- const opt=incomeSel.options[incomeSel.selectedIndex];
- if(opt && opt.dataset.ode!==undefined) odeSel.value=opt.dataset.ode;
-}
-function renderDrivers(preserve=true){
- const count=Math.max(1,Math.min(3,Number($('#d_driverCount').value)||1));
- const old={};
- if(preserve){document.querySelectorAll('[data-block-driver]').forEach(x=>old[x.dataset.blockDriver]=x.value)}
- const names=['A','B','C'];
-
- const previous=$('#d_myDriver').value;
- $('#d_myDriver').innerHTML=names.slice(0,count).map(n=>`<option value="${n}">기사 ${n}</option>`).join('');
- if(names.slice(0,count).includes(previous))$('#d_myDriver').value=previous;
-
- if(count===2){
-   $('#driverBlocks').innerHTML=names.slice(0,2).map(n=>`
-   <div class="driver-block">
-     <b>기사 ${n}</b>
-     <label>연속 수금 판수</label>
-     <div class="iwrap"><input id="d_block${n}" data-block-driver="${n}" value="${old[n]??0}"><span class="unit">판</span></div>
-   </div>`).join('');
-   $('#rotationNote').textContent='기사 A가 설정한 판수만큼 수금한 뒤 기사 B가 설정한 판수만큼 수금하고, 다시 A → B 순서로 반복합니다.';
-   document.querySelectorAll('[data-block-driver]').forEach(x=>x.addEventListener('input',calcDriver));
- }else{
-   $('#driverBlocks').innerHTML='';
-   if(count===1){
-     $('#rotationNote').textContent='기사 1명이 모든 판의 손님에게 계속 수금합니다. 연속 수금 판수 설정은 필요하지 않습니다.';
-   }else{
-     $('#rotationNote').textContent='기사 3명은 A → B → C 순서로 1판씩 번갈아 수금하는 방식으로 계산합니다.';
-   }
- }
- calcDriver();
-}
-function getDriverConfig(){
- const count=Math.max(1,Math.min(3,Number($('#d_driverCount').value)||1));
- if(count===1) return [{name:'A',block:1}];
- if(count===2){
-   return ['A','B'].map(n=>({name:n,block:Math.max(0,Math.floor(val('d_block'+n)))}));
- }
- return [{name:'A',block:1},{name:'B',block:1},{name:'C',block:1}];
-}
-function calcDriver(){
- const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fare=val('d_fare'),passengers=Math.max(0,Math.floor(val('d_passengers')));
- const mine=$('#d_myDriver').value||'A',runs=Math.max(0,Math.floor(val('d_runs'))),cfg=getDriverConfig();
- const schedule=[]; cfg.forEach(x=>{for(let i=0;i<x.block;i++)schedule.push(x.name)});
- let total=0,paidRuns=0,fareTotal=0,rows=[];
- if(runs>0){
-   for(let i=0;i<runs;i++){
-     const receiver=schedule.length?schedule[i%schedule.length]:'-';
-     const myFare=receiver===mine?fare*passengers:0;
-     if(myFare){paidRuns++;fareTotal+=myFare}
-     const net=income+myFare-cost;
-     total+=net;
-     if(i<24)rows.push(`<tr><td>${i+1}판</td><td>${receiver==='-'?'-':`<span class="badge">기사 ${receiver}</span>`}</td><td>${money(myFare)}</td><td>${money(net)}</td></tr>`)
-   }
- }
- const avg=runs?total/runs:0,perOde=ode?avg/ode:0,hour=mins?avg*60/mins:0;
- $('#d_avg').textContent=money(avg);$('#d_avg_short').textContent=short(avg);$('#d_total').textContent=money(total);$('#d_total_short').textContent=short(total);$('#d_perOde').textContent=money(perOde);$('#d_hour').textContent=money(hour);$('#d_hour_short').textContent=short(hour)+'/시간';$('#d_paidRuns').textContent=nf(paidRuns)+' 판';$('#d_fareTotal').textContent=money(fareTotal);$('#d_table').innerHTML=rows.join('');
-}
-function simpleStats(p){const income=val(p+'_income'),cost=val(p+'_cost'),ode=val(p+'_ode'),mins=val(p+'_minutes'),runs=Math.max(0,Math.floor(val(p+'_runs'))),owned=val(p+'_ownedOde'),net=income-cost,perOde=ode?net/ode:0,hour=mins?net*60/mins:0,total=net*runs,possible=ode?Math.floor(owned/ode):0;return{income,cost,ode,mins,runs,owned,net,perOde,hour,total,possible,possibleProfit:possible*net}}
-function calcSimple(p){
- const x=simpleStats(p);
- let extra='';
- if(p==='s'){
-   const busSpend=x.cost*x.runs;
-
-   // 부캐 버스에서 선택한 던전/보상 프리셋을 그대로 본부 기준으로 사용.
-   const sameDungeonIncome=val('s_income');
-   const sameDungeonOde=val('s_ode');
-   const mainNetPerRun=sameDungeonIncome; // 본부는 같은 던전, 버스비 지출 0으로 비교
-   const mainTotalForSameRuns=mainNetPerRun*x.runs;
-   const diff=mainTotalForSameRuns-x.total;
-
-   extra=`
-   <div class="metric"><div class="k">버스 총 지출</div><div class="v">${money(busSpend)}</div><div class="s">${x.runs}판 × ${money(x.cost)}</div></div>
-   <div class="metric"><div class="k">같은 던전 본부 총 순수익</div><div class="v">${money(mainTotalForSameRuns)}</div><div class="s">${x.runs}판 · 버스비 지출 0 기준</div></div>
-   <div class="metric"><div class="k">본부 대비 손익</div><div class="v ${diff>0?'spec-bad':diff<0?'spec-ok':''}">${diff>0?'- ':diff<0?'+ ':''}${money(Math.abs(diff))}</div><div class="s">${diff>0?'같은 던전을 본부로 돌았을 때보다 손해':diff<0?'같은 던전을 본부로 돌았을 때보다 이득':'본부와 동일'}</div></div>
-   <div class="metric"><div class="k">같은 던전 오드 기준</div><div class="v">${nf(sameDungeonOde)} 오드</div><div class="s">부캐 버스에서 선택한 던전 기준</div></div>`;
- }
- $('#'+p+'_metrics').innerHTML=`<div class="metric"><div class="k">한 판 순수익</div><div class="v green">${money(x.net)}</div><div class="s">${short(x.net)}</div></div><div class="metric"><div class="k">오드 1당 순수익</div><div class="v">${money(x.perOde)}</div><div class="s">오드 효율</div></div><div class="metric"><div class="k">시간당 순수익</div><div class="v gold">${money(x.hour)}</div><div class="s">${short(x.hour)}/시간</div></div><div class="metric"><div class="k">${x.runs}판 총 순수익</div><div class="v">${money(x.total)}</div><div class="s">${short(x.total)}</div></div><div class="metric"><div class="k">보유 오드로 가능한 판수</div><div class="v">${nf(x.possible)} 판</div><div class="s">오드 ${nf(x.owned)}</div></div><div class="metric"><div class="k">보유 오드 예상 순수익</div><div class="v">${money(x.possibleProfit)}</div><div class="s">${short(x.possibleProfit)}</div></div>${extra}`
-}
-
-function fieldsFor(tab){
- if(tab==='driver'){
-   const arr=['d_income','d_cost','d_ode','d_minutes','d_fare','d_passengers','d_driverCount','d_myDriver','d_runs','d_ownedOde'];
-   if(Number($('#d_driverCount').value)===2){
-     arr.push('d_blockA','d_blockB');
-   }
-   return arr;
- }
- if(tab==='main')return['m_income','m_cost','m_ode','m_minutes','m_runs','m_ownedOde'];
- return['s_income','s_cost','s_ode','s_minutes','s_runs','s_ownedOde'];
-}
-function saveTab(tab){const data={};fieldsFor(tab).forEach(id=>data[id]=$('#'+id).value);try{localStorage.setItem('buson2-v5-'+tab,JSON.stringify(data));const msg=$('#msg_'+tab);msg.textContent='✓ '+({driver:'버스 기사',main:'본부',sub:'부캐 버스'}[tab])+' 설정을 따로 저장했습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='저장에 실패했습니다.'}}
-function loadTab(tab){try{const raw=localStorage.getItem('buson2-v5-'+tab),msg=$('#msg_'+tab);if(!raw){msg.textContent='저장된 설정이 없습니다.';return}const d=JSON.parse(raw);
- if(tab==='driver'){
-   $('#d_driverCount').value=d.d_driverCount||1;
-   renderDrivers(false);
-   Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
-   if(Number($('#d_driverCount').value)===2){
-     renderDrivers(true);
-     Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
-   }
-   calcDriver();
- }else{Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});calcSimple(tab==='main'?'m':'s')}
- document.querySelectorAll('.money').forEach(formatMoneyInput);msg.textContent='✓ 저장된 설정을 불러왔습니다.';setTimeout(()=>msg.textContent='',3000)}catch(e){$('#msg_'+tab).textContent='불러오기에 실패했습니다.'}}
-
-function driverAverage(){
- const cfg=getDriverConfig(),totalBlocks=cfg.reduce((a,x)=>a+x.block,0),mine=$('#d_myDriver').value||'A',myBlock=(cfg.find(x=>x.name===mine)||{block:0}).block;
- const income=val('d_income'),cost=val('d_cost'),ode=val('d_ode'),mins=val('d_minutes'),fare=val('d_fare'),passengers=val('d_passengers'),net=income+(fare*passengers*(myBlock/totalBlocks))-cost;
- return{name:'버스 기사 '+mine,net,perOde:ode?net/ode:0,hour:mins?net*60/mins:0}
-}
-function buildCompare(){const m=simpleStats('m'),s=simpleStats('s'),items=[driverAverage(),{name:'본부',net:m.net,perOde:m.perOde,hour:m.hour},{name:'부캐 버스',net:s.net,perOde:s.perOde,hour:s.hour}].sort((a,b)=>b.hour-a.hour);$('#compareBox').innerHTML=`<table><thead><tr><th>순위</th><th>방식</th><th>평균 한 판 순수익</th><th>오드 1당</th><th>시간당</th></tr></thead><tbody>${items.map((x,i)=>`<tr><td>${['🥇','🥈','🥉'][i]}</td><td>${x.name}</td><td>${money(x.net)}</td><td>${money(x.perOde)}</td><td>${money(x.hour)}</td></tr>`).join('')}</tbody></table>`}
-
-
-let newsLoaded=false;
-function escapeHtml(text){
- return String(text??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-}
-function renderNewsGroup(key, data){
- const box=$('#news-'+key), updated=$('#updated-'+key);
- if(!box)return;
- const items=Array.isArray(data?.[key])?data[key]:[];
- updated.textContent=data?.updated_at ? '최근 확인 '+data.updated_at : '아직 자동 수집 전';
- if(!items.length){
-   box.innerHTML='<div class="news-empty">아직 수집된 게시물이 없습니다. GitHub Actions를 한 번 실행해주세요.</div>';
-   return;
- }
- box.innerHTML=items.map(item=>`
-   <a class="news-item" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
-     <div class="news-title">${escapeHtml(item.title)}</div>
-     <div class="news-meta"><span>${escapeHtml(item.datetime||item.date||'날짜 확인 중')}</span><span>공식 원문 ↗</span></div>
-   </a>`).join('');
-}
-async function loadOfficialNews(force=false){
- if(newsLoaded&&!force)return;
- try{
-   const res=await fetch('/news.json?ts='+(Date.now()),{cache:'no-store'});
-   if(!res.ok)throw new Error('news.json '+res.status);
-   const data=await res.json();
-   ['update','notice','cm'].forEach(k=>renderNewsGroup(k,data));
-   newsLoaded=true;
- }catch(err){
-   ['update','notice','cm'].forEach(k=>{
-     const box=$('#news-'+k), updated=$('#updated-'+k);
-     if(box)box.innerHTML='<div class="news-empty">자동 수집 데이터를 불러오지 못했습니다.</div>';
-     if(updated)updated.textContent='연결 확인 필요';
-   });
- }
-}
-
-
-
-
-
-
-
-
-
-
-const SPEC_IDS=[
- 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_break','sp_weapon_min','sp_weapon_max',
- 'sp_dmg','sp_weapon','sp_critdmg','sp_fb','sp_smash','sp_perfect','sp_pve','sp_boss',
- 'sp_crit_rate','sp_fb_rate','sp_smash_resist','sp_party_healer','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
-];
-const SIM_IDS=['sim_attack','sim_weapon','sim_dmg','sim_critdmg','sim_fb','sim_smash'];
-// 파티 버프 (인게임 툴팁 기준, 메인 스펙 계산기와 같은 값)
-// - 격앙 파티 PVE 피해 증폭 = 5% + 레벨당 0.5% (Lv35 22.5%), 수호성은 고결의 갑주를 항상 켜므로 1.5배 33.75%로 본다
-// - 불패의 진언·보호의 빛 Lv25: PVE 피해 증폭 22.5%, 완벽 10% (둘은 중복되지 않는다)
-// - 불패의 진언: 강타 5%, 치명타 피해 증폭 5%
-//   질풍의 권능: 파티원 공격력 10%, 무기 피해 증폭 5% (22.5초 유지·재시전 1분 30초 → 평균 25%로 반영)
-// - 보호의 빛 Lv25 특화: 강타 5%
-//   대지의 축복(대지의 징벌 적중, 유지 30초·재시전 30초): 파티원 강타 5%, 공격력 5%
-const PARTY_HEALER_BUFF={
- none:{dmg:0,smash:0,perfect:0,critDmg:0,atk:0,weapon:0,note:''},
- hobeop:{dmg:22.5,smash:5,perfect:10,critDmg:5,atk:10*0.25,weapon:5*0.25,
-  note:'피해 증폭 22.5% · 강타 5% · 완벽 10% · 치명타 피해 증폭 5% + 질풍의 권능 공격력 10% · 무기 피해 증폭 5% (22.5초/1분 30초라 평균 25%로 반영)'},
- chiyu:{dmg:22.5,smash:10,perfect:10,critDmg:0,atk:5,weapon:0,
-  note:'피해 증폭 22.5% · 강타 10% (보호의 빛 5% + 대지의 축복 5%) · 완벽 10% · 공격력 5%'}
-};
-function partyHealerBuff(){return PARTY_HEALER_BUFF[$('#sp_party_healer')?.value]||PARTY_HEALER_BUFF.none}
-// 예전 저장값(파티 강타 / 파티 피해증폭 선택)을 힐러 버프 / 격앙 버프로 바꿔 불러온다
-const SPEC_OLD_GYEOK=['40','28','33.75','65','53','47.5','56.25','58.75'];
-const SPEC_OLD_HEALER_DMG=['25','22.5','65','53','47.5','56.25','58.75'];
-function specMigrate(d){
- if(!d||typeof d!=='object'||'sp_party_healer' in d)return d;
- if(!('sp_party_smash' in d)&&!('sp_party_dmg' in d))return d;
- const sm=String(d.sp_party_smash??'0'),dm=String(d.sp_party_dmg??'0');
- d.sp_party_healer=sm==='5'?'hobeop':(sm==='10'||sm==='12')?'chiyu':SPEC_OLD_HEALER_DMG.includes(dm)?'hobeop':'none';
- d.sp_party_dmg=SPEC_OLD_GYEOK.includes(dm)?'33.75':'0';
- delete d.sp_party_smash;
- return d;
-}
-
-function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
-function sv(id){return Number($('#'+id)?.value||0)}
-
-function getSpec(){
- const healer=partyHealerBuff();
- return {
-  attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
-  destroy:sv('sp_destroy'), power:sv('sp_power'), breakthrough:sv('sp_break'),
-  dmg:sv('sp_dmg'), weapon:sv('sp_weapon'), critDmg:sv('sp_critdmg'),
-  fb:sv('sp_fb'), smash:sv('sp_smash'), pve:sv('sp_pve'), boss:sv('sp_boss'),
-  critRate:clamp(sv('sp_crit_rate'),0,80), fbRate:clamp(sv('sp_fb_rate'),0,100),
-  smashResist:clamp(sv('sp_smash_resist'),0,100),
-  partySmash:healer.smash, partyDmg:healer.dmg+sv('sp_party_dmg'),
-  partyPerfect:healer.perfect, partyCritDmg:healer.critDmg, partyAtk:healer.atk, partyWeapon:healer.weapon,
-  weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), perfect:sv('sp_perfect'),
-  targetPerfectResist:clamp(sv('sp_target_perfect_resist'),0,100),
-  targetCritResist:clamp(sv('sp_target_crit_resist'),0,100),
-  targetDmgResist:clamp(sv('sp_target_dmg_resist'),0,100),
-  targetCritDmgResist:clamp(sv('sp_target_critdmg_resist'),0,100),
-  guaranteedCritShare:clamp(sv('sp_guaranteed_crit_share'),0,100)
- }
-}
-
-// 공개된 계산 구조를 참고한 독립 구현.
-// 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 돌파 5%p.
-// 돌파분은 장비 귀속으로 보고 장비 해제 공격력에는 제외.
-// 완벽: 주무기 최소~최대 평균 대비, 발동 시 최대 공격력 기반 데미지 × 1.05 (메인 스펙 계산기와 같은 방식)
-function perfectData(s){
- const min=Math.max(0,s.weaponMin||0);
- const max=Math.max(min,s.weaponMax||0);
- const hasRange=max>min && min>0;
- const chance=clamp((s.perfect||0)+(s.partyPerfect||0)-(s.targetPerfectResist||0),0,100)/100;
- if(!hasRange)return {hasRange:false,chance,factor:1};
- const avg=(min+max)/2;
- const expected=avg*(1-chance)+max*1.05*chance;
- return {hasRange:true,chance,factor:avg>0?expected/avg:1};
-}
-
-function deriveAttack(s, flatGearAdd=0){
- const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthrough*5)/100;
- const offInc=1+(s.destroy*0.2+s.power*0.1)/100;
-
- const baseRaw=offInc>0 ? s.attackOff/offInc : s.attackOff;
- const wornRaw=wornInc>0 ? s.attackOn/wornInc : s.attackOn;
- const gearRaw=Math.max(0,wornRaw-baseRaw);
-
- const baseAttack=baseRaw*wornInc;
- const gearAttack=(gearRaw+flatGearAdd)*wornInc;
- // 파티 공격력 버프는 공격력 증가 %에 더하고, 파티 무기 피해 증폭은 무피증에 더한다
- const buffScale=wornInc>0 ? (wornInc+(s.partyAtk||0)/100)/wornInc : 1;
- const perfect=perfectData(s);
- const effectiveAttack=(baseAttack + gearAttack*(1+(s.weapon+(s.partyWeapon||0))/100))*buffScale*perfect.factor;
-
- return {wornInc,offInc,baseRaw,gearRaw,baseAttack,gearAttack,effectiveAttack,perfect};
-}
-
-function totalMultiplier(s, flatGearAdd=0){
- const a=deriveAttack(s,flatGearAdd);
-
- const effectiveDmgPct=s.dmg+s.pve+s.boss+s.partyDmg-s.targetDmgResist;
- const general=Math.max(0.01,1+effectiveDmgPct/100);
-
- const normalCritChance=clamp(s.critRate-s.targetCritResist,0,80)/100;
- const critBonus=Math.max(0,0.5+(s.critDmg+(s.partyCritDmg||0)-s.targetCritDmgResist)/100);
- const normalCritExpected=1+normalCritChance*critBonus;
- const guaranteedCritExpected=1+critBonus;
-
- const fbChance=clamp(s.fbRate,0,100)/100;
- const fbExpected=1+(s.fb/100)*fbChance;
-
- const smashChance=clamp(s.smash+s.partySmash-s.smashResist,0,100)/100;
- const smashExpected=1+smashChance;
-
- const common=a.effectiveAttack*general*fbExpected*smashExpected;
- const normalTotal=common*normalCritExpected;
- const guaranteedTotal=common*guaranteedCritExpected;
- const share=clamp(s.guaranteedCritShare,0,100)/100;
- const mixedTotal=normalTotal*(1-share)+guaranteedTotal*share;
-
- return {
-  attack:a,general,fbExpected,smashExpected,smashChance,perfectExpected:a.perfect.factor,perfectChance:a.perfect.chance,
-  normalCritChance,normalCritExpected,guaranteedCritExpected,
-  normalTotal,guaranteedTotal,mixedTotal,total:mixedTotal
- };
-}
-
-function gainPct(base,next){return base>0?(next/base-1)*100:0}
-
-let currentRankMode='mixed';
-function scoreByMode(result,mode){
- if(mode==='normal')return result.normalTotal;
- if(mode==='guaranteed')return result.guaranteedTotal;
- return result.mixedTotal;
-}
-function calcSpec(){
- const s=getSpec();
- const base=totalMultiplier(s);
- const partyNote=$('#sp_party_note');
- if(partyNote)partyNote.textContent=partyHealerBuff().note;
-
- $('#sp_base_attack').textContent=nf(Math.round(base.attack.baseAttack));
- $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack));
- $('#sp_effective_attack').textContent=nf(Math.round(base.attack.effectiveAttack));
- $('#sp_base_mult').textContent='× '+base.attack.wornInc.toFixed(2);
- $('#sp_gear_mult').textContent='무피증 × '+(1+s.weapon/100).toFixed(2);
-
- $('#sp_normal_score').textContent=nf(Math.round(base.normalTotal));
- $('#sp_guaranteed_score').textContent=nf(Math.round(base.guaranteedTotal));
- $('#sp_mixed_score').textContent=nf(Math.round(base.mixedTotal));
- $('#sp_mixed_desc').textContent='확정 치명 비중 '+s.guaranteedCritShare.toFixed(0)+'%';
-
- $('#sp_expectations').innerHTML=[
-   `피증 기대 × ${base.general.toFixed(3)}`,
-   `일반 치명 × ${base.normalCritExpected.toFixed(3)} (${(base.normalCritChance*100).toFixed(1)}%)`,
-   `확정 치명 × ${base.guaranteedCritExpected.toFixed(3)}`,
-   `강타 × ${base.smashExpected.toFixed(3)} (실발동 ${(base.smashChance*100).toFixed(1)}%)`,
-   base.attack.perfect.hasRange
-     ? `완벽 × ${base.perfectExpected.toFixed(3)} (실발동 ${(base.perfectChance*100).toFixed(1)}%)`
-     : `완벽 계산: 주무기 최소/최대 공격력 입력 필요`,
-   `전/후방 × ${base.fbExpected.toFixed(3)}`
- ].map(x=>`<span class="pill">${x}</span>`).join('');
-
- renderRankings();
- calcSimulator();
- renderABCompare();
-}
-
-function renderRankings(){
- const s=getSpec();
- const base=totalMultiplier(s);
- const tests=[
-   {name:'전/후방 피해 증폭', apply:t=>({...t,fb:t.fb+1})},
-   {name:'강타', apply:t=>({...t,smash:t.smash+1})},
-   {name:'완벽', apply:t=>({...t,perfect:t.perfect+1})},
-   {name:'무기 피해 증폭', apply:t=>({...t,weapon:t.weapon+1})},
-   {name:'치명타 피해 증폭', apply:t=>({...t,critDmg:t.critDmg+1})},
-   {name:'피해 증폭', apply:t=>({...t,dmg:t.dmg+1})},
-   {name:'PVE 피해 증폭', apply:t=>({...t,pve:t.pve+1})},
-   {name:'보스 피해 증폭', apply:t=>({...t,boss:t.boss+1})},
-   {name:'공격력 +10', flat:10}
- ];
- const baseScore=scoreByMode(base,currentRankMode);
- const rows=tests.map(t=>{
-   const next=t.flat!=null ? totalMultiplier(s,t.flat) : totalMultiplier(t.apply(s));
-   return {name:t.name,gain:gainPct(baseScore,scoreByMode(next,currentRankMode))};
- }).sort((a,b)=>b.gain-a.gain);
-
- const max=Math.max(...rows.map(x=>x.gain),0.001);
- $('#sp_rankings').innerHTML=rows.map(r=>`
-   <div class="eff-row">
-    <div class="eff-label">${escapeHtml(r.name)}</div>
-    <div class="eff-track"><div class="eff-fill" style="width:${Math.max(2,r.gain/max*100)}%"></div></div>
-    <div class="eff-value">+${r.gain.toFixed(2)}%</div>
-   </div>`).join('');
-}
-
-function calcSimulator(){
- const s=getSpec();
- const base=totalMultiplier(s);
- const nextSpec={...s,
-   weapon:s.weapon+sv('sim_weapon'),
-   dmg:s.dmg+sv('sim_dmg'),
-   critDmg:s.critDmg+sv('sim_critdmg'),
-   fb:s.fb+sv('sim_fb'),
-   smash:s.smash+sv('sim_smash')
- };
- const next=totalMultiplier(nextSpec,sv('sim_attack'));
- const g=gainPct(base.mixedTotal,next.mixedTotal);
- $('#sim_gain').textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
- $('#sim_effective').textContent=`혼합 기준 ${nf(Math.round(base.mixedTotal))} → ${nf(Math.round(next.mixedTotal))}`;
-}
-
-
-function snapshotSpec(){const d={};SPEC_IDS.forEach(id=>d[id]=$('#'+id)?.value??'');return d}
-function specFromSnapshot(d){
- const current=snapshotSpec();
- Object.entries(specMigrate(d)||{}).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
- const s=getSpec();
- Object.entries(current).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
- return s;
-}
-function saveAB(which){
- const d=snapshotSpec();
- localStorage.setItem('buson2-spec-'+which,JSON.stringify(d));
- $('#sp_ab_'+which).textContent='현재값 저장됨';
- renderABCompare();
-}
-function renderABCompare(){
- let a={},b={};
- try{a=JSON.parse(localStorage.getItem('buson2-spec-a')||'{}')}catch(e){}
- try{b=JSON.parse(localStorage.getItem('buson2-spec-b')||'{}')}catch(e){}
- $('#sp_ab_a').textContent=Object.keys(a).length?'A 세팅 저장됨':'저장값 없음';
- $('#sp_ab_b').textContent=Object.keys(b).length?'B 세팅 저장됨':'저장값 없음';
- if(!Object.keys(a).length||!Object.keys(b).length){$('#sp_ab_gain').textContent='—';return}
- const ar=totalMultiplier(specFromSnapshot(a));
- const br=totalMultiplier(specFromSnapshot(b));
- const g=gainPct(ar.mixedTotal,br.mixedTotal);
- $('#sp_ab_gain').textContent=(g>=0?'+':'')+g.toFixed(2)+'%';
-}
-
-function saveSpec(){
- const data={};
- [...SPEC_IDS,...SIM_IDS].forEach(id=>data[id]=$('#'+id)?.value??'');
- localStorage.setItem('buson2-stat-efficiency',JSON.stringify(data));
- $('#sp_saved').textContent='현재 스탯을 이 브라우저에 저장했습니다.';
-}
-function loadSpec(){
- try{
-  const d=specMigrate(JSON.parse(localStorage.getItem('buson2-stat-efficiency')||'{}'));
-  Object.entries(d).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v});
-  $('#sp_saved').textContent=Object.keys(d).length?'저장한 스탯을 불러왔습니다.':'저장된 스탯이 없습니다.';
-  calcSpec();
- }catch(e){$('#sp_saved').textContent='저장값을 불러오지 못했습니다.'}
-}
-
-const DUNGEONS=[
- {id:'tadeba-n-40',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'tadeba-n-80',group:'타데바',name:'타락한 데바의 성',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'tadeba-h-60',group:'타데바',name:'타락한 데바의 성',difficulty:'어려움',reward:1800000,ode:60,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'tadeba-h-120',group:'타데바',name:'타락한 데바의 성',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'pusum-n-40',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
- {id:'pusum-n-40b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'pusum-h-80a',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'pusum-h-80b',group:'푸섬',name:'푸른 숨의 섬',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'hall-n-40',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:810000,ode:40,source:'official',entryLevel:45,itemLevel:3000,extra:''},
- {id:'hall-n-40b',group:'환영',name:'환영의 회랑',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:45,itemLevel:3000,extra:''},
- {id:'hall-h-80a',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:1620000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'hall-h-80b',group:'환영',name:'환영의 회랑',difficulty:'어려움',reward:2010000,ode:80,source:'buson2',entryLevel:45,itemLevel:3500,extra:''},
- {id:'redmirror-1-40',group:'연심',name:'붉은 연심의 거울',difficulty:'1단',reward:750000,ode:40,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
- {id:'redmirror-1-80',group:'연심',name:'붉은 연심의 거울',difficulty:'1단',reward:1500000,ode:80,source:'buson2',entryLevel:50,itemLevel:3200,extra:''},
- {id:'redmirror-2-40',group:'연심',name:'붉은 연심의 거울',difficulty:'2단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
- {id:'redmirror-2-80',group:'연심',name:'붉은 연심의 거울',difficulty:'2단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3500,extra:''},
- {id:'redmirror-3-40',group:'연심',name:'붉은 연심의 거울',difficulty:'3단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'redmirror-3-80',group:'연심',name:'붉은 연심의 거울',difficulty:'3단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'redmirror-4-40',group:'연심',name:'붉은 연심의 거울',difficulty:'4단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
- {id:'redmirror-4-80',group:'연심',name:'붉은 연심의 거울',difficulty:'4단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4000,extra:''},
- {id:'abyss-horn-1-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'abyss-horn-1-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
- {id:'abyss-horn-2-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
- {id:'abyss-horn-2-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
- {id:'abyss-horn-3-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'abyss-horn-3-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
- {id:'abyss-horn-4-40',group:'암굴',name:'심연의 뿔 암굴',difficulty:'4단',reward:2100000,ode:60,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
- {id:'abyss-horn-4-80',group:'암굴',name:'심연의 뿔 암굴',difficulty:'4단',reward:4200000,ode:120,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
-  {id:'deus-n-40',group:'데우스',name:'데우스',difficulty:'보통',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'deus-n-80',group:'데우스',name:'데우스',difficulty:'보통',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'deus-h-60',group:'데우스',name:'데우스',difficulty:'어려움',reward:1800000,ode:60,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'deus-h-120',group:'데우스',name:'데우스',difficulty:'어려움',reward:3600000,ode:120,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'noiran-1-40',group:'노이란',name:'노이란',difficulty:'1단',reward:855000,ode:40,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'noiran-1-80',group:'노이란',name:'노이란',difficulty:'1단',reward:1710000,ode:80,source:'buson2',entryLevel:50,itemLevel:3800,extra:''},
-{id:'noiran-2-40',group:'노이란',name:'노이란',difficulty:'2단',reward:1005000,ode:40,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
-{id:'noiran-2-80',group:'노이란',name:'노이란',difficulty:'2단',reward:2010000,ode:80,source:'buson2',entryLevel:50,itemLevel:4100,extra:''},
-{id:'noiran-3-40',group:'노이란',name:'노이란',difficulty:'3단',reward:1200000,ode:40,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'noiran-3-80',group:'노이란',name:'노이란',difficulty:'3단',reward:2400000,ode:80,source:'buson2',entryLevel:50,itemLevel:4500,extra:''},
-{id:'noiran-4-60',group:'노이란',name:'노이란',difficulty:'4단',reward:2100000,ode:60,source:'buson2',entryLevel:50,itemLevel:4800,extra:''},
-{id:'noiran-4-120',group:'노이란',name:'노이란',difficulty:'4단',reward:4200000,ode:120,source:'buson2',entryLevel:50,itemLevel:4800,extra:''}
-];
-
-function getDungeonSaved(id){
- try{return JSON.parse(localStorage.getItem('buson2-dungeon-'+id)||'{}')}catch(e){return{}}
-}
-function setDungeonSaved(id,key,value){
- const d=getDungeonSaved(id); d[key]=value; localStorage.setItem('buson2-dungeon-'+id,JSON.stringify(d));
-}
-function renderDungeonDB(){
- const filter=$('#dg_filter')?.value||'all';
- const sort=$('#dg_sort')?.value||'kina';
- const defaultMins=Math.max(1,val('dg_minutes')||7);
- let items=DUNGEONS.filter(x=>filter==='all'||x.group===filter).map(x=>{
-   const saved=getDungeonSaved(x.id);
-   const mins=Math.max(1,Number(saved.minutes||defaultMins));
-   return {...x,minutes:mins,note:saved.note||'',perOde:x.ode?x.reward/x.ode:0,perHour:x.reward*60/mins};
- });
- if(sort==='ode')items.sort((a,b)=>b.perOde-a.perOde);
- else if(sort==='hour')items.sort((a,b)=>b.perHour-a.perHour);
- else items.sort((a,b)=>b.reward-a.reward);
-
- const maxOde=Math.max(...items.map(x=>x.perOde),0);
- const maxHour=Math.max(...items.map(x=>x.perHour),0);
- const grid=$('#dungeonGrid');
- if(!grid)return;
- if(!items.length){grid.innerHTML='<div class="dungeon-empty">조건에 맞는 던전이 없습니다.</div>';return}
- grid.innerHTML=items.map(x=>{
-   const best=[];
-   if(x.perOde===maxOde)best.push('오드 효율 최고');
-   if(x.perHour===maxHour)best.push('시간당 최고');
-   const badge=x.source==='official'?'<span class="source-badge">공식 확인</span>':'<span class="source-badge user">BUSON2 설정값</span>';
-   return `<div class="dungeon-card">
-     <h3>${escapeHtml(x.name)} · ${escapeHtml(x.difficulty)} ${badge}</h3>
-     <div class="dungeon-tags"><span class="dungeon-tag">${escapeHtml(x.group)}</span><span class="dungeon-tag">입장 Lv.${x.entryLevel}</span><span class="dungeon-tag">아이템 Lv.${escapeHtml(x.itemLevel)}</span></div>
-     <div class="dungeon-stats">
-       <div class="dungeon-stat"><div class="k">한 판 기본 키나</div><div class="v">${money(x.reward)}</div></div>
-       <div class="dungeon-stat"><div class="k">소비 오드</div><div class="v">${nf(x.ode)} 오드</div></div>
-       <div class="dungeon-stat"><div class="k">오드 1당 키나</div><div class="v">${money(x.perOde)}</div></div>
-       <div class="dungeon-stat"><div class="k">시간당 키나</div><div class="v">${money(x.perHour)}</div></div>
-     </div>
-     <div class="dungeon-extra">
-       <label>내 평균 클리어 시간</label>
-       <div class="iwrap"><input value="${x.minutes}" data-dg-minutes="${x.id}"><span class="unit">분</span></div>
-       <label>추가 보상 메모</label>
-       <input value="${escapeHtml(x.note)}" data-dg-note="${x.id}" placeholder="예: 성화, 재료, 장비 등">
-     </div>
-     <div class="dungeon-rank">${best.length?best.join(' · '):'효율 비교용 데이터'}</div>
-   </div>`;
- }).join('');
- document.querySelectorAll('[data-dg-minutes]').forEach(el=>el.addEventListener('change',()=>{setDungeonSaved(el.dataset.dgMinutes,'minutes',el.value);renderDungeonDB()}));
- document.querySelectorAll('[data-dg-note]').forEach(el=>el.addEventListener('change',()=>setDungeonSaved(el.dataset.dgNote,'note',el.value)));
-}
-
-document.querySelectorAll('.subtab').forEach(btn=>btn.addEventListener('click',()=>{
- document.querySelectorAll('.subtab').forEach(x=>x.classList.remove('active'));
- btn.classList.add('active');
- const key=btn.dataset.newsKey;
- ['notice','update','cm'].forEach(k=>$('#panel-'+k).classList.toggle('hidden',k!==key));
- loadOfficialNews();
-}));
-
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
-document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['noticehub','dungeon','spec','driver','sub','main','compare'].forEach(p=>$('#page-'+p).classList.toggle('hidden',p!==b.dataset.page));if(b.dataset.page==='compare')buildCompare();if(b.dataset.page==='noticehub')loadOfficialNews();if(b.dataset.page==='dungeon')renderDungeonDB()}));
-$('#d_driverCount').addEventListener('change',()=>renderDrivers(true));$('#d_myDriver').addEventListener('change',calcDriver);
-['d_cost','d_minutes','d_fare','d_passengers','d_runs','d_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',calcDriver));
-$('#d_income').addEventListener('change',()=>{syncOdeFromDungeon('d');calcDriver()});
-$('#d_ode').addEventListener('change',calcDriver);
-['m_cost','m_minutes','m_runs','m_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>{calcSimple('m');calcSimple('s')}));
-$('#m_income').addEventListener('change',()=>{syncOdeFromDungeon('m');calcSimple('m');calcSimple('s')});
-$('#m_ode').addEventListener('change',()=>{calcSimple('m');calcSimple('s')});
-['s_cost','s_minutes','s_runs','s_ownedOde'].forEach(id=>$('#'+id).addEventListener('input',()=>calcSimple('s')));
-$('#s_income').addEventListener('change',()=>{syncOdeFromDungeon('s');calcSimple('s')});
-$('#s_ode').addEventListener('change',()=>calcSimple('s'));
-document.addEventListener('change',e=>{
- const id=e.target && e.target.id ? e.target.id : '';
- if(id==='d_income'){syncOdeFromDungeon('d');calcDriver()}
- else if(id==='d_ode'){calcDriver()}
- else if(id==='m_income'){syncOdeFromDungeon('m');calcSimple('m')}
- else if(id==='m_ode'){calcSimple('m')}
- else if(id==='s_income'){syncOdeFromDungeon('s');calcSimple('s')}
- else if(id==='s_ode'){calcSimple('s')}
-});
-
-document.querySelectorAll('.rank-tab').forEach(btn=>btn.addEventListener('click',()=>{
- document.querySelectorAll('.rank-tab').forEach(x=>x.classList.remove('active'));
- btn.classList.add('active');
- currentRankMode=btn.dataset.rankMode;
- renderRankings();
-}));
-$('#sp_save_a')?.addEventListener('click',()=>saveAB('a'));
-$('#sp_save_b')?.addEventListener('click',()=>saveAB('b'));
-
-$('#sp_calc')?.addEventListener('click',calcSpec);
-$('#sp_save')?.addEventListener('click',saveSpec);
-$('#sp_load')?.addEventListener('click',loadSpec);
-SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSpec));
-SPEC_IDS.forEach(id=>$('#'+id)?.addEventListener('change',calcSpec));
-SIM_IDS.forEach(id=>$('#'+id)?.addEventListener('input',calcSimulator));
-calcSpec();
-$('#dg_filter')?.addEventListener('change',renderDungeonDB);$('#dg_sort')?.addEventListener('change',renderDungeonDB);$('#dg_minutes')?.addEventListener('input',renderDungeonDB);renderDungeonDB();renderDrivers(false);syncOdeFromDungeon('d');syncOdeFromDungeon('m');syncOdeFromDungeon('s');calcDriver();calcSimple('m');calcSimple('s');
-</script>
-  <script>
-window.addEventListener('load', function () {
-  const params = new URLSearchParams(window.location.search);
-
-  if (params.get('tab') === 'spec') {
-    const specButton = document.querySelector('.tab[data-page="spec"]');
-
-    if (specButton) {
-      specButton.click();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-});
-</script>
-</body></html>
+</body>
+</html>

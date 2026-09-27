@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>아이온2 스펙 계산기 | 강타·피해증폭 비교</title>
-<meta name="description" content="아이온2 강타, 피해증폭, 공격력 등 주요 스탯의 효율을 계산하고 비교하세요.">
+<meta name="description" content="아이온2 강타, 완벽, 피해증폭, 공격력 등 주요 스탯의 효율을 계산하고 비교하세요. 캐릭터 불러오기와 치유성·호법성·수호성 파티 버프 반영을 지원합니다.">
 
   <meta name="robots" content="index, follow">
 
@@ -457,9 +457,9 @@
     <h1>아이온2 스펙 계산기</h1>
 
     <p class="lead">
-      현재 스탯을 기준으로 공격력과 각종 피해 증폭,
-      강타 등 주요 옵션의 효율을 비교하고
-      장비 교체 전후의 변화를 확인할 수 있습니다.
+      현재 스탯을 기준으로 공격력, 강타, 완벽, 각종 피해 증폭을 올렸을 때의
+      예상 실딜 상승률을 순위로 비교합니다. 캐릭터 검색으로 기본 스탯을 불러오고,
+      힐러·수호성 파티 버프를 켠 상태로도 계산할 수 있습니다.
     </p>
 
     <div class="actions">
@@ -480,55 +480,55 @@
   <section class="grid">
 
     <article class="card">
-      <h2>공격력 효율</h2>
+      <h2>캐릭터 불러오기</h2>
       <p>
-        현재 공격력과 장비 관련 수치를 바탕으로
-        공격력 옵션의 실질적인 효율을 비교합니다.
+        <a href="/character/" style="color:#91a7ff">캐릭터 검색</a>에서 불러오면 위력·파괴·주무기 공격력·돌파 부위 수가 자동으로 채워지고,
+        피해 증폭·강타 등 % 스탯은 출처별 참고표로 보여줍니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>강타</h2>
+      <h2>공격력 · 추가 · 최대 공격력</h2>
       <p>
-        강타 수치와 전투 환경을 반영해
-        강타 관련 옵션의 기대 효율을 비교합니다.
+        파괴·위력·돌파 공격력 증가를 반영해 공격력, 추가 공격력,
+        최대 공격력을 올렸을 때의 효율을 각각 비교합니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>피해 증폭</h2>
+      <h2>강타 · 완벽 · 다단히트</h2>
       <p>
-        피해 증폭과 무기 피해 증폭 등
-        서로 다른 증폭 옵션의 상대적인 효율을 확인합니다.
+        보스 강타 저항과 대상 완벽 저항을 빼고 실제 발동률로 계산하며,
+        완벽은 주무기 최소~최대 공격력을 기준으로 기대값을 구합니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>치명타 피해 증폭</h2>
+      <h2>피해 증폭 계열</h2>
       <p>
-        치명타 적중 환경을 고려해
-        치명타 피해 증폭 옵션의 기대 효율을 확인합니다.
+        피해 증폭·PVE·보스 피해 증폭(상한 200%)과 무기·치명타·전방·후방 피해 증폭을
+        같은 기준으로 놓고 어느 쪽이 더 효율적인지 순위로 보여줍니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>전방·후방 피해 증폭</h2>
+      <h2>파티 버프 반영</h2>
       <p>
-        전방·후방 공격 성공률을 고려해
-        실제 전투에서 적용되는 피해 증폭 효과를 비교합니다.
+        호법성(불패의 진언·질풍의 권능), 치유성(보호의 빛·대지의 축복),
+        수호성 격앙(고결의 갑주) 버프를 인게임 툴팁 수치로 켜고 계산할 수 있습니다.
       </p>
     </article>
 
 
     <article class="card">
-      <h2>옵션 A/B 비교</h2>
+      <h2>장비 교체 · A/B 비교</h2>
       <p>
-        현재 세팅을 저장하고 다른 장비 또는 옵션 세팅과 비교하여
-        어느 쪽이 더 효율적인지 확인합니다.
+        장비 한 부위를 바꿨을 때의 변화, 옵션 시뮬레이터, 5개 저장 슬롯과
+        스탯 A/B 비교로 세팅 전후를 수치로 확인합니다.
       </p>
     </article>
 
@@ -657,15 +657,76 @@
     </div>
   </details>
 
+  <details>
+    <summary>
+      <span class="faq-number">Q5</span>
+      캐릭터 정보를 불러올 수 있나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      네. 캐릭터 검색 상세 화면에서 스펙 계산기로 불러오면 위력·파괴·주무기 최소/최대 공격력·돌파 부위 수가 자동으로 채워집니다.
+      % 스탯은 공식 정보에 스킬 패시브·펫·날개 효과가 없어 실제보다 낮게 나올 수 있어서
+      자동 입력하지 않고 출처별 참고표로만 보여줍니다. 스탯창 공격력은 직접 입력해주세요.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q6</span>
+      파티 버프 수치는 어떤 기준인가요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      인게임 스킬 툴팁 기준입니다. 불패의 진언·보호의 빛은 Lv25 기준 피해 증폭 22.5%·완벽 10%이고,
+      호법성은 강타 5%·치명타 피해 증폭 5%와 질풍의 권능(공격력 10%·무기 피해 증폭 5%, 유지 시간 비율로 평균 25% 반영),
+      치유성은 강타 10%(보호의 빛 5% + 대지의 축복 5%)와 공격력 5%를 더합니다.
+      수호성 격앙은 Lv35에 고결의 갑주 1.5배를 적용한 피해 증폭 33.75%입니다.
+    </div>
+  </details>
+
 </section>
 
 <!-- ===== 스펙 계산기 가이드 영역 끝 ===== -->
 
 <!-- 여기부터 붙여넣기 -->
 
-  <footer>
-    BUSON2 · 아이온2 던전·버스·파밍·스펙 효율 계산
-  </footer>
+  <footer class="bo-foot">
+  <style>
+    footer.bo-foot{max-width:1100px;margin:48px auto 0;padding:24px 16px 36px;border-top:1px solid #1d2633;color:#8a9ab0;font-size:13px;line-height:1.7;text-align:left}
+    footer.bo-foot .bo-foot-title{margin:0 0 6px;color:#c9d6ea;font-size:13px;font-weight:800}
+    footer.bo-foot nav{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 14px}
+    footer.bo-foot a{color:#91a7ff;text-decoration:none}
+    footer.bo-foot a:hover{text-decoration:underline}
+    footer.bo-foot p{margin:0;color:#718096;font-size:12px}
+  </style>
+  <div class="bo-foot-title">BUSON2 계산기</div>
+  <nav aria-label="계산기">
+    <a href="/">메인</a>
+    <a href="/character/">캐릭터 검색·비교</a>
+    <a href="/spec/">스펙 계산기</a>
+    <a href="/driver/">버스 기사</a>
+    <a href="/sub/">부캐 버스</a>
+    <a href="/dungeon/">던전 파밍 DB</a>
+    <a href="/compare/">파밍 비교</a>
+    <a href="/#party">성역 파티 배치</a>
+    <a href="/arcana/">아르카나</a>
+    <a href="/pet/">펫작 시뮬</a>
+    <a href="/enhance/">강화·마석</a>
+  </nav>
+  <div class="bo-foot-title">가이드 · 안내</div>
+  <nav aria-label="가이드와 안내">
+    <a href="/guide/bus-profit/">버스 수익 가이드</a>
+    <a href="/guide/od-efficiency/">오드 효율 가이드</a>
+    <a href="/guide/spec-efficiency/">스펙 효율 가이드</a>
+    <a href="/guide/dungeon-efficiency/">던전 효율 가이드</a>
+    <a href="/guide/sub-bus-vs-hq/">부캐 버스 vs 본부</a>
+    <a href="/about/">소개</a>
+    <a href="/notes/">운영일지</a>
+    <a href="/contact/">문의</a>
+    <a href="/privacy/">개인정보처리방침</a>
+  </nav>
+  <p>© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구이며 NCSOFT·아이온2 공식 서비스와 무관합니다. 계산 결과는 참고용입니다.</p>
+</footer>
 
 </main>
 
