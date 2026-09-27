@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D4LT1W5QL2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D4LT1W5QL2');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3238904354498849"
+     crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://buson2.com/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://buson2.com/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://buson2.com/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>아이온2 파티 버프 수치 정리 | BUS ON2</title>
+  <meta name="description" content="아이온2 수호성 격앙·고결의 갑주, 호법성 불패의 진언·질풍의 권능, 치유성 보호의 빛·대지의 축복의 파티 버프 수치를 인게임 툴팁 기준으로 정리했습니다. 레벨별 계산식, 중복 규칙, 파티 구성별 합계까지 확인하세요.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://buson2.com/guide/party-buff/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="버스온2">
+  <meta property="og:url" content="https://buson2.com/guide/party-buff/">
+  <meta property="og:title" content="아이온2 파티 버프 수치 정리 - 버스온2">
+  <meta property="og:description" content="아이온2 수호성 격앙·고결의 갑주, 호법성 불패의 진언·질풍의 권능, 치유성 보호의 빛·대지의 축복의 파티 버프 수치를 인게임 툴팁 기준으로 정리했습니다. 레벨별 계산식, 중복 규칙, 파티 구성별 합계까지 확인하세요.">
+  <meta property="og:image" content="https://buson2.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "아이온2 파티 버프 수치 정리",
+  "description": "아이온2 수호성 격앙·고결의 갑주, 호법성 불패의 진언·질풍의 권능, 치유성 보호의 빛·대지의 축복의 파티 버프 수치를 인게임 툴팁 기준으로 정리했습니다. 레벨별 계산식, 중복 규칙, 파티 구성별 합계까지 확인하세요.",
+  "inLanguage": "ko-KR",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "author": { "@type": "Organization", "name": "BUSON2", "url": "https://buson2.com/about/" },
+  "publisher": { "@type": "Organization", "name": "버스온2", "url": "https://buson2.com/" },
+  "mainEntityOfPage": "https://buson2.com/guide/party-buff/"
+}
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #08111f;
+      color: #d9e5ff;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      line-height: 1.8;
+    }
+
+    a {
+      color: #78b7ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: #080d14;
+      border-bottom: 1px solid #263d59;
+    }
+
+    .nav {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 42px 20px 80px;
+    }
+
+    .breadcrumb {
+      color: #8fa9c7;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 34px;
+      line-height: 1.35;
+      margin: 0 0 18px;
+    }
+
+    h2 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-top: 48px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      color: #c5ddff;
+      font-size: 18px;
+      margin-top: 28px;
+    }
+
+    p {
+      margin: 12px 0;
+    }
+
+    .intro {
+      font-size: 17px;
+      color: #b8cbe5;
+    }
+
+    .box {
+      margin: 24px 0;
+      padding: 20px;
+      background: #101c2d;
+      border: 1px solid #263d59;
+      border-radius: 12px;
+    }
+
+    .formula {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .example {
+      border-left: 4px solid #4d8cff;
+    }
+
+    .good {
+      border-left: 4px solid #42d392;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #101c2d;
+      border: 1px solid #263d59;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #263d59;
+      text-align: center;
+    }
+
+    th {
+      color: #ffffff;
+      background: #14243a;
+    }
+
+    .cta {
+      margin-top: 42px;
+      padding: 24px;
+      text-align: center;
+      background: #122238;
+      border: 1px solid #34577c;
+      border-radius: 14px;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 11px 20px;
+      background: #347cf0;
+      color: #ffffff;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .related {
+      margin-top: 42px;
+      padding: 20px;
+      border-top: 1px solid #263d59;
+    }
+
+    .related strong {
+      color: #ffffff;
+    }
+
+    footer {
+      border-top: 1px solid #263d59;
+      color: #7f96b2;
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 27px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      table {
+        font-size: 13px;
+      }
+    }
+
+    .updated {
+      color: #8fa9c7;
+      font-size: 13px;
+      margin: -6px 0 22px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .table-wrap table {
+      margin: 0;
+      min-width: 560px;
+    }
+
+    th.l,
+    td.l {
+      text-align: left;
+    }
+
+    tr.top td {
+      color: #ffd166;
+      font-weight: 800;
+    }
+
+    .hl {
+      color: #ffd166;
+      font-weight: 800;
+    }
+
+    .src {
+      font-size: 13px;
+      color: #8fa9c7;
+    }
+
+    .toc {
+      margin: 22px 0 8px;
+      padding: 16px 20px;
+      background: #0d1726;
+      border: 1px solid #263d59;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .toc ol {
+      margin: 6px 0 0;
+      padding-left: 20px;
+    }
+
+    .toc li {
+      margin: 3px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="/">BUS ON2</a>
+
+    <div class="nav-links">
+      <a href="/">홈</a>
+      <a href="/spec/">스펙 계산기</a>
+      <a href="/driver/">버스 기사</a>
+      <a href="/sub/">부캐 버스</a>
+      <a href="/dungeon/">던전 DB</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="breadcrumb">
+    <a href="/">BUS ON2</a> › 가이드 › 파티 버프 수치
+  </div>
+
+  <h1>아이온2 파티 버프 수치 정리</h1>
+  <p class="updated">최종 업데이트 2026-09-27 · 작성 BUSON2 운영자 · 수치는 BUSON2 계산기에 등록된 값 기준</p>
+
+  <p class="intro">
+    수호성 격앙, 호법성 불패의 진언·질풍의 권능, 치유성 보호의 빛·대지의 축복이 파티원에게 주는 수치를
+    인게임 스킬 툴팁으로 확인해 한곳에 정리했습니다. 툴팁에서 직접 본 값과, 레벨별 값을 비교해 계산식으로 추정한 값을 구분해 적었습니다.
+    BUSON2 스펙 계산기의 파티 버프도 이 표를 기준으로 계산합니다.
+  </p>
+
+  <div class="toc">
+    <b>목차</b>
+    <ol>
+      <li><a href="#summary">한눈에 보기</a></li>
+      <li><a href="#guardian">수호성: 격앙 · 고결의 갑주</a></li>
+      <li><a href="#templar">호법성: 불패의 진언 · 질풍의 권능</a></li>
+      <li><a href="#cleric">치유성: 보호의 빛 · 대지의 축복</a></li>
+      <li><a href="#rules">같이 받을 때 주의할 점</a></li>
+      <li><a href="#combo">파티 구성별 합계</a></li>
+      <li><a href="#dealer">딜러 입장에서 달라지는 것</a></li>
+      <li><a href="#faq">자주 묻는 질문</a></li>
+    </ol>
+  </div>
+
+
+  <h2 id="summary">1. 한눈에 보기</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>직업</th><th class="l">스킬 (확인 레벨)</th><th class="l">파티원이 받는 딜 관련 효과</th><th>유지 / 재시전</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>수호성</td><td class="l">격앙 (Lv25~27)</td><td class="l">막기 성공 시 PVE 피해 증폭 5% + 레벨당 0.5%</td><td>20초 / 재발동 1초</td></tr>
+        <tr><td>수호성</td><td class="l">고결의 갑주 (Lv15)</td><td class="l">유지 중 격앙 효과 1.5배</td><td>2분 / 2분</td></tr>
+        <tr><td>호법성</td><td class="l">불패의 진언 (Lv25)</td><td class="l">PVE 피해 증폭 22.5%, 강타 5%, 완벽 10%, 치명타 피해 증폭 5%, 치명타 100</td><td>토글 (상시)</td></tr>
+        <tr><td>호법성</td><td class="l">질풍의 권능 (Lv25)</td><td class="l">공격력 10%, 무기 피해 증폭 5%, 치명타 200, 전투 속도 20%</td><td>22.5초 / 1분 30초</td></tr>
+        <tr><td>치유성</td><td class="l">보호의 빛 (Lv22)</td><td class="l">PVE 피해 증폭 21%, 완벽 10% · Lv25 특화 강타 5%</td><td>토글 (상시)</td></tr>
+        <tr><td>치유성</td><td class="l">대지의 징벌 → 대지의 축복 (Lv21)</td><td class="l">강타 5%, 공격력 5%</td><td>20초 + 특화 / 30초</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <h2 id="guardian">2. 수호성: 격앙 · 고결의 갑주</h2>
+
+  <h3>격앙 — 툴팁 확인 값</h3>
+  <p>
+    "자신의 전방 피해 증폭이 증가하고, 막기 성공 시 20초 동안 자신 및 파티원의 PVE·PVP 피해 증폭이 증가"하는 스킬입니다.
+    스킬 레벨 10에 추가 레벨이 붙은 세 가지 상태의 툴팁을 비교했습니다.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>총 레벨</th><th>자신 전방 피해 증폭</th><th>파티 PVE 피해 증폭</th><th>파티 PVP 피해 증폭</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lv25 (10+15)</td><td>7.5%</td><td>17.5%</td><td>8.75%</td></tr>
+        <tr><td>Lv26 (10+16)</td><td>7.8%</td><td>18%</td><td>9%</td></tr>
+        <tr><td>Lv27 (10+17)</td><td>8.1%</td><td>18.5%</td><td>9.25%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <div class="formula">파티 PVE 피해 증폭 = 5% + 레벨 × 0.5%</div>
+    <div class="formula" style="padding-top:0">자신 전방 피해 증폭 = 레벨 × 0.3% · PVP 피해 증폭 = PVE의 절반</div>
+  </div>
+
+  <p>세 레벨 모두 위 식과 정확히 맞아서, 이 식으로 다른 레벨의 값을 추정했습니다.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>레벨</th><th>파티 PVE 피해 증폭</th><th>고결의 갑주 유지 중 (×1.5)</th><th>자신 전방 피해 증폭 (갑주 중)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lv25</td><td>17.5%</td><td>26.25%</td><td>7.5% (11.25%)</td></tr>
+        <tr><td>Lv30 (추정)</td><td>20%</td><td>30%</td><td>9% (13.5%)</td></tr>
+        <tr class="top"><td>Lv35 (추정)</td><td>22.5%</td><td>33.75%</td><td>10.5% (15.75%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>고결의 갑주 — 격앙 1.5배</h3>
+  <p>
+    Lv15 툴팁 기준으로 2분 동안 최대 생명력 11%·방어력 5%가 오르고, 유지 시간 동안 모욕의 포효와 격앙 효과가 1.5배가 됩니다.
+    유지 2분에 재시전도 2분이라 끊기지 않게 계속 켜둘 수 있고, 강화 마법 해제에도 지워지지 않습니다(무기 조건: 장검).
+    그래서 BUSON2 스펙 계산기는 수호성 격앙을 <b>고결의 갑주를 켠 Lv35 기준 33.75%</b>로 계산합니다.
+  </p>
+
+  <p class="src">
+    참고로 커뮤니티에 남아 있는 너프 전 기록(15레벨 27.5%, 20레벨 30%)과 비교하면 레벨당 0.5%는 그대로이고,
+    기본값이 20%에서 5%로 15%p 줄어든 것으로 보입니다.
+  </p>
+
+
+  <h2 id="templar">3. 호법성: 불패의 진언 · 질풍의 권능</h2>
+
+  <h3>불패의 진언 (Lv25, 토글형)</h3>
+  <p>
+    자신과 주변 파티원의 PVE 피해 증폭·PVE 피해 내성 22.5%, PVP 피해 증폭·PVP 피해 내성 11.25%,
+    치명타 100, 명중 100, 치명타 피해 증폭 5%, 강타 5%, 완벽 10%가 오릅니다. 켜두는 스킬이라 사실상 상시 유지되고 재시전은 5초입니다.
+    Lv25 툴팁에서 특화 다섯 개(치명타·명중·치명타 피해 증폭·강타·완벽)가 모두 열려 있었습니다.
+  </p>
+
+  <h3>질풍의 권능 (Lv25)</h3>
+  <p>
+    22.5초 동안 40m 안의 파티원에게 전투 속도 20%, 명중 200, 치명타 200, 공격력 10%, 무기 피해 증폭 5%,
+    스킬 재시전 시간 10% 감소를 줍니다(시전자 본인은 공격력 20%, 재시전 20% 감소). 재시전은 1분 30초입니다.
+  </p>
+
+  <div class="box example">
+    유지 22.5초 ÷ 재시전 90초 = <b>가동률 25%</b>. 그래서 스펙 계산기는 파티 공격력 10%·무기 피해 증폭 5%를
+    평균값인 공격력 2.5%·무기 피해 증폭 1.25%로 넣습니다. 버스트 구간만 따로 보고 싶다면 계산기 입력값에 직접 더해 비교하면 됩니다.
+  </div>
+
+
+  <h2 id="cleric">4. 치유성: 보호의 빛 · 대지의 축복</h2>
+
+  <h3>보호의 빛 (Lv22, 토글형)</h3>
+  <p>
+    자신과 주변 파티원의 PVE 피해 증폭·PVE 피해 내성 21%, PVP 피해 증폭·PVP 피해 내성 10.5%, 받는 치유량 10%,
+    최대 생명력 10%, 완벽 10%, 명중 100이 오릅니다. 특화 목록의 마지막 줄인 <b>강타 5%는 Lv25에 열리는</b> 항목이라
+    Lv22에서는 아직 잠겨 있었습니다.
+  </p>
+  <p>
+    피해 증폭 수치는 보호의 빛 Lv22가 21%, 불패의 진언 Lv25가 22.5%로, 두 스킬 모두 "10% + 레벨 × 0.5%"에 맞습니다.
+    같은 식을 쓴다고 보고 계산기는 둘 다 Lv25 기준 22.5%로 계산합니다(추정).
+  </p>
+
+  <h3>대지의 징벌 → 대지의 축복 (Lv21)</h3>
+  <p>
+    대지의 징벌을 적중시키면 20초 동안 치유성 본인은 강타·공격력·방어력 10%, <b>파티원은 강타·공격력·방어력 5%</b>가 오르는
+    대지의 축복을 받습니다. 재시전은 30초이고 특화로 대지의 징벌·대지의 축복 유지 시간이 늘어나서, 계속 이어서 쓸 수 있는 것으로 보고
+    계산기는 상시 유지로 계산합니다. 대지의 징벌이 걸린 대상에게는 치유성의 단죄가 확정 치명타로 들어갑니다.
+  </p>
+
+
+  <h2 id="rules">5. 같이 받을 때 주의할 점</h2>
+
+  <ul>
+    <li>
+      <b>불패의 진언과 보호의 빛은 중복되지 않습니다.</b> 스킬 레벨이 더 높은 쪽 하나만 적용되고, 레벨이 같으면 불패의 진언이 적용됩니다.
+      호법성과 치유성이 같은 파티에 있어도 피해 증폭 22.5%는 한 번만 들어옵니다.
+    </li>
+    <li>
+      <b>질풍의 권능을 받는 동안에는 대지의 축복을 받을 수 없습니다.</b> 호법성과 치유성이 함께 있으면
+      질풍의 권능이 켜진 22.5초 동안은 대지의 축복(강타 5%·공격력 5%)이 빠집니다.
+    </li>
+    <li>
+      <b>격앙은 힐러 버프와 별개로 더해집니다.</b> BUSON2 계산기는 힐러의 피해 증폭과 격앙의 피해 증폭을 더해서 계산합니다.
+    </li>
+  </ul>
+
+
+  <h2 id="combo">6. 파티 구성별 합계 (스펙 계산기 기준)</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th class="l">파티 버프</th><th>PVE 피해 증폭</th><th>강타</th><th>완벽</th><th>치명타 피해 증폭</th><th>공격력</th><th>무기 피해 증폭</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="l">호법성</td><td>22.5%</td><td>5%</td><td>10%</td><td>5%</td><td>2.5% (평균)</td><td>1.25% (평균)</td></tr>
+        <tr><td class="l">치유성</td><td>22.5%</td><td>10%</td><td>10%</td><td>—</td><td>5%</td><td>—</td></tr>
+        <tr><td class="l">수호성 격앙 (갑주)</td><td>33.75%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr class="top"><td class="l">치유성 + 수호성</td><td>56.25%</td><td>10%</td><td>10%</td><td>—</td><td>5%</td><td>—</td></tr>
+        <tr class="top"><td class="l">호법성 + 수호성</td><td>56.25%</td><td>5%</td><td>10%</td><td>5%</td><td>2.5% (평균)</td><td>1.25% (평균)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    치유성은 강타가, 호법성은 치명타 피해 증폭과 질풍의 권능 공격력이 강점입니다.
+    PVE 피해 증폭은 둘 다 22.5%로 같습니다.
+  </p>
+
+
+  <h2 id="dealer">7. 딜러 입장에서 달라지는 것</h2>
+
+  <p>
+    파티 버프는 딜러가 어떤 스탯을 올려야 하는지도 바꿉니다. 자세한 계산은
+    <a href="/guide/spec-efficiency/">스펙 효율 계산 가이드</a>에 있고, 핵심만 정리하면 이렇습니다.
+  </p>
+  <ul>
+    <li>
+      <b>강타:</b> 보스 강타 저항(계산기 기본 30%)보다 내 강타가 낮으면 강타 1%의 효과가 없습니다.
+      치유성 버프(강타 10%)를 받으면 내 강타가 20%를 넘는 순간부터 실제로 터지기 시작합니다.
+    </li>
+    <li>
+      <b>피해 증폭:</b> 파티 피해 증폭이 56.25%까지 쌓이면 내 피해 증폭 1%의 가치가 솔로보다 약 20% 줄어듭니다
+      (스펙 효율 가이드 예시 기준 0.435% → 0.349%).
+    </li>
+    <li>
+      <b>완벽:</b> 호법성·치유성 모두 완벽 10%를 주기 때문에, 힐러와 함께라면 완벽 발동률이 10%p 오른 상태로 계산됩니다.
+    </li>
+  </ul>
+
+
+  <h2 id="faq">8. 자주 묻는 질문</h2>
+
+  <h3>레벨이 다르면 수치를 어떻게 바꾸나요?</h3>
+  <p>
+    격앙은 "5% + 레벨 × 0.5%", 불패의 진언·보호의 빛은 "10% + 레벨 × 0.5%"로 계산하면 됩니다.
+    예를 들어 보호의 빛 Lv30이라면 25%로 추정됩니다. 계산기 선택지는 Lv25(힐러)·Lv35(격앙) 기준입니다.
+  </p>
+
+  <h3>PVP에서는 어떻게 되나요?</h3>
+  <p>
+    격앙·불패의 진언·보호의 빛 모두 PVP 피해 증폭은 PVE의 절반입니다(예: 불패의 진언 Lv25 PVE 22.5% / PVP 11.25%).
+    BUSON2 스펙 계산기는 PVE 기준이라 PVP 수치는 넣지 않았습니다.
+  </p>
+
+  <h3>수치가 게임과 다르면요?</h3>
+  <p>
+    업데이트로 바뀌었을 수 있습니다. 해당 스킬 툴팁 화면을 <a href="/contact/">문의</a>로 보내주시면 확인 후 이 표와 계산기를 같이 고치겠습니다.
+  </p>
+
+  <p class="src">
+    출처: 인게임 스킬 툴팁(2026-09-27 확인) — 격앙 Lv25·26·27, 고결의 갑주 Lv15, 불패의 진언 Lv25, 질풍의 권능 Lv25, 보호의 빛 Lv22, 대지의 징벌 Lv21.
+    "추정"으로 표시한 값은 확인한 레벨의 수치로 계산식을 맞춰 구한 값입니다. 스킬 설명은
+    <a href="https://aion2.plaync.com/ko-kr/guidebook/view?title=%ED%98%B8%EB%B2%95%EC%84%B1%20%EC%8A%A4%ED%82%AC" rel="noopener">아이온2 공식 가이드북</a>도 참고했습니다.
+  </p>
+
+
+  <div class="cta">
+    <strong>파티 버프를 켜고 내 스펙을 계산해보세요.</strong>
+    <p>스펙 계산기에서 힐러 버프와 수호성 버프를 고르면 이 표의 수치가 그대로 반영됩니다.</p>
+    <a href="/spec/">스펙 계산기 사용하기</a>
+    <a href="/guide/spec-efficiency/">스펙 효율 가이드 보기</a>
+  </div>
+
+
+  <div class="related">
+    <strong>관련 가이드</strong>
+    <p><a href="/guide/spec-efficiency/">아이온2 스펙 효율 계산 가이드 →</a></p>
+    <p><a href="/guide/od-efficiency/">아이온2 오드 효율 계산 가이드 →</a></p>
+    <p><a href="/guide/dungeon-efficiency/">아이온2 던전 파밍 효율 가이드 →</a></p>
+  </div>
+
+</main>
+
+<footer class="bo-foot">
+  <style>
+    footer.bo-foot{max-width:1100px;margin:48px auto 0;padding:24px 16px 36px;border-top:1px solid #1d2633;color:#8a9ab0;font-size:13px;line-height:1.7;text-align:left}
+    footer.bo-foot .bo-foot-title{margin:0 0 6px;color:#c9d6ea;font-size:13px;font-weight:800}
+    footer.bo-foot nav{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 14px}
+    footer.bo-foot a{color:#91a7ff;text-decoration:none}
+    footer.bo-foot a:hover{text-decoration:underline}
+    footer.bo-foot p{margin:0;color:#718096;font-size:12px}
+  </style>
+  <div class="bo-foot-title">BUSON2 계산기</div>
+  <nav aria-label="계산기">
+    <a href="/">메인</a>
+    <a href="/character/">캐릭터 검색·비교</a>
+    <a href="/spec/">스펙 계산기</a>
+    <a href="/driver/">버스 기사</a>
+    <a href="/sub/">부캐 버스</a>
+    <a href="/dungeon/">던전 파밍 DB</a>
+    <a href="/compare/">파밍 비교</a>
+    <a href="/#party">성역 파티 배치</a>
+    <a href="/arcana/">아르카나</a>
+    <a href="/pet/">펫작 시뮬</a>
+    <a href="/enhance/">강화·마석</a>
+  </nav>
+  <div class="bo-foot-title">가이드 · 안내</div>
+  <nav aria-label="가이드와 안내">
+    <a href="/guide/bus-profit/">버스 수익 가이드</a>
+    <a href="/guide/od-efficiency/">오드 효율 가이드</a>
+    <a href="/guide/spec-efficiency/">스펙 효율 가이드</a>
+    <a href="/guide/dungeon-efficiency/">던전 효율 가이드</a>
+    <a href="/guide/sub-bus-vs-hq/">부캐 버스 vs 본부</a>
+    <a href="/guide/party-buff/">파티 버프 수치</a>
+    <a href="/about/">소개</a>
+    <a href="/notes/">운영일지</a>
+    <a href="/contact/">문의</a>
+    <a href="/privacy/">개인정보처리방침</a>
+  </nav>
+  <p>© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구이며 NCSOFT·아이온2 공식 서비스와 무관합니다. 계산 결과는 참고용입니다.</p>
+</footer>
+
+</body>
+</html>
