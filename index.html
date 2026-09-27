@@ -528,8 +528,7 @@ main.wrap{
         <div id="sp_import_report"></div>
         <div class="subhead">공격력</div>
         <div class="fields">
-          <div><label>공격력 (스탯창, 장비 착용)</label><input id="sp_attack_on" class="num-comma" inputmode="numeric" value="0"></div>
-          <div><label>공격력 (모든 장비 해제 시)</label><input id="sp_attack_off" class="num-comma" inputmode="numeric" value="0"></div>
+          <div style="grid-column:1/-1"><label>공격력 (스탯창) <span class="muted">장비를 모두 착용한 상태의 스탯창 공격력</span></label><input id="sp_attack_on" class="num-comma" inputmode="numeric" value="0"></div>
           <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" class="num-comma" inputmode="numeric" value="0"></div>
           <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" class="num-comma" inputmode="numeric" value="0"></div>
           <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" class="num-comma" inputmode="numeric" value="0"></div>
@@ -632,8 +631,8 @@ main.wrap{
       </div>
       <div class="body">
         <div class="spec-summary">
-          <div class="box"><div class="k">기본 공격력</div><div class="v gold" id="sp_base_attack">0</div><div class="s" id="sp_base_mult">× 1.00</div></div>
-          <div class="box"><div class="k">장비 공격력</div><div class="v gold" id="sp_gear_attack">0</div><div class="s" id="sp_gear_mult">× 1.00</div></div>
+          <div class="box"><div class="k">스탯창 공격력</div><div class="v gold" id="sp_base_attack">0</div><div class="s" id="sp_base_mult">공격력 증가 × 1.00</div></div>
+          <div class="box"><div class="k">무기 피해 증폭 적용</div><div class="v gold" id="sp_gear_attack">0</div><div class="s" id="sp_gear_mult">무피증 × 1.00</div></div>
           <div class="box"><div class="k">실효 공격력</div><div class="v green" id="sp_effective_attack">0</div><div class="s">공격력 계열 비교값</div></div>
         </div>
 
@@ -5382,7 +5381,7 @@ async function loadOfficialNews(force=false){
 
 
 const SPEC_IDS=[
- 'sp_attack_on','sp_attack_off','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
+ 'sp_attack_on','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
  'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_perfect','sp_multihit','sp_pve','sp_boss',
  'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_healer','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
@@ -5421,7 +5420,8 @@ function sv(id){return parseNum($('#'+id)?.value)}
 function getSpec(){
  const healer=partyHealerBuff();
  return {
-  attackOn:sv('sp_attack_on'), attackOff:sv('sp_attack_off'),
+  // 펫 이해도 옵션 때문에 "모든 장비 해제 시 공격력"을 정확히 알 수 없어 입력을 없애고, 스탯창 공격력 전체를 장비 공격력으로 본다
+  attackOn:sv('sp_attack_on'), attackOff:0,
   destroy:sv('sp_destroy'), power:sv('sp_power'), weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), weaponEnhance:0,
   breakthroughBonus:
     sv('sp_break5')*5 +
@@ -5627,10 +5627,10 @@ function calcSpec(){
      '장착 '+nf(breakParts)+'부위 · 돌파 공격력 보너스 +'+s.breakthroughBonus.toFixed(1)+'%';
  }
 
- $('#sp_base_attack').textContent=nf(Math.round(base.attack.baseAttack));
- $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack));
+ $('#sp_base_attack').textContent=nf(Math.round(s.attackOn));
+ $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack*(1+s.weapon/100)));
  $('#sp_effective_attack').textContent=nf(Math.round(base.attack.effectiveAttack));
- $('#sp_base_mult').textContent='× '+base.attack.wornInc.toFixed(2);
+ $('#sp_base_mult').textContent='공격력 증가 × '+base.attack.wornInc.toFixed(2);
  $('#sp_gear_mult').textContent='무피증 × '+(1+s.weapon/100).toFixed(2);
 
  $('#sp_normal_score').textContent=nf(Math.round(base.normalTotal));
@@ -5808,7 +5808,7 @@ const tests=[
    warnings.push('일반 스킬 예상 치명타율은 현재 80% 상한으로 계산되고 있습니다.');
  }
 
- warnings.push('무기 피해 증폭과 공격력 효율은 장비 공격력 분리값을 사용한 근사 비교입니다.');
+ warnings.push('무기 피해 증폭은 스탯창 공격력 전체에 적용되는 것으로 계산한 근사값이라, 펫 이해도처럼 장비 밖에서 오는 공격력이 많으면 실제보다 조금 높게 나올 수 있습니다.');
 
  const warningEl=$('#sp_invest_warning');
  warningEl.innerHTML=warnings.map(x=>'• '+escapeHtml(x)).join('<br>');
@@ -6060,7 +6060,6 @@ function updateABSlotOptions(){
 }
 const AB_DIFF_FIELDS=[
  {id:'sp_attack_on',label:'공격력',type:'number',digits:0},
- {id:'sp_attack_off',label:'장비 해제 공격력',type:'number',digits:0},
  {id:'sp_destroy',label:'파괴',type:'number',digits:0},
  {id:'sp_power',label:'위력',type:'number',digits:0},
  {id:'sp_weapon_min',label:'무기 최소 공격력',type:'number',digits:0},
