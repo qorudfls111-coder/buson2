@@ -534,6 +534,67 @@
 
   </section>
 
+  <style>
+    .bo-data{margin:40px 0 0}
+    .bo-data h2{margin:0 0 8px;color:#fff;font-size:22px}
+    .bo-data h3{margin:22px 0 8px;color:#dfe8f7;font-size:17px}
+    .bo-data .bo-sub{margin:0 0 12px;color:#9cabc2;font-size:14px;line-height:1.7}
+    .bo-data .bo-wrap{overflow-x:auto;border:1px solid #263043;border-radius:12px;background:#0d131c}
+    .bo-data table{width:100%;min-width:560px;border-collapse:collapse;font-size:14px}
+    .bo-data th,.bo-data td{padding:10px 12px;border-bottom:1px solid #1f2837;text-align:center;white-space:nowrap}
+    .bo-data th{background:#141b28;color:#dfe8f7;font-weight:800}
+    .bo-data tbody tr:last-child td{border-bottom:0}
+    .bo-data th.l,.bo-data td.l{text-align:left;white-space:normal}
+    .bo-data tr.top td{color:#ffd166;font-weight:800}
+    .bo-data tr.grp td{background:#111a27;color:#91a7ff;font-weight:800;text-align:left}
+    .bo-data .bo-note{margin:10px 0 0;color:#7e8ea7;font-size:12.5px;line-height:1.7}
+    .bo-data .bo-note a{color:#91a7ff}
+  </style>
+  <section class="bo-data">
+    <h2>입력칸별 기본값과 계산 방식</h2>
+    <p class="bo-sub">스펙 계산기의 각 입력칸이 계산에 어떻게 쓰이는지와 처음 열었을 때의 기본값입니다.</p>
+    <div class="bo-wrap">
+      <table>
+        <thead>
+          <tr><th class="l">입력칸</th><th>기본값</th><th class="l">계산에 쓰이는 방식</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="l">파괴 · 위력</td><td>0</td><td class="l">1당 공격력 +0.2% · +0.1%</td></tr>
+          <tr><td class="l">돌파 단계별 부위 수</td><td>0</td><td class="l">부위마다 돌파 단계만큼 공격력 % (+5 돌파 1부위 = 5%)</td></tr>
+          <tr><td class="l">주무기 최소 · 최대 공격력</td><td>0</td><td class="l">완벽 계산에 사용 (평소 평균, 완벽 발동 시 최대 × 1.05)</td></tr>
+          <tr><td class="l">피해 · PVE · 보스 피해 증폭</td><td>0</td><td class="l">각각 상한 200%, 파티 피해 증폭과 한 칸에 합산</td></tr>
+          <tr><td class="l">일반 스킬 예상 치명타율</td><td>80%</td><td class="l">최대 80%, 치명 시 50% + 치명타 피해 증폭만큼 추가</td></tr>
+          <tr><td class="l">주 공격 방향 · 유지율</td><td>후방 · 80%</td><td class="l">방향 피해 증폭 × 해당 방향 유지 비율</td></tr>
+          <tr><td class="l">보스 강타 저항</td><td>30%</td><td class="l">내 강타 + 파티 강타에서 빼고 남은 만큼 강타 발동</td></tr>
+          <tr><td class="l">다단히트</td><td>0</td><td class="l">첫 연타 +20%p, 이어지는 연타 +50%p를 더한 확률로 기대값 계산</td></tr>
+          <tr><td class="l">힐러 버프</td><td>없음</td><td class="l">호법성·치유성 Lv25 버프 묶음 (<a href="/guide/party-buff/">수치 보기</a>)</td></tr>
+          <tr><td class="l">수호성 버프</td><td>없음</td><td class="l">격앙 Lv35 + 고결의 갑주 = 피해 증폭 33.75%</td></tr>
+          <tr><td class="l">확정 치명 스킬 비중</td><td>0%</td><td class="l">비중만큼은 치명 100%로 계산해 섞음</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>효율 순위에서 비교하는 단위</h3>
+    <div class="bo-wrap">
+      <table>
+        <thead>
+          <tr><th class="l">항목</th><th>비교 단위</th><th class="l">메모</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="l">% 스탯 (피해 증폭·강타·완벽·치명타 피해 증폭 등)</td><td>+1%</td><td class="l">현재 값에서 1% 올렸을 때</td></tr>
+          <tr><td class="l">다단히트</td><td>+1%</td><td class="l">수치가 높을수록 1%의 효과가 커짐</td></tr>
+          <tr><td class="l">공격력</td><td>+10</td><td class="l">공격력 증가 %와 무기 피해 증폭 적용</td></tr>
+          <tr><td class="l">추가 공격력</td><td>+16</td><td class="l">공격력 증가 %만 적용</td></tr>
+          <tr><td class="l">최대 공격력</td><td>+20</td><td class="l">현재 완벽 확률에 따라 가중</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="bo-note">
+      예시 스펙으로 +1% 효율을 비교한 결과와 강타·피해 증폭의 특징은 <a href="/guide/spec-efficiency/">스펙 효율 계산 가이드</a>에 정리했습니다.
+    </p>
+  </section>
+
+
 
  <!-- ===== 스펙 계산기 가이드 영역 시작 ===== -->
 

@@ -564,6 +564,55 @@
 
   </section>
 
+  <style>
+    .bo-data{margin:40px 0 0}
+    .bo-data h2{margin:0 0 8px;color:#fff;font-size:22px}
+    .bo-data h3{margin:22px 0 8px;color:#dfe8f7;font-size:17px}
+    .bo-data .bo-sub{margin:0 0 12px;color:#9cabc2;font-size:14px;line-height:1.7}
+    .bo-data .bo-wrap{overflow-x:auto;border:1px solid #263043;border-radius:12px;background:#0d131c}
+    .bo-data table{width:100%;min-width:560px;border-collapse:collapse;font-size:14px}
+    .bo-data th,.bo-data td{padding:10px 12px;border-bottom:1px solid #1f2837;text-align:center;white-space:nowrap}
+    .bo-data th{background:#141b28;color:#dfe8f7;font-weight:800}
+    .bo-data tbody tr:last-child td{border-bottom:0}
+    .bo-data th.l,.bo-data td.l{text-align:left;white-space:normal}
+    .bo-data tr.top td{color:#ffd166;font-weight:800}
+    .bo-data tr.grp td{background:#111a27;color:#91a7ff;font-weight:800;text-align:left}
+    .bo-data .bo-note{margin:10px 0 0;color:#7e8ea7;font-size:12.5px;line-height:1.7}
+    .bo-data .bo-note a{color:#91a7ff}
+  </style>
+  <section class="bo-data">
+    <h2>계산기로 불러올 때 채워지는 항목</h2>
+    <p class="bo-sub">검색한 캐릭터를 계산기로 불러오면 아래처럼 채워집니다. 공식 캐릭터 정보에 없는 값은 직접 입력해야 합니다.</p>
+    <div class="bo-wrap">
+      <table style="min-width:720px">
+        <thead>
+          <tr><th>계산기</th><th class="l">자동 입력</th><th class="l">참고표로만 표시</th><th class="l">직접 입력</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>스펙 계산기</td><td class="l">위력, 파괴, 주무기 최소·최대 공격력, 돌파 단계별 부위 수</td><td class="l">피해·무기·치명타·전방·후방·PVE·보스 피해 증폭, 강타, 완벽, 다단히트 (출처별 합계)</td><td class="l">스탯창 공격력(장비 착용·해제)</td></tr>
+          <tr><td>아르카나 계산기</td><td class="l">장착 아르카나 카드, 장비 스킬 레벨, 스킬별 스킬 포인트·데바니온 레벨</td><td class="l">—</td><td class="l">스킬별 목표 레벨</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>% 스탯 참고표에 합산되는 출처</h3>
+    <div class="bo-wrap">
+      <table>
+        <thead>
+          <tr><th class="l">합산되는 것</th><th class="l">빠지는 것 (공식 정보에 없음)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="l">장비 기본 옵션, 영혼 각인, 마석(증폭 계열 +100 = 1%), 데바니온 효과, 장착 칭호, 아르카나 세트 효과, 주신 스탯</td><td class="l">스킬 패시브 효과, 펫(종족 이해도) 옵션, 날개 효과, 장착하지 않은 칭호의 보유 효과, 신석(확률 발동) 효과</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="bo-note">
+      빠지는 항목 때문에 참고표의 % 스탯은 게임 스탯창보다 낮게 나올 수 있어, 자동 입력하지 않고 출처별로만 보여줍니다.
+      스탯창과 비교해 다른 부분만 고쳐서 쓰면 됩니다.
+    </p>
+  </section>
+
+
 
 <!-- ===== 캐릭터 검색 가이드 영역 시작 ===== -->
 
