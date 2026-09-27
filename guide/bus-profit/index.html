@@ -1,20 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D4LT1W5QL2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-D4LT1W5QL2');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3238904354498849"
+     crossorigin="anonymous"></script>
   <meta charset="UTF-8">
-<link rel="icon" type="image/png" sizes="32x32" href="https://buson2.com/assets/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://buson2.com/assets/favicon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="https://buson2.com/assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://buson2.com/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://buson2.com/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://buson2.com/assets/apple-touch-icon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>아이온2 버스 수익 계산 가이드 | BUS ON2</title>
-
-  <meta
-    name="description"
-    content="아이온2 버스 수익을 계산하는 방법을 초보자도 이해하기 쉽게 설명합니다. 기사 수익, 손님 수, 판수, 키나 수입과 비용을 비교하고 BUS ON2 계산기를 활용하는 방법을 확인하세요."
-  >
-
+  <meta name="description" content="아이온2 버스 기사 순수익을 실제 던전 수치로 계산합니다. 월드 거래소 수수료 22% 환산표, 기사 수별 몫, 던전별 손익분기 버스비와 성역 버스 배분 방식까지 정리했습니다.">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://buson2.com/guide/bus-profit/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="버스온2">
+  <meta property="og:url" content="https://buson2.com/guide/bus-profit/">
+  <meta property="og:title" content="아이온2 버스 수익 계산 가이드 - 버스온2">
+  <meta property="og:description" content="아이온2 버스 기사 순수익을 실제 던전 수치로 계산합니다. 월드 거래소 수수료 22% 환산표, 기사 수별 몫, 던전별 손익분기 버스비와 성역 버스 배분 방식까지 정리했습니다.">
+  <meta property="og:image" content="https://buson2.com/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "아이온2 버스 수익 계산 가이드",
+  "description": "아이온2 버스 기사 순수익을 실제 던전 수치로 계산합니다. 월드 거래소 수수료 22% 환산표, 기사 수별 몫, 던전별 손익분기 버스비와 성역 버스 배분 방식까지 정리했습니다.",
+  "inLanguage": "ko-KR",
+  "datePublished": "2026-08-24",
+  "dateModified": "2026-09-27",
+  "author": { "@type": "Organization", "name": "BUSON2", "url": "https://buson2.com/about/" },
+  "publisher": { "@type": "Organization", "name": "버스온2", "url": "https://buson2.com/" },
+  "mainEntityOfPage": "https://buson2.com/guide/bus-profit/"
+}
+  </script>
 
   <style>
     * {
@@ -127,12 +156,36 @@
       border-left: 4px solid #4d8cff;
     }
 
+    .good {
+      border-left: 4px solid #42d392;
+    }
+
     ul {
       padding-left: 22px;
     }
 
     li {
       margin: 7px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #101c2d;
+      border: 1px solid #263d59;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #263d59;
+      text-align: center;
+    }
+
+    th {
+      color: #ffffff;
+      background: #14243a;
     }
 
     .cta {
@@ -152,6 +205,16 @@
       color: #ffffff;
       border-radius: 8px;
       font-weight: 800;
+    }
+
+    .related {
+      margin-top: 42px;
+      padding: 20px;
+      border-top: 1px solid #263d59;
+    }
+
+    .related strong {
+      color: #ffffff;
     }
 
     footer {
@@ -175,6 +238,64 @@
         align-items: flex-start;
         flex-direction: column;
       }
+
+      table {
+        font-size: 13px;
+      }
+    }
+
+    .updated {
+      color: #8fa9c7;
+      font-size: 13px;
+      margin: -6px 0 22px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .table-wrap table {
+      margin: 0;
+      min-width: 560px;
+    }
+
+    th.l,
+    td.l {
+      text-align: left;
+    }
+
+    tr.top td {
+      color: #ffd166;
+      font-weight: 800;
+    }
+
+    .hl {
+      color: #ffd166;
+      font-weight: 800;
+    }
+
+    .src {
+      font-size: 13px;
+      color: #8fa9c7;
+    }
+
+    .toc {
+      margin: 22px 0 8px;
+      padding: 16px 20px;
+      background: #0d1726;
+      border: 1px solid #263d59;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .toc ol {
+      margin: 6px 0 0;
+      padding-left: 20px;
+    }
+
+    .toc li {
+      margin: 3px 0;
     }
   </style>
 </head>
@@ -190,6 +311,7 @@
       <a href="/spec/">스펙 계산기</a>
       <a href="/driver/">버스 기사</a>
       <a href="/sub/">부캐 버스</a>
+      <a href="/dungeon/">던전 DB</a>
     </div>
   </div>
 </header>
@@ -201,232 +323,186 @@
   </div>
 
   <h1>아이온2 버스 수익 계산 가이드</h1>
+  <p class="updated">최종 업데이트 2026-09-27 · 작성 BUSON2 운영자 · 수치는 BUSON2 계산기에 등록된 값 기준</p>
 
   <p class="intro">
-    아이온2에서 버스를 운영할 때 단순히 받은 키나만 보고 수익을 판단하면
-    실제 효율과 차이가 생길 수 있습니다. 기사 수, 손님 수, 진행 판수,
-    각종 비용과 캐릭터별 수금 방식을 함께 고려해야 실제로 얼마나 남는지
-    비교할 수 있습니다.
+    버스 기사가 한 판에 실제로 손에 쥐는 금액은 "손님 수 × 버스비"가 아닙니다.
+    월드 거래소 수수료 22%가 빠지고, 기사가 여러 명이면 수금 판수대로 나뉘며, 대신 기사 본인의 던전 키나가 더해집니다.
+    이 글은 BUSON2 버스 기사 계산기와 같은 계산식으로 실제 던전 수치를 넣어 판당 순수익을 계산해봅니다.
   </p>
 
-  <p>
-    이 페이지에서는 BUS ON2의 버스 수익 계산기를 처음 사용하는 사람도
-    이해할 수 있도록 기본 개념부터 계산 방법, 비교할 때 주의할 점까지
-    순서대로 설명합니다.
-  </p>
+  <div class="toc">
+    <b>목차</b>
+    <ol>
+      <li><a href="#formula">버스 기사 순수익 계산식</a></li>
+      <li><a href="#fee">월드 거래소 수수료 22% 환산표</a></li>
+      <li><a href="#example">실제 던전으로 계산한 예시</a></li>
+      <li><a href="#drivers">기사 수에 따라 달라지는 몫</a></li>
+      <li><a href="#price">버스비를 정할 때 참고할 숫자</a></li>
+      <li><a href="#sanctuary">성역 버스는 계산이 다릅니다</a></li>
+      <li><a href="#faq">자주 묻는 질문</a></li>
+    </ol>
+  </div>
 
 
-  <h2>1. 버스 수익을 계산해야 하는 이유</h2>
-
-  <p>
-    같은 던전을 돌더라도 파티 구성과 수금 방식에 따라 기사 한 명이
-    실제로 가져가는 금액은 달라질 수 있습니다.
-  </p>
-
-  <p>
-    특히 여러 명의 기사가 번갈아 수금을 하거나, 본캐와 부캐를 교대로
-    사용하는 경우에는 단순한 '한 판 수입 × 판수' 계산만으로는 정확한
-    비교가 어렵습니다.
-  </p>
+  <h2 id="formula">1. 버스 기사 순수익 계산식</h2>
 
   <div class="box">
-    <strong>버스 수익을 비교할 때 확인할 항목</strong>
-
-    <ul>
-      <li>한 판에 참여하는 기사 수</li>
-      <li>한 판에 참여하는 손님 수</li>
-      <li>손님 한 명이 지불하는 금액</li>
-      <li>전체 진행 판수</li>
-      <li>기사별 실제 수금 횟수</li>
-      <li>추가로 지출되는 키나가 있는지</li>
-      <li>같은 시간에 다른 파밍을 했을 때 얻을 수 있는 수익</li>
-    </ul>
-  </div>
-
-
-  <h2>2. 가장 기본적인 수익 계산식</h2>
-
-  <p>
-    가장 단순한 형태에서는 받은 총 키나에서 버스를 진행하면서 사용한
-    비용을 빼면 순수익을 계산할 수 있습니다.
-  </p>
-
-  <div class="box formula">
-    순수익 = 총 수입 - 총 비용
+    <div class="formula">기사 한 판 순수익 = 던전 기본 키나 + 받은 버스비 × 0.78</div>
+    <p style="text-align:center;margin:0">받은 버스비 = 1판 1인 버스비 × 손님 수 (내가 수금하는 판에만)</p>
   </div>
 
   <p>
-    하지만 여러 기사가 함께 버스를 운영한다면 총 수입을 기사 수로
-    단순하게 나누는 것보다 실제 수금 순서를 기준으로 계산하는 것이
-    더 정확합니다.
+    기사도 손님과 같이 던전을 돌기 때문에 던전 기본 키나를 그대로 받고, 여기에 버스비가 더해집니다.
+    0.78은 월드 거래소 판매 수수료 20%와 등록 수수료 2%를 뺀 비율입니다.
+    총 버스비를 "2판 350만"처럼 묶어서 받는다면 1판 버스비는 350만 ÷ 2 = 175만으로 나눠서 넣습니다.
   </p>
 
 
-  <h2>3. 기사 여러 명이 함께 운영하는 경우</h2>
+  <h2 id="fee">2. 월드 거래소 수수료 22% 환산표</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>1판 1인 버스비</th><th>판매 수수료 20%</th><th>등록 수수료 2%</th><th>실수령</th><th>손님 2명 실수령</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>100만</td><td>−20만</td><td>−2만</td><td>78만</td><td>156만</td></tr>
+        <tr><td>150만</td><td>−30만</td><td>−3만</td><td>117만</td><td>234만</td></tr>
+        <tr class="top"><td>175만</td><td>−35만</td><td>−3.5만</td><td>136.5만</td><td>273만</td></tr>
+        <tr><td>200만</td><td>−40만</td><td>−4만</td><td>156만</td><td>312만</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <p>
-    버스 기사 수가 두 명 이상이라면 각 기사가 실제로 몇 판에서
-    수금을 담당했는지 확인하는 것이 중요합니다.
+    반대로 실수령 100만을 받고 싶다면 버스비를 100만 ÷ 0.78 ≈ <b>128.2만</b>으로 받아야 합니다.
+    직거래로 받는다면 수수료가 없으니 버스비가 곧 실수령입니다.
   </p>
 
+
+  <h2 id="example">3. 실제 던전으로 계산한 예시</h2>
+
   <p>
-    예를 들어 두 명의 기사가 번갈아 손님의 버스비를 받는 구조라면
-    전체 수익은 같더라도 각 기사에게 들어가는 금액은 수금 횟수에 따라
-    달라질 수 있습니다.
+    타락한 데바의 성 어려움(60오드·한 판 180만)을 기사 1명이 손님 2명을 태워 2판 350만(1판 175만)에 돈다고 해보겠습니다.
   </p>
 
   <div class="box example">
-    <strong>예시</strong>
-
-    <p>
-      기사 A와 기사 B가 함께 버스를 운영하고 여러 판을 진행한다고
-      가정합니다.
-    </p>
-
-    <p>
-      A가 3번 수금하고 B가 2번 수금했다면 단순히 전체 수익을
-      50:50으로 나누는 것보다 각각의 실제 수금 횟수를 반영해야
-      현실적인 결과를 확인할 수 있습니다.
-    </p>
-  </div>
-
-
-  <h2>4. 한 판 수입만 보면 안 되는 이유</h2>
-
-  <p>
-    버스 효율을 판단할 때는 한 판에서 들어오는 키나뿐 아니라
-    그 판을 진행하기 위해 포기한 다른 파밍의 가치도 함께 생각할
-    필요가 있습니다.
-  </p>
-
-  <p>
-    예를 들어 같은 시간과 오드를 사용해 다른 던전을 돌았을 때
-    더 많은 키나를 얻을 수 있다면, 표면적인 버스 수입은 높아 보여도
-    실제 효율은 낮을 수 있습니다.
-  </p>
-
-  <p>
-    BUS ON2에서 버스 계산과 파밍 비교 기능을 따로 제공하는 이유도
-    이런 차이를 쉽게 비교하기 위해서입니다.
-  </p>
-
-
-  <h2>5. 부캐 버스와 직접 파밍 비교</h2>
-
-  <p>
-    부캐로 버스를 탑승하는 경우에는 버스를 통해 얻는 보상과
-    기사에게 지불하는 비용을 함께 계산해야 합니다.
-  </p>
-
-  <div class="box formula">
-    부캐 버스 실질 가치 = 획득 가치 - 버스 이용 비용
-  </div>
-
-  <p>
-    여기서 중요한 점은 단순히 버스비가 얼마인지가 아니라,
-    같은 캐릭터로 직접 파밍했을 때와 비교해서 얼마나 차이가 나는지를
-    보는 것입니다.
-  </p>
-
-  <p>
-    따라서 버스 탑승 여부를 결정할 때는 편의성뿐 아니라 직접 파밍,
-    본부 방식, 다른 던전 파밍까지 함께 비교하는 것이 좋습니다.
-  </p>
-
-
-  <h2>6. BUS ON2 버스 계산기 사용 방법</h2>
-
-  <h3>① 버스 유형 선택</h3>
-
-  <p>
-    먼저 버스 기사, 부캐 버스 등 현재 계산하려는 방식을 선택합니다.
-  </p>
-
-  <h3>② 기사 수와 판수 입력</h3>
-
-  <p>
-    실제로 함께 진행하는 기사 수와 전체 진행 판수를 입력합니다.
-    기사 수가 여러 명이라면 수금 방식도 함께 확인합니다.
-  </p>
-
-  <h3>③ 금액 입력</h3>
-
-  <p>
-    실제로 받거나 지불하는 금액을 입력합니다. 금액은 가능한 한
-    게임 내 실제 거래 기준으로 입력해야 결과가 의미가 있습니다.
-  </p>
-
-  <h3>④ 결과 비교</h3>
-
-  <p>
-    총수입만 보지 말고 기사 한 명당 수익, 판당 수익,
-    다른 방식과 비교했을 때의 차이를 함께 확인합니다.
-  </p>
-
-
-  <h2>7. 계산할 때 자주 하는 실수</h2>
-
-  <div class="box">
     <ul>
-      <li>전체 수입만 보고 기사 개인 수익으로 착각하는 경우</li>
-      <li>버스비 지출을 빼지 않고 보상만 계산하는 경우</li>
-      <li>판수를 잘못 입력하는 경우</li>
-      <li>기사별 수금 횟수를 고려하지 않는 경우</li>
-      <li>다른 파밍 방법과의 기회비용을 비교하지 않는 경우</li>
-      <li>게임 업데이트 이후 변경된 보상 값을 그대로 사용하는 경우</li>
+      <li>던전 기본 키나: 180만</li>
+      <li>버스비: 175만 × 2명 = 350만 → 수수료 77만 차감 → 273만</li>
+      <li>한 판 순수익: 180만 + 273만 = <span class="hl">453만</span> (2판이면 906만)</li>
+      <li>오드 1당: 453만 ÷ 60 = <b>75,500 키나</b></li>
     </ul>
   </div>
 
-
-  <h2>8. 어떤 방식이 가장 이득일까?</h2>
-
   <p>
-    모든 상황에서 하나의 방식이 항상 가장 높은 수익을 내는 것은
-    아닙니다. 캐릭터 스펙, 기사 구성, 현재 버스비, 던전 보상,
-    사용할 수 있는 시간 등에 따라 결과가 달라집니다.
-  </p>
-
-  <p>
-    따라서 특정 방식이 무조건 좋다고 판단하기보다 동일한 조건을
-    입력한 뒤 여러 방식을 직접 비교하는 것이 가장 정확합니다.
+    같은 던전을 혼자 돌면 오드 1당 30,000이라, 버스를 뛰면 같은 오드로 약 2.5배를 법니다.
+    손님이 한 명이면 버스비 몫이 136.5만으로 줄어 한 판 316.5만(오드 1당 52,750)입니다.
   </p>
 
 
-  <h2>9. 자주 묻는 질문</h2>
-
-  <h3>버스비가 바뀌면 어떻게 하나요?</h3>
+  <h2 id="drivers">4. 기사 수에 따라 달라지는 몫</h2>
 
   <p>
-    계산기에 현재 실제로 사용되는 금액을 직접 입력해서 계산하는 것이
-    가장 좋습니다. 게임 내 시세나 파티 모집 상황에 따라 금액은
-    달라질 수 있습니다.
+    기사가 여러 명이면 보통 판마다 번갈아 수금합니다. 던전 키나는 모두가 매 판 받지만 버스비는 수금하는 판에만 받으니,
+    한 사람의 판당 평균은 아래처럼 줄어듭니다(위 예시와 같은 조건, 수금 판수를 똑같이 나눈 경우).
   </p>
 
-  <h3>계산 결과가 실제 수익과 완전히 같나요?</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>기사 수</th><th>수금 주기</th><th>기사 1명 판당 평균</th><th>오드 1당</th></tr>
+      </thead>
+      <tbody>
+        <tr class="top"><td>1명</td><td>매 판</td><td>453만</td><td>75,500</td></tr>
+        <tr><td>2명</td><td>2판에 1번</td><td>316.5만</td><td>52,750</td></tr>
+        <tr><td>3명</td><td>3판에 1번</td><td>271만</td><td>45,167</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <p>
-    계산 결과는 입력한 조건을 기준으로 한 비교값입니다.
-    실제 플레이에서는 진행 시간, 파티 구성, 실패 여부 등 다양한
-    변수가 발생할 수 있습니다.
+    기사 3명이어도 혼자 도는 것(30,000)보다 1.5배 높습니다. 실제로는 기사마다 수금 판수가 다를 때가 많아서,
+    BUSON2 버스 기사 계산기에서는 기사별 수금 판수를 따로 넣어 각자 몫을 계산하고, 손님별 수금 문구도 한 번에 복사할 수 있습니다.
   </p>
 
-  <h3>버스와 직접 파밍 중 무엇이 더 좋은가요?</h3>
+
+  <h2 id="price">5. 버스비를 정할 때 참고할 숫자</h2>
 
   <p>
-    캐릭터와 던전 상황에 따라 다릅니다. 같은 조건에서 버스 비용,
-    직접 파밍 수익, 오드 소비량 등을 함께 비교하는 것을 권장합니다.
+    손님(부캐) 입장에서 버스비가 한 판 기본 키나보다 비싸면 키나만으로는 손해입니다.
+    그래서 던전 한 판 키나가 버스비를 정할 때 기준점이 됩니다.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th class="l">던전 · 난이도</th><th>소비 오드</th><th>한 판 키나 (손님 손익분기 버스비)</th><th>그 금액을 받았을 때 기사 실수령(1인)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="l">타락한 데바의 성 · 데우스 어려움</td><td>60</td><td>180만</td><td>140.4만</td></tr>
+        <tr><td class="l">노이란 · 심연의 뿔 암굴 4단</td><td>60</td><td>210만</td><td>163.8만</td></tr>
+        <tr><td class="l">붉은 연심의 거울 4단</td><td>40</td><td>120만</td><td>93.6만</td></tr>
+        <tr><td class="l">비탄의 설원 어려움</td><td>80</td><td>800만</td><td>624만</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    예를 들어 타락한 데바의 성 어려움을 1판 175만에 태우면 손님은 키나로 한 판에 5만만 남습니다.
+    손님이 버스를 타는 이유가 키나보다는 직접 깨기 어려운 던전의 보상·진도에 있다는 뜻이라,
+    손님 쪽 계산은 <a href="/guide/sub-bus-vs-hq/">부캐 버스 vs 본부 비교 가이드</a>에 따로 정리했습니다.
+  </p>
+
+
+  <h2 id="sanctuary">6. 성역 버스는 계산이 다릅니다</h2>
+
+  <p>
+    성역은 한 판 보상이 커서 기사 여러 명이 한 판을 같이 뛰는 경우가 많습니다.
+    이때 "판마다 번갈아 수금"하면 판수가 적어 몫이 크게 기울기 때문에,
+    BUSON2 계산기는 성역을 고르면 한 판 안에서 손님별 결제를 나눠 기사들이 거의 같은 금액을 받도록 배분합니다.
+    예를 들어 손님 2명·기사 2명이면 손님 한 명씩 서로 다른 기사에게 결제하는 식입니다.
+  </p>
+
+
+  <h2 id="faq">7. 자주 묻는 질문</h2>
+
+  <h3>기사도 오드를 쓰나요?</h3>
+  <p>
+    네. 기사도 같은 던전을 도니 오드를 쓰고 던전 키나를 받습니다. 그래서 이 글의 오드 1당 수치는 기사 본인이 쓴 오드 기준입니다.
+  </p>
+
+  <h3>수수료는 왜 22%로 계산하나요?</h3>
+  <p>
+    월드 거래소로 버스비를 받으면 판매 수수료 20%와 등록 수수료 2%가 함께 빠지기 때문입니다.
+    거래소를 거치지 않는 직거래라면 수수료 없이 계산하면 됩니다.
+  </p>
+
+  <h3>시간당으로는 얼마나 되나요?</h3>
+  <p>
+    판당 시간에 따라 다릅니다. 위 예시(한 판 453만)를 판당 10분에 돈다면 시간당 약 2,718만, 7분이면 약 3,883만입니다.
+    계산기에 판당 시간을 넣으면 시간당 순수익이 같이 나옵니다.
+  </p>
+
+  <p class="src">
+    던전 보상 출처: BUSON2 버스 기사 계산기 등록값(2026-09-27 기준). 버스비 175만은 계산 예시이며 실제 시세는 서버와 시기마다 다릅니다.
   </p>
 
 
   <div class="cta">
-    <strong>직접 수익을 계산해보세요.</strong>
+    <strong>내 버스 조건으로 바로 계산해보세요.</strong>
+    <p>던전·손님 수·기사 수·버스비를 넣으면 수수료를 뺀 판당·시간당 순수익과 기사별 몫이 나옵니다.</p>
+    <a href="/driver/">버스 기사 수익 계산하기</a>
+    <a href="/compare/">부캐 버스와 비교하기</a>
+  </div>
 
-    <p>
-      BUS ON2의 버스 계산기에 실제 조건을 입력하면 여러 방식의
-      수익 차이를 빠르게 비교할 수 있습니다.
-    </p>
 
-    <a href="/driver/">버스 수익 계산하기</a>
+  <div class="related">
+    <strong>관련 가이드</strong>
+    <p><a href="/guide/od-efficiency/">아이온2 오드 효율 계산 가이드 →</a></p>
+    <p><a href="/guide/sub-bus-vs-hq/">아이온2 부캐 버스 vs 본부 비교 가이드 →</a></p>
+    <p><a href="/guide/dungeon-efficiency/">아이온2 던전 파밍 효율 가이드 →</a></p>
   </div>
 
 </main>
