@@ -531,7 +531,6 @@ main.wrap{
           <div style="grid-column:1/-1"><label>공격력 (스탯창) <span class="muted">장비를 모두 착용한 상태의 스탯창 공격력</span></label><input id="sp_attack_on" class="num-comma" inputmode="numeric" value="0"></div>
           <div><label>파괴 <span class="muted">1당 0.2%</span></label><input id="sp_destroy" class="num-comma" inputmode="numeric" value="0"></div>
           <div><label>위력 <span class="muted">1당 0.1%</span></label><input id="sp_power" class="num-comma" inputmode="numeric" value="0"></div>
-          <div style="grid-column:1/-1"><label>기타 공격력 증가 % <span class="muted">장비 옵션·데바니온 등의 공격력 증가 % 합 (위력·파괴·돌파 제외, 모르면 0)</span></label><input id="sp_atk_extra" value="0"></div>
           <div><label>주무기 최소 공격력 <span class="muted">예: 641 ~ 709(+350) → 641</span></label><input id="sp_weapon_min" class="num-comma" inputmode="numeric" value="0"></div>
           <div><label>주무기 최대 공격력 <span class="muted">예: 641 ~ 709(+350) → 709</span></label><input id="sp_weapon_max" class="num-comma" inputmode="numeric" value="0"></div>
           <div class="weapon-input-help" style="grid-column:1/-1;padding:12px 14px;border:1px solid #29405d;border-radius:10px;background:#0b1625;color:#b8c8db;font-size:13px;line-height:1.7"><b style="color:#79c7ff">무기 입력 방법</b>　게임에 <b>641 ~ 709(+350)</b> 이라고 보이면 <b>641 / 709</b>만 입력하세요.<br><b style="color:#ffd166">(+350)은 입력하지 않습니다.</b> 현재 스탯창 공격력에 이미 반영된 강화 수치라 다시 더하면 중복 계산됩니다.<br><span style="color:#8fa6bd">가더의 169(+350), 공격력 150·38 등도 별도 입력하지 않습니다. 현재 총 공격력에 이미 포함된 값으로 처리합니다.</span><br><span style="color:#8fa6bd">※ 현재 BUSON2에서는 ‘완벽’을 <b>무기 최대 공격력</b> 기반으로 계산하며, 가더 공격력은 최대값 기준에 별도로 합산하지 않고 주무기 범위만 사용합니다.</span></div>
@@ -5382,7 +5381,7 @@ async function loadOfficialNews(force=false){
 
 
 const SPEC_IDS=[
- 'sp_attack_on','sp_destroy','sp_power','sp_atk_extra','sp_weapon_min','sp_weapon_max','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
+ 'sp_attack_on','sp_destroy','sp_power','sp_weapon_min','sp_weapon_max','sp_break5','sp_break4','sp_break3','sp_break2','sp_break1',
  'sp_dmg','sp_weapon','sp_critdmg','sp_front','sp_back','sp_smash','sp_perfect','sp_multihit','sp_pve','sp_boss',
  'sp_crit_rate','sp_direction','sp_fb_rate','sp_smash_resist','sp_party_healer','sp_party_dmg','sp_target_crit_resist','sp_target_dmg_resist','sp_target_critdmg_resist','sp_target_perfect_resist','sp_guaranteed_crit_share'
 ];
@@ -5423,7 +5422,7 @@ function getSpec(){
  return {
   // 펫 이해도 옵션 때문에 "모든 장비 해제 시 공격력"을 정확히 알 수 없어 입력을 없애고, 스탯창 공격력 전체를 장비 공격력으로 본다
   attackOn:sv('sp_attack_on'), attackOff:0,
-  destroy:sv('sp_destroy'), power:sv('sp_power'), atkExtra:sv('sp_atk_extra'), weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), weaponEnhance:0,
+  destroy:sv('sp_destroy'), power:sv('sp_power'), atkExtra:6, weaponMin:sv('sp_weapon_min'), weaponMax:sv('sp_weapon_max'), weaponEnhance:0,
   breakthroughBonus:
     sv('sp_break5')*5 +
     sv('sp_break4')*4 +
@@ -5535,7 +5534,7 @@ function multihitGain(statPercent, addPercent = 1){
   // 공격력 증가는 파괴 0.2%p + 위력 0.1%p + 장비 돌파 단계 합산.
   // 추가 공격력은 공격력 증가 효과를 받고, 최대 공격력은 현재 완벽 확률과 추가피해 5%를 반영해 계산.
 function deriveAttack(s, flatGearAdd=0, extraAdditionalAttack=0, extraMaxAttack=0){
- // 공격력 증가 % = 파괴 0.2 + 위력 0.1 + 돌파 단계 합 + 장비 옵션·데바니온 등 기타 공격력 증가 %
+ // 공격력 증가 % = 파괴 0.2 + 위력 0.1 + 돌파 단계 합 + 데바니온 공격력 증가 6% (거의 모든 캐릭터가 찍어서 고정값으로 넣음)
  const wornInc=1+(s.destroy*0.2+s.power*0.1+s.breakthroughBonus+(s.atkExtra||0))/100;
  const offInc=1+(s.destroy*0.2+s.power*0.1+(s.atkExtra||0))/100;
 
@@ -5632,7 +5631,7 @@ function calcSpec(){
  $('#sp_base_attack').textContent=nf(Math.round(s.attackOn));
  $('#sp_gear_attack').textContent=nf(Math.round(base.attack.gearAttack*(1+s.weapon/100)));
  $('#sp_effective_attack').textContent=nf(Math.round(base.attack.effectiveAttack));
- $('#sp_base_mult').textContent='공격력 증가 × '+base.attack.wornInc.toFixed(2);
+ $('#sp_base_mult').textContent='공격력 증가 × '+base.attack.wornInc.toFixed(2)+' (데바니온 6% 포함)';
  $('#sp_gear_mult').textContent='무피증 × '+(1+s.weapon/100).toFixed(2);
 
  $('#sp_normal_score').textContent=nf(Math.round(base.normalTotal));
@@ -6064,7 +6063,6 @@ const AB_DIFF_FIELDS=[
  {id:'sp_attack_on',label:'공격력',type:'number',digits:0},
  {id:'sp_destroy',label:'파괴',type:'number',digits:0},
  {id:'sp_power',label:'위력',type:'number',digits:0},
- {id:'sp_atk_extra',label:'기타 공증',type:'percent',digits:2},
  {id:'sp_weapon_min',label:'무기 최소 공격력',type:'number',digits:0},
  {id:'sp_weapon_max',label:'무기 최대 공격력',type:'number',digits:0},
  {id:'sp_break5',label:'+5 돌파',type:'count',digits:0},
