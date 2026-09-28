@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28 14:22 KST",
+  "updated_at": "2026-09-28 20:59 KST",
   "update": [
     {
       "title": "[안내] 9/23(수) 업데이트 노트",
@@ -151,6 +151,20 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] AION2 정기점검 사전 안내",
+      "date": "2026-09-28",
+      "time": "08:00",
+      "datetime": "2026-09-28 08:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aba1e80d97eae18cc40e138"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [316차]",
+      "date": "2026-09-28",
+      "time": "05:35",
+      "datetime": "2026-09-28 05:35",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab9fc84fa34c1011d627917"
+    },
+    {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [315차]",
       "date": "2026-09-27",
       "time": "01:00",
@@ -254,20 +268,6 @@
       "time": "13:56",
       "datetime": "2026-09-22 13:56",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab28968d97eae18cc40e08a"
-    },
-    {
-      "title": "[안내] AION2 LIVE 업데이트 프리뷰 방송 보상 안내",
-      "date": "2026-09-22",
-      "time": "13:32",
-      "datetime": "2026-09-22 13:32",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab28350eea53f5d6dbcf89a"
-    },
-    {
-      "title": "[안내] 9/23(수) AION2 정기점검 안내 (완료)",
-      "date": "2026-09-22",
-      "time": "11:00",
-      "datetime": "2026-09-22 11:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab25fb0d97eae18cc40e062"
     }
   ],
   "cm": [
