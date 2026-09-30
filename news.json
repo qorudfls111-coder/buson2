@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 06:24 KST",
+  "updated_at": "2026-09-30 09:46 KST",
   "update": [
     {
       "title": "[안내] 9/30(수) 업데이트 노트",
@@ -151,7 +151,14 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 9/30(수) AION2 정기점검 안내",
+      "title": "[안내] 9월 5주차 알려진 이슈 및 조치 안내",
+      "date": "2026-09-30",
+      "time": "00:25",
+      "datetime": "2026-09-30 00:25",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6abc52f9a279104f7d9d5e90"
+    },
+    {
+      "title": "[안내] 9/30(수) AION2 정기점검 안내 (완료)",
       "date": "2026-09-29",
       "time": "11:00",
       "datetime": "2026-09-29 11:00",
@@ -261,13 +268,6 @@
       "time": "19:30",
       "datetime": "2026-09-22 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab2d7386b722c561dc6a707"
-    },
-    {
-      "title": "[안내] 9/23(수) 신규 외형 상품 안내",
-      "date": "2026-09-22",
-      "time": "19:30",
-      "datetime": "2026-09-22 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab26dc0a279104f7d9d5cdc"
     }
   ],
   "cm": [
