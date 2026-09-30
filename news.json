@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30 09:46 KST",
+  "updated_at": "2026-09-30 15:01 KST",
   "update": [
     {
       "title": "[안내] 9/30(수) 업데이트 노트",
@@ -151,7 +151,28 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 9월 5주차 알려진 이슈 및 조치 안내",
+      "title": "[안내] 9/30(수) AION2 임시점검 안내",
+      "date": "2026-09-30",
+      "time": "05:50",
+      "datetime": "2026-09-30 05:50",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6abcb370a279104f7d9d5ea8"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [318차]",
+      "date": "2026-09-30",
+      "time": "03:40",
+      "datetime": "2026-09-30 03:40",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6abc8490fa34c1011d6279d1"
+    },
+    {
+      "title": "[안내] 2026년 10월 일반 신용카드 무이자 할부 이벤트 (퍼플 PC)",
+      "date": "2026-09-30",
+      "time": "01:40",
+      "datetime": "2026-09-30 01:40",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6abc6870a279104f7d9d5e96"
+    },
+    {
+      "title": "[안내] 9월 5주차 알려진 이슈 및 조치 안내 (수정 10:20)",
       "date": "2026-09-30",
       "time": "00:25",
       "datetime": "2026-09-30 00:25",
@@ -247,27 +268,6 @@
       "time": "04:03",
       "datetime": "2026-09-23 04:03",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab34ec06b722c561dc6a762"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [311차]",
-      "date": "2026-09-23",
-      "time": "03:15",
-      "datetime": "2026-09-23 03:15",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab34434d97eae18cc40e0ff"
-    },
-    {
-      "title": "[안내] 9월 4주차 알려진 이슈 및 조치 안내 (수정 9/23 23:30)",
-      "date": "2026-09-23",
-      "time": "01:15",
-      "datetime": "2026-09-23 01:15",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab32814d97eae18cc40e096"
-    },
-    {
-      "title": "[안내] 9/23(수) 신규 구독 상품 안내",
-      "date": "2026-09-22",
-      "time": "19:30",
-      "datetime": "2026-09-22 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ab2d7386b722c561dc6a707"
     }
   ],
   "cm": [
