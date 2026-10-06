@@ -1,6 +1,13 @@
 {
-  "updated_at": "2026-10-06 23:11 KST",
+  "updated_at": "2026-10-07 08:16 KST",
   "update": [
+    {
+      "title": "[안내] 10/7(수) 업데이트 노트",
+      "date": "2026-10-06",
+      "time": "19:30",
+      "datetime": "2026-10-06 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6ac54c386b722c561dc6aa2b"
+    },
     {
       "title": "[안내] 9/30(수) 업데이트 노트",
       "date": "2026-09-29",
@@ -119,13 +126,6 @@
       "time": "19:30",
       "datetime": "2026-06-09 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a2869b870a9d9546295de47"
-    },
-    {
-      "title": "[안내] 6/4(목) 업데이트 노트",
-      "date": "2026-06-03",
-      "time": "19:30",
-      "datetime": "2026-06-03 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a2080b85bbdb44242cdaac0"
     }
   ],
   "notice": [
