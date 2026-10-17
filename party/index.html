@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="ko">
+<head>
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D4LT1W5QL2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D4LT1W5QL2');
+</script>
+  <meta charset="utf-8">
+<link rel="icon" type="image/png" sizes="32x32" href="https://buson2.com/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://buson2.com/assets/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://buson2.com/assets/apple-touch-icon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>아이온2 성역 파티 배치 | 무스펠·비탄의 설원 라운드·파티 자동 배치</title>
+<meta name="description" content="아이온2 성역(무스펠·비탄의 설원) 포스 파티를 본캐·부캐 라운드별로 자동 배치합니다. 탱커·치유 필수 역할, 호법성 분산, 전투력 균형을 맞추고 결과를 게임 채팅창에 바로 붙여넣을 수 있습니다.">
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="canonical" href="https://buson2.com/party/">
+
+  <meta property="og:type" content="website">
+   <meta property="og:site_name" content="버스온2">
+  <meta property="og:url" content="https://buson2.com/party/">
+  <meta property="og:title" content="아이온2 성역 파티 배치 | 라운드·파티 자동 배치 - 버스온2">
+  <meta property="og:description" content="아이온2 성역(무스펠·비탄의 설원) 포스 파티를 본캐·부캐 라운드별로 자동 배치합니다. 탱커·치유 필수 역할, 호법성 분산, 전투력 균형을 맞추고 결과를 게임 채팅창에 바로 붙여넣을 수 있습니다.">
+  <meta property="og:image" content="https://buson2.com/assets/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://buson2.com/assets/og-image.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "아이온2 성역 파티 배치 | 라운드·파티 자동 배치 - 버스온2",
+  "url": "https://buson2.com/party/",
+  "description": "아이온2 성역(무스펠·비탄의 설원) 포스 파티를 본캐·부캐 라운드별로 자동 배치합니다. 탱커·치유 필수 역할, 호법성 분산, 전투력 균형을 맞추고 결과를 게임 채팅창에 바로 붙여넣을 수 있습니다.",
+  "inLanguage": "ko-KR",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "버스온2",
+    "alternateName": "BUSON2",
+    "url": "https://buson2.com/"
+  }
+}
+</script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090b10;
+      --panel: #111621;
+      --line: #263043;
+      --text: #eef4ff;
+      --muted: #9cabc2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top, #12192a 0, #090b10 48%);
+      color: var(--text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        "Pretendard",
+        "Malgun Gothic",
+        sans-serif;
+    }
+
+    .wrap {
+      max-width: 1000px;
+      margin: auto;
+      padding: 56px 20px;
+    }
+
+    .brand {
+      font-weight: 900;
+      letter-spacing: .04em;
+      color: #91a7ff;
+    }
+
+    .hero {
+      padding: 48px 0 30px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.18;
+      margin: 12px 0 18px;
+    }
+
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      border: 1px solid var(--line);
+    }
+
+    .primary {
+      background: linear-gradient(135deg, #6f8cff, #7d72ff);
+      color: white;
+    }
+
+    .secondary {
+      background: #111621;
+      color: #dce6f8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .card,
+    .info {
+      background: #111621;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin: 0 0 9px;
+    }
+
+    .card p,
+    .info p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .info {
+      margin-top: 38px;
+    }
+
+    .info h2 {
+      margin-top: 0;
+    }
+
+    footer {
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .wrap {
+        padding: 34px 16px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+     /* ===== BUSON2 SPEC GUIDE ===== */
+
+.spec-guide{
+  margin-top:28px;
+  padding:26px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top right,rgba(59,130,246,.10),transparent 35%),
+    linear-gradient(180deg,#111c2e,#0e1726);
+}
+
+.spec-guide-head{
+  margin-bottom:24px;
+}
+
+.spec-guide-badge{
+  display:inline-block;
+  padding:5px 10px;
+  margin-bottom:12px;
+  border:1px solid #3577d4;
+  border-radius:999px;
+  color:#60a5fa;
+  background:#0b1a2f;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.05em;
+}
+
+.spec-guide-head h2{
+  margin:0 0 10px;
+  color:#f8fafc;
+  font-size:24px;
+  line-height:1.35;
+}
+
+.spec-guide-head p{
+  margin:0;
+  max-width:900px;
+  color:#9fb0c8;
+  font-size:14px;
+  line-height:1.8;
+}
+
+.spec-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.spec-guide-card{
+  min-height:250px;
+  padding:22px 18px;
+  border:1px solid #293b55;
+  border-radius:14px;
+  background:linear-gradient(180deg,#142033,#0e1725);
+  transition:transform .18s ease,border-color .18s ease;
+}
+
+.spec-guide-card:hover{
+  transform:translateY(-3px);
+  border-color:#3b82f6;
+}
+
+.spec-guide-icon{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:18px;
+  border-radius:13px;
+  color:white;
+  font-size:23px;
+  font-weight:900;
+}
+
+.spec-guide-card.purple .spec-guide-icon{
+  background:linear-gradient(135deg,#7c3aed,#6366f1);
+  box-shadow:0 0 22px rgba(124,58,237,.35);
+}
+
+.spec-guide-card.green .spec-guide-icon{
+  background:linear-gradient(135deg,#059669,#22c55e);
+  box-shadow:0 0 22px rgba(34,197,94,.30);
+}
+
+.spec-guide-card.orange .spec-guide-icon{
+  background:linear-gradient(135deg,#d97706,#f59e0b);
+  box-shadow:0 0 22px rgba(245,158,11,.30);
+}
+
+.spec-guide-card.blue .spec-guide-icon{
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  box-shadow:0 0 22px rgba(59,130,246,.30);
+}
+
+.spec-guide-card h3{
+  margin:0 0 12px;
+  color:#f8fafc;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.spec-guide-card p{
+  margin:0;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* FAQ */
+
+.spec-faq{
+  margin-top:18px;
+  padding:24px;
+  border:1px solid #263b57;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top left,rgba(59,130,246,.08),transparent 30%),
+    #111c2e;
+}
+
+.spec-faq-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.spec-faq-title > span{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+}
+
+.spec-faq-title small{
+  display:block;
+  margin-bottom:2px;
+  color:#60a5fa;
+  font-size:10px;
+  font-weight:800;
+}
+
+.spec-faq-title h2{
+  margin:0;
+  color:#f8fafc;
+  font-size:20px;
+}
+
+.spec-faq details{
+  margin-top:9px;
+  overflow:hidden;
+  border:1px solid #293d5a;
+  border-radius:12px;
+  background:#0c1624;
+}
+
+.spec-faq summary{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 16px;
+  color:#f1f5f9;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  list-style:none;
+}
+
+.spec-faq summary::-webkit-details-marker{
+  display:none;
+}
+
+.spec-faq summary b{
+  margin-left:auto;
+  color:#60a5fa;
+  transition:transform .2s ease;
+}
+
+.spec-faq details[open] summary b{
+  transform:rotate(180deg);
+}
+
+.faq-number{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#2563eb;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+
+.faq-answer{
+  padding:0 56px 17px;
+  color:#9fb0c8;
+  font-size:13px;
+  line-height:1.75;
+}
+
+
+/* 모바일 */
+
+@media(max-width:850px){
+
+  .spec-guide-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:600px){
+
+  .spec-guide{
+    padding:18px 14px;
+    border-radius:14px;
+  }
+
+  .spec-guide-head h2{
+    font-size:20px;
+  }
+
+  .spec-guide-grid{
+    grid-template-columns:1fr;
+  }
+
+  .spec-guide-card{
+    min-height:auto;
+  }
+
+  .spec-faq{
+    padding:18px 14px;
+  }
+
+  .spec-faq-title h2{
+    font-size:17px;
+  }
+
+  .faq-answer{
+    padding:0 16px 16px;
+  }
+
+}
+  </style>
+  <style>
+    .pet-table{border-collapse:collapse;width:100%;margin-top:14px;font-size:14px}
+    .pet-table th,.pet-table td{border:1px solid var(--line);padding:9px 12px;text-align:center}
+    .pet-table thead th{background:#111c2e;color:#9db8ff}
+    .pet-table td{color:var(--text)}
+  </style>
+<script type="application/ld+json">
+{
+    "@context":  "https://schema.org",
+    "@type":  "FAQPage",
+    "mainEntity":  [
+                       {
+                           "@type":  "Question",
+                           "name":  "인원이 10명이 아니어도 되나요?",
+                           "acceptedAnswer":  {
+                                                  "@type":  "Answer",
+                                                  "text":  "네. 포스 인원은 2~30명, 1인당 부캐는 0~5개까지 정할 수 있습니다. 라운드 수는 본캐 1개 + 부캐 수로 자동으로 정해지고, 라운드 인원이 홀수면 1파티가 한 명 더 많게 나눕니다."
+                                              }
+                       },
+                       {
+                           "@type":  "Question",
+                           "name":  "탱커나 치유성이 없는 라운드는 어떻게 되나요?",
+                           "acceptedAnswer":  {
+                                                  "@type":  "Answer",
+                                                  "text":  "탱커·치유성 캐릭터를 먼저 라운드마다 나눠 넣기 때문에 가능한 한 모든 라운드에 들어갑니다. 그래도 인원이 모자라면 해당 파티 제목에 ⚠️ 표시가 붙으니, 직업 입력을 확인하거나 부캐 구성을 바꿔 다시 계산해보세요."
+                                              }
+                       },
+                       {
+                           "@type":  "Question",
+                           "name":  "왜 1파티 전투력이 더 높게 나오나요?",
+                           "acceptedAnswer":  {
+                                                  "@type":  "Answer",
+                                                  "text":  "필수 역할을 배치한 뒤 남은 본캐를 1파티부터 채우기 때문입니다. 남은 부캐는 두 파티 전투력 합이 비슷해지도록 나누므로, 본캐가 적은 라운드일수록 두 파티가 비슷해집니다."
+                                              }
+                       },
+                       {
+                           "@type":  "Question",
+                           "name":  "복사한 결과는 어디에 붙여넣나요?",
+                           "acceptedAnswer":  {
+                                                  "@type":  "Answer",
+                                                  "text":  "게임 채팅창(포스 채팅 등)에 바로 붙여넣을 수 있도록 닉네임을 짧게 줄여 한 번에 보낼 수 있게 만듭니다. 디스코드나 메신저에 붙여넣어도 그대로 보입니다."
+                                              }
+                       },
+                       {
+                           "@type":  "Question",
+                           "name":  "입력한 명단은 어디에 저장되나요?",
+                           "acceptedAnswer":  {
+                                                  "@type":  "Answer",
+                                                  "text":  "지금 쓰는 브라우저에만 저장되며 서버로 보내지 않습니다. 무스펠과 비탄의 설원 명단이 따로 저장되고, 다른 기기나 브라우저에서는 다시 입력해야 합니다."
+                                              }
+                       }
+                   ]
+}
+</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3238904354498849"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<main class="wrap">
+  <div class="brand">BUSON2 · 아이온2 효율 계산기</div>
+
+  <section class="hero">
+    <h1>아이온2 성역 파티 배치</h1>
+    <p class="lead">포스 인원의 본캐·부캐 직업과 전투력을 넣으면 무스펠·비탄의 설원 성역 파티를 라운드별로 자동으로 나눠줍니다. 탱커·치유 같은 필수 역할을 먼저 채우고, 결과는 라운드마다 한 번에 복사해 게임 채팅창에 바로 붙여넣을 수 있습니다.</p>
+    <div class="actions">
+      <a class="btn primary" href="/#party">성역 파티 배치 사용하기</a>
+      <a class="btn secondary" href="/">BUSON2 메인으로</a>
+    </div>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>라운드 자동 나누기</h2>
+      <p>본캐 1개 + 부캐 N개면 N+1라운드로 나누고, 같은 사람의 캐릭터는 라운드마다 하나씩만 배치합니다.</p>
+    </article>
+    <article class="card">
+      <h2>필수 역할 먼저</h2>
+      <p>1파티에는 탱커(수호성·검성)와 치유성을, 2파티 첫 자리에는 살성 → 검성 → 권성 순으로 우선 배치합니다.</p>
+    </article>
+    <article class="card">
+      <h2>호법성 분산 · 전투력</h2>
+      <p>같은 라운드에 호법성이 2명 이상이면 양쪽에 나누고, 남은 부캐는 두 파티 전투력 합이 비슷해지도록 채웁니다.</p>
+    </article>
+    <article class="card">
+      <h2>채팅창용 복사</h2>
+      <p>라운드 전체 복사 한 번이면 닉네임이 짧게 줄어든 "무스 // 강철 // …" 형식으로 복사돼 채팅창에 바로 붙여넣을 수 있습니다.</p>
+    </article>
+  </section>
+
+  <section class="spec-guide">
+    <div class="spec-guide-head">
+      <span class="spec-guide-badge">HOW TO</span>
+      <h2>성역 파티 배치 사용법</h2>
+      <p>10명 포스가 본캐와 부캐 2개씩 30캐릭터를 3라운드로 나누는 경우를 예로 들면, 입력은 한 번만 하고 계산은 버튼 하나로 끝납니다.</p>
+    </div>
+    <div class="spec-guide-grid">
+      <div class="spec-guide-card purple"><div class="spec-guide-icon">1</div><h3>성역 고르기</h3><p>무스펠 또는 비탄의 설원 탭을 고릅니다. 성역마다 입력한 명단이 따로 저장됩니다.</p></div>
+      <div class="spec-guide-card green"><div class="spec-guide-icon">2</div><h3>인원 · 부캐 수</h3><p>포스 인원 수(2~30명)와 1인당 부캐 수(0~5개)를 정하면 입력칸과 라운드 수가 맞춰집니다.</p></div>
+      <div class="spec-guide-card orange"><div class="spec-guide-icon">3</div><h3>명단 입력</h3><p>사람마다 본캐·부캐의 닉네임, 직업, 전투력을 넣습니다. 입력한 명단은 브라우저에 자동 저장돼 다음 주에 그대로 씁니다.</p></div>
+      <div class="spec-guide-card blue"><div class="spec-guide-icon">4</div><h3>계산 · 복사</h3><p>최적 파티 배치 계산하기를 누르면 라운드별 1·2파티가 나옵니다. 라운드 전체 복사로 게임 채팅창에 붙여넣으면 공지 끝입니다.</p></div>
+    </div>
+  </section>
+
+  <section class="info">
+    <h2>배치 규칙 — 라운드 나누기</h2>
+    <p>모든 조건을 동시에 만족하는 배치가 없을 때도 있어서, 아래 순서대로 최대한 맞춥니다. 한 사람의 캐릭터는 라운드마다 하나만 들어갑니다.</p>
+    <ol>
+      <li><b>본캐를 라운드마다 고르게</b> 나눕니다. 탱커 본캐와 치유성 본캐가 먼저, 그 역할이 가장 적은 라운드로 들어갑니다.</li>
+      <li><b>탱커·치유성 부캐</b>를 그 역할이 부족한 라운드에 넣습니다.</li>
+      <li><b>남은 캐릭터</b>는 전투력 합이 가장 낮은 라운드부터 채웁니다.</li>
+    </ol>
+  </section>
+
+  <section class="info">
+    <h2>배치 규칙 — 1파티 · 2파티 나누기</h2>
+    <ol>
+      <li><b>1파티 1번 자리는 탱커</b>(수호성·검성)입니다. 본캐 탱커가 있으면 본캐를 씁니다.</li>
+      <li><b>2파티 1번 자리는 딜러</b>로, 살성 → 검성 → 권성 순이며 부캐가 있으면 부캐를 먼저 씁니다.</li>
+      <li>본캐 수호성이 1파티 탱커를 맡았는데 같은 라운드에 부캐 수호성이 있으면 2파티로 보냅니다.</li>
+      <li><b>치유성은 1파티에 1명 필수</b>, 2파티에는 있으면 1명(부캐 우선)을 넣습니다.</li>
+      <li><b>호법성이 2명 이상</b>이면 한쪽에 몰리지 않게 양쪽 파티에 나눕니다.</li>
+      <li>남은 <b>본캐는 1파티부터</b> 채우고, 남은 <b>부캐는 전투력이 높은 순서로 합이 낮은 파티</b>에 넣어 균형을 맞춥니다.</li>
+    </ol>
+    <p style="margin-top:12px">파티 안 자리 순서는 1번 탱커(2파티는 딜러) → 2~3번 → 4번 호법성 → 5번 치유성입니다. 결과 화면에서 파티마다 탱커·치유 충족 여부(✅ / ⚠️)와 전투력 합계를 함께 보여줍니다.</p>
+  </section>
+
+  <section class="info">
+    <h2>배치 예시 (가상 닉네임 10명 · 3라운드 중 1라운드)</h2>
+    <table class="pet-table">
+      <thead><tr><th>자리</th><th>1파티</th><th>2파티</th></tr></thead>
+      <tbody>
+      <tr><td>1번</td><td>무스펠정복 · 수호성 · 1,086k</td><td>그림자 · 살성 · 640k (부)</td></tr>
+      <tr><td>2번</td><td>강철주먹 · 권성 · 1,057k</td><td>치유막내 · 치유성 · 706k (부)</td></tr>
+      <tr><td>3번</td><td>바람궁수 · 궁성 · 992k</td><td>권법왕 · 권성 · 668k (부)</td></tr>
+      <tr><td>4번</td><td>셋째는궁수 · 궁성 · 623k (부)</td><td>방패셔틀 · 수호성 · 598k (부)</td></tr>
+      <tr><td>5번</td><td>치유의손 · 치유성 · 1,074k</td><td>빛의치유 · 치유성 · 845k (부)</td></tr>
+      <tr><td>합계</td><td>✅ 탱커 ✅ 치유 · 4,832k</td><td>✅ 딜러 ✅ 치유 · 3,457k</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px">본캐 수호성(무스펠정복)이 1파티 탱커를 맡아서 같은 라운드의 부캐 수호성(방패셔틀)은 2파티로 갔습니다. 본캐는 1파티부터 채우기 때문에 1파티 전투력 합이 더 높게 나옵니다.</p>
+    <p style="margin-top:8px">이 라운드를 <b>라운드 전체 복사</b>하면 아래처럼 복사됩니다. 1파티 5명 다음에 2파티 5명 순서입니다.</p>
+    <p style="margin-top:8px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#0b1422;font-weight:700">무스 // 강철 // 바람 // 셋째 // 치유 // 그림자 // 치유 // 권법왕 // 방패 // 빛의</p>
+    <p style="margin-top:8px;font-size:13px">닉네임은 3글자 이하면 그대로, 4글자 이상이면 앞 2글자만 남기고, [서버명] 표시는 지웁니다. 채팅 한 번에 라운드 전체를 보낼 수 있도록 줄인 형식입니다.</p>
+  </section>
+
+  <section class="spec-faq">
+    <div class="spec-faq-title">
+      <span>?</span>
+      <div><small>FAQ</small><h2>성역 파티 배치 자주 묻는 질문</h2></div>
+    </div>
+  <details>
+    <summary>
+      <span class="faq-number">Q1</span>
+      인원이 10명이 아니어도 되나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      네. 포스 인원은 2~30명, 1인당 부캐는 0~5개까지 정할 수 있습니다. 라운드 수는 본캐 1개 + 부캐 수로 자동으로 정해지고, 라운드 인원이 홀수면 1파티가 한 명 더 많게 나눕니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q2</span>
+      탱커나 치유성이 없는 라운드는 어떻게 되나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      탱커·치유성 캐릭터를 먼저 라운드마다 나눠 넣기 때문에 가능한 한 모든 라운드에 들어갑니다. 그래도 인원이 모자라면 해당 파티 제목에 ⚠️ 표시가 붙으니, 직업 입력을 확인하거나 부캐 구성을 바꿔 다시 계산해보세요.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q3</span>
+      왜 1파티 전투력이 더 높게 나오나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      필수 역할을 배치한 뒤 남은 본캐를 1파티부터 채우기 때문입니다. 남은 부캐는 두 파티 전투력 합이 비슷해지도록 나누므로, 본캐가 적은 라운드일수록 두 파티가 비슷해집니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q4</span>
+      복사한 결과는 어디에 붙여넣나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      게임 채팅창(포스 채팅 등)에 바로 붙여넣을 수 있도록 닉네임을 짧게 줄여 한 번에 보낼 수 있게 만듭니다. 디스코드나 메신저에 붙여넣어도 그대로 보입니다.
+    </div>
+  </details>
+
+  <details>
+    <summary>
+      <span class="faq-number">Q5</span>
+      입력한 명단은 어디에 저장되나요?
+      <b>⌄</b>
+    </summary>
+    <div class="faq-answer">
+      지금 쓰는 브라우저에만 저장되며 서버로 보내지 않습니다. 무스펠과 비탄의 설원 명단이 따로 저장되고, 다른 기기나 브라우저에서는 다시 입력해야 합니다.
+    </div>
+  </details>
+
+  </section>
+
+  <div class="actions" style="margin-top:32px">
+    <a class="btn primary" href="/#party">성역 파티 배치 사용하기</a>
+    <a class="btn secondary" href="/guide/party-buff/">파티 버프 수치 정리</a>
+    <a class="btn secondary" href="/character/">캐릭터 검색 · 비교</a>
+  </div>
+  <footer class="bo-foot">
+  <style>
+    footer.bo-foot{max-width:1100px;margin:48px auto 0;padding:24px 16px 36px;border-top:1px solid #1d2633;color:#8a9ab0;font-size:13px;line-height:1.7;text-align:left}
+    footer.bo-foot .bo-foot-title{margin:0 0 6px;color:#c9d6ea;font-size:13px;font-weight:800}
+    footer.bo-foot nav{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 14px}
+    footer.bo-foot a{color:#91a7ff;text-decoration:none}
+    footer.bo-foot a:hover{text-decoration:underline}
+    footer.bo-foot p{margin:0;color:#718096;font-size:12px}
+  </style>
+  <div class="bo-foot-title">BUSON2 계산기</div>
+  <nav aria-label="계산기">
+    <a href="/">메인</a>
+    <a href="/character/">캐릭터 검색·비교</a>
+    <a href="/spec/">스펙 계산기</a>
+    <a href="/driver/">버스 기사</a>
+    <a href="/sub/">부캐 버스</a>
+    <a href="/dungeon/">던전 파밍 DB</a>
+    <a href="/compare/">파밍 비교</a>
+    <a href="/party/">성역 파티 배치</a>
+    <a href="/arcana/">아르카나</a>
+    <a href="/pet/">펫작 시뮬</a>
+    <a href="/enhance/">강화·마석</a>
+  </nav>
+  <div class="bo-foot-title">가이드 · 안내</div>
+  <nav aria-label="가이드와 안내">
+    <a href="/guide/bus-profit/">버스 수익 가이드</a>
+    <a href="/guide/od-efficiency/">오드 효율 가이드</a>
+    <a href="/guide/spec-efficiency/">스펙 효율 가이드</a>
+    <a href="/guide/dungeon-efficiency/">던전 효율 가이드</a>
+    <a href="/guide/sub-bus-vs-hq/">부캐 버스 vs 본부</a>
+    <a href="/guide/party-buff/">파티 버프 수치</a>
+    <a href="/guide/enhance-cost/">강화·돌파 비용</a>
+    <a href="/guide/pet-cost/">펫작 기대 비용</a>
+    <a href="/guide/pet-lock-order/">펫작 잠금 순서</a>
+    <a href="/guide/pet-fullset/">펫작 풀세팅 비용</a>
+    <a href="/guide/seal-breakthrough/">델트라스 인장 돌파</a>
+    <a href="/guide/magic-stone/">영석 비교</a>
+    <a href="/about/">소개</a>
+    <a href="/notes/">운영일지</a>
+    <a href="/contact/">문의</a>
+    <a href="/privacy/">개인정보처리방침</a>
+  </nav>
+  <p>© BUSON2. 본 사이트는 게임 내 효율 계산을 돕기 위한 비공식 팬 도구이며 NCSOFT·아이온2 공식 서비스와 무관합니다. 계산 결과는 참고용입니다.</p>
+</footer>
+
+</main>
+
+</body>
+</html>

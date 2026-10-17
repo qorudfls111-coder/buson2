@@ -27,7 +27,7 @@
    <meta property="og:site_name" content="버스온2">
   <meta property="og:url" content="https://buson2.com/pet/">
   <meta property="og:title" content="아이온2 펫작 시뮬레이터 | 분석 옵션 롤·기대 비용 - 버스온2">
-  <meta property="og:description" content="아이온2 펫작 옵션 분석을 시뮬레이션하고 목표 옵션을 순서대로 잠그며 달성할 때 필요한 영혼 결정·골드 기대값을 계산해보세요.">
+  <meta property="og:description" content="아이온2 펫작 옵션 분석을 시뮬레이션하고 목표 옵션을 가장 싸게 잠그는 방식으로 달성할 때 필요한 영혼 결정·골드 기대값을 계산해보세요.">
   <meta property="og:image" content="https://buson2.com/assets/og-image.png">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -39,7 +39,7 @@
   "@type": "WebPage",
   "name": "아이온2 펫작 시뮬레이터 | 분석 옵션 롤·기대 비용 - 버스온2",
   "url": "https://buson2.com/pet/",
-  "description": "아이온2 펫작 옵션 분석을 시뮬레이션하고 목표 옵션을 순서대로 잠그며 달성할 때 필요한 영혼 결정·골드 기대값을 계산해보세요.",
+  "description": "아이온2 펫작 옵션 분석을 시뮬레이션하고 목표 옵션을 가장 싸게 잠그는 방식으로 달성할 때 필요한 영혼 결정·골드 기대값을 계산해보세요.",
   "inLanguage": "ko-KR",
   "isPartOf": {
     "@type": "WebSite",
@@ -486,7 +486,7 @@
                        },
                        {
                            "acceptedAnswer":  {
-                                                  "text":  "목표를 건 슬롯 중 확률이 낮은 것부터 하나씩 굴려서 뜨면 잠그고 다음 슬롯으로 넘어가는 순서로 계산합니다. 잠금이 늘수록 1회 비용이 올라가기 때문에 어려운 목표부터 하는 것이 유리합니다. 평균값과 운이 나쁠 때(상위 10%, 5%)의 비용도 함께 보여줍니다.",
+                                                  "text":  "잠금 상태마다 남은 기대 비용을 계산해, 매 분석에서 뜬 목표를 잠글지 넘길지 가장 싼 쪽으로 고르는 방식으로 계산합니다. 잠그지 않은 슬롯은 매번 함께 다시 뽑히므로 여러 목표 중 어느 것이든 먼저 뜰 수 있고, 잠금이 늘수록 1회 비용이 올라갑니다. 그래서 한 목표만 유독 어려우면 그 목표부터, 목표 난이도가 비슷하면 뜨는 대로 잠그는 편이 쌉니다. 뜨는 대로 잠글 때와 어려운 목표부터 잠글 때의 비용, 운이 나쁠 때(상위 10%, 5%)의 비용도 함께 보여주고, 자동 분석 버튼도 이 방식대로 잠급니다.",
                                                   "@type":  "Answer"
                                               },
                            "name":  "기대 비용은 어떤 순서로 계산하나요?",
@@ -536,8 +536,8 @@
       <p>잠금 개수에 따라 오르는 분석 비용(영혼 결정 45~500개)과 골드 환산을 함께 계산합니다.</p>
     </article>
     <article class="card">
-      <h2>단계별 기대 비용</h2>
-      <p>목표를 하나씩 달성하며 잠그는 순서로 평균 분석 횟수, 영혼 결정, 골드와 운이 나쁠 때의 비용을 보여줍니다.</p>
+      <h2>가장 싼 잠금 계획</h2>
+      <p>잠금 상태마다 가장 싸게 잠그는 방식을 계산해 평균 분석 횟수, 영혼 결정, 골드와 운이 나쁠 때의 비용을 보여주고, 지금 뜨면 잠글 슬롯과 넘길 슬롯을 알려줍니다.</p>
     </article>
   </section>
 
@@ -551,7 +551,7 @@
       <div class="spec-guide-card purple"><div class="spec-guide-icon">1</div><h3>종족 선택</h3><p>지성·야성·자연·변형·특수 중 분석할 종족 탭을 고릅니다. 종족에 따라 슬롯별 옵션 목록이 달라집니다.</p></div>
       <div class="spec-guide-card green"><div class="spec-guide-icon">2</div><h3>목표 설정</h3><p>슬롯의 목표 설정 버튼을 눌러 원하는 옵션마다 최소 등급과 최소 수치를 정합니다. 슬롯별 달성 확률이 바로 표시됩니다.</p></div>
       <div class="spec-guide-card orange"><div class="spec-guide-icon">3</div><h3>분석 굴리기</h3><p>분석 1회, 10회, 다음 목표까지 분석 버튼으로 직접 굴려봅니다. 원하는 옵션이 뜬 슬롯은 잠금 버튼으로 고정합니다.</p></div>
-      <div class="spec-guide-card blue"><div class="spec-guide-icon">4</div><h3>기대 비용 확인</h3><p>목표를 순서대로 달성할 때 필요한 평균 분석 횟수, 영혼 결정, 골드와 운이 나쁠 때의 비용을 확인합니다.</p></div>
+      <div class="spec-guide-card blue"><div class="spec-guide-icon">4</div><h3>기대 비용 확인</h3><p>가장 싸게 잠그는 방식으로 필요한 평균 분석 횟수, 영혼 결정, 골드와 운이 나쁠 때의 비용을 확인하고, 뜨는 대로 잠글 때와 비교합니다.</p></div>
     </div>
   </section>
 
@@ -641,7 +641,7 @@
       <b>⌄</b>
     </summary>
     <div class="faq-answer">
-      목표를 건 슬롯 중 확률이 낮은 것부터 하나씩 굴려서 뜨면 잠그고 다음 슬롯으로 넘어가는 순서로 계산합니다. 잠금이 늘수록 1회 비용이 올라가기 때문에 어려운 목표부터 하는 것이 유리합니다. 평균값과 운이 나쁠 때(상위 10%, 5%)의 비용도 함께 보여줍니다.
+      잠금 상태마다 남은 기대 비용을 계산해, 매 분석에서 뜬 목표를 잠글지 넘길지 가장 싼 쪽으로 고르는 방식으로 계산합니다. 잠그지 않은 슬롯은 매번 함께 다시 뽑히므로 여러 목표 중 어느 것이든 먼저 뜰 수 있고, 잠금이 늘수록 1회 비용이 올라갑니다. 그래서 한 목표만 유독 어려우면 그 목표부터, 목표 난이도가 비슷하면 뜨는 대로 잠그는 편이 쌉니다. 뜨는 대로 잠글 때와 어려운 목표부터 잠글 때의 비용, 운이 나쁠 때(상위 10%, 5%)의 비용도 함께 보여주고, 자동 분석 버튼도 이 방식대로 잠급니다.
     </div>
   </details>
 
@@ -681,7 +681,7 @@
     <a href="/sub/">부캐 버스</a>
     <a href="/dungeon/">던전 파밍 DB</a>
     <a href="/compare/">파밍 비교</a>
-    <a href="/#party">성역 파티 배치</a>
+    <a href="/party/">성역 파티 배치</a>
     <a href="/arcana/">아르카나</a>
     <a href="/pet/">펫작 시뮬</a>
     <a href="/enhance/">강화·마석</a>
@@ -696,6 +696,10 @@
     <a href="/guide/party-buff/">파티 버프 수치</a>
     <a href="/guide/enhance-cost/">강화·돌파 비용</a>
     <a href="/guide/pet-cost/">펫작 기대 비용</a>
+    <a href="/guide/pet-lock-order/">펫작 잠금 순서</a>
+    <a href="/guide/pet-fullset/">펫작 풀세팅 비용</a>
+    <a href="/guide/seal-breakthrough/">델트라스 인장 돌파</a>
+    <a href="/guide/magic-stone/">영석 비교</a>
     <a href="/about/">소개</a>
     <a href="/notes/">운영일지</a>
     <a href="/contact/">문의</a>
