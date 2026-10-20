@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-20 19:25 KST",
+  "updated_at": "2026-10-21 00:22 KST",
   "update": [
     {
       "title": "[안내] 10/14(수) 업데이트 노트 (수정 10/14 07:02)",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 10/21(수) AION2 정기점검 안내",
+      "date": "2026-10-20",
+      "time": "11:00",
+      "datetime": "2026-10-20 11:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ad749b0263e537d356d11e2"
+    },
+    {
       "title": "[안내] AION2 정기점검 사전 안내",
       "date": "2026-10-19",
       "time": "08:00",
@@ -261,16 +268,23 @@
       "time": "01:00",
       "datetime": "2026-10-11 01:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acadf90fa34c1011d627ba4"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [326차]",
-      "date": "2026-10-10",
-      "time": "01:00",
-      "datetime": "2026-10-10 01:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ac98e106b722c561dc6aab9"
     }
   ],
   "cm": [
+    {
+      "title": "AION2 10월 3주차 업데이트 뉴스",
+      "date": "2026-10-20",
+      "time": "11:40",
+      "datetime": "2026-10-20 11:40",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6ad753106cfe4756db5b8e7d"
+    },
+    {
+      "title": "[안내] 챕터1 9차 서버 매칭",
+      "date": "2026-10-20",
+      "time": "11:40",
+      "datetime": "2026-10-20 11:40",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6ad753106cfe4756db5b8e7b"
+    },
     {
       "title": "AION2 10월 2주차 업데이트 뉴스",
       "date": "2026-10-13",
@@ -382,20 +396,6 @@
       "time": "11:00",
       "datetime": "2026-08-04 11:00",
       "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a71c630eea53f5d6dbcf0ee"
-    },
-    {
-      "title": "[안내] 챕터1 3차 서버 매칭",
-      "date": "2026-07-28",
-      "time": "12:23",
-      "datetime": "2026-07-28 12:23",
-      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a688bb08bae191e2da7e2d1"
-    },
-    {
-      "title": "AION2 7월 5주차 업데이트 뉴스 (수정 7/29 10:20)",
-      "date": "2026-07-28",
-      "time": "12:23",
-      "datetime": "2026-07-28 12:23",
-      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a688bb0065bf16436e45dff"
     }
   ]
 }
