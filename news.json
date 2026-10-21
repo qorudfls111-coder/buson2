@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-10-21 09:58 KST",
+  "updated_at": "2026-10-21 15:01 KST",
   "update": [
     {
-      "title": "[안내] 10/21(수) 업데이트 노트",
+      "title": "[안내] 10/21(수) 업데이트 노트 (수정 10/21 10:37)",
       "date": "2026-10-20",
       "time": "19:30",
       "datetime": "2026-10-20 19:30",
@@ -151,6 +151,27 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [334차]",
+      "date": "2026-10-21",
+      "time": "03:00",
+      "datetime": "2026-10-21 03:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ad82abb3900e5123414066a"
+    },
+    {
+      "title": "[안내] 10월 3주차 알려진 이슈 및 조치 안내",
+      "date": "2026-10-21",
+      "time": "02:20",
+      "datetime": "2026-10-21 02:20",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ad8207a577e8c01355e00c1"
+    },
+    {
+      "title": "[안내] AION2 1주년 기념 축제 참여 신청 안내",
+      "date": "2026-10-21",
+      "time": "01:50",
+      "datetime": "2026-10-21 01:50",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ad81937263e537d356d128d"
+    },
+    {
       "title": "[안내] 10/21(수) AION2 정기점검 안내 (완료)",
       "date": "2026-10-20",
       "time": "11:00",
@@ -247,27 +268,6 @@
       "time": "11:18",
       "datetime": "2026-10-12 11:18",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ad0b5b46cfe4756db5b8d09"
-    },
-    {
-      "title": "[안내] AION2 정기점검 사전 안내",
-      "date": "2026-10-12",
-      "time": "08:00",
-      "datetime": "2026-10-12 08:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acc9380a279104f7d9d6087"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [328차]",
-      "date": "2026-10-12",
-      "time": "05:20",
-      "datetime": "2026-10-12 05:20",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acc6e0b3900e51234140440"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [327차]",
-      "date": "2026-10-11",
-      "time": "01:00",
-      "datetime": "2026-10-11 01:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acadf90fa34c1011d627ba4"
     }
   ],
   "cm": [
