@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-25 09:20 KST",
+  "updated_at": "2026-10-25 14:19 KST",
   "update": [
     {
       "title": "[안내] 10/21(수) 업데이트 노트 (수정 10/21 10:37)",
@@ -151,6 +151,20 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [336차]",
+      "date": "2026-10-25",
+      "time": "01:00",
+      "datetime": "2026-10-25 01:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acadf90066b033317c028b9"
+    },
+    {
+      "title": "[안내] Plaync 마이페이지 결제 페이지 접속 및 선물 수령 불가 현상 안내 (완료)",
+      "date": "2026-10-25",
+      "time": "00:35",
+      "datetime": "2026-10-25 00:35",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6add4eb428c7452635072d00"
+    },
+    {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [335차]",
       "date": "2026-10-23",
       "time": "06:30",
@@ -254,20 +268,6 @@
       "time": "12:25",
       "datetime": "2026-10-13 12:25",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ace229007b77e214688a757"
-    },
-    {
-      "title": "[안내] 10/14(수) AION2 정기점검 안내 (완료)",
-      "date": "2026-10-13",
-      "time": "11:00",
-      "datetime": "2026-10-13 11:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ace0f30577e8c01355dff1d"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [329차]",
-      "date": "2026-10-13",
-      "time": "01:15",
-      "datetime": "2026-10-13 01:15",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acd86146cfe4756db5b8d1b"
     }
   ],
   "cm": [
