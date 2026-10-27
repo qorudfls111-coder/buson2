@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-28 05:05 KST",
+  "updated_at": "2026-10-28 08:46 KST",
   "update": [
     {
       "title": "[안내] 10/28(수) 업데이트 노트",
@@ -151,7 +151,14 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 10/28(수) AION2 정기점검 안내",
+      "title": "[안내] 10월 4주차 알려진 이슈 및 조치 안내",
+      "date": "2026-10-27",
+      "time": "22:30",
+      "datetime": "2026-10-27 22:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae125e8066b033317c0295b"
+    },
+    {
+      "title": "[안내] 10/28(수) AION2 정기점검 안내 (완료)",
       "date": "2026-10-27",
       "time": "11:00",
       "datetime": "2026-10-27 11:00",
@@ -261,13 +268,6 @@
       "time": "08:00",
       "datetime": "2026-10-14 08:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acf3680263e537d356d1155"
-    },
-    {
-      "title": "[안내] AION2 할로윈 기념 우편 보상 안내",
-      "date": "2026-10-14",
-      "time": "06:50",
-      "datetime": "2026-10-14 06:50",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6acf261807b77e214688a7b7"
     }
   ],
   "cm": [
