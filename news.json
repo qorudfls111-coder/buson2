@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-08 14:58 KST",
+  "updated_at": "2026-11-08 22:22 KST",
   "update": [
     {
       "title": "[안내] 11/4(수) 업데이트 노트",
@@ -130,6 +130,13 @@
   ],
   "notice": [
     {
+      "title": "[안내] AION2 1주년 기념 축제 쿠폰 안내",
+      "date": "2026-11-08",
+      "time": "09:40",
+      "datetime": "2026-11-08 09:40",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af370b8066b033317c02adf&isNotice=1"
+    },
+    {
       "title": "[안내] AION2 챕터 1 콘텐츠 운영 계획 사전 안내",
       "date": "2026-06-30",
       "time": "13:30",
@@ -149,6 +156,20 @@
       "time": "10:00",
       "datetime": "2025-11-16 10:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
+    },
+    {
+      "title": "[안내] 1년의 기록 : 데바의 서 일부 집계 이력 표시 오류 안내",
+      "date": "2026-11-08",
+      "time": "10:36",
+      "datetime": "2026-11-08 10:36",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af050cb6aa4a15b4b8aef83"
+    },
+    {
+      "title": "[안내] AION2 1주년 기념 축제 쿠폰 안내",
+      "date": "2026-11-08",
+      "time": "09:40",
+      "datetime": "2026-11-08 09:40",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af370b8066b033317c02adf"
     },
     {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [346차]",
@@ -247,27 +268,6 @@
       "time": "00:45",
       "datetime": "2026-10-30 00:45",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae3ec1028c7452635072e38"
-    },
-    {
-      "title": "[안내] 10/28(수) AION2 임시점검 안내 (완료)",
-      "date": "2026-10-28",
-      "time": "06:40",
-      "datetime": "2026-10-28 06:40",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae188c6263e537d356d13d9"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [339차]",
-      "date": "2026-10-28",
-      "time": "06:15",
-      "datetime": "2026-10-28 06:15",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae192e4263e537d356d13e1"
-    },
-    {
-      "title": "[안내] 10월 4주차 알려진 이슈 및 조치 안내 (정상화 10/28 8:51)",
-      "date": "2026-10-27",
-      "time": "22:30",
-      "datetime": "2026-10-27 22:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae125e8066b033317c0295b"
     }
   ],
   "cm": [
