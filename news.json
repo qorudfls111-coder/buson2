@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-08 08:58 KST",
+  "updated_at": "2026-11-08 14:58 KST",
   "update": [
     {
       "title": "[안내] 11/4(수) 업데이트 노트",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [346차]",
+      "date": "2026-11-08",
+      "time": "01:00",
+      "datetime": "2026-11-08 01:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aefc990263e537d356d1549"
+    },
+    {
       "title": "[안내] AION2 1st ANNIVERSARY 라이브 방송 안내",
       "date": "2026-11-06",
       "time": "11:00",
@@ -261,13 +268,6 @@
       "time": "22:30",
       "datetime": "2026-10-27 22:30",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae125e8066b033317c0295b"
-    },
-    {
-      "title": "[안내] 10/28(수) AION2 정기점검 안내 (완료)",
-      "date": "2026-10-27",
-      "time": "11:00",
-      "datetime": "2026-10-27 11:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae08430066b033317c0290b"
     }
   ],
   "cm": [
