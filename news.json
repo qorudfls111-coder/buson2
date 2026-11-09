@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-09 10:58 KST",
+  "updated_at": "2026-11-09 18:46 KST",
   "update": [
     {
       "title": "[안내] 11/4(수) 업데이트 노트",
@@ -137,13 +137,6 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af370b8066b033317c02adf&isNotice=1"
     },
     {
-      "title": "[안내] AION2 챕터 1 콘텐츠 운영 계획 사전 안내",
-      "date": "2026-06-30",
-      "time": "13:30",
-      "datetime": "2026-06-30 13:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6a43c4d8e2307f62bca6bb24&isNotice=1"
-    },
-    {
       "title": "[안내] 비인가 프로그램 사용 주의 안내",
       "date": "2025-11-23",
       "time": "13:48",
@@ -158,7 +151,21 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 1년의 기록 : 데바의 서 일부 집계 이력 표시 오류 안내",
+      "title": "[안내] AION2 정기점검 사전 안내",
+      "date": "2026-11-09",
+      "time": "08:00",
+      "datetime": "2026-11-09 08:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af17d80577e8c01355e03e1"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [347차]",
+      "date": "2026-11-09",
+      "time": "06:35",
+      "datetime": "2026-11-09 06:35",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af16994577e8c01355e03e7"
+    },
+    {
+      "title": "[안내] 1년의 기록 : 데바의 서 일부 집계 이력 표시 오류 안내 (정상화 11/9 13:30)",
       "date": "2026-11-08",
       "time": "10:36",
       "datetime": "2026-11-08 10:36",
@@ -261,13 +268,6 @@
       "time": "05:25",
       "datetime": "2026-10-30 05:25",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae42a2c6cfe4756db5b9060"
-    },
-    {
-      "title": "[안내] 2026년 11월 일반 신용카드 무이자 할부 이벤트",
-      "date": "2026-10-30",
-      "time": "00:45",
-      "datetime": "2026-10-30 00:45",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae3ec1028c7452635072e38"
     }
   ],
   "cm": [
