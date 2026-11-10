@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-10 19:27 KST",
+  "updated_at": "2026-11-11 03:16 KST",
   "update": [
     {
       "title": "[안내] 11/4(수) 업데이트 노트",
@@ -151,6 +151,27 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] AION2 깜짝 LIVE 방송 보상 안내",
+      "date": "2026-11-10",
+      "time": "14:40",
+      "datetime": "2026-11-10 14:40",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af32cc0066b033317c02bc4"
+    },
+    {
+      "title": "[안내] 2026년 대한민국 게임 대상 후보작 선정 및 투표 진행 안내",
+      "date": "2026-11-10",
+      "time": "13:05",
+      "datetime": "2026-11-10 13:05",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af31640066b033317c02bb6"
+    },
+    {
+      "title": "[안내] 11/11(수) AION2 정기점검 안내",
+      "date": "2026-11-10",
+      "time": "11:00",
+      "datetime": "2026-11-10 11:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af2f930577e8c01355e043c"
+    },
+    {
       "title": "[안내] AION2 깜짝 퍼플 라이브 방송 안내",
       "date": "2026-11-10",
       "time": "06:47",
@@ -247,30 +268,23 @@
       "time": "08:00",
       "datetime": "2026-11-02 08:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae84300577e8c01355e028d"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [342차]",
-      "date": "2026-11-02",
-      "time": "05:40",
-      "datetime": "2026-11-02 05:40",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae82230577e8c01355e028b"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [341차]",
-      "date": "2026-11-01",
-      "time": "01:00",
-      "datetime": "2026-11-01 01:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae68f106cfe4756db5b906b"
-    },
-    {
-      "title": "[안내] AION2 1주년 기념 축제 당첨자 안내 및 현장 입장·방문 선물(쿠폰) 안내",
-      "date": "2026-10-30",
-      "time": "06:30",
-      "datetime": "2026-10-30 06:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6ae4326028c7452635072e4a"
     }
   ],
   "cm": [
+    {
+      "title": "[안내] 챕터1 두 번째 이야기 1차 서버 매칭",
+      "date": "2026-11-10",
+      "time": "14:05",
+      "datetime": "2026-11-10 14:05",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6af3155028c7452635072ff6"
+    },
+    {
+      "title": "AION2 11월 2주차 업데이트 뉴스",
+      "date": "2026-11-10",
+      "time": "14:05",
+      "datetime": "2026-11-10 14:05",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6af3155028c7452635072ff4"
+    },
     {
       "title": "AION2 11월 1주차 업데이트 뉴스",
       "date": "2026-11-03",
@@ -382,20 +396,6 @@
       "time": "12:50",
       "datetime": "2026-08-25 12:50",
       "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a8d75b0a279104f7d9d5844"
-    },
-    {
-      "title": "AION2 8월 3주차 업데이트 뉴스",
-      "date": "2026-08-18",
-      "time": "11:20",
-      "datetime": "2026-08-18 11:20",
-      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a843b306b722c561dc6a0ed"
-    },
-    {
-      "title": "[안내] 챕터1 4차 서버 매칭",
-      "date": "2026-08-11",
-      "time": "12:50",
-      "datetime": "2026-08-11 12:50",
-      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a7b08e4d97eae18cc40d9de"
     }
   ]
 }
