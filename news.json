@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-11-11 12:01 KST",
+  "updated_at": "2026-11-11 19:55 KST",
   "update": [
     {
-      "title": "[안내] 11/11(수) 업데이트 노트 (수정 11/11 11:08)",
+      "title": "[안내] 11/11(수) 업데이트 노트 (수정 11/11 13:11)",
       "date": "2026-11-10",
       "time": "19:30",
       "datetime": "2026-11-10 19:30",
@@ -151,6 +151,34 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 성장 서포트 익스프레스권이 큐나로 물질변환되는 현상 후속 조치 안내 (수정 11/11 19:43)",
+      "date": "2026-11-11",
+      "time": "10:30",
+      "datetime": "2026-11-11 10:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af443dacd0c2d6575c812d6"
+    },
+    {
+      "title": "[안내] 11/11(수) AION2 긴급 임시점검 안내 (완료)",
+      "date": "2026-11-11",
+      "time": "04:07",
+      "datetime": "2026-11-11 04:07",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af3ea98553a6c1fba041803"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [348차]",
+      "date": "2026-11-11",
+      "time": "03:45",
+      "datetime": "2026-11-11 03:45",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af3e4bc7d773f10fbeb07a3"
+    },
+    {
+      "title": "[안내] 11월 2주차 알려진 이슈 및 조치 안내 (수정 11/11 19:30)",
+      "date": "2026-11-11",
+      "time": "03:10",
+      "datetime": "2026-11-11 03:10",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af3d328066b033317c02bd3"
+    },
+    {
       "title": "[안내] 11/11(수) 신규 상품 안내",
       "date": "2026-11-10",
       "time": "19:30",
@@ -200,7 +228,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af31640066b033317c02bb6"
     },
     {
-      "title": "[안내] 11/11(수) AION2 정기점검 안내 (연장)",
+      "title": "[안내] 11/11(수) AION2 정기점검 안내 (완료)",
       "date": "2026-11-10",
       "time": "11:00",
       "datetime": "2026-11-10 11:00",
@@ -240,34 +268,6 @@
       "time": "09:40",
       "datetime": "2026-11-08 09:40",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af370b8066b033317c02adf"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [346차]",
-      "date": "2026-11-08",
-      "time": "01:00",
-      "datetime": "2026-11-08 01:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aefc990263e537d356d1549"
-    },
-    {
-      "title": "[안내] AION2 1st ANNIVERSARY 라이브 방송 안내",
-      "date": "2026-11-06",
-      "time": "11:00",
-      "datetime": "2026-11-06 11:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aedb330066b033317c02aed"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [345차]",
-      "date": "2026-11-06",
-      "time": "05:30",
-      "datetime": "2026-11-06 05:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=677a6f18066b033317c02ae8"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [344차]",
-      "date": "2026-11-04",
-      "time": "10:40",
-      "datetime": "2026-11-04 10:40",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6aeb0b80577e8c01355e0382"
     }
   ],
   "cm": [
