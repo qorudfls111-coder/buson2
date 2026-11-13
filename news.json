@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-13 11:55 KST",
+  "updated_at": "2026-11-13 19:56 KST",
   "update": [
     {
       "title": "[안내] 11/13(금) 업데이트 노트",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 11/14(토) AION2 임시점검 안내",
+      "date": "2026-11-13",
+      "time": "08:02",
+      "datetime": "2026-11-13 08:02",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af6c5d8cd0c2d6575c81301"
+    },
+    {
       "title": "[안내] 11/13(금) AION2 임시점검 안내 (완료)",
       "date": "2026-11-12",
       "time": "12:15",
@@ -261,13 +268,6 @@
       "time": "06:35",
       "datetime": "2026-11-09 06:35",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af16994577e8c01355e03e7"
-    },
-    {
-      "title": "[안내] 1년의 기록 : 데바의 서 일부 집계 이력 표시 오류 안내 (정상화 11/9 13:30)",
-      "date": "2026-11-08",
-      "time": "10:36",
-      "datetime": "2026-11-08 10:36",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af050cb6aa4a15b4b8aef83"
     }
   ],
   "cm": [
