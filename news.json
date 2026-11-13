@@ -1,6 +1,13 @@
 {
-  "updated_at": "2026-11-13 07:43 KST",
+  "updated_at": "2026-11-13 11:55 KST",
   "update": [
+    {
+      "title": "[안내] 11/13(금) 업데이트 노트",
+      "date": "2026-11-13",
+      "time": "00:00",
+      "datetime": "2026-11-13 00:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6af65300b0586e28ebc4aaa6"
+    },
     {
       "title": "[안내] 11/11(수) 업데이트 노트 (수정 11/11 13:11)",
       "date": "2026-11-10",
@@ -119,13 +126,6 @@
       "time": "19:30",
       "datetime": "2026-07-21 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a5fc8b8065bf16436e45cca"
-    },
-    {
-      "title": "[안내] 7/15(수) 업데이트 노트 (수정 7/20 15:09)",
-      "date": "2026-07-14",
-      "time": "19:30",
-      "datetime": "2026-07-14 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a568e38e2307f62bca6bcf4"
     }
   ],
   "notice": [
@@ -151,7 +151,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 11/13(금) AION2 임시점검 안내",
+      "title": "[안내] 11/13(금) AION2 임시점검 안내 (완료)",
       "date": "2026-11-12",
       "time": "12:15",
       "datetime": "2026-11-12 12:15",
