@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-11-18 05:53 KST",
+  "updated_at": "2026-11-18 11:53 KST",
   "update": [
     {
-      "title": "[안내] 11/18(수) 업데이트 노트",
+      "title": "[안내] 11/18(수) 업데이트 노트 (수정 11/18 05:55)",
       "date": "2026-11-17",
       "time": "19:30",
       "datetime": "2026-11-17 19:30",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 11월 3주차 알려진 이슈 및 조치 안내",
+      "date": "2026-11-18",
+      "time": "00:38",
+      "datetime": "2026-11-18 00:38",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afcf37adf6d838d56bfd1d6"
+    },
+    {
       "title": "[안내] 서버 이전 Q&A 안내",
       "date": "2026-11-17",
       "time": "13:30",
@@ -165,7 +172,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afc33b0add8ebf0b13a7284"
     },
     {
-      "title": "[안내] 11/18(수) AION2 정기점검 안내",
+      "title": "[안내] 11/18(수) AION2 정기점검 안내 (완료)",
       "date": "2026-11-17",
       "time": "11:00",
       "datetime": "2026-11-17 11:00",
@@ -261,13 +268,6 @@
       "time": "19:30",
       "datetime": "2026-11-10 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af370b8577e8c01355e045a"
-    },
-    {
-      "title": "[안내] 11/11(수) 신규 외형 상품 안내",
-      "date": "2026-11-10",
-      "time": "19:30",
-      "datetime": "2026-11-10 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af370b828c7452635072fd5"
     }
   ],
   "cm": [
