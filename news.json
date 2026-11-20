@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-20 09:55 KST",
+  "updated_at": "2026-11-20 17:31 KST",
   "update": [
     {
       "title": "[안내] 11/18(수) 업데이트 노트 (수정 11/18 05:55)",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] AION2 퍼플 라이브 방송 안내",
+      "date": "2026-11-20",
+      "time": "06:30",
+      "datetime": "2026-11-20 06:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6affe8e8345182cafeb44506"
+    },
+    {
       "title": "[안내] AION2 2026 대한민국 게임대상 수상 및 쿠폰 안내",
       "date": "2026-11-18",
       "time": "09:23",
@@ -261,18 +268,11 @@
       "time": "03:45",
       "datetime": "2026-11-11 03:45",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af3e4bc7d773f10fbeb07a3"
-    },
-    {
-      "title": "[안내] 11월 2주차 알려진 이슈 및 조치 안내 (수정 11/14 09:40)",
-      "date": "2026-11-11",
-      "time": "03:10",
-      "datetime": "2026-11-11 03:10",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af3d328066b033317c02bd3"
     }
   ],
   "cm": [
     {
-      "title": "AION2 11월 3주차 업데이트 뉴스 (수정 11/19 18:24)",
+      "title": "AION2 11월 3주차 업데이트 뉴스 (수정 11/20 10:47)",
       "date": "2026-11-17",
       "time": "12:25",
       "datetime": "2026-11-17 12:25",
