@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-23 10:47 KST",
+  "updated_at": "2026-11-23 18:51 KST",
   "update": [
     {
       "title": "[안내] 11/18(수) 업데이트 노트 (수정 11/18 05:55)",
@@ -151,6 +151,20 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] AION2 정기점검 사전 안내",
+      "date": "2026-11-23",
+      "time": "08:00",
+      "datetime": "2026-11-23 08:00",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6b03f280d65afc4bb5d63c5e"
+    },
+    {
+      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [353차]",
+      "date": "2026-11-23",
+      "time": "06:10",
+      "datetime": "2026-11-23 06:10",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6b03d8b88a3bbc3e0126909c"
+    },
+    {
       "title": "[안내] PURPLE 본인 인증 불가 현상 안내 (정상화 11/20 21:30)",
       "date": "2026-11-20",
       "time": "11:21",
@@ -186,7 +200,7 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afd6b683561665cf3cbc572"
     },
     {
-      "title": "[안내] AION2 운영정책 변경 안내",
+      "title": "[안내] AION2 운영정책 변경 안내 (수정 11/23 18:00)",
       "date": "2026-11-18",
       "time": "08:30",
       "datetime": "2026-11-18 08:30",
@@ -254,20 +268,6 @@
       "time": "08:02",
       "datetime": "2026-11-13 08:02",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af6c5d8cd0c2d6575c81301"
-    },
-    {
-      "title": "[안내] 11/13(금) AION2 임시점검 안내 (완료)",
-      "date": "2026-11-12",
-      "time": "12:15",
-      "datetime": "2026-11-12 12:15",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af644f067841a056945a937"
-    },
-    {
-      "title": "[안내] 성장 서포트 익스프레스권이 큐나로 물질변환되는 현상 후속 조치 안내 (수정 11/11 21:55)",
-      "date": "2026-11-11",
-      "time": "10:30",
-      "datetime": "2026-11-11 10:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6af443dacd0c2d6575c812d6"
     }
   ],
   "cm": [
