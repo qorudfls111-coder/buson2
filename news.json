@@ -1,6 +1,13 @@
 {
-  "updated_at": "2026-11-25 02:41 KST",
+  "updated_at": "2026-11-25 10:36 KST",
   "update": [
+    {
+      "title": "[안내] 11/25(수) 업데이트 노트",
+      "date": "2026-11-24",
+      "time": "19:30",
+      "datetime": "2026-11-24 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6b05e5b8fc9aef09c918ece8"
+    },
     {
       "title": "[안내] 11/18(수) 업데이트 노트 (수정 11/18 05:55)",
       "date": "2026-11-17",
@@ -119,13 +126,6 @@
       "time": "19:30",
       "datetime": "2026-08-11 19:30",
       "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a7b7838eea53f5d6dbcf253"
-    },
-    {
-      "title": "[안내] 8/5(수) 업데이트 노트",
-      "date": "2026-08-04",
-      "time": "19:30",
-      "datetime": "2026-08-04 19:30",
-      "url": "https://aion2.plaync.com/ko-kr/board/update/view?articleId=6a723db86b722c561dc69f13"
     }
   ],
   "notice": [
@@ -151,7 +151,28 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
-      "title": "[안내] 11/25(수) AION2 정기점검 안내",
+      "title": "[안내] 11월 4주차 알려진 이슈 및 조치 안내 (수정 11/25 10:38)",
+      "date": "2026-11-25",
+      "time": "00:43",
+      "datetime": "2026-11-25 00:43",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6b062c082b8e28d4baaa92b0"
+    },
+    {
+      "title": "[안내] 11/25(수) 블랙 프라이데이 상품 안내",
+      "date": "2026-11-24",
+      "time": "19:30",
+      "datetime": "2026-11-24 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6b05e5b82b8e28d4baaa927c"
+    },
+    {
+      "title": "[안내] 11/25(수) 앙코르 콜렉션 상품 안내",
+      "date": "2026-11-24",
+      "time": "19:30",
+      "datetime": "2026-11-24 19:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6b05e5b82b8e28d4baaa927a"
+    },
+    {
+      "title": "[안내] 11/25(수) AION2 정기점검 안내 (완료)",
       "date": "2026-11-24",
       "time": "11:00",
       "datetime": "2026-11-24 11:00",
@@ -247,27 +268,6 @@
       "time": "11:00",
       "datetime": "2026-11-17 11:00",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afc33b0df6d838d56bfd13d"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [350차]",
-      "date": "2026-11-17",
-      "time": "09:20",
-      "datetime": "2026-11-17 09:20",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afc1b14ebccad0e4b5bad22"
-    },
-    {
-      "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [349차]",
-      "date": "2026-11-16",
-      "time": "08:05",
-      "datetime": "2026-11-16 08:05",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afab800cd0c2d6575c8132f"
-    },
-    {
-      "title": "[안내] AION2 정기점검 사전 안내",
-      "date": "2026-11-16",
-      "time": "08:00",
-      "datetime": "2026-11-16 08:00",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afab800b0586e28ebc4aad3"
     }
   ],
   "cm": [
