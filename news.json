@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27 13:14 KST",
+  "updated_at": "2026-11-27 22:52 KST",
   "update": [
     {
       "title": "[안내] 11/25(수) 업데이트 노트",
@@ -272,6 +272,13 @@
   ],
   "cm": [
     {
+      "title": "[안내] 루드라 챌린지 사전안내",
+      "date": "2026-11-27",
+      "time": "07:30",
+      "datetime": "2026-11-27 07:30",
+      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6b093178aeebab965ff06a41"
+    },
+    {
       "title": "[안내] 챕터1 두 번째 이야기 2차 서버 매칭",
       "date": "2026-11-24",
       "time": "13:30",
@@ -389,13 +396,6 @@
       "time": "12:12",
       "datetime": "2026-09-08 12:12",
       "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a9ff1b8fa34c1011d627634"
-    },
-    {
-      "title": "[안내] 챕터1 6차 서버 매칭",
-      "date": "2026-09-08",
-      "time": "12:11",
-      "datetime": "2026-09-08 12:11",
-      "url": "https://aion2.plaync.com/ko-kr/board/cm_story/view?articleId=6a9ff1b8eea53f5d6dbcf67f"
     }
   ]
 }
