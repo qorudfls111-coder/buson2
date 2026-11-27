@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-27 06:56 KST",
+  "updated_at": "2026-11-27 13:14 KST",
   "update": [
     {
       "title": "[안내] 11/25(수) 업데이트 노트",
@@ -151,6 +151,13 @@
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=69199d1cea4d6621c8192a88&isNotice=1"
     },
     {
+      "title": "[안내] 키나 회수(마이너스 키나) 조치 시행 안내",
+      "date": "2026-11-27",
+      "time": "01:03",
+      "datetime": "2026-11-27 01:03",
+      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6b0817f3396627a421ae85a7"
+    },
+    {
       "title": "[안내] 운영정책 위반 및 임시보호 계정들에 대한 게임 이용제한 안내 [355차]",
       "date": "2026-11-26",
       "time": "09:00",
@@ -261,13 +268,6 @@
       "time": "07:45",
       "datetime": "2026-11-18 07:45",
       "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afd8530add8ebf0b13a7319"
-    },
-    {
-      "title": "[안내] 11월 3주차 알려진 이슈 및 조치 안내 (수정 11/18 22:15)",
-      "date": "2026-11-18",
-      "time": "00:38",
-      "datetime": "2026-11-18 00:38",
-      "url": "https://aion2.plaync.com/ko-kr/board/notice/view?articleId=6afcf37adf6d838d56bfd1d6"
     }
   ],
   "cm": [
